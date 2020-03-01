@@ -3,6 +3,7 @@
 
 references/
 CSManagerSetup/
+*.exe
 
 # User-specific files
 *.suo
