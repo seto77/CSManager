@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSManager", "CSManager\CSManager.csproj", "{9D4AC213-9428-4855-B366-97EAFB2EB750}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystallography.Controls", "..\Crystallography.Control\Crystallography.Controls\Crystallography.Controls.csproj", "{6F1C3736-E86F-46B3-9FF5-1CA1A018EF02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystallography.Controls", "Crystallography.Controls\Crystallography.Controls.csproj", "{6F1C3736-E86F-46B3-9FF5-1CA1A018EF02}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CSManagerSetup", "CSManagerSetup\CSManagerSetup.vdproj", "{503172E0-C635-472B-84DC-649FCD7D9721}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystallography", "..\Crystallography\Crystallography\Crystallography.csproj", "{433B6CBF-1E0B-4E01-AB6D-753D92DC354E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystallography", "Crystallography\Crystallography.csproj", "{433B6CBF-1E0B-4E01-AB6D-753D92DC354E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
