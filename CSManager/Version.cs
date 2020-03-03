@@ -29,6 +29,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
+                "\r\n ver1.861(2020/03/03) Fixed a minor bug on distribution problem." +
                 "\r\n ver1.86 (2020/03/01) Changed: Download site is changed to GitHub." +
                 "\r\n ver1.85 (2019/09/10) Renewed COD database (406,999). Changed .Net framework version to 4.8." +
                 "\r\n ver1.841(2019/06/26) Renewed AMCSD database (contains 20,698 crystals) and COD database (404,015)." +
