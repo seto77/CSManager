@@ -53,7 +53,6 @@
             this.bindingSourceMain = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet = new System.Data.DataSet();
             this.dataTable = new System.Data.DataTable();
-            this.dataColumnCrystal = new System.Data.DataColumn();
             this.dataColumnName = new System.Data.DataColumn();
             this.dataColumnFormula = new System.Data.DataColumn();
             this.dataColumnDensity = new System.Data.DataColumn();
@@ -164,7 +163,9 @@
             this.toolStripMenuItemImportPDI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkDuplicatedFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.compressAndSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIndexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -179,11 +180,13 @@
             this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpwebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dataColumnCrystal = new System.Data.DataColumn();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkDuplicatedFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -431,11 +434,6 @@
             this.dataColumnD8});
             this.dataTable.RemotingFormat = System.Data.SerializationFormat.Binary;
             this.dataTable.TableName = "dataTable";
-            // 
-            // dataColumnCrystal
-            // 
-            this.dataColumnCrystal.ColumnName = "ColumnCrystal";
-            this.dataColumnCrystal.DataType = typeof(object);
             // 
             // dataColumnName
             // 
@@ -1167,7 +1165,6 @@
             this.fileToolStripMenuItem,
             this.optionToolStripMenuItem,
             this.helpToolStripMenuItem,
-            this.toolStripMenuItem1,
             this.languageToolStripMenuItem});
             this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStrip.Name = "menuStrip";
@@ -1187,7 +1184,8 @@
             this.toolStripMenuItemImportPDI,
             this.toolStripSeparator1,
             this.closeToolStripMenuItem,
-            this.checkDuplicatedFileToolStripMenuItem});
+            this.toolStripSeparator6,
+            this.debugFunctionsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
@@ -1260,11 +1258,26 @@
             resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // checkDuplicatedFileToolStripMenuItem
+            // debugFunctionsToolStripMenuItem
             // 
-            this.checkDuplicatedFileToolStripMenuItem.Name = "checkDuplicatedFileToolStripMenuItem";
-            resources.ApplyResources(this.checkDuplicatedFileToolStripMenuItem, "checkDuplicatedFileToolStripMenuItem");
-            this.checkDuplicatedFileToolStripMenuItem.Click += new System.EventHandler(this.checkDuplicatedFileToolStripMenuItem_Click);
+            this.debugFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.compressAndSplitToolStripMenuItem,
+            this.showIndexToolStripMenuItem,
+            this.checkDuplicatedFileToolStripMenuItem1});
+            this.debugFunctionsToolStripMenuItem.Name = "debugFunctionsToolStripMenuItem";
+            resources.ApplyResources(this.debugFunctionsToolStripMenuItem, "debugFunctionsToolStripMenuItem");
+            // 
+            // compressAndSplitToolStripMenuItem
+            // 
+            this.compressAndSplitToolStripMenuItem.Name = "compressAndSplitToolStripMenuItem";
+            resources.ApplyResources(this.compressAndSplitToolStripMenuItem, "compressAndSplitToolStripMenuItem");
+            this.compressAndSplitToolStripMenuItem.Click += new System.EventHandler(this.compressAndSplitToolStripMenuItem_Click);
+            // 
+            // showIndexToolStripMenuItem
+            // 
+            this.showIndexToolStripMenuItem.Name = "showIndexToolStripMenuItem";
+            resources.ApplyResources(this.showIndexToolStripMenuItem, "showIndexToolStripMenuItem");
+            this.showIndexToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemShowFileName_Click);
             // 
             // optionToolStripMenuItem
             // 
@@ -1365,12 +1378,6 @@
             resources.ApplyResources(this.helpwebToolStripMenuItem, "helpwebToolStripMenuItem");
             this.helpwebToolStripMenuItem.Click += new System.EventHandler(this.helpwebToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
             // languageToolStripMenuItem
             // 
             this.languageToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -1397,6 +1404,22 @@
             // toolTip
             // 
             this.toolTip.IsBalloon = true;
+            // 
+            // dataColumnCrystal
+            // 
+            this.dataColumnCrystal.ColumnName = "ColumnCrystal";
+            this.dataColumnCrystal.DataType = typeof(object);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            // 
+            // checkDuplicatedFileToolStripMenuItem1
+            // 
+            this.checkDuplicatedFileToolStripMenuItem1.Name = "checkDuplicatedFileToolStripMenuItem1";
+            resources.ApplyResources(this.checkDuplicatedFileToolStripMenuItem1, "checkDuplicatedFileToolStripMenuItem1");
+            this.checkDuplicatedFileToolStripMenuItem1.Click += new System.EventHandler(this.checkDuplicatedFileToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -1565,9 +1588,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBoxD3;
         private System.Windows.Forms.CheckBox checkBoxD2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem hintToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkDuplicatedFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReadDefault2;
         private System.Windows.Forms.ToolStripMenuItem readDefaultDatabaseOnNextBootToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -1600,6 +1621,11 @@
         private System.Windows.Forms.ToolStripMenuItem increaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem increaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem decreaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem debugFunctionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem compressAndSplitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showIndexToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem checkDuplicatedFileToolStripMenuItem1;
     }
 }
 
