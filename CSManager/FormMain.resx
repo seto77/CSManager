@@ -223,7 +223,7 @@
     <value>3, 4, 3, 4</value>
   </data>
   <data name="dataGridViewMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>912, 329</value>
+    <value>912, 342</value>
   </data>
   <data name="dataGridViewMain.TabIndex" type="System.Int32, mscorlib">
     <value>72</value>
@@ -283,7 +283,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="crystalControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>681, 296</value>
+    <value>681, 311</value>
   </data>
   <data name="crystalControl.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -292,7 +292,7 @@
     <value>crystalControl</value>
   </data>
   <data name="&gt;&gt;crystalControl.Type" xml:space="preserve">
-    <value>Crystallography.Controls.CrystalControl, Crystallography.Controls, Version=2020.3.12.625, Culture=neutral, PublicKeyToken=null</value>
+    <value>Crystallography.Controls.CrystalControl, Crystallography.Controls, Version=2020.3.13.1105, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;crystalControl.Parent" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
@@ -2191,7 +2191,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>912, 334</value>
+    <value>912, 349</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
     <value>688</value>
@@ -2263,10 +2263,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>912, 667</value>
+    <value>912, 695</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>329</value>
+    <value>342</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>77</value>
@@ -2686,7 +2686,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>912, 695</value>
+    <value>912, 723</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Symbol, 11.25pt</value>
@@ -2764,9 +2764,6 @@
         AAAAAAAA+B8AAPAfAADwDwAA4A8AAMAHAADgBwAA4AcAAMAPAADADwAAAAAAAAAAAAAAAAAAAAAAAIAB
         AADAAwAA+A8AAA==
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
@@ -2884,6 +2881,12 @@
   </data>
   <data name="&gt;&gt;dataTable.Type" xml:space="preserve">
     <value>System.Data.DataTable, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dataColumnCrystal.Name" xml:space="preserve">
+    <value>dataColumnCrystal</value>
+  </data>
+  <data name="&gt;&gt;dataColumnCrystal.Type" xml:space="preserve">
+    <value>System.Data.DataColumn, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dataColumnName.Name" xml:space="preserve">
     <value>dataColumnName</value>
@@ -3167,6 +3170,12 @@
   <data name="&gt;&gt;closeToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
+    <value>toolStripSeparator6</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;debugFunctionsToolStripMenuItem.Name" xml:space="preserve">
     <value>debugFunctionsToolStripMenuItem</value>
   </data>
@@ -3183,6 +3192,12 @@
     <value>showIndexToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;showIndexToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkDuplicatedFileToolStripMenuItem1.Name" xml:space="preserve">
+    <value>checkDuplicatedFileToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;checkDuplicatedFileToolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;optionToolStripMenuItem.Name" xml:space="preserve">
@@ -3292,24 +3307,6 @@
   </data>
   <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dataColumnCrystal.Name" xml:space="preserve">
-    <value>dataColumnCrystal</value>
-  </data>
-  <data name="&gt;&gt;dataColumnCrystal.Type" xml:space="preserve">
-    <value>System.Data.DataColumn, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
-    <value>toolStripSeparator6</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkDuplicatedFileToolStripMenuItem1.Name" xml:space="preserve">
-    <value>checkDuplicatedFileToolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;checkDuplicatedFileToolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FormMain</value>
