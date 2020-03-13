@@ -26,7 +26,7 @@ namespace CSManager
         static public int AMCSD = 20698;
         static public int COD = 406999;
         static public long COD_FileSize = (long)5188913410;
-        static public int CODdivision = 39;
+        static public int COD_Division = 39;
 
         static public string History = 
             "History" +

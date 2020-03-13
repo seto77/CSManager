@@ -902,9 +902,9 @@ namespace CSManager
                 {
                     //分割ファイルをダウンロードする
                     stopwatch.Restart();
-                    var wc = new WebClient[Version.CODdivision];
+                    var wc = new WebClient[Version.COD_Division];
                     toolStripProgressBar.Maximum = wc.Length;
-                    for (int i = 0; i < Version.CODdivision; i++)
+                    for (int i = 0; i < Version.COD_Division; i++)
                     {
                         wc[i] = new WebClient();
                         var footer = i.ToString("000");
@@ -925,30 +925,31 @@ namespace CSManager
                     }
 
                     //メモリ上で結合し、解凍する
-                    using (var ms = new MemoryStream())
+                    using (var fs1 = new FileStream(UserAppDataPath + "cod.zip", FileMode.CreateNew))
                     {
-                        for (int i = 0; i < Version.CODdivision; i++)
+                        for (int i = 0; i < Version.COD_Division; i++)
                         {
                             using (var temp = new FileStream(UserAppDataPath + "cod.zip." + i.ToString("000"), FileMode.Open))
                             {
                                 var buffer = new byte[temp.Length];
                                 temp.Read(buffer, 0, buffer.Length);
-                                ms.Write(buffer, 0, buffer.Length);
+                                fs1.Write(buffer, 0, buffer.Length);
                             }
                             File.Delete(UserAppDataPath + "cod.zip." + i.ToString("000"));
                             toolStripStatusLabel1.Text = "Now merging database... ";
+                            Application.DoEvents();
                         }
 
                         //解凍する
-                        var archive = ArchiveFactory.Open(ms);
+                        var archive = ArchiveFactory.Open(fs1);
                         totalSize = archive.TotalUncompressSize;// Calculate the total extraction size.
-                        
+
                         var max = toolStripProgressBar.Maximum = 1000000;
-                        archive.CompressedBytesRead += (s,ev)=>
+                        archive.CompressedBytesRead += (s, ev) =>
                         {
                             var progress = (int)(ev.CompressedBytesRead / (double)totalSize * max);
                             toolStripProgressBar.Value = progress;
-                            
+
                             toolStripProgressBar.Value = progress;
                             var remain = (double)stopwatch.ElapsedMilliseconds / progress * (max - progress) / 1000;
                             toolStripStatusLabel1.Text = "Now extracting database... wait about " + remain.ToString("f0") + " sec.";
@@ -957,15 +958,13 @@ namespace CSManager
                         };
 
                         stopwatch.Restart();
-                        //メモリ上に解凍する
-                        using (var fs = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.CreateNew))
+                        //解凍する
+                        using (var fs2 = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.CreateNew))
                         {
                             foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
-                                entry.WriteTo(ms);
+                                entry.WriteTo(fs2);
                         }
                     }
-
-
 
                     //読み込む
                     readDatabase(UserAppDataPath + "COD.cdb3");
