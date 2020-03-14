@@ -30,6 +30,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
+                "\r\n ver1.871(2020/03/14) Improved: Loading speed of database becomes faster." +
                 "\r\n ver1.87 (2020/03/14) Renewed COD database (452,532)." +
                 "\r\n ver1.861(2020/03/03) Fixed a minor bug on distribution problem." +
                 "\r\n ver1.86 (2020/03/01) Changed: Download site is changed to GitHub." +
