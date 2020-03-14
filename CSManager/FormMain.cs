@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProtoBuf;
+using ProtoBuf.Meta;
 using System.Net;
 
 namespace CSManager
@@ -64,7 +65,11 @@ namespace CSManager
 
         public string UserAppDataPath = new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
 
+        Stopwatch stopwatch { get; set; } = new Stopwatch();
+        bool skipEvent { get; set; } = false;
+
         WaitDlg initialDialog;
+
 
         public FormMain()
         {
@@ -409,22 +414,17 @@ namespace CSManager
         }
 
 
-        async private void readDatabase(string filename)
+        private void readDatabase(string filename)
         {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            toolStripProgressBar.Value = 0;
-            int progressStep = 100;
+            stopwatch.Restart();
+            int progressStep = 500;
             statusStrip.Visible = true;
             this.bindingSourceMain.DataMember = "";
-            // try
-            // {
             using (Stream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-
                 if (filename.ToLower().EndsWith("cdb"))
                 {
-                    IFormatter formatter = new BinaryFormatter();
+                    var formatter = new BinaryFormatter();
                     Crystal2[] c = (Crystal2[])formatter.Deserialize(fs);
                     fs.Close();//閉じる
                     toolStripProgressBar.Maximum = c.Length;
@@ -432,65 +432,38 @@ namespace CSManager
                     {
                         dataSet.Tables[0].Rows.Add(GetTabelRows(c[i]));
                         if (i > progressStep * 2 && i % progressStep == 0)
-                        {
-                            toolStripProgressBar.Value += progressStep;
-                            Application.DoEvents();
-                        }
+                            reportProgress(i, c.Length, stopwatch, "Loading database...");
                     }
                 }
                 else if (filename.ToLower().EndsWith("cdb2"))
                 {
-                    IFormatter formatter = new BinaryFormatter();
-                    int total = (int)formatter.Deserialize(fs);
-                    toolStripProgressBar.Maximum = total;
-
-                    List<long> history = new List<long>(new long[] { 0 });
-
+                    var formatter = new BinaryFormatter();
+                    var total = (int)formatter.Deserialize(fs);
                     for (int i = 0; i < total; i++)
                     {
                         Crystal2 c = (Crystal2)formatter.Deserialize(fs);
                         dataSet.Tables[0].Rows.Add(GetTabelRows(c));
 
                         if (i > progressStep * 2 && i % progressStep == 0)
-                        {
-                            history.Add(sw.ElapsedMilliseconds);
-                            if (history.Count > 50)
-                                history.RemoveAt(0);
-
-                            double remain = ((double)(history[history.Count - 1] - history[0]) / history.Count / progressStep) * (total - i) / 1000;
-                            toolStripProgressBar.Value += progressStep;
-                            toolStripStatusLabel1.Text = "Now loading database... wait about " + remain.ToString("f0") + " sec.";
-                            Application.DoEvents();
-                        }
+                            reportProgress(i, total, stopwatch, "Loading database...");
                     }
                 }
                 else if (filename.ToLower().EndsWith("cdb3"))
                 {
                     var total = BitConverter.ToInt32(new[] { (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte() }, 0);
-                    toolStripProgressBar.Maximum = total;
-
-                    for (int i = 0; i < total; i++)
-                    {
-                        var c = Serializer.DeserializeWithLengthPrefix<Crystal2>(fs, PrefixStyle.Fixed32);
-                        dataSet.Tables[0].Rows.Add(GetTabelRows(c));
-
-                        if (i > progressStep * 2 && i % progressStep == 0)
-                        {
-                            toolStripProgressBar.Value = i;
-                            var remain = (double)sw.ElapsedMilliseconds / i * (total - i) / 1000;
-                            toolStripStatusLabel1.Text = "Now loading database... wait about " + remain.ToString("f0") + " sec.";
-                            Application.DoEvents();
-                        }
+                    int i = 0;
+                    foreach(var r in Serializer.DeserializeItems<Crystal2>(fs, PrefixStyle.Fixed32, 1).AsParallel().Select(c => GetTabelRows(c))) { 
+                        dataSet.Tables[0].Rows.Add(r);
+                        if (i++ > progressStep * 2 && i % progressStep == 0)
+                            reportProgress(i, total, stopwatch, "Loading database...");
                     }
                 }
+                else
+                    return;
             }
-            toolStripStatusLabel1.Text = "Toatal loading time: " + (sw.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
+            toolStripStatusLabel.Text = "Toatal loading time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f1") + " sec.";
             bindingSourceMain.DataMember = "dataTable";
-           
         }
-
-
-
 
         private void saveDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -529,35 +502,23 @@ namespace CSManager
             }*/
             #endregion
 
-            int progressStep = 100;
-
+            int progressStep = 500;
             var dialog = new SaveFileDialog();
             dialog.Filter = "Database File[*.cdb3]|*.cdb3";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                toolStripProgressBar.Maximum = dataSet.Tables[0].Rows.Count;
-                toolStripProgressBar.Value = 0;
-
-                using (Stream stream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                using (var fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
                 {
-                    var bytes = BitConverter.GetBytes(dataSet.Tables[0].Rows.Count);
-                    stream.Write(bytes, 0, bytes.Length);
-
-                    var sw = new Stopwatch();
-                    sw.Start();
-
-                    for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+                    var total = dataSet.Tables[0].Rows.Count;
+                    fs.Write(BitConverter.GetBytes(total), 0, 4);
+                    stopwatch.Restart();
+                    for (int i = 0; i < total; i++)
                     {
-                        Serializer.SerializeWithLengthPrefix(stream, (Crystal2)((DataRowView)bindingSourceMain[i]).Row[0],  PrefixStyle.Fixed32);
-                        if (i > progressStep*2 && i % progressStep == 0)
-                        {
-                            toolStripProgressBar.Value =i;
-                            var remain = (double)sw.ElapsedMilliseconds / i * (dataSet.Tables[0].Rows.Count - i) / 1000;
-                            toolStripStatusLabel1.Text = "Now saving database... wait about " + remain.ToString("f0") + " sec.";
-                            Application.DoEvents();
-                        }
+                        Serializer.SerializeWithLengthPrefix(fs, (Crystal2)((DataRowView)bindingSourceMain[i]).Row[0], PrefixStyle.Fixed32);
+                        if (i > progressStep * 2 && i % progressStep == 0)
+                            reportProgress(i, total, stopwatch, "Saving database...");
                     }
-                    toolStripStatusLabel1.Text = "Total saving time: " + (sw.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
+                    toolStripStatusLabel.Text = "Total saving time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
                 }
             }
         }
@@ -695,8 +656,7 @@ namespace CSManager
             dialog.Filter = "Database File[*.cdb2]|*.cdb2";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var sw = new Stopwatch();
-                sw.Start();
+                stopwatch.Restart();
                 var failedFile = new List<string>();
                 await Task.Run(() =>
                 {
@@ -733,9 +693,9 @@ namespace CSManager
                                         counter += 100;
                                         context.Post(reportProgress =>  //--- UIに同期させて通知
                                         {
-                                            double remain = ((double)sw.ElapsedMilliseconds / (i + counter)) * (fn.Count - i - counter) / 1000;
+                                            double remain = ((double)stopwatch.ElapsedMilliseconds / (i + counter)) * (fn.Count - i - counter) / 1000;
                                             toolStripProgressBar.Value = Math.Min(i + counter, toolStripProgressBar.Maximum);
-                                            toolStripStatusLabel1.Text = "Success: " + (toolStripProgressBar.Value - failedFile.Count).ToString() +
+                                            toolStripStatusLabel.Text = "Success: " + (toolStripProgressBar.Value - failedFile.Count).ToString() +
                                         ".  Failure: " + failedFile.Count.ToString() + ".  Remain: " + (fn.Count - i - counter).ToString() + ".  Wait about " + remain.ToString("f0") + " sec.";
                                         }, null);  //--- ロックしてインクリメント
                                     }
@@ -843,46 +803,36 @@ namespace CSManager
 
             if (File.Exists(UserAppDataPath + "StdDB.cdb3"))
                 readDatabase(UserAppDataPath + "StdDB.cdb3");
-            #region
-            /*else if (File.Exists(UserAppDataPath + "StdDB.xml"))
-            {
-                try
-                {   //解凍する
-                    using (var archive = ArchiveFactory.Open("cod.zip"))
-                    {
-
-                        archive.EntryExtractionEnd += Archive_EntryExtractionEnd; ;
-                        archive.CompressedBytesRead += Archive_CompressedBytesRead1;
-
-                        totalSize = archive.TotalUncompressSize;// Calculate the total extraction size.
-
-                        //メモリ上に解凍する
-                        var fs = new FileStream(UserAppDataPath + "StdDB.cdb3");
-                        foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
-                            entry.WriteTo(fs);
-
-
-
-                        //ExtractProgressイベントハンドラを追加する
-                        //zip.ExtractProgress += this.zip_ExtractProgress;
-                        //すべてのファイルを展開する
-                        //zip.ExtractAll(UserAppDataPath, ExtractExistingFileAction.OverwriteSilently); // zipファイル読み込み展開する。すでにあれば上書きする。
-                    }
-
-                    // new ZipFile(path + "\\StdDB.xml").ExtractAll(path + "\\", ExtractExistingFileAction.OverwriteSilently); // zipファイル読み込み展開する。すでにあれば上書きする。
-
-                    if (File.Exists(UserAppDataPath + "StdDB.cdb3"))
-                        readDatabase(UserAppDataPath + "StdDB.cdb3");
-
-                }
-                catch { }
-            }*/
-            #endregion
         }
 
+      
 
+        private void reportProgress(long current, long total, Stopwatch sw, string message, 
+            int sleep = 0, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
+        {
+            if (skipEvent || current > total)
+                return;
+            skipEvent = true;
 
-        bool skipEvent = false;
+            toolStripProgressBar.Maximum = int.MaxValue;
+            toolStripProgressBar.Value = (int)((double)current / total * toolStripProgressBar.Maximum);
+
+            toolStripStatusLabel.Text = message;
+
+            var ellapsedSec = sw.ElapsedMilliseconds/1000.0;
+            if (showEllapsedTime)
+                toolStripStatusLabel.Text += " Elappsed time: " + ellapsedSec.ToString("f" + digit.ToString()) + " sec.";
+            if (showRemainTime)
+            {
+                var remain = ellapsedSec / current * (total - current);
+                toolStripStatusLabel.Text += " Remaining time: " + remain.ToString("f" + digit.ToString()) + " sec.";
+            }
+            
+            Application.DoEvents();
+            if (sleep != 0)
+                Thread.Sleep(sleep);
+            skipEvent = false;
+        }
         
         private async void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
         {
@@ -903,29 +853,19 @@ namespace CSManager
                     //分割ファイルをダウンロードする
                     stopwatch.Restart();
                     var wc = new WebClient[Version.COD_Division];
-                    toolStripProgressBar.Maximum = wc.Length;
                     for (int i = 0; i < Version.COD_Division; i++)
                     {
                         wc[i] = new WebClient();
-                        var footer = i.ToString("000");
-                        var u = new Uri("https://github.com/seto77/CSManager/raw/master/COD/cod.zip." + footer);
-                        var name = UserAppDataPath + "cod.zip." + footer;
-                        wc[i].DownloadFileAsync(u, name);
+                        var filename = "cod.zip." +i.ToString("000");
+                        wc[i].DownloadFileAsync(new Uri("https://github.com/seto77/CSManager/raw/master/COD/" + filename), UserAppDataPath + filename);
                     }
 
-                    while (wc.Count(w=> !w.IsBusy)!=wc.Length)
-                    {
-                        var progress = wc.Count(w => !w.IsBusy);
-                        toolStripProgressBar.Value = progress;
-                        var remain = (double)stopwatch.ElapsedMilliseconds / progress * (wc.Length - progress) / 1000;
-                        toolStripStatusLabel1.Text = "Now dowonloading database... wait about " + remain.ToString("f0") + " sec.";
-                        Application.DoEvents();
+                    while (wc.Count(w => !w.IsBusy) != wc.Length)
+                        reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch, "Dowonloading database...", 100);
 
-                        Thread.Sleep(100);
-                    }
-
-                    //メモリ上で結合し、解凍する
-                    using (var fs1 = new FileStream(UserAppDataPath + "cod.zip", FileMode.CreateNew))
+                    //結合
+                    stopwatch.Restart();
+                    using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Create))
                     {
                         for (int i = 0; i < Version.COD_Division; i++)
                         {
@@ -933,37 +873,31 @@ namespace CSManager
                             {
                                 var buffer = new byte[temp.Length];
                                 temp.Read(buffer, 0, buffer.Length);
-                                fs1.Write(buffer, 0, buffer.Length);
+                                fs.Write(buffer, 0, buffer.Length);
                             }
+                            fs.Flush();
                             File.Delete(UserAppDataPath + "cod.zip." + i.ToString("000"));
-                            toolStripStatusLabel1.Text = "Now merging database... ";
-                            Application.DoEvents();
+                            reportProgress(i, Version.COD_Division, stopwatch, "Merging database... ");
                         }
+                    }
 
-                        //解凍する
-                        var archive = ArchiveFactory.Open(fs1);
-                        totalSize = archive.TotalUncompressSize;// Calculate the total extraction size.
-
-                        var max = toolStripProgressBar.Maximum = 1000000;
-                        archive.CompressedBytesRead += (s, ev) =>
+                    //解凍
+                    stopwatch.Restart();
+                    using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Open))
+                    {
+                        int n = 1;
+                        var archive = ArchiveFactory.Open(fs);
+                        archive.CompressedBytesRead += (s, ev) => 
                         {
-                            var progress = (int)(ev.CompressedBytesRead / (double)totalSize * max);
-                            toolStripProgressBar.Value = progress;
-
-                            toolStripProgressBar.Value = progress;
-                            var remain = (double)stopwatch.ElapsedMilliseconds / progress * (max - progress) / 1000;
-                            toolStripStatusLabel1.Text = "Now extracting database... wait about " + remain.ToString("f0") + " sec.";
-                            Application.DoEvents();
-
+                            if (n++ % 50 == 0)
+                            {
+                                reportProgress(ev.CompressedBytesRead, (s as IArchive).TotalUncompressSize, stopwatch, "Extracting database...");
+                                n = 1;
+                            }
                         };
-
-                        stopwatch.Restart();
-                        //解凍する
-                        using (var fs2 = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.CreateNew))
-                        {
+                        using (var fs2 = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.Create))
                             foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
                                 entry.WriteTo(fs2);
-                        }
                     }
 
                     //読み込む
@@ -976,23 +910,7 @@ namespace CSManager
             }
         }
 
-        
 
-        public static double Percentage { get; set; }
-
-        public static long totalSize { get; set; } = 0;
-
-        private void Archive_CompressedBytesRead1(object sender, SharpCompress.Common.CompressedBytesReadEventArgs e)
-        {
-            
-        }
-
-        private void Archive_EntryExtractionEnd(object sender, SharpCompress.Common.ArchiveExtractionEventArgs<IArchiveEntry> e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        Stopwatch stopwatch = new Stopwatch();
         private void toolStripMenuItemImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -1030,15 +948,9 @@ namespace CSManager
             }
         }
 
-        private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            dataSet.Tables[0].Clear();
-        }
+        private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e) => dataSet.Tables[0].Clear();
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
@@ -1056,11 +968,7 @@ namespace CSManager
             catch { return; }
         }
 
-        private void FormMain_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = (e.Data.GetData(DataFormats.FileDrop) != null) ? DragDropEffects.Copy : DragDropEffects.None;
-
-        }
+        private void FormMain_DragEnter(object sender, DragEventArgs e) => e.Effect = (e.Data.GetData(DataFormats.FileDrop) != null) ? DragDropEffects.Copy : DragDropEffects.None;
 
         private void helpwebToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1071,25 +979,13 @@ namespace CSManager
             catch { }
         }
 
-        private void checkBoxDspacing_CheckedChanged(object sender, EventArgs e)
-        {
-            groupBoxDspacing.Enabled = checkBoxDspacing.Checked;
-        }
+        private void checkBoxDspacing_CheckedChanged(object sender, EventArgs e) => groupBoxDspacing.Enabled = checkBoxDspacing.Checked;
 
-        private void checkBoxD1_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxD1.Enabled = numericUpDownD1err.Enabled = checkBoxD1.Checked;
-        }
+        private void checkBoxD1_CheckedChanged(object sender, EventArgs e) => textBoxD1.Enabled = numericUpDownD1err.Enabled = checkBoxD1.Checked;
 
-        private void checkBoxD2_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxD2.Enabled = numericUpDownD2err.Enabled = checkBoxD2.Checked;
-        }
+        private void checkBoxD2_CheckedChanged(object sender, EventArgs e) => textBoxD2.Enabled = numericUpDownD2err.Enabled = checkBoxD2.Checked;
 
-        private void checkBoxD3_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxD3.Enabled = numericUpDownD3err.Enabled = checkBoxD3.Checked;
-        }
+        private void checkBoxD3_CheckedChanged(object sender, EventArgs e) => textBoxD3.Enabled = numericUpDownD3err.Enabled = checkBoxD3.Checked;
 
 
         private void hintToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1100,10 +996,7 @@ namespace CSManager
         }
 
 
-        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
-        {
-            bindingSourceMain.RemoveCurrent();
-        }
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e) => bindingSourceMain.RemoveCurrent();
 
         private void programUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1117,11 +1010,6 @@ namespace CSManager
             japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
             Thread.CurrentThread.CurrentUICulture = englishToolStripMenuItem.Checked ? new System.Globalization.CultureInfo("en") : new System.Globalization.CultureInfo("ja");
             Language.Change(this);
-        }
-
-        private void checkBoxIncrementalSearch_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void increaseToolStripMenuItem_Click(object sender, EventArgs e)
