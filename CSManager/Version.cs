@@ -24,12 +24,13 @@ namespace CSManager
         }
 
         static public int AMCSD = 20698;
-        static public int COD = 406999;
-        static public long COD_FileSize = (long)5188913410;
+        static public int COD = 452532;
+        static public long COD_FileSize = (long)4471154979;
         static public int COD_Division = 39;
 
         static public string History = 
             "History" +
+                "\r\n ver1.87 (2020/03/14) Renewed COD database (452,532)." +
                 "\r\n ver1.861(2020/03/03) Fixed a minor bug on distribution problem." +
                 "\r\n ver1.86 (2020/03/01) Changed: Download site is changed to GitHub." +
                 "\r\n ver1.85 (2019/09/10) Renewed COD database (406,999). Changed .Net framework version to 4.8." +
