@@ -1,6 +1,5 @@
 using Crystallography;
 using Crystallography.Controls;
-using Microsoft.Win32;
 using SharpCompress.Archives;
 using System;
 using System.Collections.Generic;
@@ -11,14 +10,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ProtoBuf;
-using ProtoBuf.Meta;
 using System.Net;
+using MessagePack;
+using MessagePack.Resolvers;
+using System.Security.Cryptography;
 
 namespace CSManager
 {
@@ -68,12 +67,13 @@ namespace CSManager
         Stopwatch stopwatch { get; set; } = new Stopwatch();
         bool skipEvent { get; set; } = false;
 
+
         WaitDlg initialDialog;
 
 
         public FormMain()
         {
-            RegistryKey regKey = Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
+            var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             try
             {
                 string culture = (string)regKey.GetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
@@ -105,7 +105,8 @@ namespace CSManager
             //           Ngen.Compile(new string[] { "Crystallography.dll", "Crystallography.Control.dll", "CSManager.exe" });
             //#endif
 
-
+            //ユーザーパスにxmlファイルをコピー
+            File.Copy("StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
 
             initialDialog = new WaitDlg();
             readRegistry();
@@ -141,6 +142,9 @@ namespace CSManager
             if (initialDialog.AutomaricallyClose)
                 initialDialog.Visible = false;
 
+           
+           
+
             readRegistry();
 
             NextHandle = SetClipboardViewer(this.Handle);
@@ -155,12 +159,10 @@ namespace CSManager
             toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString());
             toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString());
 
-            //ユーザーパスにxmlファイルをコピー
-            File.Copy("StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
-            Directory.Delete(Application.UserAppDataPath, true);
+          
             if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
                 File.Delete(UserAppDataPath + "CSManagerSetup.msi");
-
+            Directory.Delete(Application.UserAppDataPath, true);
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -174,7 +176,7 @@ namespace CSManager
         }
         private void readRegistry()
         {
-            RegistryKey regKey = Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
+            var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             if (regKey == null) return;
             if ((int)regKey.GetValue("MainLocationY", this.Location.Y) > 0)
             {
@@ -193,7 +195,7 @@ namespace CSManager
         }
         private void saveRegistry()
         {
-            RegistryKey regKey = Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
+            var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             if (regKey == null) return;
 
             regKey.SetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
@@ -414,13 +416,13 @@ namespace CSManager
         }
 
 
-        private void readDatabase(string filename)
+        async private void readDatabase(string filename)
         {
             stopwatch.Restart();
             int progressStep = 500;
             statusStrip.Visible = true;
             this.bindingSourceMain.DataMember = "";
-            using (Stream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 if (filename.ToLower().EndsWith("cdb"))
                 {
@@ -432,7 +434,7 @@ namespace CSManager
                     {
                         dataSet.Tables[0].Rows.Add(GetTabelRows(c[i]));
                         if (i > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, c.Length, stopwatch, "Loading database...");
+                            reportProgress(i, c.Length, stopwatch.ElapsedMilliseconds, "Loading database...");
                     }
                 }
                 else if (filename.ToLower().EndsWith("cdb2"))
@@ -445,17 +447,42 @@ namespace CSManager
                         dataSet.Tables[0].Rows.Add(GetTabelRows(c));
 
                         if (i > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, total, stopwatch, "Loading database...");
+                            reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Loading database...");
                     }
                 }
                 else if (filename.ToLower().EndsWith("cdb3"))
                 {
                     var total = BitConverter.ToInt32(new[] { (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte() }, 0);
-                    int i = 0;
-                    foreach(var r in Serializer.DeserializeItems<Crystal2>(fs, PrefixStyle.Fixed32, 1).AsParallel().Select(c => GetTabelRows(c))) { 
-                        dataSet.Tables[0].Rows.Add(r);
-                        if (i++ > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, total, stopwatch, "Loading database...");
+                    var options = StandardResolver.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+                    var progress = new Progress<(int, int, long, string)>(reportProgress);
+
+                    var action = new Action<FileStream>(f =>
+                        {
+                            while (f.Position < f.Length)
+                            {
+                                IProgress<(int, int, long, string)> ip = progress;
+                                var crystal2Array = MessagePackSerializer.Deserialize<Crystal2[]>(f, options).ToArray();
+                                var rows = crystal2Array.Select(c => GetTabelRows(c)).ToArray();
+                                if (crystal2Array != null)
+                                    lock (lockObj)
+                                        foreach (var r in rows)
+                                            dataSet.Tables[0].Rows.Add(r);
+                                ip.Report((dataSet.Tables[0].Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
+                            }
+                        });
+
+                    if (fs.Length != 8)//単一ファイルの時
+                        await Task.Run(() => action(fs));
+                    else//分割ファイルの時
+                    {
+                        var filenum = BitConverter.ToInt32(new[] { (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte() }, 0);
+                        var header = filename.Remove(filename.Length - 5, 5) + "\\" + Path.GetFileNameWithoutExtension(filename) + ".";
+
+                        await Task.Run(() => Parallel.For(0, filenum, i =>
+                        {
+                            using (var fsP = new FileStream(header + i.ToString("000"), FileMode.Open, FileAccess.Read))
+                                action(fsP);
+                        }));
                     }
                 }
                 else
@@ -464,6 +491,8 @@ namespace CSManager
             toolStripStatusLabel.Text = "Toatal loading time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f1") + " sec.";
             bindingSourceMain.DataMember = "dataTable";
         }
+
+
 
         private void saveDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -502,25 +531,82 @@ namespace CSManager
             }*/
             #endregion
 
-            int progressStep = 500;
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Database File[*.cdb3]|*.cdb3";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            var thresholdBytes = 30000000;
+
+            var dlg = new SaveFileDialog() { Filter = "Database File[*.cdb3]|*.cdb3" };
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                using (var fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                var fn = dlg.FileName;
+                var total = dataSet.Tables[0].Rows.Count;
+                using (var fs = new FileStream(fn, FileMode.Create, FileAccess.Write))
                 {
-                    var total = dataSet.Tables[0].Rows.Count;
                     fs.Write(BitConverter.GetBytes(total), 0, 4);
+
                     stopwatch.Restart();
-                    for (int i = 0; i < total; i++)
+                    var division = 1000;//分割単位 パフォーマンスに効く
+
+                    var options = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+                    var byteList = new List<byte>();
+
+                    var filecounter = 0;
+
+                    var subDir = fn.Remove(fn.Length - 5, 5) + "\\";
+                    var header = subDir + Path.GetFileNameWithoutExtension(fn) + ".";
+                    for (int i = 0; i < total; i += division)
                     {
-                        Serializer.SerializeWithLengthPrefix(fs, (Crystal2)((DataRowView)bindingSourceMain[i]).Row[0], PrefixStyle.Fixed32);
-                        if (i > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, total, stopwatch, "Saving database...");
+                        var crystal2List = new List<Crystal2>();
+                        for (int j = i; j < total && j < i + division; j++)
+                            crystal2List.Add((Crystal2)((DataRowView)bindingSourceMain[j]).Row[0]);
+
+                        byteList.AddRange(MessagePackSerializer.Serialize(crystal2List.ToArray(), options));
+
+                        if (byteList.Count <= thresholdBytes && i + division >= total && filecounter == 0)
+                            fs.Write(byteList.ToArray(), 0, byteList.Count);//最初のファイルに書き込んで終了
+                        else if (byteList.Count > thresholdBytes || i + division >= total)
+                        {
+                            if (filecounter == 0)
+                                Directory.CreateDirectory(fn.Remove(fn.Length - 5, 5));
+                            using (var fs1 = new FileStream(header + filecounter.ToString("000"),FileMode.Create, FileAccess.Write))
+                                fs1.Write(byteList.ToArray(), 0, byteList.Count);
+                            byteList.Clear();
+                            filecounter++;
+                        }
+
+                        if (i > 0)
+                            reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Saving database...");
                     }
-                    toolStripStatusLabel.Text = "Total saving time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
+                    if (filecounter > 0)
+                    {
+                        fs.Write(BitConverter.GetBytes(filecounter), 0, 4);
+                        using (var fsCheck = new FileStream(subDir + "CheckSum", FileMode.Create))
+                            for (int i = 0; i < filecounter-1; i++)
+                            {
+                                var md5 = getMD5(header + i.ToString("000"));
+                                var bytes = MessagePackSerializer.Serialize(md5, options);
+                                fsCheck.Write(bytes, 0, bytes.Length);
+                            }
+                    }
                 }
+                
+                toolStripStatusLabel.Text = "Total saving time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
             }
+        }
+        private byte[]  getMD5(string path)
+        {
+            using (var fs = new FileStream(path, FileMode.Open))
+                return MD5.Create().ComputeHash(fs);
+        }
+        private bool checkMD5(string path, byte[] md5)
+        {
+            var _md5 = getMD5(path);
+            if (md5.Length == _md5.Length)
+            {
+                for (int i = 0; i < md5.Length; i++)
+                    if (md5[i] != _md5[i])
+                        return false;
+                return true;
+            }
+            return false;
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
@@ -614,137 +700,64 @@ namespace CSManager
 
 
         //ここから
-        object lockObj = new object();
+        readonly object lockObj = new object();
         private async void GetAllImport()
         {
             statusStrip.Visible = true;
 
-            ParallelOptions p = new ParallelOptions();
-#if DEBUG
-            //p.MaxDegreeOfParallelism = 8;   
-#endif
-
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.SelectedPath = "D:\\Users\\seto\\Documents\\研究\\CrystallographyData";
+            var dlg = new FolderBrowserDialog() { SelectedPath = "D:\\Users\\seto\\Documents\\研究\\CrystallographyData" };
             if (dlg.ShowDialog() != DialogResult.OK) return;
-            System.IO.DirectoryInfo current = new DirectoryInfo(dlg.SelectedPath);
-            List<string> fn = new List<string>();
 
-            if (File.Exists(dlg.SelectedPath + "\\failedList.txt"))
-            {
-                StreamReader sr = new StreamReader(dlg.SelectedPath + "\\failedList.txt");
-                string s = "";
-                while ((s = sr.ReadLine()) != null)
-                    fn.Add(dlg.SelectedPath + "\\" + s);
-            }
-            else
-            {
-                DialogResult dr = MessageBox.Show("Also search subdirectory?", "Serch option", MessageBoxButtons.YesNoCancel);
-                if (dr == System.Windows.Forms.DialogResult.Cancel) return;
-                await Task.Run(() =>
-                 {
-                     foreach (System.IO.FileInfo file in current.GetFiles("*", dr == System.Windows.Forms.DialogResult.Yes ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))  // ファイルの一覧表示
-                         if (file.FullName.EndsWith("amc") || file.FullName.EndsWith("cif"))
-                             fn.Add(file.FullName);
-                 });
-            }
+            var current = new DirectoryInfo(dlg.SelectedPath);
+            var fn = new List<string>();
+            var dr = MessageBox.Show("Also search subdirectory?", "Serch option", MessageBoxButtons.YesNoCancel);
+            if (dr == DialogResult.Cancel)
+                return;
+            await Task.Run(() =>
+             {
+                 foreach (FileInfo file in current.GetFiles("*", dr == DialogResult.Yes ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))  // ファイルの一覧表示
+                     if (file.FullName.EndsWith("amc") || file.FullName.EndsWith("cif"))
+                         fn.Add(file.FullName);
+             });
 
-            toolStripProgressBar.Maximum = fn.Count;
-
-            var context = SynchronizationContext.Current;
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Database File[*.cdb2]|*.cdb2";
+            var options = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+            var dialog = new SaveFileDialog() { Filter = "Database File[*.cdb3]|*.cdb3" };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                stopwatch.Restart();
                 var failedFile = new List<string>();
-                await Task.Run(() =>
+                using (var fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
                 {
-                    using (Stream stream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                    //最初、全結晶数はわからないので、取りあえず4byte確保埋めておく
+                    fs.Write(new byte[4], 0, 4);
+                    stopwatch.Restart();
+
+                    var division = 1000;//分割単位
+                    for (int i = 0; i < fn.Count; i += division)
                     {
-                        IFormatter formatter = new BinaryFormatter();
-                        formatter.Serialize(stream, (int)0);
-
-                        var division = 2000;//分割単位
-
-                        var c = new Crystal[division];
-                        var c2 = new Crystal2[division];
-                        for (int i = 0; i < fn.Count; i += division)
+                        var crystalList = new List<Crystal2>();
+                        Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
                         {
-                            int counter = 0;
-                            Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, p, j =>
-                            {
-                                try
-                                {
-                                    c[j - i] = ConvertCrystalData.ConvertToCrystal(fn[j]);
-                                    if (c[j - i] == null)
-                                        c2[j - i] = null;
-                                    else
-                                    {
-                                        c2[j - i] = c[j - i].ToCrystal2();
-                                        c2[j - i].fileName = fn[j].Substring(fn[j].LastIndexOf("\\") + 1);
-                                    }
-                                }
-                                catch { c2[j - i] = null; }
-
-                                if (j % 100 == 0)
-                                    lock (lockObj)
-                                    {
-                                        counter += 100;
-                                        context.Post(reportProgress =>  //--- UIに同期させて通知
-                                        {
-                                            double remain = ((double)stopwatch.ElapsedMilliseconds / (i + counter)) * (fn.Count - i - counter) / 1000;
-                                            toolStripProgressBar.Value = Math.Min(i + counter, toolStripProgressBar.Maximum);
-                                            toolStripStatusLabel.Text = "Success: " + (toolStripProgressBar.Value - failedFile.Count).ToString() +
-                                        ".  Failure: " + failedFile.Count.ToString() + ".  Remain: " + (fn.Count - i - counter).ToString() + ".  Wait about " + remain.ToString("f0") + " sec.";
-                                        }, null);  //--- ロックしてインクリメント
-                                    }
-
-                            });
-                            for (int j = 0; j < c2.Length && i + j < fn.Count; j++)
-                            {
-                                if (c2[j] != null)
-                                    formatter.Serialize(stream, c2[j]);
+                            var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
+                            lock (lockObj)
+                                if (crystal2 != null)
+                                    crystalList.Add(crystal2);
                                 else
-                                    failedFile.Add(fn[i + j].Substring(fn[i + j].LastIndexOf("\\") + 1));
-                            }
+                                    failedFile.Add(fn[j]);
+                        });
+                        reportProgress(i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting...");
 
-                        }
-                        stream.Position = 0;
-                        formatter.Serialize(stream, fn.Count - failedFile.Count);
-
+                        var bytes = MessagePackSerializer.Serialize(crystalList.ToArray(), options);
+                        fs.Write(bytes, 0, bytes.Length);
                     }
+                    //最後に個数を書き込む
+                    fs.Position = 0;
+                    fs.Write(BitConverter.GetBytes(fn.Count - failedFile.Count), 0, 4);
                 }
-                );
+
+                //失敗ファイルを書き込む
                 using (StreamWriter writer = new StreamWriter(dialog.FileName.Remove(dialog.FileName.Length - 5, 5) + ".txt"))
-                {
                     foreach (var s in failedFile)
-                    {
-                        if (s.EndsWith("amc"))
-                        {
-
-                            using (StreamReader reader = new System.IO.StreamReader(dlg.SelectedPath + "\\" + s))
-                            {
-                                string str;
-                                while ((str = reader.ReadLine()) != null)
-                                {
-                                    var split = str.Split(new[] { ' ' });
-                                    if (double.TryParse(split[0], out double d))
-                                    {
-                                        writer.WriteLine(s + " " + str);
-                                        break;
-                                    }
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            writer.WriteLine(s);
-                        }
-                    }
-                }
-
+                        writer.WriteLine(Path.GetFileNameWithoutExtension(s));
             }
             statusStrip.Visible = false;
         }
@@ -805,32 +818,47 @@ namespace CSManager
                 readDatabase(UserAppDataPath + "StdDB.cdb3");
         }
 
-      
 
-        private void reportProgress(long current, long total, Stopwatch sw, string message, 
-            int sleep = 0, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
+        private void reportProgress((int current, int total, long elapsedMilliseconds, string message) o)
+            => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
+        private void reportProgress(long current, long total, long elapsedMilliseconds, string message, 
+            int sleep = 0,bool showPercentage = true, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
         {
+
             if (skipEvent || current > total)
                 return;
+
             skipEvent = true;
 
-            toolStripProgressBar.Maximum = int.MaxValue;
-            toolStripProgressBar.Value = (int)((double)current / total * toolStripProgressBar.Maximum);
-
-            toolStripStatusLabel.Text = message;
-
-            var ellapsedSec = sw.ElapsedMilliseconds/1000.0;
-            if (showEllapsedTime)
-                toolStripStatusLabel.Text += " Elappsed time: " + ellapsedSec.ToString("f" + digit.ToString()) + " sec.";
-            if (showRemainTime)
+            try
             {
-                var remain = ellapsedSec / current * (total - current);
-                toolStripStatusLabel.Text += " Remaining time: " + remain.ToString("f" + digit.ToString()) + " sec.";
+                toolStripProgressBar.Maximum = int.MaxValue;
+                var ratio = (double)current / total;
+                toolStripProgressBar.Value = (int)(ratio * toolStripProgressBar.Maximum);
+
+                var ellapsedSec = elapsedMilliseconds / 1000.0;
+
+                if (showPercentage)
+                    message += " Completed: " + (ratio * 100).ToString("f" + digit.ToString()) + " %.";
+
+                if (showEllapsedTime)
+                    message += " Elappsed time: " + ellapsedSec.ToString("f" + digit.ToString()) + " sec.";
+
+                if (showRemainTime)
+                {
+                    var remain = ellapsedSec / current * (total - current);
+                    message += " Remaining time: " + remain.ToString("f" + digit.ToString()) + " sec.";
+                }
+
+                toolStripStatusLabel.Text = message;
+
+                Application.DoEvents();
+
+                if (sleep != 0)
+                    Thread.Sleep(sleep);
             }
-            
-            Application.DoEvents();
-            if (sleep != 0)
-                Thread.Sleep(sleep);
+            catch { }
+
             skipEvent = false;
         }
         
@@ -861,7 +889,7 @@ namespace CSManager
                     }
 
                     while (wc.Count(w => !w.IsBusy) != wc.Length)
-                        reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch, "Dowonloading database...", 100);
+                        reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch.ElapsedMilliseconds, "Dowonloading database...", 100);
 
                     //結合
                     stopwatch.Restart();
@@ -877,7 +905,7 @@ namespace CSManager
                             }
                             fs.Flush();
                             File.Delete(UserAppDataPath + "cod.zip." + i.ToString("000"));
-                            reportProgress(i, Version.COD_Division, stopwatch, "Merging database... ");
+                            reportProgress(i, Version.COD_Division, stopwatch.ElapsedMilliseconds, "Merging database... ");
                         }
                     }
 
@@ -891,7 +919,7 @@ namespace CSManager
                         {
                             if (n++ % 50 == 0)
                             {
-                                reportProgress(ev.CompressedBytesRead, (s as IArchive).TotalUncompressSize, stopwatch, "Extracting database...");
+                                reportProgress(ev.CompressedBytesRead, (s as IArchive).TotalUncompressSize, stopwatch.ElapsedMilliseconds, "Extracting database...");
                                 n = 1;
                             }
                         };
