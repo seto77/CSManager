@@ -18,6 +18,7 @@ using System.Net;
 using MessagePack;
 using MessagePack.Resolvers;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace CSManager
 {
@@ -142,8 +143,8 @@ namespace CSManager
             if (initialDialog.AutomaricallyClose)
                 initialDialog.Visible = false;
 
-           
-           
+
+
 
             readRegistry();
 
@@ -159,7 +160,7 @@ namespace CSManager
             toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString());
             toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString());
 
-          
+
             if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
                 File.Delete(UserAppDataPath + "CSManagerSetup.msi");
             Directory.Delete(Application.UserAppDataPath, true);
@@ -418,81 +419,120 @@ namespace CSManager
 
         async private void readDatabase(string filename)
         {
-            stopwatch.Restart();
-            int progressStep = 500;
-            statusStrip.Visible = true;
-            this.bindingSourceMain.DataMember = "";
-            using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            try
             {
-                if (filename.ToLower().EndsWith("cdb"))
+                stopwatch.Restart();
+                int progressStep = 500;
+                statusStrip.Visible = true;
+                this.bindingSourceMain.DataMember = "";
+                using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    var formatter = new BinaryFormatter();
-                    Crystal2[] c = (Crystal2[])formatter.Deserialize(fs);
-                    fs.Close();//閉じる
-                    toolStripProgressBar.Maximum = c.Length;
-                    for (int i = 0; i < c.Length; i++)
+                    if (filename.ToLower().EndsWith("cdb"))
                     {
-                        dataSet.Tables[0].Rows.Add(GetTabelRows(c[i]));
-                        if (i > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, c.Length, stopwatch.ElapsedMilliseconds, "Loading database...");
-                    }
-                }
-                else if (filename.ToLower().EndsWith("cdb2"))
-                {
-                    var formatter = new BinaryFormatter();
-                    var total = (int)formatter.Deserialize(fs);
-                    for (int i = 0; i < total; i++)
-                    {
-                        Crystal2 c = (Crystal2)formatter.Deserialize(fs);
-                        dataSet.Tables[0].Rows.Add(GetTabelRows(c));
-
-                        if (i > progressStep * 2 && i % progressStep == 0)
-                            reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Loading database...");
-                    }
-                }
-                else if (filename.ToLower().EndsWith("cdb3"))
-                {
-                    var total = BitConverter.ToInt32(new[] { (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte() }, 0);
-                    var options = StandardResolver.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
-                    var progress = new Progress<(int, int, long, string)>(reportProgress);
-
-                    var action = new Action<FileStream>(f =>
+                        var formatter = new BinaryFormatter();
+                        Crystal2[] c = (Crystal2[])formatter.Deserialize(fs);
+                        fs.Close();//閉じる
+                        toolStripProgressBar.Maximum = c.Length;
+                        for (int i = 0; i < c.Length; i++)
                         {
-                            while (f.Position < f.Length)
+                            dataSet.Tables[0].Rows.Add(GetTabelRows(c[i]));
+                            if (i > progressStep * 2 && i % progressStep == 0)
+                                reportProgress(i, c.Length, stopwatch.ElapsedMilliseconds, "Loading database...");
+                        }
+                    }
+                    else if (filename.ToLower().EndsWith("cdb2"))
+                    {
+                        var formatter = new BinaryFormatter();
+                        var total = (int)formatter.Deserialize(fs);
+                        for (int i = 0; i < total; i++)
+                        {
+                            Crystal2 c = (Crystal2)formatter.Deserialize(fs);
+                            dataSet.Tables[0].Rows.Add(GetTabelRows(c));
+
+                            if (i > progressStep * 2 && i % progressStep == 0)
+                                reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Loading database...");
+                        }
+                    }
+                    else if (filename.ToLower().EndsWith("cdb3"))
+                    {
+                        var total = readInt(fs); ;
+                        var options = StandardResolver.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+                        IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));
+                        var action = new Action<Stream>(f =>
                             {
-                                IProgress<(int, int, long, string)> ip = progress;
-                                var crystal2Array = MessagePackSerializer.Deserialize<Crystal2[]>(f, options).ToArray();
-                                var rows = crystal2Array.Select(c => GetTabelRows(c)).ToArray();
-                                if (crystal2Array != null)
-                                    lock (lockObj)
-                                        foreach (var r in rows)
-                                            dataSet.Tables[0].Rows.Add(r);
-                                ip.Report((dataSet.Tables[0].Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
-                            }
-                        });
+                                while (f.Position < f.Length)
+                                {
+                                    var rows = MessagePackSerializer.Deserialize<Crystal2[]>(f, options).Select(c => GetTabelRows(c)).ToArray();
+                                    if (rows != null)
+                                        lock (lockObj)
+                                            foreach (var r in rows)
+                                                dataSet.Tables[0].Rows.Add(r);
+                                    ip.Report((dataSet.Tables[0].Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
+                                }
+                            });
 
-                    if (fs.Length != 8)//単一ファイルの時
-                        await Task.Run(() => action(fs));
-                    else//分割ファイルの時
-                    {
-                        var filenum = BitConverter.ToInt32(new[] { (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte(), (byte)fs.ReadByte() }, 0);
-                        var header = filename.Remove(filename.Length - 5, 5) + "\\" + Path.GetFileNameWithoutExtension(filename) + ".";
-
-                        await Task.Run(() => Parallel.For(0, filenum, i =>
+                        if (fs.Length != 8)//単一ファイルの時
+                            await Task.Run(() => action(fs));
+                        else//分割ファイルの時
                         {
-                            using (var fsP = new FileStream(header + i.ToString("000"), FileMode.Open, FileAccess.Read))
-                                action(fsP);
-                        }));
+
+                            var filenum = readInt(fs);
+                            var header = filename.Remove(filename.Length - 5, 5) + "\\" + Path.GetFileNameWithoutExtension(filename) + ".";
+
+                            await Task.Run(() => Parallel.For(0, filenum, new ParallelOptions() { MaxDegreeOfParallelism = 16 }, i =>
+                               {
+                                   using (var fsP = new FileStream(header + i.ToString("000"), FileMode.Open, FileAccess.Read))
+                                       action(fsP);
+                               }));
+                        }
+                    }
+                    else
+                        return;
+                }
+                toolStripStatusLabel.Text = "Toatal loading time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f1") + " sec.";
+                bindingSourceMain.DataMember = "dataTable";
+            }
+            catch
+            {
+                MessageBox.Show("Failed to load database. Sorry.");
+            }
+
+            #region
+            /*
+            単語の出現頻度を調べる
+            var dic = new Dictionary<string, int >();
+            for(int i=0; i<dataSet.Tables[0].Rows.Count; i++)
+            {
+                var c = (Crystal2)dataSet.Tables[0].Rows[i][0];
+                foreach(var str in new[] { c.fileName,c.jour,c.sect,c.formula,c.note,c.auth})
+                {
+                    foreach ( var s in str.Split(new[] { " "}, StringSplitOptions.RemoveEmptyEntries).Where(e=>e.Length>5))
+                    {
+                        if (dic.ContainsKey(s))
+                            dic[s]++;
+                        else
+                            dic.Add(s, 0);
                     }
                 }
-                else
-                    return;
             }
-            toolStripStatusLabel.Text = "Toatal loading time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f1") + " sec.";
-            bindingSourceMain.DataMember = "dataTable";
+
+            var sb = new StringBuilder();
+            for(int i=20000;i>100; i--)
+            {
+                if(dic.ContainsValue(i))
+                {
+                    foreach (var str in dic.Where(d => d.Value == i).Select(d => d.Key))
+                        sb.Append(str + "\t" + i.ToString() + "\r\n");
+
+                }
+            }
+            Clipboard.SetDataObject(sb.ToString());
+            */
+            #endregion
+
         }
-
-
+        private int readInt(Stream s) => BitConverter.ToInt32(new[] { (byte)s.ReadByte(), (byte)s.ReadByte(), (byte)s.ReadByte(), (byte)s.ReadByte() }, 0);
+        private void writeInt(Stream s, int v) => s.Write(BitConverter.GetBytes(v), 0, 4);
 
         private void saveDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -540,10 +580,10 @@ namespace CSManager
                 var total = dataSet.Tables[0].Rows.Count;
                 using (var fs = new FileStream(fn, FileMode.Create, FileAccess.Write))
                 {
-                    fs.Write(BitConverter.GetBytes(total), 0, 4);
+                    writeInt(fs, total);
 
                     stopwatch.Restart();
-                    var division = 1000;//分割単位 パフォーマンスに効く
+                    var division = 1000;//分割単位 たぶんパフォーマンスに効く
 
                     var options = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
                     var byteList = new List<byte>();
@@ -566,7 +606,7 @@ namespace CSManager
                         {
                             if (filecounter == 0)
                                 Directory.CreateDirectory(fn.Remove(fn.Length - 5, 5));
-                            using (var fs1 = new FileStream(header + filecounter.ToString("000"),FileMode.Create, FileAccess.Write))
+                            using (var fs1 = new FileStream(header + filecounter.ToString("000"), FileMode.Create, FileAccess.Write))
                                 fs1.Write(byteList.ToArray(), 0, byteList.Count);
                             byteList.Clear();
                             filecounter++;
@@ -575,11 +615,12 @@ namespace CSManager
                         if (i > 0)
                             reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Saving database...");
                     }
+
                     if (filecounter > 0)
                     {
                         fs.Write(BitConverter.GetBytes(filecounter), 0, 4);
                         using (var fsCheck = new FileStream(subDir + "CheckSum", FileMode.Create))
-                            for (int i = 0; i < filecounter-1; i++)
+                            for (int i = 0; i < filecounter; i++)
                             {
                                 var md5 = getMD5(header + i.ToString("000"));
                                 var bytes = MessagePackSerializer.Serialize(md5, options);
@@ -587,18 +628,21 @@ namespace CSManager
                             }
                     }
                 }
-                
                 toolStripStatusLabel.Text = "Total saving time: " + (stopwatch.ElapsedMilliseconds / 1000.0).ToString("f2") + " sec.";
             }
         }
-        private byte[]  getMD5(string path)
+        private byte[] getMD5(string path)
         {
+            if (!File.Exists(path))
+                return null;
             using (var fs = new FileStream(path, FileMode.Open))
                 return MD5.Create().ComputeHash(fs);
         }
         private bool checkMD5(string path, byte[] md5)
         {
             var _md5 = getMD5(path);
+            if (_md5 == null)
+                return false;
             if (md5.Length == _md5.Length)
             {
                 for (int i = 0; i < md5.Length; i++)
@@ -692,7 +736,6 @@ namespace CSManager
             wd.Close();
         }
 
-
         private void developperToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetAllImport();
@@ -727,7 +770,7 @@ namespace CSManager
                 var failedFile = new List<string>();
                 using (var fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
                 {
-                    //最初、全結晶数はわからないので、取りあえず4byte確保埋めておく
+                    //最初、全結晶数はわからないので、取りあえず4byte確保しておく
                     fs.Write(new byte[4], 0, 4);
                     stopwatch.Restart();
 
@@ -821,8 +864,8 @@ namespace CSManager
 
         private void reportProgress((int current, int total, long elapsedMilliseconds, string message) o)
             => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
-        private void reportProgress(long current, long total, long elapsedMilliseconds, string message, 
-            int sleep = 0,bool showPercentage = true, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
+        private void reportProgress(long current, long total, long elapsedMilliseconds, string message,
+            int sleep = 0, bool showPercentage = true, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
         {
 
             if (skipEvent || current > total)
@@ -861,82 +904,158 @@ namespace CSManager
 
             skipEvent = false;
         }
-        
-        private async void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
-        {
-            statusStrip.Visible = true;
-            if (File.Exists(UserAppDataPath + "COD.cdb3") && new FileInfo(UserAppDataPath + "COD.cdb3").Length == Version.COD_FileSize)
-            {
-                readDatabase(UserAppDataPath + "COD.cdb3");
-                return;
-            }
-            else
-            {
-                string message = File.Exists(UserAppDataPath + "COD.cdb3") ?
-                    "New COD database is availble. Do you download it now ?" :
-                    "COD database is not yet downloaded. Do you try it now ?";
 
-                if (MessageBox.Show(message, "Download COD", MessageBoxButtons.OKCancel) == DialogResult.OK)
+
+        private (bool Valid, int FileNum) checkDatabaseFiles(string path)
+        {
+            var nameWithoutExt = Path.GetFileNameWithoutExtension(path);
+            var subDir = Path.GetDirectoryName(path) + "\\" + nameWithoutExt + "\\";
+            try
+            {
+                if (File.Exists(path) && File.Exists(subDir + "CheckSum"))
                 {
-                    //分割ファイルをダウンロードする
-                    stopwatch.Restart();
-                    var wc = new WebClient[Version.COD_Division];
-                    for (int i = 0; i < Version.COD_Division; i++)
+                    int dataNum, fileNum;
+
+                    //データ個数、ファイル数を取得
+                    using (var fs = new FileStream(path, FileMode.Open))
                     {
-                        wc[i] = new WebClient();
-                        var filename = "cod.zip." +i.ToString("000");
-                        wc[i].DownloadFileAsync(new Uri("https://github.com/seto77/CSManager/raw/master/COD/" + filename), UserAppDataPath + filename);
+                        dataNum = readInt(fs);
+                        fileNum = readInt(fs);
                     }
 
-                    while (wc.Count(w => !w.IsBusy) != wc.Length)
-                        reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch.ElapsedMilliseconds, "Dowonloading database...", 100);
-
-                    //結合
-                    stopwatch.Restart();
-                    using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Create))
+                    //md5を取得
+                    var md5List = new List<byte[]>();
+                    using (var fs = new FileStream(subDir + "CheckSum", FileMode.Open))
                     {
-                        for (int i = 0; i < Version.COD_Division; i++)
+                        var options = StandardResolver.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+                        while (fs.Position < fs.Length)
+                            md5List.Add(MessagePackSerializer.Deserialize<byte[]>(fs, options));
+                        if (md5List.Count != fileNum)
+                            return (false, fileNum);
+                    }
+
+                    //md5をチェック
+                    for (int i = 0; i < fileNum; i++)
+                        if (checkMD5(subDir + nameWithoutExt + "." + i.ToString("000"), md5List[i]))
+                            return (false, fileNum);
+
+                    //ここまで来れたらtrueを返す
+                    return (true, fileNum);
+                }
+                return (false, 0);
+            }
+            catch
+            { return (false, 0); }
+        }
+        private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
+        {
+            var state = checkDatabaseFiles(UserAppDataPath + "COD.cdb3");
+
+            if (state.Valid)
+            {//適切にダウンロードされている場合
+
+                try//web上に新しいデータがあるかどうかをチェック
+                {
+                    var web = new WebClient().DownloadData(new Uri("https://github.com/seto77/CSManager/raw/master/COD/CheckSum"));
+                    using (var fs = new FileStream(UserAppDataPath + "COD\\CheckSum", FileMode.Open))
+                    {
+                        var local = new byte[fs.Length];
+                        fs.Read(local, 0, local.Length);
+                       if(web.SequenceEqual(local))
                         {
-                            using (var temp = new FileStream(UserAppDataPath + "cod.zip." + i.ToString("000"), FileMode.Open))
-                            {
-                                var buffer = new byte[temp.Length];
-                                temp.Read(buffer, 0, buffer.Length);
-                                fs.Write(buffer, 0, buffer.Length);
-                            }
-                            fs.Flush();
-                            File.Delete(UserAppDataPath + "cod.zip." + i.ToString("000"));
-                            reportProgress(i, Version.COD_Division, stopwatch.ElapsedMilliseconds, "Merging database... ");
+                            readDatabase(UserAppDataPath + "COD.cdb3");
+                            return;
                         }
                     }
-
-                    //解凍
-                    stopwatch.Restart();
-                    using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Open))
-                    {
-                        int n = 1;
-                        var archive = ArchiveFactory.Open(fs);
-                        archive.CompressedBytesRead += (s, ev) => 
-                        {
-                            if (n++ % 50 == 0)
-                            {
-                                reportProgress(ev.CompressedBytesRead, (s as IArchive).TotalUncompressSize, stopwatch.ElapsedMilliseconds, "Extracting database...");
-                                n = 1;
-                            }
-                        };
-                        using (var fs2 = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.Create))
-                            foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
-                                entry.WriteTo(fs2);
-                    }
-
-                    //読み込む
-                    readDatabase(UserAppDataPath + "COD.cdb3");
-                    //zipファイルを削除する
-                    File.Delete(UserAppDataPath + "COD.zip");
-
                 }
+                catch //WEBが落ちている場合は、現状のCODを読み込む 
+                {
+                    readDatabase(UserAppDataPath + "COD.cdb3");
+                    return;
+                }
+                //ここまで来た場合は更新版が存在する場合
+                var result = MessageBox.Show(
+                    "Now, new database is available.\r\n" +
+                    "  Download and load the new database: YES\r\n" +
+                    "  Use the current database: No\r\n" +
+                    "  Cancel database loading: Cancel",
+                    "  New database is available", MessageBoxButtons.YesNoCancel);
 
+                if (result == DialogResult.No) //更新せずに現状を読み込む場合
+                {
+                    readDatabase(UserAppDataPath + "COD.cdb3");
+                    return;
+                }
+                else//キャンセル
+                    return;
             }
+            else//CODデータが存在しないか、適切でない場合
+            {
+                if (MessageBox.Show("Local COD database is missing.\r\n  Do you download and load the new database now ?", "Local COD database is missing.",MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+            }
+
+            stopwatch.Restart();
+            new WebClient().DownloadFile(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD.cdb3"), UserAppDataPath + "COD.cdb3");
+            Directory.CreateDirectory(UserAppDataPath + "COD");
+            new WebClient().DownloadFile(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD/CheckSum"), UserAppDataPath + "COD\\CheckSum");
+            state = checkDatabaseFiles(UserAppDataPath + "COD.cdb3");
+
+            var wc = new WebClient[state.FileNum];
+            for (int i = 0; i < wc.Length; i++)
+            {
+                wc[i] = new WebClient();
+                var filename = "COD." + i.ToString("000");
+                wc[i].DownloadFileAsync(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD/" + filename), UserAppDataPath + "COD\\"+ filename);
+            }
+
+            while (wc.Count(w => !w.IsBusy) != wc.Length)
+                reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch.ElapsedMilliseconds, "Dowonloading database...", 100);
+
+            #region
+            /*
+            //結合
+            stopwatch.Restart();
+            using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Create))
+            {
+                for (int i = 0; i < Version.COD_Division; i++)
+                {
+                    using (var temp = new FileStream(UserAppDataPath + "cod.zip." + i.ToString("000"), FileMode.Open))
+                    {
+                        var buffer = new byte[temp.Length];
+                        temp.Read(buffer, 0, buffer.Length);
+                        fs.Write(buffer, 0, buffer.Length);
+                    }
+                    fs.Flush();
+                    File.Delete(UserAppDataPath + "cod.zip." + i.ToString("000"));
+                    reportProgress(i, Version.COD_Division, stopwatch.ElapsedMilliseconds, "Merging database... ");
+                }
+            }
+
+            //解凍
+            stopwatch.Restart();
+            using (var fs = new FileStream(UserAppDataPath + "cod.zip", FileMode.Open))
+            {
+                int n = 1;
+                var archive = ArchiveFactory.Open(fs);
+                archive.CompressedBytesRead += (s, ev) => 
+                {
+                    if (n++ % 50 == 0)
+                    {
+                        reportProgress(ev.CompressedBytesRead, (s as IArchive).TotalUncompressSize, stopwatch.ElapsedMilliseconds, "Extracting database...");
+                        n = 1;
+                    }
+                };
+                using (var fs2 = new FileStream(UserAppDataPath + "cod.cdb3", FileMode.Create))
+                    foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
+                        entry.WriteTo(fs2);
+            }
+            */
+            #endregion
+            //読み込む
+            readDatabase(UserAppDataPath + "COD.cdb3");
         }
+    
 
 
         private void toolStripMenuItemImport_Click(object sender, EventArgs e)
