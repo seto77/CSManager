@@ -425,7 +425,12 @@ namespace CSManager
         #region データベース読み込み/書き込み関連
         private int readInt(Stream s) => BitConverter.ToInt32(new[] { (byte)s.ReadByte(), (byte)s.ReadByte(), (byte)s.ReadByte(), (byte)s.ReadByte() }, 0);
         private void writeInt(Stream s, int v) => s.Write(BitConverter.GetBytes(v), 0, 4);
-
+        
+        /// <summary>
+        /// MD5を取得する。ファイルが存在しない場合はnullを返す。
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private byte[] getMD5(string path)
         {
             if (!File.Exists(path))
@@ -433,6 +438,14 @@ namespace CSManager
             using (var fs = new FileStream(path, FileMode.Open))
                 return MD5.Create().ComputeHash(fs);
         }
+
+        /// <summary>
+        /// MD5とファイルが一致するかどうか調べる。
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="md5"></param>
+        /// <returns></returns>
         private bool checkMD5(string path, byte[] md5)
         {
             var _md5 = getMD5(path);
@@ -440,6 +453,18 @@ namespace CSManager
         }
         private void reportProgress((int current, int total, long elapsedMilliseconds, string message) o)
           => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
+       /// <summary>
+       /// 進捗状況を更新
+       /// </summary>
+       /// <param name="current"></param>
+       /// <param name="total"></param>
+       /// <param name="elapsedMilliseconds"></param>
+       /// <param name="message"></param>
+       /// <param name="sleep"></param>
+       /// <param name="showPercentage"></param>
+       /// <param name="showEllapsedTime"></param>
+       /// <param name="showRemainTime"></param>
+       /// <param name="digit"></param>
         private void reportProgress(long current, long total, long elapsedMilliseconds, string message,
             int sleep = 0, bool showPercentage = true, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
         {
@@ -468,7 +493,10 @@ namespace CSManager
             skipEvent = false;
         }
 
-
+        /// <summary>
+        /// データベース読み込み
+        /// </summary>
+        /// <param name="filename"></param>
         async private void readDatabase(string filename)
         {
             try
@@ -508,7 +536,8 @@ namespace CSManager
                     else if (filename.ToLower().EndsWith("cdb3"))
                     {
                         var total = readInt(fs); ;
-                        IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));
+                        IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));//IReport
+                        //単一ファイルの場合でも、分割ファイルの場合でも使えるように、Actionを定義
                         var action = new Action<Stream>(f =>
                             {
                                 while (f.Position < f.Length)
@@ -530,10 +559,8 @@ namespace CSManager
                             await Task.Run(() => action(fs));
                         else//分割ファイルの時
                         {
-
                             var filenum = readInt(fs);
                             var header = filename.Remove(filename.Length - 5, 5) + "\\" + Path.GetFileNameWithoutExtension(filename) + ".";
-
                             await Task.Run(() => Parallel.For(0, filenum, new ParallelOptions() { MaxDegreeOfParallelism = 16 }, i =>
                                {
                                    using (var fsP = new FileStream(header + i.ToString("000"), FileMode.Open, FileAccess.Read))
@@ -551,7 +578,6 @@ namespace CSManager
             {
                 MessageBox.Show("Failed to load database. Sorry.");
             }
-
             #region
             /*
             単語の出現頻度を調べる
@@ -584,47 +610,15 @@ namespace CSManager
             Clipboard.SetDataObject(sb.ToString());
             */
             #endregion
-
         }
 
-
+        /// <summary>
+        /// データベース書き込み
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            #region
-            /*var dialog = new SaveFileDialog();
-            dialog.Filter = "Database File[*.cdb2]|*.cdb2";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                WaitDlg wd = new WaitDlg();
-                wd.Location = new Point(this.Location.X + this.Width / 2 - wd.Width / 2, this.Location.Y + this.Height / 2 - wd.Height / 2);
-                wd.Show(this);
-                wd.Text = "Now saving database... wait a few minutes";
-                wd.progressBar.Maximum = dataSet.Tables[0].Rows.Count;
-
-                using (Stream stream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
-                {
-                    IFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, dataSet.Tables[0].Rows.Count);
-                    System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-                    sw.Start();
-
-                    for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
-                    {
-                        formatter.Serialize(stream, ((DataRowView)bindingSourceMain[i]).Row[0]);
-                        if (i > 1000 && i % 50 == 0)
-                        {
-                            wd.progressBar.Value += 50;
-                            double remain = ((double)sw.ElapsedMilliseconds / i) * (dataSet.Tables[0].Rows.Count - i) / 1000;
-                            wd.Text = "Now saving database... wait about " + remain.ToString("f0") + " sec.";
-                            Application.DoEvents();
-                        }
-                    }
-                }
-
-                wd.Close();
-            }*/
-            #endregion
-
             var thresholdBytes = 30000000;
 
             var dlg = new SaveFileDialog() { Filter = "Database File[*.cdb3]|*.cdb3" };
@@ -650,9 +644,11 @@ namespace CSManager
 
                         byteList.AddRange(MessagePackSerializer.Serialize(crystal2List.ToArray(), msgOptions));
 
-                        if (byteList.Count <= thresholdBytes && i + division >= total && filecounter == 0)
+                        //最後まで来ていて、かつ閾値以下の容量で、かつこれまで一度も分割もしていない場合
+                        if (i + division >= total && byteList.Count <= thresholdBytes  && filecounter == 0)
                             fs.Write(byteList.ToArray(), 0, byteList.Count);//最初のファイルに書き込んで終了
-                        else if (byteList.Count > thresholdBytes || i + division >= total)
+                        //最後まで来ているときか、閾値以上の容量の場合
+                        else if (i + division >= total || byteList.Count > thresholdBytes)
                         {
                             if (filecounter == 0)
                                 Directory.CreateDirectory(fn.Remove(fn.Length - 5, 5));
@@ -661,13 +657,14 @@ namespace CSManager
                             byteList.Clear();
                             filecounter++;
                         }
-
                         reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Saving database...");
                     }
 
-                    if (filecounter > 0)
+                    if (filecounter > 0)//分割ファイルになった場合
                     {
+                        //分割数書き込み
                         fs.Write(BitConverter.GetBytes(filecounter), 0, 4);
+                        //チェックサムを書き込み
                         using (var fsCheck = new FileStream(subDir + "CheckSum", FileMode.Create))
                             for (int i = 0; i < filecounter; i++)
                             {
@@ -681,6 +678,11 @@ namespace CSManager
             }
         }
 
+        /// <summary>
+        /// 分割ファイルがきちんと作成されているかをチェック
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private (bool Valid, int FileNum) checkDatabaseFiles(string path)
         {
             stopwatch.Restart();
@@ -726,6 +728,12 @@ namespace CSManager
             catch
             { return (false, 0); }
         }
+
+        /// <summary>
+        /// CODデータベースのダウンロードや読み込み. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
         {
             statusStrip.Visible = true;
@@ -794,6 +802,9 @@ namespace CSManager
         }
         private void developperToolStripMenuItem_Click(object sender, EventArgs e) => GetAllImport();
       
+        /// <summary>
+        /// フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
+        /// </summary>
         private async void GetAllImport()
         {
             statusStrip.Visible = true;
@@ -832,14 +843,15 @@ namespace CSManager
                             var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
                             try
                             {
-                                rwlock.EnterWriteLock();
+                                rwlock.EnterWriteLock();//書き込みロック
                                 if (crystal2 != null)
                                     crystalList.Add(crystal2);
                                 else
                                     failedFile.Add(fn[j]);
                             }
-                            finally { rwlock.ExitWriteLock(); }
+                            finally { rwlock.ExitWriteLock(); }//書き込み解放
                         });
+                        //進捗状況報告
                         reportProgress(i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting...");
 
                         var bytes = MessagePackSerializer.Serialize(crystalList.ToArray(), msgOptions);
@@ -974,10 +986,7 @@ namespace CSManager
             }
         }
 
-        private void buttonDeleteCrystal_Click(object sender, EventArgs e)
-        {
-            bindingSourceMain.RemoveCurrent();
-        }
+        private void buttonDeleteCrystal_Click(object sender, EventArgs e) => bindingSourceMain.RemoveCurrent();
 
         private void textBoxSearchAllField_TextChanged(object sender, EventArgs e)
         {
@@ -985,28 +994,15 @@ namespace CSManager
                 buttonSearch_Click(sender, e);
         }
 
-        private void toolTipToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
-        }
+        private void toolTipToolStripMenuItem_Click(object sender, EventArgs e) => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
 
-        private void buttonPeriodicTable_Click(object sender, EventArgs e)
-        {
-            formPeriodicTable.Visible = true;
-        }
+        private void buttonPeriodicTable_Click(object sender, EventArgs e) => formPeriodicTable.Visible = true;
 
         private void toolStripMenuItemReadDefault1_Click(object sender, EventArgs e)
         {
-
             if (File.Exists(UserAppDataPath + "StdDB.cdb3"))
                 readDatabase(UserAppDataPath + "StdDB.cdb3");
         }
-
-
-      
-
-        
-    
 
 
         private void toolStripMenuItemImport_Click(object sender, EventArgs e)
@@ -1098,9 +1094,12 @@ namespace CSManager
 
         private void programUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ProgramUpdates.ProgressChanged += (currentBytes, totalBytes, ratio, ellapsedSec, remainingSec, message) =>
+                        reportProgress(currentBytes, totalBytes, (long)(ellapsedSec * 1000), message);
             if (ProgramUpdates.CheckUpdate(Version.Software, Version.VersionAndDate))
                 Close();
         }
+
 
         private void languageToolStripMenuItem_Click(object sender, EventArgs e)
         {

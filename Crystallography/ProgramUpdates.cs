@@ -5,9 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 
 namespace Crystallography
 {
@@ -24,12 +22,13 @@ namespace Crystallography
                 if (File.Exists("Version.cs"))
                     File.Delete("Version.cs");
 
-                var wc = new System.Net.WebClient();
+                var wc = new WebClient();
 
 
                 wc.DownloadFile("https://raw.githubusercontent.com/seto77/" + software + "/master/" + software + "/Version.cs", "Version.cs");
 
-                if (!File.Exists("Version.cs")) {
+                if (!File.Exists("Version.cs"))
+                {
                     MessageBox.Show("An error occured while trying to locate the update to " + software + ".\r\n"
                    + " This could be caused if you do not have an active internet connection, or host server may be down. ", "Error",
                    MessageBoxButtons.OK);
@@ -45,8 +44,7 @@ namespace Crystallography
                 }
                 File.Delete("Version.cs");
 
-               // if (Convert.ToDouble(newVersion) <= Convert.ToDouble(version.Substring(3, 5)))
-               if(false)
+                if (Convert.ToDouble(newVersion) <= Convert.ToDouble(version.Substring(3, 5)))
                 {
                     MessageBox.Show("You are runnning the latest version of " + software + ". Thank you!", "Update checked!", MessageBoxButtons.OK);
                 }
@@ -55,31 +53,26 @@ namespace Crystallography
                 {
                     var sw = new Stopwatch();
                     sw.Start();
-                    var n = 1;
                     wc.DownloadProgressChanged += (s, ev) =>
                     {
-                        //if (n++ % 10 == 0)
-                        {
-                            var receivedMb = ev.BytesReceived / 1000000.0;
-                            var totalMb = ev.TotalBytesToReceive / 1000000.0;
-                            var ratio = receivedMb / totalMb;
-                            var ellapsedSec = sw.ElapsedMilliseconds / 1000.0;
-                            var remainingSec = ellapsedSec / ratio * (1 - ratio);
-                            ProgressChanged?.Invoke(
-                                ev.BytesReceived, ev.TotalBytesToReceive, ratio, ellapsedSec, remainingSec,
-                                "Downloading " + software + "Setup.msi." +
-                                "  Total to receive: " + totalMb.ToString("f2") + " MB." +
-                                "  Received: " + receivedMb.ToString("f2") + " MB." +
-                                "  Ellapsed time: " + ellapsedSec.ToString("f1") + " sec." +
-                                "  Remainning time: " + remainingSec.ToString("f1") + " sec.");
-                            n = 0;
-                        }
+                        var receivedMb = ev.BytesReceived / 1000000.0;
+                        var totalMb = ev.TotalBytesToReceive / 1000000.0;
+                        var ratio = receivedMb / totalMb;
+                        var ellapsedSec = sw.ElapsedMilliseconds / 1000.0;
+                        var remainingSec = ellapsedSec / ratio * (1 - ratio);
+                        ProgressChanged?.Invoke(
+                            ev.BytesReceived, ev.TotalBytesToReceive, ratio, ellapsedSec, remainingSec,
+                            "Downloading " + software + "Setup.msi." +
+                            "  Total to receive: " + totalMb.ToString("f2") + " MB." +
+                            "  Received: " + receivedMb.ToString("f2") + " MB." +
+                            "  Ellapsed time: " + ellapsedSec.ToString("f1") + " sec." +
+                            "  Remainning time: " + remainingSec.ToString("f1") + " sec.");
                     };
                     wc.DownloadFileCompleted += (s, ev) =>
                     {
                         Completed?.Invoke("Downloaded " + software + "Setup.msi.");
                     };
-                    
+
                     wc.DownloadFileTaskAsync(new Uri("http://github.com/seto77/" + software + "/releases/download/v." + newVersion + "/" + software + "Setup.msi"),
                         UserAppDataPath + software + "Setup.msi");
 
