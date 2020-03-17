@@ -152,12 +152,12 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemReadDefault1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemReadDefault2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.readDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemReadDefault1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemReadDefault2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemImport = new System.Windows.Forms.ToolStripMenuItem();
             this.developperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1194,6 +1194,23 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
+            // toolStripMenuItemReadDefault1
+            // 
+            this.toolStripMenuItemReadDefault1.Name = "toolStripMenuItemReadDefault1";
+            resources.ApplyResources(this.toolStripMenuItemReadDefault1, "toolStripMenuItemReadDefault1");
+            this.toolStripMenuItemReadDefault1.Click += new System.EventHandler(this.toolStripMenuItemReadDefault1_Click);
+            // 
+            // toolStripMenuItemReadDefault2
+            // 
+            this.toolStripMenuItemReadDefault2.Name = "toolStripMenuItemReadDefault2";
+            resources.ApplyResources(this.toolStripMenuItemReadDefault2, "toolStripMenuItemReadDefault2");
+            this.toolStripMenuItemReadDefault2.Click += new System.EventHandler(this.toolStripMenuItemReadDefault2_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
             // readDatabaseToolStripMenuItem
             // 
             this.readDatabaseToolStripMenuItem.Name = "readDatabaseToolStripMenuItem";
@@ -1211,23 +1228,6 @@
             this.clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
             resources.ApplyResources(this.clearDatabaseToolStripMenuItem, "clearDatabaseToolStripMenuItem");
             this.clearDatabaseToolStripMenuItem.Click += new System.EventHandler(this.clearDatabaseToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
-            // 
-            // toolStripMenuItemReadDefault1
-            // 
-            this.toolStripMenuItemReadDefault1.Name = "toolStripMenuItemReadDefault1";
-            resources.ApplyResources(this.toolStripMenuItemReadDefault1, "toolStripMenuItemReadDefault1");
-            this.toolStripMenuItemReadDefault1.Click += new System.EventHandler(this.toolStripMenuItemReadDefault1_Click);
-            // 
-            // toolStripMenuItemReadDefault2
-            // 
-            this.toolStripMenuItemReadDefault2.Name = "toolStripMenuItemReadDefault2";
-            resources.ApplyResources(this.toolStripMenuItemReadDefault2, "toolStripMenuItemReadDefault2");
-            this.toolStripMenuItemReadDefault2.Click += new System.EventHandler(this.toolStripMenuItemReadDefault2_Click);
             // 
             // toolStripSeparator3
             // 

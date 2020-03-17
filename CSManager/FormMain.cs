@@ -503,7 +503,6 @@ namespace CSManager
             {
                 stopwatch.Restart();
                 int progressStep = 500;
-                statusStrip.Visible = true;
                 this.bindingSourceMain.DataMember = "";
                 using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
@@ -736,7 +735,6 @@ namespace CSManager
         /// <param name="e"></param>
         private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
         {
-            statusStrip.Visible = true;
             var state = checkDatabaseFiles(UserAppDataPath + "COD.cdb3");
 
             if (state.Valid)
@@ -784,8 +782,10 @@ namespace CSManager
             Directory.CreateDirectory(UserAppDataPath + "COD");
             new WebClient().DownloadFile(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD/CheckSum"), UserAppDataPath + "COD\\CheckSum");
             using (var fs = new FileStream(UserAppDataPath + "COD.cdb3", FileMode.Open))
+            {
+                readInt(fs);
                 state.FileNum = readInt(fs);
-
+            }
             var wc = new WebClient[state.FileNum];
             for (int i = 0; i < wc.Length; i++)
             {
@@ -807,8 +807,6 @@ namespace CSManager
         /// </summary>
         private async void GetAllImport()
         {
-            statusStrip.Visible = true;
-
             var dlg = new FolderBrowserDialog() { SelectedPath = "D:\\Users\\seto\\Documents\\Œ¤‹†\\CrystallographyData" };
             if (dlg.ShowDialog() != DialogResult.OK) return;
 
@@ -867,7 +865,6 @@ namespace CSManager
                     foreach (var s in failedFile)
                         writer.WriteLine(Path.GetFileNameWithoutExtension(s));
             }
-            statusStrip.Visible = false;
         }
 
         #endregion
