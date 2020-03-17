@@ -1088,10 +1088,10 @@
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             resources.ApplyResources(this.toolStripProgressBar, "toolStripProgressBar");
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabel
             // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel1");
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel");
             // 
             // bindingNavigator1
             // 
@@ -1177,12 +1177,12 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemReadDefault1,
+            this.toolStripMenuItemReadDefault2,
+            this.toolStripSeparator4,
             this.readDatabaseToolStripMenuItem,
             this.saveDatabaseToolStripMenuItem,
             this.clearDatabaseToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.toolStripMenuItemReadDefault1,
-            this.toolStripMenuItemReadDefault2,
             this.toolStripSeparator3,
             this.toolStripMenuItemImport,
             this.developperToolStripMenuItem,

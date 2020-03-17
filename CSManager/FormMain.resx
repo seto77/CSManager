@@ -292,7 +292,7 @@
     <value>crystalControl</value>
   </data>
   <data name="&gt;&gt;crystalControl.Type" xml:space="preserve">
-    <value>Crystallography.Controls.CrystalControl, Crystallography.Controls, Version=2020.3.13.1105, Culture=neutral, PublicKeyToken=null</value>
+    <value>Crystallography.Controls.CrystalControl, Crystallography.Controls, Version=2020.3.17.654, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;crystalControl.Parent" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
@@ -2217,10 +2217,10 @@
   <data name="toolStripProgressBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 18</value>
   </data>
-  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="toolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 19</value>
   </data>
-  <data name="toolStripStatusLabel1.Text" xml:space="preserve">
+  <data name="toolStripStatusLabel.Text" xml:space="preserve">
     <value>   </value>
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
@@ -2422,6 +2422,21 @@
   <data name="menuStrip.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Symbol, 11.25pt</value>
   </data>
+  <data name="toolStripMenuItemReadDefault1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>392, 24</value>
+  </data>
+  <data name="toolStripMenuItemReadDefault1.Text" xml:space="preserve">
+    <value>Read AMSCD Database (including ### crystals)</value>
+  </data>
+  <data name="toolStripMenuItemReadDefault2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>392, 24</value>
+  </data>
+  <data name="toolStripMenuItemReadDefault2.Text" xml:space="preserve">
+    <value>Read COD Database (including ### crystals)</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>389, 6</value>
+  </data>
   <data name="readDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>392, 24</value>
   </data>
@@ -2439,21 +2454,6 @@
   </data>
   <data name="clearDatabaseToolStripMenuItem.Text" xml:space="preserve">
     <value>Clear Database</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 6</value>
-  </data>
-  <data name="toolStripMenuItemReadDefault1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>392, 24</value>
-  </data>
-  <data name="toolStripMenuItemReadDefault1.Text" xml:space="preserve">
-    <value>Read AMSCD Database (including ### crystals)</value>
-  </data>
-  <data name="toolStripMenuItemReadDefault2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>392, 24</value>
-  </data>
-  <data name="toolStripMenuItemReadDefault2.Text" xml:space="preserve">
-    <value>Read COD Database (including ### crystals)</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>389, 6</value>
@@ -2519,7 +2519,7 @@
     <value>File</value>
   </data>
   <data name="toolTipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 24</value>
+    <value>326, 24</value>
   </data>
   <data name="toolTipToolStripMenuItem.Text" xml:space="preserve">
     <value>Tool Tip</value>
@@ -2528,22 +2528,22 @@
     <value>ツールチップを表示します</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 6</value>
+    <value>323, 6</value>
   </data>
   <data name="readDefaultDatabaseOnNextBootToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 24</value>
+    <value>326, 24</value>
   </data>
   <data name="readDefaultDatabaseOnNextBootToolStripMenuItem.Text" xml:space="preserve">
-    <value>Read Default Database on Next Boot</value>
+    <value>Read AMCSD Database on Next Boot</value>
   </data>
   <data name="incrementalSearchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 24</value>
+    <value>326, 24</value>
   </data>
   <data name="incrementalSearchToolStripMenuItem.Text" xml:space="preserve">
     <value>Incremental Search</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 6</value>
+    <value>323, 6</value>
   </data>
   <data name="increaseToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+OemPeriod</value>
@@ -2570,7 +2570,7 @@
     <value>Decrease (Ctrl+Shift+,)</value>
   </data>
   <data name="increaseFontSizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 24</value>
+    <value>326, 24</value>
   </data>
   <data name="increaseFontSizeToolStripMenuItem.Text" xml:space="preserve">
     <value>Font Size in Data Table</value>
@@ -3038,10 +3038,10 @@
   <data name="&gt;&gt;toolStripProgressBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
-    <value>toolStripStatusLabel1</value>
+  <data name="&gt;&gt;toolStripStatusLabel.Name" xml:space="preserve">
+    <value>toolStripStatusLabel</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;toolStripStatusLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;bindingNavigatorCountItem.Name" xml:space="preserve">
