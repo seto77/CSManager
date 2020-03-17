@@ -25,11 +25,10 @@ namespace CSManager
 
         static public int AMCSD = 20698;
         static public int COD = 452532;
-        static public long COD_FileSize = (long)4471154979;
-        static public int COD_Division = 39;
 
         static public string History = 
             "History" +
+                "\r\n ver1.872(2020/03/17) Changed: File format of database is changed (cdb3)." +
                 "\r\n ver1.871(2020/03/14) Improved: Loading speed of database becomes faster." +
                 "\r\n ver1.87 (2020/03/14) Renewed COD database (452,532)." +
                 "\r\n ver1.861(2020/03/03) Fixed a minor bug on distribution problem." +
