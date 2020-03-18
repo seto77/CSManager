@@ -25,7 +25,7 @@ namespace Crystallography
                 var wc = new WebClient();
 
 
-                wc.DownloadFile("https://raw.githubusercontent.com/seto77/" + software + "/master/" + software + "/Version.cs", "Version.cs");
+                wc.DownloadFile($"https://raw.githubusercontent.com/seto77/{software}/master/{software}/Version.cs", "Version.cs");
 
                 if (!File.Exists("Version.cs"))
                 {
@@ -46,10 +46,11 @@ namespace Crystallography
 
                 if (Convert.ToDouble(newVersion) <= Convert.ToDouble(version.Substring(3, 5)))
                 {
-                    MessageBox.Show("You are runnning the latest version of " + software + ". Thank you!", "Update checked!", MessageBoxButtons.OK);
+                    MessageBox.Show($"You are runnning the latest version of {software}. Thank you!", "Update checked!", MessageBoxButtons.OK);
                 }
-                else if (MessageBox.Show("Now, new version " + newVersion + " is available.\r\n" +
-                        "If you press 'Yes', the current " + software + " will be closed immediately and the installer of new " + software + " launched.", "Update checked!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                else if (MessageBox.Show($"Now, new version {newVersion} is available.\r\n"+
+                    $"If you press 'Yes', the current {software} will be closed immediately and the installer of new {software} launched.", 
+                    "Update checked!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var sw = new Stopwatch();
                     sw.Start();
@@ -60,20 +61,19 @@ namespace Crystallography
                         var ratio = receivedMb / totalMb;
                         var ellapsedSec = sw.ElapsedMilliseconds / 1000.0;
                         var remainingSec = ellapsedSec / ratio * (1 - ratio);
-                        ProgressChanged?.Invoke(
-                            ev.BytesReceived, ev.TotalBytesToReceive, ratio, ellapsedSec, remainingSec,
-                            "Downloading " + software + "Setup.msi." +
-                            "  Total to receive: " + totalMb.ToString("f2") + " MB." +
-                            "  Received: " + receivedMb.ToString("f2") + " MB." +
-                            "  Ellapsed time: " + ellapsedSec.ToString("f1") + " sec." +
-                            "  Remainning time: " + remainingSec.ToString("f1") + " sec.");
+                        ProgressChanged?.Invoke(ev.BytesReceived, ev.TotalBytesToReceive, ratio, ellapsedSec, remainingSec,
+                                                $"Downloading {software}Setup.msi."+
+                                                $"  Total to receive: {totalMb:f2} MB."+
+                                                $"  Received: {receivedMb:f2} MB.  "+
+                                                $"Ellapsed time: {ellapsedSec:f1} sec.  "+
+                                                $"Remainning time: {remainingSec:f1} sec.");
                     };
                     wc.DownloadFileCompleted += (s, ev) =>
                     {
                         Completed?.Invoke("Downloaded " + software + "Setup.msi.");
                     };
 
-                    wc.DownloadFileTaskAsync(new Uri("http://github.com/seto77/" + software + "/releases/download/v." + newVersion + "/" + software + "Setup.msi"),
+                    wc.DownloadFileTaskAsync(new Uri($"http://github.com/seto77/{software}/releases/download/v.{newVersion}/{software}Setup.msi"),
                         UserAppDataPath + software + "Setup.msi");
 
                     while (wc.IsBusy)
