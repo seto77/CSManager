@@ -142,7 +142,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HDF.PInvoke, Version=1.10.6.1, Culture=neutral, PublicKeyToken=18793c1fcffe58a3, processorArchitecture=MSIL">
-      <HintPath>..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\lib\HDF.PInvoke.dll</HintPath>
+      <HintPath>..\packages\HDF.PInvoke.1.10.6.1\lib\HDF.PInvoke.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net461\MathNet.Numerics.dll</HintPath>
@@ -157,15 +157,6 @@
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Dynamic, Version=1.2.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\DynamicLanguageRuntime.1.2.3-candidate1\lib\net45\Microsoft.Dynamic.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting, Version=1.2.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\DynamicLanguageRuntime.1.2.3-candidate1\lib\net45\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.Metadata, Version=1.2.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\DynamicLanguageRuntime.1.2.3-candidate1\lib\net45\Microsoft.Scripting.Metadata.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -338,9 +329,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\MessagePackAnalyzer.2.1.90\analyzers\dotnet\MessagePackAnalyzer.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -348,15 +336,12 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\..\PDIndexer\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets" Condition="Exists('..\..\PDIndexer\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets')" />
+  <Import Project="..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets" Condition="Exists('..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" />
+  <Import Project="..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets" Condition="Exists('..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\PDIndexer\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\PDIndexer\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets'))" />
-    <Error Condition="!Exists('..\..\CSManager\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\CSManager\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets'))" />
-    <Error Condition="!Exists('..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets'))" />
+    <Error Condition="!Exists('..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets'))" />
   </Target>
-  <Import Project="..\..\CSManager\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets" Condition="Exists('..\..\CSManager\packages\HDF.PInvoke.1.10.5.2\build\HDF.PInvoke.targets')" />
-  <Import Project="..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets" Condition="Exists('..\..\ReciPro\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" />
 </Project>
