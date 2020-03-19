@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -17,7 +16,6 @@ using System.Net;
 using MessagePack;
 using MessagePack.Resolvers;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace CSManager
 {
@@ -67,7 +65,7 @@ namespace CSManager
         public string UserAppDataPath = new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
 
         Stopwatch stopwatch { get; set; } = new Stopwatch();
-        bool skipEvent { get; set; } = false;
+        bool skipProgressEvent { get; set; } = false;
 
 
         WaitDlg initialDialog;
@@ -75,6 +73,8 @@ namespace CSManager
         readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
 
         readonly MessagePackSerializerOptions msgOptions = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
+
+        IProgress<(long, long, long, string)> ip;//IReport
 
         byte[] serialize<T>(T c) => MessagePackSerializer.Serialize(c, msgOptions);
 
@@ -88,7 +88,7 @@ namespace CSManager
 
         public FormMain()
         {
-
+            ip = new Progress<(long, long, long, string)>(o => reportProgress(o));//IReport
             var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             try
             {
@@ -462,15 +462,18 @@ namespace CSManager
             var _md5 = getMD5(path);
             return _md5 != null && md5.Length == _md5.Length && md5.SequenceEqual(_md5);
         }
-        private void reportProgress((int current, int total, long elapsedMilliseconds, string message) o)
-          => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
+     
+        private void reportProgress((long current, long total, long elapsedMilliseconds, string message) o)
+        => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
+
         /// <summary>
         /// 進捗状況を更新
         /// </summary>
         /// <param name="current"></param>
         /// <param name="total"></param>
-        /// <param name="elapsedMilliseconds"></param>
-        /// <param name="message"></param>
+        /// <param name="elapsedMilliseconds">経過時間</param>
+        /// <param name="message">メッセージ</param>
+        /// <param name="interval">何回に一回更新するか</param>
         /// <param name="sleep"></param>
         /// <param name="showPercentage"></param>
         /// <param name="showEllapsedTime"></param>
@@ -479,9 +482,9 @@ namespace CSManager
         private void reportProgress(long current, long total, long elapsedMilliseconds, string message,
             int sleep = 0, bool showPercentage = true, bool showEllapsedTime = true, bool showRemainTime = true, int digit = 1)
         {
-            if (skipEvent || current > total)
+            if (skipProgressEvent || current > total)
                 return;
-            skipEvent = true;
+            skipProgressEvent = true;
             try
             {
                 toolStripProgressBar.Maximum = int.MaxValue;
@@ -500,8 +503,10 @@ namespace CSManager
 
                 if (sleep != 0) Thread.Sleep(sleep);
             }
-            catch { }
-            skipEvent = false;
+            catch (Exception e){ 
+            
+            }
+            skipProgressEvent = false;
         }
 
         /// <summary>
@@ -546,7 +551,7 @@ namespace CSManager
                     else if (filename.ToLower().EndsWith("cdb3"))
                     {
                         var total = readInt(fs); ;
-                        IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));//IReport
+                        //IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));//IReport
                         //単一ファイルの場合でも、分割ファイルの場合でも使えるように、Actionを定義
                         var action = new Action<Stream>(f =>
                             {
@@ -590,38 +595,6 @@ namespace CSManager
             {
                 MessageBox.Show("Failed to load database. Sorry.");
             }
-            #region
-            /*
-            単語の出現頻度を調べる
-            var dic = new Dictionary<string, int >();
-            for(int i=0; i<dataSet.Tables[0].Rows.Count; i++)
-            {
-                var c = (Crystal2)dataSet.Tables[0].Rows[i][0];
-                foreach(var str in new[] { c.fileName,c.jour,c.sect,c.formula,c.note,c.auth})
-                {
-                    foreach ( var s in str.Split(new[] { " "}, StringSplitOptions.RemoveEmptyEntries).Where(e=>e.Length>5))
-                    {
-                        if (dic.ContainsKey(s))
-                            dic[s]++;
-                        else
-                            dic.Add(s, 0);
-                    }
-                }
-            }
-
-            var sb = new StringBuilder();
-            for(int i=20000;i>100; i--)
-            {
-                if(dic.ContainsValue(i))
-                {
-                    foreach (var str in dic.Where(d => d.Value == i).Select(d => d.Key))
-                        sb.Append(str + "\t" + i.ToString() + "\r\n");
-
-                }
-            }
-            Clipboard.SetDataObject(sb.ToString());
-            */
-            #endregion
         }
 
         /// <summary>
@@ -652,8 +625,10 @@ namespace CSManager
                     {
                         var crystal2List = new List<Crystal2>();
                         for (int j = i; j < total && j < i + division; j++)
-                            crystal2List.Add((Crystal2)((DataRowView)bindingSourceMain[j]).Row[0]);
-
+                        {
+                            var c2 = deserialize<Crystal2>(((DataRowView)bindingSourceMain[j]).Row[0]);
+                            crystal2List.Add(c2);
+                        }
                         byteList.AddRange(serialize(crystal2List.ToArray()));
 
                         //最後まで来ている時で、かつ閾値以下の容量で、かつこれまで一度も分割もしていない場合
@@ -686,7 +661,7 @@ namespace CSManager
                             }
                     }
                 }
-                toolStripStatusLabel.Text = $"Total saving time: {stopwatch.ElapsedMilliseconds / 1000.0:f2} sec.";
+                toolStripStatusLabel.Text = $"Total saving time: {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec.";
             }
         }
 
@@ -723,7 +698,7 @@ namespace CSManager
                     }
 
                     //md5をチェック
-                    IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));
+                    //IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));
                     bool flag = true;
                     var counter = 0;
                     Parallel.For(0, fileNum, i =>
@@ -749,19 +724,17 @@ namespace CSManager
         private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
         {
             var (Valid, FileNum) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3");
+            var urlHeader = "https://github.com/seto77/CSManager/raw/master/COD/";
 
             if (Valid)
             {//適切にダウンロードされている場合
-
                 try//web上に新しいデータがあるかどうかをチェック
                 {
-                    var web = new WebClient().DownloadData(new Uri("https://github.com/seto77/CSManager/raw/master/COD/CheckSum"));
                     using (var fs = new FileStream(UserAppDataPath + "COD\\CheckSum", FileMode.Open))
                     {
                         var local = new byte[fs.Length];
                         fs.Read(local, 0, local.Length);
-
-                        if (web.SequenceEqual(local))
+                        if (new WebClient().DownloadData(new Uri(urlHeader + "COD/CheckSum")).SequenceEqual(local))
                         {
                             readDatabase(UserAppDataPath + "COD.cdb3");
                             return;
@@ -777,42 +750,47 @@ namespace CSManager
                 var result = MessageBox.Show("Now, new database is available.\r\n  Download and load the new database: YES\r\n" +
                     "  Use the current database: No\r\n  Cancel database loading: Cancel", "  New database is available", MessageBoxButtons.YesNoCancel);
 
-                if (result == DialogResult.No) //更新せずに現状を読み込む場合
-                {
+                if (result == DialogResult.No) //Noの場合 (更新せずに現状を読み込む場合)
                     readDatabase(UserAppDataPath + "COD.cdb3");
-                    return;
-                }
-                else//キャンセル
+
+                if (result == DialogResult.No || result == DialogResult.Cancel)//NoかCancelの場合
                     return;
             }
             else//CODデータが存在しないか、適切でない場合
             {
-                if (MessageBox.Show("Local COD database is missing.\r\n  Do you download and load the new database now ?", "Local COD database is missing.", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (MessageBox.Show("Local COD database is missing.\r\n  Do you download the new database now ?", "Local COD database is missing.",
+                    MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
             }
 
-            stopwatch.Restart();
-            new WebClient().DownloadFile(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD.cdb3"), UserAppDataPath + "COD.cdb3");
-            Directory.CreateDirectory(UserAppDataPath + "COD");
-            new WebClient().DownloadFile(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD/CheckSum"), UserAppDataPath + "COD\\CheckSum");
-            using (var fs = new FileStream(UserAppDataPath + "COD.cdb3", FileMode.Open))
+            try
             {
-                readInt(fs);
-                FileNum = readInt(fs);
+                stopwatch.Restart();
+                new WebClient().DownloadFile(new Uri(urlHeader + "COD.cdb3"), UserAppDataPath + "COD.cdb3");
+                Directory.CreateDirectory(UserAppDataPath + "COD");
+                new WebClient().DownloadFile(new Uri(urlHeader + "COD/CheckSum"), UserAppDataPath + "COD\\CheckSum");
+                using (var fs = new FileStream(UserAppDataPath + "COD.cdb3", FileMode.Open))
+                {
+                    readInt(fs);
+                    FileNum = readInt(fs);
+                }
+                var wc = new WebClient[FileNum];
+                for (int i = 0; i < wc.Length; i++)
+                {
+                    wc[i] = new WebClient();
+                    wc[i].DownloadFileAsync(new Uri($"{urlHeader}COD/COD.{i:000}"), $"{UserAppDataPath}COD\\COD.{i:000}");
+                }
+
+                while (wc.Count(w => !w.IsBusy) != wc.Length)
+                    reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch.ElapsedMilliseconds, "Dowonloading database...", 100);
+
+                //読み込む
+                readDatabase(UserAppDataPath + "COD.cdb3");
             }
-            var wc = new WebClient[FileNum];
-            for (int i = 0; i < wc.Length; i++)
+            catch
             {
-                wc[i] = new WebClient();
-                var filename = "COD." + i.ToString("000");
-                wc[i].DownloadFileAsync(new Uri("https://github.com/seto77/CSManager/raw/master/COD/COD/" + filename), UserAppDataPath + "COD\\" + filename);
+                MessageBox.Show("Failed to download new COD database. Sorry.", "Error", MessageBoxButtons.OK);
             }
-
-            while (wc.Count(w => !w.IsBusy) != wc.Length)
-                reportProgress(wc.Count(w => !w.IsBusy), wc.Length, stopwatch.ElapsedMilliseconds, "Dowonloading database...", 100);
-
-            //読み込む
-            readDatabase(UserAppDataPath + "COD.cdb3");
         }
 
         private void importAllCrystalsMenuItem_Click(object sender, EventArgs e) => GetAllImport();
@@ -889,12 +867,15 @@ namespace CSManager
         {
             try
             {
-                var c2 = deserialize<Crystal2>((bindingSourceMain.Current as DataRowView).Row[0]);
+                var row = bindingSourceMain.Current as DataRowView;
+                if (row != null) { 
+                var c2 = deserialize<Crystal2>(row[0]);
                 var c = Crystal2.GetCrystal(c2);
                 if (c != null)
                 {
                     crystalControl.Crystal = c;
                     Clipboard.SetDataObject(c2);
+                }
                 }
             }
             catch { return; }
@@ -1093,13 +1074,38 @@ namespace CSManager
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e) => bindingSourceMain.RemoveCurrent();
 
+
+
         private void programUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProgramUpdates.ProgressChanged += (currentBytes, totalBytes, ratio, ellapsedSec, remainingSec, message) =>
-                        reportProgress(currentBytes, totalBytes, (long)(ellapsedSec * 1000), message);
-            if (ProgramUpdates.CheckUpdate(Version.Software, Version.VersionAndDate))
-                Close();
+            (var Title, var Message, var NeedUpdate, var URL, var Path) = ProgramUpdates.Check(Version.Software, Version.VersionAndDate);
+
+            if (!NeedUpdate)
+                MessageBox.Show(Message, Title, MessageBoxButtons.OK);
+            else if (MessageBox.Show(Message, Title, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                using (var wc = new WebClient())
+                {
+                    long counter = 1;
+                    wc.DownloadProgressChanged += (s, ev) =>
+                    {
+                        if (counter++ % 10 == 0)
+                            ip.Report(ProgramUpdates.ProgressMessage(ev, stopwatch));
+                    };
+
+                    wc.DownloadFileCompleted += (s, ev) =>
+                    {
+                        if (ProgramUpdates.Execute(Path))
+                            Close();
+                        else
+                            MessageBox.Show($"Failed to downlod {Path}. \r\nSorry!", "Error!");
+                    };
+                    stopwatch.Restart();
+                    wc.DownloadFileAsync(new Uri(URL), Path);
+                }
         }
+
+
+
 
 
         private void languageToolStripMenuItem_Click(object sender, EventArgs e)
