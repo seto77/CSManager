@@ -25,33 +25,26 @@ namespace Crystallography
                 return ("Error!", "This is Click Once version. The update function is only available for msi version. Sorry.", false, "","");//click onceの場合
             try
             {
-                if (File.Exists("Version.cs"))
-                    File.Delete("Version.cs");
-
                 using (var wc = new WebClient())
                 {
-                    wc.DownloadFile($"https://raw.githubusercontent.com/seto77/{software}/master/{software}/Version.cs", "Version.cs");
+                    var ver = wc.DownloadData($"https://raw.githubusercontent.com/seto77/{software}/master/{software}/Version.cs");
 
-                    //Version.CSファイルが上手くダウンロードできなかった場合
-                    if (!File.Exists("Version.cs"))
+                    //V上手くダウンロードできなかった場合
+                    if (ver == null || ver.Length == 0)
                         return ("Error!", $"An error occured while trying to locate the update to {software}.\r\n " +
                             "This could be caused if you do not have an active internet connection, or host server may be down. ", false, "", "");
 
-                    var newVersion = "";
-                    using (var sr = new StreamReader("Version.cs"))
-                    {
-                        var temp = sr.ReadToEnd().Split(new[] { '\r', '\n' });
-                        newVersion = temp.First(s => s.Contains("ver"));
-                        newVersion = newVersion.Substring(newVersion.IndexOf("ver") + 3, 5);
-                    }
-                    File.Delete("Version.cs");
+                    var temp = System.Text.Encoding.UTF8.GetString(ver).Split(new[] { '\r', '\n' });
+                    var newVersion = temp.First(s => s.Contains("ver"));
+                    newVersion = newVersion.Substring(newVersion.IndexOf("ver") + 3, 5);
 
                     if (Convert.ToDouble(newVersion) <= Convert.ToDouble(version.Substring(3, 5)))
                         return ("Update checked!", $"You are runnning the latest version of {software}. Thank you!", false, "", "");
                     else
                         return ($"Update checked!", $"Now, new version {newVersion} is available.\r\n" +
                              $"If you press 'Yes', the current {software} will be closed immediately and the installer of new {software} launched.", true,
-                             $"http://github.com/seto77/{software}/releases/download/v.{newVersion}/{software}Setup.msi", UserAppDataPath + software + "Setup.msi");
+                             $"http://github.com/seto77/{software}/releases/download/v.{newVersion}/{software}Setup.msi",
+                             UserAppDataPath + software + "Setup.msi");
                 }
             }
             catch

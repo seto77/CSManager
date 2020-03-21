@@ -490,7 +490,7 @@ namespace CSManager
                 toolStripProgressBar.Maximum = int.MaxValue;
                 var ratio = (double)current / total;
                 toolStripProgressBar.Value = (int)(ratio * toolStripProgressBar.Maximum);
-                var ellapsedSec = elapsedMilliseconds / 1000.0;
+                var ellapsedSec = elapsedMilliseconds / 1E3;
                 var format = $"f{digit}";
 
                 if (showPercentage) message += $" Completed: {(ratio * 100).ToString(format)} %.";
@@ -587,7 +587,7 @@ namespace CSManager
                 }
 
 
-                toolStripStatusLabel.Text = $"Toatal loading time: {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec.";
+                toolStripStatusLabel.Text = $"Toatal loading time: {stopwatch.ElapsedMilliseconds / 1E3:f1} sec.";
                 bindingSourceMain.DataMember = "dataTable";
                 GC.Collect();
             }
@@ -661,7 +661,7 @@ namespace CSManager
                             }
                     }
                 }
-                toolStripStatusLabel.Text = $"Total saving time: {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec.";
+                toolStripStatusLabel.Text = $"Total saving time: {stopwatch.ElapsedMilliseconds / 1E3:f1} sec.";
             }
         }
 
