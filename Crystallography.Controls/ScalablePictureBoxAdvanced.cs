@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Crystallography;
 
 namespace Crystallography.Controls
 {
@@ -15,7 +14,6 @@ namespace Crystallography.Controls
     {
         public ScalablePictureBoxAdvanced()
         {
-           
             InitializeComponent();
 
             graphControl.LineList = new[] { new PointD(0, 0), new PointD(0, 0) };
@@ -381,7 +379,8 @@ namespace Crystallography.Controls
 
         private void scalablePictureBox_DrawingAreaChanged(object sender, double zoom, PointD center)
         {
-            DrawingAreaChanged?.Invoke(sender, zoom, center);
+            if (DrawingAreaChanged != null)
+                DrawingAreaChanged(sender, zoom, center);
         }
 
         /// <summary>
@@ -482,7 +481,7 @@ namespace Crystallography.Controls
             skipEvent = true;
             LowerIntensity = trackBarAdvancedMinimum.Value;
             skipEvent = false;
-            return default;
+            return default(bool);
         }
 
         private bool trackBarAdvancedMaximum_ValueChanged(object sender, double value)
@@ -491,7 +490,7 @@ namespace Crystallography.Controls
             skipEvent = true;
             UpperIntensity = trackBarAdvancedMaximum.Value;
             skipEvent = false;
-            return default;
+            return default(bool);
         }
 
         public void DrawPictureBox()
@@ -528,7 +527,8 @@ namespace Crystallography.Controls
                 PseudoBitmap.GrayScale = false;
             }
             scalablePictureBox.drawPictureBox();
-            BrightnessAndColorChanged?.Invoke(sender, e);
+            if (BrightnessAndColorChanged != null)
+                BrightnessAndColorChanged(sender, e);
         }
 
         #region ImageFilter関連
