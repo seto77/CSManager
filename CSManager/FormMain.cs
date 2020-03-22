@@ -1159,7 +1159,7 @@ namespace CSManager
                     }
                     catch
                     {
-                        MessageBox.Show("Failed update check. Server may be down. Access https://github.com/seto77/CSManager/releases/latest");
+                        MessageBox.Show("Failed update check. \r\nServer may be down. \r\nAccess https://github.com/seto77/CSManager/releases/latest"," Error");
                     }
                 }
         }
