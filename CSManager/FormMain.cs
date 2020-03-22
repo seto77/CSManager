@@ -707,7 +707,6 @@ namespace CSManager
             stopwatch.Restart();
             var nameWithoutExt = Path.GetFileNameWithoutExtension(path);
             var subDir = Path.GetDirectoryName(path) + "\\" + nameWithoutExt + "\\";
-
             try
             {
                 int dataNum = 0, fileNum = 0;
