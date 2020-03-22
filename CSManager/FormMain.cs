@@ -702,7 +702,7 @@ namespace CSManager
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private (bool Valid, int DataNum, int FileNum, long[] FileSizes, byte[][] CheckSum) checkDatabaseFiles(string path, bool checkValidity)
+        private (bool Valid, int DataNum, int FileNum, long[] FileSizes, byte[][] CheckSums) checkDatabaseFiles(string path, bool checkValidity)
         {
             stopwatch.Restart();
             var nameWithoutExt = Path.GetFileNameWithoutExtension(path);
@@ -764,7 +764,7 @@ namespace CSManager
         /// <param name="e"></param>
         private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
         {
-            var (Valid, DataNum, FileNum, FileSizes, CheckSum) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", true);
+            var (Valid, DataNum, FileNum, FileSizes, CheckSums) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", true);
             string urlHeader = "https://github.com/seto77/CSManager/raw/master/COD/";
             if (Valid)
             {//適切にダウンロードされている場合
@@ -808,9 +808,12 @@ namespace CSManager
             {
                 stopwatch.Restart();
                 new WebClient().DownloadFile(new Uri(urlHeader + "COD.cdb3"), UserAppDataPath + "COD.cdb3");
+                
                 Directory.CreateDirectory(UserAppDataPath + "COD");
-                new WebClient().DownloadFile(new Uri(urlHeader + "COD/CheckSum"), UserAppDataPath + "COD\\CheckSum");
-                (_, DataNum, FileNum, FileSizes, CheckSum) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
+
+                (_, DataNum, FileNum, FileSizes, CheckSums) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
+                
+
                 var wc = new WebClient[FileNum];
 
                 var total = FileSizes.Sum();
@@ -838,6 +841,7 @@ namespace CSManager
                             readDatabase(UserAppDataPath + "COD.cdb3");//読み込む
                     };
                 }
+
                 for (int i = 0; i < wc.Length; i++)
                     wc[i].DownloadFileAsync(new Uri($"{urlHeader}COD/COD.{i:000}"), $"{UserAppDataPath}COD\\COD.{i:000}");
             }
@@ -845,19 +849,6 @@ namespace CSManager
             {
                 MessageBox.Show("Failed to download new COD database. Sorry.", "Error", MessageBoxButtons.OK);
             }
-        }
-
-        private long GetFileSize(string url)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            request.Method = "HEAD"; // ヘッダーのみ要求
-            request.Timeout = 10000;
-            return (request.GetResponse() as HttpWebResponse).ContentLength;
-        }
-
-        private void FormMain_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void importAllCrystalsMenuItem_Click(object sender, EventArgs e) => GetAllImport();
