@@ -812,15 +812,11 @@ namespace CSManager
 
                 (_, DataNum, FileNum, FileSizes, CheckSums) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
                 
-
                 var wc = new WebClient[FileNum];
-
                 var total = FileSizes.Sum();
-
                 var current = new long[FileNum];
                 var completedCount = 0;
                 long n = 1;
-
                 for (int i = 0; i < wc.Length; i++)
                 {
                     wc[i] = new WebClient();
@@ -830,7 +826,7 @@ namespace CSManager
                         current[_i] = ev.BytesReceived;
                         if (n++ % 100 == 0)
                             ip.Report((current.Sum(), total, stopwatch.ElapsedMilliseconds,
-                           $"Dowonloading database. Received: {current.Sum() / 1E6:f0} MB / {total / 1E6:f0} MB.  "));
+                           $"Dowonloading database.  {current.Sum() / 1E6:f0} MB / {total / 1E6:f0} MB.  "));
                     };
                     wc[i].DownloadFileCompleted += (s, ev) =>
                     {
@@ -1157,7 +1153,14 @@ namespace CSManager
                             MessageBox.Show($"Failed to downlod {Path}. \r\nSorry!", "Error!");
                     };
                     stopwatch.Restart();
-                    wc.DownloadFileAsync(new Uri(URL), Path);
+                    try
+                    {
+                        wc.DownloadFileAsync(new Uri(URL), Path);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed update check. Server may be down. Access https://github.com/seto77/CSManager/releases/latest");
+                    }
                 }
         }
 
