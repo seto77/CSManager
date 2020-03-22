@@ -6,8 +6,8 @@ Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerS
 
 ## Main features
 * ~20,000 structures in AMCSD and ~450,000 in COD are available.
-  * AMCSD (American Mineralogist Crystal Structure Database, http://rruff.geo.arizona.edu/AMS/amcsd.php) is bundled with the installation file.
-  * COD (Crystal Open Database) should be downloaded separately.
+  * AMCSD (American Mineralogist Crystal Structure Database, http://rruff.geo.arizona.edu/AMS/amcsd.php) is bundled.
+  * COD (Crystallography Open Database, http://www.crystallography.net/cod/) should be downloaded separately.
 
 
 ## Screenshots
