@@ -10,4 +10,4 @@ Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerS
 
 
 ## Screenshots
-<img src="Screenshots/Main.png" height="320px"> <img src="Screenshots/PeriodicTable.png" height="320px"> 
+<img src="Screenshots/Main.png" width="600px"> <img src="Screenshots/PeriodicTable.png" width="600px"> 
