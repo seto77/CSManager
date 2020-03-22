@@ -12,7 +12,9 @@ Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerS
 * Search engine of crystal structures
   * mineral name, including/excluding elements, symmetry, journal information, and so on.
   
-* 
+* Transfer crystal structure
+  * Export CIF
+  * Send data to PDIndexer (https://github.com/seto77/PDIndexer) and ReciPro (https://github.com/seto77/ReciPro).
 
 
 ## Screenshots
