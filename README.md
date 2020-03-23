@@ -1,8 +1,9 @@
 # CSManager
-The software CSManager is a .Net Framework application which manages crystal database.  
-
+* *CSManager* is a management software of crystal databaase.
+  * Runs on Windows with .Net Framework 4.8.
+  
 ## Install
-Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerSetup.msi*, and execute it.
+* Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerSetup.msi*, and execute it.
 
 ## Main features
 * Avalable database
@@ -10,10 +11,10 @@ Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerS
   * COD (Crystallography Open Database, http://www.crystallography.net/cod/), which contains ~450,000 structures, is also available by a separate download.
   
 * Search engine of crystal structures
-  * mineral name, including/excluding elements, symmetry, journal information, and so on.
+  * By material name, including/excluding elements, symmetry, journal information, and so on.
   
 * Transfer crystal structure
-  * Export CIF
+  * Export CIF of AMC format
   * Send data to PDIndexer (https://github.com/seto77/PDIndexer) and ReciPro (https://github.com/seto77/ReciPro).
 
 
