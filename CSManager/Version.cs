@@ -28,6 +28,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
+                "\r\n ver1.877(2020/04/02) Fixed a minor bug." +
                 "\r\n ver1.876(2020/03/22) Fixed a minor bug." +
                 "\r\n ver1.875(2020/03/19) Fixed a minor bug." +
                 "\r\n ver1.874(2020/03/18) Fixed a minor bug." +

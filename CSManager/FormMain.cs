@@ -69,7 +69,7 @@ namespace CSManager
         bool skipProgressEvent { get; set; } = false;
 
 
-        WaitDlg initialDialog;
+        Crystallography.Controls.CommonDialog initialDialog;
 
         readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
 
@@ -130,13 +130,16 @@ namespace CSManager
             //ユーザーパスにxmlファイルをコピー
             File.Copy("StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
 
-            initialDialog = new WaitDlg();
-            readRegistry();
-            initialDialog.Owner = this;
-            initialDialog.Version = "CSManager  " + Version.VersionAndDate;
-            initialDialog.Text = "Now Loading...";
-            initialDialog.ShowVersion = true;
-            initialDialog.Hint = Version.Hint;
+            initialDialog = new Crystallography.Controls.CommonDialog
+            {
+                Owner = this,
+                DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.Initialize,
+                Software = Version.Software,
+                VersionAndDate = Version.VersionAndDate,
+                History = Version.History,
+                Hint = Version.Hint,
+
+            };
 
             englishToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name != "ja";
             japaneseToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name == "ja";
@@ -769,25 +772,27 @@ namespace CSManager
             {//適切にダウンロードされている場合
                 try//web上に新しいデータがあるかどうかをチェック
                 {
+                    bool noNeedToUpdate;
                     using (var fs = new FileStream(UserAppDataPath + "COD.cdb3", FileMode.Open))
-                    {
-                        if (new WebClient().DownloadData(new Uri(urlHeader + "COD.cdb3")).SequenceEqual(readAll(fs)))
-                        {//ローカルのCODが最新版の場合
-                            readDatabase(UserAppDataPath + "COD.cdb3");
-                            return;
-                        }
-                        else
-                        {//更新版が存在する場合
-                            var result = MessageBox.Show("Now, new database is available.\r\n  Download and load the new database: YES\r\n" +
-                                "  Use the current database: No\r\n  Cancel database loading: Cancel", "  New database is available", MessageBoxButtons.YesNoCancel);
+                        noNeedToUpdate = new WebClient().DownloadData(new Uri(urlHeader + "COD.cdb3")).SequenceEqual(readAll(fs));
 
-                            if (result == DialogResult.No) //Noの場合 (更新せずに現状を読み込む場合)
-                                readDatabase(UserAppDataPath + "COD.cdb3");
-
-                            if (result == DialogResult.No || result == DialogResult.Cancel)//NoかCancelの場合
-                                return;
-                        }
+                    if (noNeedToUpdate)
+                    {//ローカルのCODが最新版の場合
+                        readDatabase(UserAppDataPath + "COD.cdb3");
+                        return;
                     }
+                    else
+                    {//更新版が存在する場合
+                        var result = MessageBox.Show("Now, new database is available.\r\n  Download and load the new database: YES\r\n" +
+                            "  Use the current database: No\r\n  Cancel database loading: Cancel", "  New database is available", MessageBoxButtons.YesNoCancel);
+
+                        if (result == DialogResult.No) //Noの場合 (更新せずに現状を読み込む場合)
+                            readDatabase(UserAppDataPath + "COD.cdb3");
+
+                        if (result == DialogResult.No || result == DialogResult.Cancel)//NoかCancelの場合
+                            return;
+                    }
+
                 }
                 catch //WEBが落ちている場合は、現状のCODを読み込む 
                 {
@@ -974,21 +979,15 @@ namespace CSManager
             }
 
             dataSet.Tables[0].Clear();
-            WaitDlg wd = new WaitDlg();
-            wd.Location = new Point(this.Location.X + this.Width / 2 - wd.Width / 2, this.Location.Y + this.Height / 2 - wd.Height / 2);
-            wd.Show(this);
-
-            wd.progressBar.Maximum = list.Count;
+            
 
             bindingNavigator1.Visible = dataGridViewMain.Visible = false;
             foreach (Crystal2 crystal in list)
             {
-                wd.progressBar.Value++;
                 dataSet.Tables[0].Rows.Add(GetTabelRows(crystal));
                 Application.DoEvents();
             }
             bindingNavigator1.Visible = dataGridViewMain.Visible = true;
-            wd.Close();
         }
 
 
@@ -1029,9 +1028,11 @@ namespace CSManager
                 buttonSearch_Click(sender, e);
         }
 
-        private void toolTipToolStripMenuItem_Click(object sender, EventArgs e) => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
+        private void toolTipToolStripMenuItem_Click(object sender, EventArgs e)
+            => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
 
-        private void buttonPeriodicTable_Click(object sender, EventArgs e) => formPeriodicTable.Visible = true;
+        private void buttonPeriodicTable_Click(object sender, EventArgs e)
+            => formPeriodicTable.Visible = true;
 
         private void toolStripMenuItemReadDefault1_Click(object sender, EventArgs e)
         {
@@ -1077,9 +1078,11 @@ namespace CSManager
             }
         }
 
-        private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e) => dataSet.Tables[0].Clear();
+        private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+            => dataSet.Tables[0].Clear();
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+            => this.Close();
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
@@ -1097,7 +1100,8 @@ namespace CSManager
             catch { return; }
         }
 
-        private void FormMain_DragEnter(object sender, DragEventArgs e) => e.Effect = (e.Data.GetData(DataFormats.FileDrop) != null) ? DragDropEffects.Copy : DragDropEffects.None;
+        private void FormMain_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = (e.Data.GetData(DataFormats.FileDrop) != null) ? DragDropEffects.Copy : DragDropEffects.None;
 
         private void helpwebToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1108,26 +1112,28 @@ namespace CSManager
             catch { }
         }
 
-        private void checkBoxDspacing_CheckedChanged(object sender, EventArgs e) => groupBoxDspacing.Enabled = checkBoxDspacing.Checked;
+        private void checkBoxDspacing_CheckedChanged(object sender, EventArgs e)
+            => groupBoxDspacing.Enabled = checkBoxDspacing.Checked;
 
-        private void checkBoxD1_CheckedChanged(object sender, EventArgs e) => textBoxD1.Enabled = numericUpDownD1err.Enabled = checkBoxD1.Checked;
+        private void checkBoxD1_CheckedChanged(object sender, EventArgs e)
+            => textBoxD1.Enabled = numericUpDownD1err.Enabled = checkBoxD1.Checked;
 
-        private void checkBoxD2_CheckedChanged(object sender, EventArgs e) => textBoxD2.Enabled = numericUpDownD2err.Enabled = checkBoxD2.Checked;
+        private void checkBoxD2_CheckedChanged(object sender, EventArgs e)
+            => textBoxD2.Enabled = numericUpDownD2err.Enabled = checkBoxD2.Checked;
 
-        private void checkBoxD3_CheckedChanged(object sender, EventArgs e) => textBoxD3.Enabled = numericUpDownD3err.Enabled = checkBoxD3.Checked;
+        private void checkBoxD3_CheckedChanged(object sender, EventArgs e)
+            => textBoxD3.Enabled = numericUpDownD3err.Enabled = checkBoxD3.Checked;
 
 
         private void hintToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            initialDialog.DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.Hint;
             initialDialog.Visible = true;
-            initialDialog.ShowProgressBar = false;
-            initialDialog.Text = "Hint";
         }
 
 
-        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e) => bindingSourceMain.RemoveCurrent();
-
-
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+            => bindingSourceMain.RemoveCurrent();
 
         private void programUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
