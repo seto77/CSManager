@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-//using ProtoBuf;
 using MessagePack;
+using System.Drawing;
 
 namespace Crystallography
 {
-    //[ProtoContract]
     [Serializable()]
     [MessagePackObject]
     public class Bonds
@@ -16,11 +15,11 @@ namespace Crystallography
         [Key(1)]
         public string Element2;
         [Key(2)]
-        public float MinLength;
+        public float MinLength;//nm単位
         [Key(3)]
-        public float MaxLength;
+        public float MaxLength;//nm単位
         [Key(4)]
-        public float Radius;
+        public float Radius;//nm単位
         [Key(5)]
         public float BondTransParency;
         [Key(6)]
@@ -43,10 +42,22 @@ namespace Crystallography
         public float EdgeLineWidth;
         [Key(15)]
         public int ArgbEdge;
-        
-        
+        [Key(16)]
+        public bool Enabled = true;
+        [Key(17)]
+        public bool ShowBond = true;
+        [Key(18)]
+        public bool UseFixedColor = false;
+
+        [IgnoreMember]
+        public string[] ElementList;
+
+        //2020/05/11追加 (標準の単位をnmに変更したための対処)
+        [IgnoreMember]
+        public bool NanometerUnit = false;
+
+
         [XmlIgnore]
-        //[ProtoIgnore]
         [IgnoreMember]
         public List<int[]> pairID = new List<int[]>();
 
@@ -54,46 +65,84 @@ namespace Crystallography
         {
         }
 
-        public Bonds(string element1, string element2, float minLength, float maxLength, float radius, float bondTranParency,
-            System.Drawing.Color bondColor, float polyhedronTransParency, bool showPolyhedron, bool showCenterAtom, bool showVertexAtom,
-            bool showInnerBonds, System.Drawing.Color polyhedronColor, bool showEdges, float edgeLineWidth, System.Drawing.Color edgeColor)
+        public Bonds(bool enabled,
+            string[] elementList, string element1, string element2, float minLength, float maxLength,
+            bool showBond, float radius, float bondTranParency,
+            bool showPolyhedron, bool showCenterAtom, bool showVertexAtom, bool showInnerBonds,
+            float polyhedronTransParency, bool showEdges, float edgeLineWidth)
         {
+            Enabled = enabled;
+
+            ElementList = elementList;
             Element1 = element1;
             Element2 = element2;
 
             MinLength = minLength;
             MaxLength = maxLength;
 
+            ShowBond = showBond;
             Radius = radius;
 
             BondTransParency = bondTranParency;
 
-            ArgbBond = bondColor.ToArgb();
             PolyhedronTransParency = polyhedronTransParency;
 
             ShowPolyhedron = showPolyhedron;
             ShowCenterAtom = showCenterAtom;
             ShowVertexAtom = showVertexAtom;
             ShowInnerBonds = showInnerBonds;
-            ArgbPolyhedron = polyhedronColor.ToArgb();
 
             ShowEdges = showEdges;
             EdgeLineWidth = edgeLineWidth;
-            ArgbEdge = edgeColor.ToArgb();
+
+            UseFixedColor = false;
+
+            NanometerUnit = true;
         }
 
-        public override string ToString()
+        public Bonds(bool enabled,
+           string[] elementList, string element1, string element2, double minLength, double maxLength,
+           bool showBond, double radius, double bondTranParency,
+           bool showPolyhedron, bool showCenterAtom, bool showVertexAtom, bool showInnerBonds,
+           double polyhedronTransParency, bool showEdges, double edgeLineWidth)
+            :this(enabled,
+            elementList, element1, element2, (float) minLength, (float) maxLength,
+            showBond, (float) radius, (float) bondTranParency,
+            showPolyhedron,  showCenterAtom, showVertexAtom,showInnerBonds,
+           (float) polyhedronTransParency, showEdges, (float) edgeLineWidth)
+        { }
+
+
+
+
+        public Bonds(bool enabled,
+             string[] elementList, string element1, string element2, float minLength, float maxLength,
+             bool showBond, float radius, float bondTranParency,Color bondColor, 
+             bool showPolyhedron,  bool showCenterAtom, bool showVertexAtom, bool showInnerBonds,
+             float polyhedronTransParency, Color polyhedronColor, bool showEdges, float edgeLineWidth, Color edgeColor)
+             : this(enabled,elementList, element1, element2, minLength, maxLength,
+             showBond,  radius,  bondTranParency,
+             showPolyhedron,  showCenterAtom, showVertexAtom,showInnerBonds,
+             polyhedronTransParency, showEdges, edgeLineWidth)
         {
-            string str = "";
-            str += Element1 + "              ";
-            str = str.Remove(8);
-            str += Element2 + "              ";
-            str = str.Remove(16);
-            str += MinLength.ToString("f3") + "              ";
-            str = str.Remove(24);
-            str += MaxLength.ToString("f3") + "              ";
-            str = str.Remove(32);
-            return str;
+            ArgbBond = bondColor.ToArgb();
+            ArgbPolyhedron = polyhedronColor.ToArgb();
+            ArgbEdge = edgeColor.ToArgb();
+            UseFixedColor = true;
         }
+        public Bonds(bool enabled,
+         string[] elementList, string element1, string element2, double minLength, double maxLength,
+          bool showBond, double radius, double bondTranParency, Color bondColor,
+          bool showPolyhedron, bool showCenterAtom, bool showVertexAtom, bool showInnerBonds,
+          double polyhedronTransParency, Color polyhedronColor, bool showEdges, double edgeLineWidth, Color edgeColor)
+         : this(enabled, elementList, element1, element2, (float)minLength, (float)maxLength,
+          showBond, (float)radius, (float)bondTranParency, bondColor,
+          showPolyhedron, showCenterAtom, showVertexAtom, showInnerBonds,
+          (float)polyhedronTransParency, polyhedronColor, showEdges, (float)edgeLineWidth, edgeColor)
+        {
+
+        }
+
+
     }
 }

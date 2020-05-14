@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 //using ProtoBuf;
 using MessagePack;
 
@@ -80,21 +81,24 @@ namespace Crystallography
                 double[] X_err = a.X_err != null ? new double[] { a.X_err[0], a.X_err[1], a.X_err[2] } : new double[] { 0, 0, 0 };
                 double[] Occ = a.Occ.Length == 2 ? new double[] { a.Occ[0], a.Occ[1] } : new double[] { a.Occ[0], 0 };
                 //double[] Biso = new double[2];
-                float[] Mat = a.Mat != null ? new float[] { a.Mat[0] / 100f, a.Mat[0] / 100f, a.Mat[1] / 100f, a.Mat[2] / 100f, (float)a.Mat[3] / 100f, a.Mat[4] / 100f, a.Mat[5] / 100f }
-                    : new float[] { 0.1f, 0.8f, 0.7f, 50f, 0.2f, 1.0f };
+                float[] Mat = a.Mat != null ?
+                    new float[] {a.Mat[0] / 100f, a.Mat[1] / 100f, a.Mat[2] / 100f, a.Mat[3] / 10f, a.Mat[4] / 100f } :
+                    Material.DefaultTextureArray;
 
                 atom.Add(new Atoms(a.Label, a.AtomNo, a.SubXray, a.SubElectron, a.Isotope, c.sym,
                     new Vector3D(a.X[0], a.X[1], a.X[2], false), new Vector3D(X_err[0], X_err[1], X_err[2]), Occ[0], Occ[1],
                     new DiffuseScatteringFactor(a.IsIso, a.Biso, a.Baniso)
-                    , new AtomMaterial(a.Argb, Mat[0], Mat[1], Mat[2], Mat[3], Mat[4], Mat[5]), a.Rad));
+                    , new Material(a.Argb, (Mat[0], Mat[1], Mat[2], Mat[3], Mat[4])), a.Rad));
             }
-            Crystal crystal = new Crystal(c.a, c.b, c.c, c.alpha, c.beta, c.gamma, c.sym, c.name, c.note, System.Drawing.Color.FromArgb(c.argb)
-                , atom.ToArray(), c.auth, GetFullJournal(c.jour), GetFullTitle(c.sect), c.bonds);
+            Crystal crystal = new Crystal(
+                (c.a, c.b, c.c, c.alpha, c.beta, c.gamma), null,
+                c.sym, c.name, System.Drawing.Color.FromArgb(c.argb), new Matrix3D(),
+                atom.ToArray(), (c.note, c.auth, GetFullJournal(c.jour), GetFullTitle(c.sect)), c.bonds.ToArray());
 
             return crystal;
         }
 
-        public static Crystal2 GetCrystal2(Crystal c)
+        public static Crystal2 FromCrystal(Crystal c)
         {
             if (c == null) return null;
             Crystal2 crystal = new Crystal2();
@@ -111,7 +115,7 @@ namespace Crystallography
 
             crystal.density = c.Density;
             crystal.atoms = new List<Atoms2>();
-            crystal.bonds = c.Bonds;
+            crystal.bonds = c.Bonds.ToList();
             //c.Atoms[0].Asf =
             //for (int i = 0; i < c.Atoms.Length; i++)
             //    c.Atoms[i].Asf = new AtomicScatteringFactor(c.Atoms[i].AtomicNumber, c.Atoms[i].SubNumberXray, c.Atoms[i].SubNumberElectron);
@@ -125,7 +129,7 @@ namespace Crystallography
                 crystal.atoms.Add(new Atoms2(a.Label, a.AtomicNumber, a.SubNumberXray, a.SubNumberElectron,
                     new Vector3D(a.X, a.Y, a.Z, false), new Vector3D(a.X_err, a.Y_err, a.Z_err), a.Occ, a.Occ_err,
                     a.Dsf,
-                    new AtomMaterial(a.Argb, a.Ambient, a.Diffusion, a.Specular, a.Shininess, a.Emission, a.Transparency), a.Radius));
+                    new Material(a.Argb, a.Texture), a.Radius));
             return crystal;
         }
 
@@ -305,7 +309,7 @@ namespace Crystallography
 
         public Atoms2_old(string label, int atomNo, int sfx, int sfe, Vector3D pos, Vector3D pos_err, double occ, double occ_err,
             DiffuseScatteringFactor dsf
-            , AtomMaterial mat, float radius)
+            , Material mat, float radius)
         {
             X = pos.X;
             Y = pos.Y;
@@ -340,11 +344,10 @@ namespace Crystallography
             this.rad = radius;
             this.argb = mat.Argb;//F
             this.amb = mat.Ambient;//ŠÂ‹«Œõ
-            this.dif = mat.Diffusion;//ŠgŽUŒõ
+            this.dif = mat.Diffuse;//ŠgŽUŒõ
             this.emi = mat.Emission;//Ž©ŒÈØ–¾
-            this.shi = mat.Shininess;//”½ŽËŒõ‚Ì‹­“x
+            this.shi = mat.SpecularPower;//”½ŽËŒõ‚Ì‹­“x
             this.spe = mat.Specular;//”½ŽËŒõ
-            this.tra = mat.Transparency;//“§–¾“x
         }
     }
 
@@ -378,19 +381,9 @@ namespace Crystallography
         [Key(11)]
         public int Argb;
         [Key(12)]
-        public byte[] Mat;//amb,dif,emi,shi,spe,tra‚Ì‡”Ô
+        public byte[] Mat;//amb,dif,spe,shi,emi,tra‚Ì‡”Ô
         [Key(13)]
         public double[] Isotope;
-
-
-
-        /*public float amb = 0.1f;//ŠÂ‹«Œõ
-        public float dif = 0.8f;//ŠgŽUŒõ
-        public float emi = 0.2f;//Ž©ŒÈØ–¾
-        public float shi = 50f;//”½ŽËŒõ‚Ì‹­“x
-        public float spe = 0.7f;//”½ŽËŒõ
-        public float tra = 1f;//“§–¾“x
-        */
 
         public Atoms2()
         {
@@ -398,7 +391,7 @@ namespace Crystallography
         }
         public Atoms2(string label, int atomNo, int sfx, int sfe, Vector3D pos, Vector3D pos_err, double occ, double occ_err,
             DiffuseScatteringFactor dsf
-            , AtomMaterial mat, float radius)
+            , Material mat, float radius)
         {
              X = new float[] {  (float)pos.X, (float)pos.Y,  (float)pos.Z };
 
@@ -435,8 +428,13 @@ namespace Crystallography
 
             Rad = radius;
             Argb = mat.Argb;//F
-            if (mat.Ambient != 0.1f || mat.Diffusion != 0.8f || mat.Emission != 0.2f || mat.Shininess != 50f || mat.Specular != 0.7f || mat.Transparency != 1.0f)
-                Mat = new byte[] { (byte)(mat.Ambient * 100), (byte)(mat.Diffusion * 100), (byte)(mat.Emission * 100), (byte)mat.Shininess, (byte)(mat.Specular * 100), (byte)(mat.Transparency * 100) };
+            Mat = new[] { 
+                (byte)(mat.Ambient * 100), 
+                (byte)(mat.Diffuse * 100), 
+                (byte)(mat.Specular * 100), 
+                (byte)(mat.SpecularPower*10), 
+                (byte)(mat.Emission * 100), 
+            };
         }
     }
 }

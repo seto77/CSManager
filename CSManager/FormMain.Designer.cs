@@ -30,56 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewMain = new System.Windows.Forms.DataGridView();
-            this.columnNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnFormulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnDensityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnADataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnCDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnAlphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnBetaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnGammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnCrystalSystemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnPointGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnSpaceGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnAuthorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnTitleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnJournalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingSourceMain = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet = new System.Data.DataSet();
-            this.dataTable = new System.Data.DataTable();
-            this.dataColumnCrystal = new System.Data.DataColumn();
-            this.dataColumnName = new System.Data.DataColumn();
-            this.dataColumnFormula = new System.Data.DataColumn();
-            this.dataColumnDensity = new System.Data.DataColumn();
-            this.dataColumnA = new System.Data.DataColumn();
-            this.dataColumnB = new System.Data.DataColumn();
-            this.dataColumnC = new System.Data.DataColumn();
-            this.dataColumnAlpha = new System.Data.DataColumn();
-            this.dataColumnBeta = new System.Data.DataColumn();
-            this.dataColumnGamma = new System.Data.DataColumn();
-            this.dataColumnCrystalSystem = new System.Data.DataColumn();
-            this.dataColumnPointGroup = new System.Data.DataColumn();
-            this.dataColumnSpaceGroup = new System.Data.DataColumn();
-            this.dataColumnAuthor = new System.Data.DataColumn();
-            this.dataColumnTitle = new System.Data.DataColumn();
-            this.dataColumnJournal = new System.Data.DataColumn();
-            this.dataColumnElementList = new System.Data.DataColumn();
-            this.dataColumnD1 = new System.Data.DataColumn();
-            this.dataColumnD2 = new System.Data.DataColumn();
-            this.dataColumnD3 = new System.Data.DataColumn();
-            this.dataColumnD4 = new System.Data.DataColumn();
-            this.dataColumnD5 = new System.Data.DataColumn();
-            this.dataColumnD6 = new System.Data.DataColumn();
-            this.dataColumnD7 = new System.Data.DataColumn();
-            this.dataColumnD8 = new System.Data.DataColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.crystalControl = new Crystallography.Controls.CrystalControl();
             this.buttonChange = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -168,6 +124,7 @@
             this.compressAndSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showIndexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkDuplicatedFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.importAllFileCIFOrAMCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -178,23 +135,38 @@
             this.increaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decreaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutMeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.licenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpwebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.importAllFileCIFOrAMCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crystalControl = new Crystallography.Controls.CrystalControl();
+            this.bindingSourceMain = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet = new CSManager.DataSet();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.densityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.formulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.aDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.alphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.betaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CrystalSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PointGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpaceGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Authors = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.journalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -211,6 +183,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -234,322 +208,56 @@
             this.dataGridViewMain.AllowUserToResizeRows = false;
             this.dataGridViewMain.AutoGenerateColumns = false;
             this.dataGridViewMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnNameDataGridViewTextBoxColumn,
-            this.columnFormulaDataGridViewTextBoxColumn,
-            this.columnDensityDataGridViewTextBoxColumn,
-            this.columnADataGridViewTextBoxColumn,
-            this.columnBDataGridViewTextBoxColumn,
-            this.columnCDataGridViewTextBoxColumn,
-            this.columnAlphaDataGridViewTextBoxColumn,
-            this.columnBetaDataGridViewTextBoxColumn,
-            this.columnGammaDataGridViewTextBoxColumn,
-            this.columnCrystalSystemDataGridViewTextBoxColumn,
-            this.columnPointGroupDataGridViewTextBoxColumn,
-            this.columnSpaceGroupDataGridViewTextBoxColumn,
-            this.columnAuthorDataGridViewTextBoxColumn,
-            this.columnTitleDataGridViewTextBoxColumn,
-            this.columnJournalDataGridViewTextBoxColumn});
+            this.ColumnName,
+            this.densityDataGridViewTextBoxColumn,
+            this.formulaDataGridViewTextBoxColumn,
+            this.aDataGridViewTextBoxColumn,
+            this.bDataGridViewTextBoxColumn,
+            this.cDataGridViewTextBoxColumn,
+            this.alphaDataGridViewTextBoxColumn,
+            this.betaDataGridViewTextBoxColumn,
+            this.gammaDataGridViewTextBoxColumn,
+            this.CrystalSystem,
+            this.PointGroup,
+            this.SpaceGroup,
+            this.Authors,
+            this.titleDataGridViewTextBoxColumn,
+            this.journalDataGridViewTextBoxColumn});
             this.dataGridViewMain.DataSource = this.bindingSourceMain;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewMain.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewMain.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.dataGridViewMain, "dataGridViewMain");
             this.dataGridViewMain.MultiSelect = false;
             this.dataGridViewMain.Name = "dataGridViewMain";
             this.dataGridViewMain.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewMain.RowHeadersVisible = false;
             this.dataGridViewMain.RowTemplate.Height = 21;
             this.dataGridViewMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.toolTip.SetToolTip(this.dataGridViewMain, resources.GetString("dataGridViewMain.ToolTip"));
-            this.dataGridViewMain.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            this.dataGridViewMain.Click += new System.EventHandler(this.dataGridView_SelectionChanged);
-            // 
-            // columnNameDataGridViewTextBoxColumn
-            // 
-            this.columnNameDataGridViewTextBoxColumn.DataPropertyName = "ColumnName";
-            resources.ApplyResources(this.columnNameDataGridViewTextBoxColumn, "columnNameDataGridViewTextBoxColumn");
-            this.columnNameDataGridViewTextBoxColumn.Name = "columnNameDataGridViewTextBoxColumn";
-            this.columnNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnFormulaDataGridViewTextBoxColumn
-            // 
-            this.columnFormulaDataGridViewTextBoxColumn.DataPropertyName = "ColumnFormula";
-            resources.ApplyResources(this.columnFormulaDataGridViewTextBoxColumn, "columnFormulaDataGridViewTextBoxColumn");
-            this.columnFormulaDataGridViewTextBoxColumn.Name = "columnFormulaDataGridViewTextBoxColumn";
-            this.columnFormulaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnDensityDataGridViewTextBoxColumn
-            // 
-            this.columnDensityDataGridViewTextBoxColumn.DataPropertyName = "ColumnDensity";
-            resources.ApplyResources(this.columnDensityDataGridViewTextBoxColumn, "columnDensityDataGridViewTextBoxColumn");
-            this.columnDensityDataGridViewTextBoxColumn.Name = "columnDensityDataGridViewTextBoxColumn";
-            this.columnDensityDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnADataGridViewTextBoxColumn
-            // 
-            this.columnADataGridViewTextBoxColumn.DataPropertyName = "ColumnA";
-            resources.ApplyResources(this.columnADataGridViewTextBoxColumn, "columnADataGridViewTextBoxColumn");
-            this.columnADataGridViewTextBoxColumn.Name = "columnADataGridViewTextBoxColumn";
-            this.columnADataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnBDataGridViewTextBoxColumn
-            // 
-            this.columnBDataGridViewTextBoxColumn.DataPropertyName = "ColumnB";
-            resources.ApplyResources(this.columnBDataGridViewTextBoxColumn, "columnBDataGridViewTextBoxColumn");
-            this.columnBDataGridViewTextBoxColumn.Name = "columnBDataGridViewTextBoxColumn";
-            this.columnBDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnCDataGridViewTextBoxColumn
-            // 
-            this.columnCDataGridViewTextBoxColumn.DataPropertyName = "ColumnC";
-            resources.ApplyResources(this.columnCDataGridViewTextBoxColumn, "columnCDataGridViewTextBoxColumn");
-            this.columnCDataGridViewTextBoxColumn.Name = "columnCDataGridViewTextBoxColumn";
-            this.columnCDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnAlphaDataGridViewTextBoxColumn
-            // 
-            this.columnAlphaDataGridViewTextBoxColumn.DataPropertyName = "ColumnAlpha";
-            resources.ApplyResources(this.columnAlphaDataGridViewTextBoxColumn, "columnAlphaDataGridViewTextBoxColumn");
-            this.columnAlphaDataGridViewTextBoxColumn.Name = "columnAlphaDataGridViewTextBoxColumn";
-            this.columnAlphaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnBetaDataGridViewTextBoxColumn
-            // 
-            this.columnBetaDataGridViewTextBoxColumn.DataPropertyName = "ColumnBeta";
-            resources.ApplyResources(this.columnBetaDataGridViewTextBoxColumn, "columnBetaDataGridViewTextBoxColumn");
-            this.columnBetaDataGridViewTextBoxColumn.Name = "columnBetaDataGridViewTextBoxColumn";
-            this.columnBetaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnGammaDataGridViewTextBoxColumn
-            // 
-            this.columnGammaDataGridViewTextBoxColumn.DataPropertyName = "ColumnGamma";
-            resources.ApplyResources(this.columnGammaDataGridViewTextBoxColumn, "columnGammaDataGridViewTextBoxColumn");
-            this.columnGammaDataGridViewTextBoxColumn.Name = "columnGammaDataGridViewTextBoxColumn";
-            this.columnGammaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnCrystalSystemDataGridViewTextBoxColumn
-            // 
-            this.columnCrystalSystemDataGridViewTextBoxColumn.DataPropertyName = "ColumnCrystalSystem";
-            resources.ApplyResources(this.columnCrystalSystemDataGridViewTextBoxColumn, "columnCrystalSystemDataGridViewTextBoxColumn");
-            this.columnCrystalSystemDataGridViewTextBoxColumn.Name = "columnCrystalSystemDataGridViewTextBoxColumn";
-            this.columnCrystalSystemDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnPointGroupDataGridViewTextBoxColumn
-            // 
-            this.columnPointGroupDataGridViewTextBoxColumn.DataPropertyName = "ColumnPointGroup";
-            resources.ApplyResources(this.columnPointGroupDataGridViewTextBoxColumn, "columnPointGroupDataGridViewTextBoxColumn");
-            this.columnPointGroupDataGridViewTextBoxColumn.Name = "columnPointGroupDataGridViewTextBoxColumn";
-            this.columnPointGroupDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnSpaceGroupDataGridViewTextBoxColumn
-            // 
-            this.columnSpaceGroupDataGridViewTextBoxColumn.DataPropertyName = "ColumnSpaceGroup";
-            resources.ApplyResources(this.columnSpaceGroupDataGridViewTextBoxColumn, "columnSpaceGroupDataGridViewTextBoxColumn");
-            this.columnSpaceGroupDataGridViewTextBoxColumn.Name = "columnSpaceGroupDataGridViewTextBoxColumn";
-            this.columnSpaceGroupDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnAuthorDataGridViewTextBoxColumn
-            // 
-            this.columnAuthorDataGridViewTextBoxColumn.DataPropertyName = "ColumnAuthor";
-            resources.ApplyResources(this.columnAuthorDataGridViewTextBoxColumn, "columnAuthorDataGridViewTextBoxColumn");
-            this.columnAuthorDataGridViewTextBoxColumn.Name = "columnAuthorDataGridViewTextBoxColumn";
-            this.columnAuthorDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnTitleDataGridViewTextBoxColumn
-            // 
-            this.columnTitleDataGridViewTextBoxColumn.DataPropertyName = "ColumnTitle";
-            resources.ApplyResources(this.columnTitleDataGridViewTextBoxColumn, "columnTitleDataGridViewTextBoxColumn");
-            this.columnTitleDataGridViewTextBoxColumn.Name = "columnTitleDataGridViewTextBoxColumn";
-            this.columnTitleDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // columnJournalDataGridViewTextBoxColumn
-            // 
-            this.columnJournalDataGridViewTextBoxColumn.DataPropertyName = "ColumnJournal";
-            resources.ApplyResources(this.columnJournalDataGridViewTextBoxColumn, "columnJournalDataGridViewTextBoxColumn");
-            this.columnJournalDataGridViewTextBoxColumn.Name = "columnJournalDataGridViewTextBoxColumn";
-            this.columnJournalDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // bindingSourceMain
-            // 
-            this.bindingSourceMain.DataMember = "dataTable";
-            this.bindingSourceMain.DataSource = this.dataSet;
-            // 
-            // dataSet
-            // 
-            this.dataSet.DataSetName = "NewDataSet";
-            this.dataSet.RemotingFormat = System.Data.SerializationFormat.Binary;
-            this.dataSet.Tables.AddRange(new System.Data.DataTable[] {
-            this.dataTable});
-            // 
-            // dataTable
-            // 
-            this.dataTable.Columns.AddRange(new System.Data.DataColumn[] {
-            this.dataColumnCrystal,
-            this.dataColumnName,
-            this.dataColumnFormula,
-            this.dataColumnDensity,
-            this.dataColumnA,
-            this.dataColumnB,
-            this.dataColumnC,
-            this.dataColumnAlpha,
-            this.dataColumnBeta,
-            this.dataColumnGamma,
-            this.dataColumnCrystalSystem,
-            this.dataColumnPointGroup,
-            this.dataColumnSpaceGroup,
-            this.dataColumnAuthor,
-            this.dataColumnTitle,
-            this.dataColumnJournal,
-            this.dataColumnElementList,
-            this.dataColumnD1,
-            this.dataColumnD2,
-            this.dataColumnD3,
-            this.dataColumnD4,
-            this.dataColumnD5,
-            this.dataColumnD6,
-            this.dataColumnD7,
-            this.dataColumnD8});
-            this.dataTable.RemotingFormat = System.Data.SerializationFormat.Binary;
-            this.dataTable.TableName = "dataTable";
-            // 
-            // dataColumnCrystal
-            // 
-            this.dataColumnCrystal.ColumnName = "ColumnCrystal";
-            this.dataColumnCrystal.DataType = typeof(object);
-            // 
-            // dataColumnName
-            // 
-            this.dataColumnName.ColumnName = "ColumnName";
-            // 
-            // dataColumnFormula
-            // 
-            this.dataColumnFormula.ColumnName = "ColumnFormula";
-            // 
-            // dataColumnDensity
-            // 
-            this.dataColumnDensity.ColumnName = "ColumnDensity";
-            this.dataColumnDensity.DataType = typeof(double);
-            // 
-            // dataColumnA
-            // 
-            this.dataColumnA.ColumnName = "ColumnA";
-            this.dataColumnA.DataType = typeof(double);
-            // 
-            // dataColumnB
-            // 
-            this.dataColumnB.ColumnName = "ColumnB";
-            this.dataColumnB.DataType = typeof(double);
-            // 
-            // dataColumnC
-            // 
-            this.dataColumnC.ColumnName = "ColumnC";
-            this.dataColumnC.DataType = typeof(double);
-            // 
-            // dataColumnAlpha
-            // 
-            this.dataColumnAlpha.ColumnName = "ColumnAlpha";
-            this.dataColumnAlpha.DataType = typeof(double);
-            // 
-            // dataColumnBeta
-            // 
-            this.dataColumnBeta.ColumnName = "ColumnBeta";
-            this.dataColumnBeta.DataType = typeof(double);
-            // 
-            // dataColumnGamma
-            // 
-            this.dataColumnGamma.ColumnName = "ColumnGamma";
-            this.dataColumnGamma.DataType = typeof(double);
-            // 
-            // dataColumnCrystalSystem
-            // 
-            this.dataColumnCrystalSystem.ColumnName = "ColumnCrystalSystem";
-            // 
-            // dataColumnPointGroup
-            // 
-            this.dataColumnPointGroup.ColumnName = "ColumnPointGroup";
-            // 
-            // dataColumnSpaceGroup
-            // 
-            this.dataColumnSpaceGroup.ColumnName = "ColumnSpaceGroup";
-            // 
-            // dataColumnAuthor
-            // 
-            this.dataColumnAuthor.ColumnName = "ColumnAuthor";
-            // 
-            // dataColumnTitle
-            // 
-            this.dataColumnTitle.ColumnName = "ColumnTitle";
-            // 
-            // dataColumnJournal
-            // 
-            this.dataColumnJournal.ColumnName = "ColumnJournal";
-            // 
-            // dataColumnElementList
-            // 
-            this.dataColumnElementList.ColumnName = "ColumnElementList";
-            // 
-            // dataColumnD1
-            // 
-            this.dataColumnD1.ColumnName = "ColumnD1";
-            this.dataColumnD1.DataType = typeof(double);
-            // 
-            // dataColumnD2
-            // 
-            this.dataColumnD2.ColumnName = "ColumnD2";
-            this.dataColumnD2.DataType = typeof(double);
-            // 
-            // dataColumnD3
-            // 
-            this.dataColumnD3.ColumnName = "ColumnD3";
-            this.dataColumnD3.DataType = typeof(double);
-            // 
-            // dataColumnD4
-            // 
-            this.dataColumnD4.ColumnName = "ColumnD4";
-            this.dataColumnD4.DataType = typeof(double);
-            // 
-            // dataColumnD5
-            // 
-            this.dataColumnD5.ColumnName = "ColumnD5";
-            this.dataColumnD5.DataType = typeof(double);
-            // 
-            // dataColumnD6
-            // 
-            this.dataColumnD6.ColumnName = "ColumnD6";
-            this.dataColumnD6.DataType = typeof(double);
-            // 
-            // dataColumnD7
-            // 
-            this.dataColumnD7.ColumnName = "ColumnD7";
-            this.dataColumnD7.DataType = typeof(double);
-            // 
-            // dataColumnD8
-            // 
-            this.dataColumnD8.ColumnName = "ColumnD8";
-            this.dataColumnD8.DataType = typeof(double);
             // 
             // splitContainer2
             // 
@@ -566,33 +274,6 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer2.Panel2.Controls.Add(this.buttonSearch);
-            // 
-            // crystalControl
-            // 
-            this.crystalControl.AllowDrop = true;
-            resources.ApplyResources(this.crystalControl, "crystalControl");
-            this.crystalControl.CellConstants = new double[] {
-        0D,
-        0D,
-        0D,
-        0D,
-        0D,
-        0D};
-            this.crystalControl.Crystal = null;
-            this.crystalControl.DefaultTabNumber = 0;
-            this.crystalControl.Name = "crystalControl";
-            this.crystalControl.ScatteringFactorVisible = false;
-            this.crystalControl.SymmetryInformationVisible = false;
-            this.crystalControl.SymmetrySeriesNumber = 0;
-            this.crystalControl.VisibleAtomAdvancedTab = true;
-            this.crystalControl.VisibleAtomTab = true;
-            this.crystalControl.VisibleBasicInfoTab = true;
-            this.crystalControl.VisibleBondsPolyhedraTab = true;
-            this.crystalControl.VisibleElasticityTab = true;
-            this.crystalControl.VisibleEOSTab = true;
-            this.crystalControl.VisiblePolycrystallineTab = false;
-            this.crystalControl.VisibleReferenceTab = true;
-            this.crystalControl.VisibleStressStrainTab = false;
             // 
             // buttonChange
             // 
@@ -1275,7 +956,6 @@
             // 
             this.compressAndSplitToolStripMenuItem.Name = "compressAndSplitToolStripMenuItem";
             resources.ApplyResources(this.compressAndSplitToolStripMenuItem, "compressAndSplitToolStripMenuItem");
-            this.compressAndSplitToolStripMenuItem.Click += new System.EventHandler(this.compressAndSplitToolStripMenuItem_Click);
             // 
             // showIndexToolStripMenuItem
             // 
@@ -1288,6 +968,12 @@
             this.checkDuplicatedFileToolStripMenuItem1.Name = "checkDuplicatedFileToolStripMenuItem1";
             resources.ApplyResources(this.checkDuplicatedFileToolStripMenuItem1, "checkDuplicatedFileToolStripMenuItem1");
             this.checkDuplicatedFileToolStripMenuItem1.Click += new System.EventHandler(this.checkDuplicatedFileToolStripMenuItem_Click);
+            // 
+            // importAllFileCIFOrAMCToolStripMenuItem
+            // 
+            this.importAllFileCIFOrAMCToolStripMenuItem.Name = "importAllFileCIFOrAMCToolStripMenuItem";
+            resources.ApplyResources(this.importAllFileCIFOrAMCToolStripMenuItem, "importAllFileCIFOrAMCToolStripMenuItem");
+            this.importAllFileCIFOrAMCToolStripMenuItem.Click += new System.EventHandler(this.importAllCrystalsMenuItem_Click);
             // 
             // optionToolStripMenuItem
             // 
@@ -1357,18 +1043,13 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutMeToolStripMenuItem,
             this.programUpdatesToolStripMenuItem,
             this.hintToolStripMenuItem,
+            this.versionHistoryToolStripMenuItem,
+            this.licenseToolStripMenuItem,
             this.helpwebToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
-            // 
-            // aboutMeToolStripMenuItem
-            // 
-            this.aboutMeToolStripMenuItem.Name = "aboutMeToolStripMenuItem";
-            resources.ApplyResources(this.aboutMeToolStripMenuItem, "aboutMeToolStripMenuItem");
-            this.aboutMeToolStripMenuItem.Click += new System.EventHandler(this.aboutMeToolStripMenuItem_Click);
             // 
             // programUpdatesToolStripMenuItem
             // 
@@ -1381,6 +1062,18 @@
             this.hintToolStripMenuItem.Name = "hintToolStripMenuItem";
             resources.ApplyResources(this.hintToolStripMenuItem, "hintToolStripMenuItem");
             this.hintToolStripMenuItem.Click += new System.EventHandler(this.hintToolStripMenuItem_Click);
+            // 
+            // versionHistoryToolStripMenuItem
+            // 
+            this.versionHistoryToolStripMenuItem.Name = "versionHistoryToolStripMenuItem";
+            resources.ApplyResources(this.versionHistoryToolStripMenuItem, "versionHistoryToolStripMenuItem");
+            this.versionHistoryToolStripMenuItem.Click += new System.EventHandler(this.versionHistoryToolStripMenuItem_Click);
+            // 
+            // licenseToolStripMenuItem
+            // 
+            this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
+            resources.ApplyResources(this.licenseToolStripMenuItem, "licenseToolStripMenuItem");
+            this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // helpwebToolStripMenuItem
             // 
@@ -1415,11 +1108,144 @@
             // 
             this.toolTip.IsBalloon = true;
             // 
-            // importAllFileCIFOrAMCToolStripMenuItem
+            // crystalControl
             // 
-            this.importAllFileCIFOrAMCToolStripMenuItem.Name = "importAllFileCIFOrAMCToolStripMenuItem";
-            resources.ApplyResources(this.importAllFileCIFOrAMCToolStripMenuItem, "importAllFileCIFOrAMCToolStripMenuItem");
-            this.importAllFileCIFOrAMCToolStripMenuItem.Click += new System.EventHandler(this.importAllCrystalsMenuItem_Click);
+            this.crystalControl.AllowDrop = true;
+            resources.ApplyResources(this.crystalControl, "crystalControl");
+            this.crystalControl.CellConstants = ((System.ValueTuple<double, double, double, double, double, double>)(resources.GetObject("crystalControl.CellConstants")));
+            this.crystalControl.Crystal = ((Crystallography.Crystal)(resources.GetObject("crystalControl.Crystal")));
+            this.crystalControl.DefaultTabNumber = 0;
+            this.crystalControl.Name = "crystalControl";
+            this.crystalControl.ScatteringFactorVisible = false;
+            this.crystalControl.SkipEvent = false;
+            this.crystalControl.SymmetryInformationVisible = false;
+            this.crystalControl.SymmetrySeriesNumber = 0;
+            this.crystalControl.VisibleAtomTab = true;
+            this.crystalControl.VisibleBasicInfoTab = true;
+            this.crystalControl.VisibleBondsPolyhedraTab = true;
+            this.crystalControl.VisibleBoundTab = false;
+            this.crystalControl.VisibleElasticityTab = true;
+            this.crystalControl.VisibleEOSTab = true;
+            this.crystalControl.VisibleLatticePlaneTab = false;
+            this.crystalControl.VisiblePolycrystallineTab = false;
+            this.crystalControl.VisibleReferenceTab = true;
+            this.crystalControl.VisibleStressStrainTab = false;
+            // 
+            // bindingSourceMain
+            // 
+            this.bindingSourceMain.DataMember = "DataTable";
+            this.bindingSourceMain.DataSource = this.dataSet;
+            this.bindingSourceMain.CurrentChanged += new System.EventHandler(this.bindingSourceMain_CurrentChanged);
+            // 
+            // dataSet
+            // 
+            this.dataSet.DataSetName = "DataSet";
+            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.DataPropertyName = "Name";
+            resources.ApplyResources(this.ColumnName, "ColumnName");
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            // 
+            // densityDataGridViewTextBoxColumn
+            // 
+            this.densityDataGridViewTextBoxColumn.DataPropertyName = "Density";
+            resources.ApplyResources(this.densityDataGridViewTextBoxColumn, "densityDataGridViewTextBoxColumn");
+            this.densityDataGridViewTextBoxColumn.Name = "densityDataGridViewTextBoxColumn";
+            this.densityDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // formulaDataGridViewTextBoxColumn
+            // 
+            this.formulaDataGridViewTextBoxColumn.DataPropertyName = "Formula";
+            resources.ApplyResources(this.formulaDataGridViewTextBoxColumn, "formulaDataGridViewTextBoxColumn");
+            this.formulaDataGridViewTextBoxColumn.Name = "formulaDataGridViewTextBoxColumn";
+            this.formulaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // aDataGridViewTextBoxColumn
+            // 
+            this.aDataGridViewTextBoxColumn.DataPropertyName = "A";
+            resources.ApplyResources(this.aDataGridViewTextBoxColumn, "aDataGridViewTextBoxColumn");
+            this.aDataGridViewTextBoxColumn.Name = "aDataGridViewTextBoxColumn";
+            this.aDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // bDataGridViewTextBoxColumn
+            // 
+            this.bDataGridViewTextBoxColumn.DataPropertyName = "B";
+            resources.ApplyResources(this.bDataGridViewTextBoxColumn, "bDataGridViewTextBoxColumn");
+            this.bDataGridViewTextBoxColumn.Name = "bDataGridViewTextBoxColumn";
+            this.bDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cDataGridViewTextBoxColumn
+            // 
+            this.cDataGridViewTextBoxColumn.DataPropertyName = "C";
+            resources.ApplyResources(this.cDataGridViewTextBoxColumn, "cDataGridViewTextBoxColumn");
+            this.cDataGridViewTextBoxColumn.Name = "cDataGridViewTextBoxColumn";
+            this.cDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // alphaDataGridViewTextBoxColumn
+            // 
+            this.alphaDataGridViewTextBoxColumn.DataPropertyName = "Alpha";
+            resources.ApplyResources(this.alphaDataGridViewTextBoxColumn, "alphaDataGridViewTextBoxColumn");
+            this.alphaDataGridViewTextBoxColumn.Name = "alphaDataGridViewTextBoxColumn";
+            this.alphaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // betaDataGridViewTextBoxColumn
+            // 
+            this.betaDataGridViewTextBoxColumn.DataPropertyName = "Beta";
+            resources.ApplyResources(this.betaDataGridViewTextBoxColumn, "betaDataGridViewTextBoxColumn");
+            this.betaDataGridViewTextBoxColumn.Name = "betaDataGridViewTextBoxColumn";
+            this.betaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // gammaDataGridViewTextBoxColumn
+            // 
+            this.gammaDataGridViewTextBoxColumn.DataPropertyName = "Gamma";
+            resources.ApplyResources(this.gammaDataGridViewTextBoxColumn, "gammaDataGridViewTextBoxColumn");
+            this.gammaDataGridViewTextBoxColumn.Name = "gammaDataGridViewTextBoxColumn";
+            this.gammaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // CrystalSystem
+            // 
+            this.CrystalSystem.DataPropertyName = "CrystalSystem";
+            resources.ApplyResources(this.CrystalSystem, "CrystalSystem");
+            this.CrystalSystem.Name = "CrystalSystem";
+            this.CrystalSystem.ReadOnly = true;
+            // 
+            // PointGroup
+            // 
+            this.PointGroup.DataPropertyName = "PointGroup";
+            resources.ApplyResources(this.PointGroup, "PointGroup");
+            this.PointGroup.Name = "PointGroup";
+            this.PointGroup.ReadOnly = true;
+            // 
+            // SpaceGroup
+            // 
+            this.SpaceGroup.DataPropertyName = "SpaceGroup";
+            resources.ApplyResources(this.SpaceGroup, "SpaceGroup");
+            this.SpaceGroup.Name = "SpaceGroup";
+            this.SpaceGroup.ReadOnly = true;
+            // 
+            // Authors
+            // 
+            this.Authors.DataPropertyName = "Authors";
+            resources.ApplyResources(this.Authors, "Authors");
+            this.Authors.Name = "Authors";
+            this.Authors.ReadOnly = true;
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            resources.ApplyResources(this.titleDataGridViewTextBoxColumn, "titleDataGridViewTextBoxColumn");
+            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            this.titleDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // journalDataGridViewTextBoxColumn
+            // 
+            this.journalDataGridViewTextBoxColumn.DataPropertyName = "Journal";
+            resources.ApplyResources(this.journalDataGridViewTextBoxColumn, "journalDataGridViewTextBoxColumn");
+            this.journalDataGridViewTextBoxColumn.Name = "journalDataGridViewTextBoxColumn";
+            this.journalDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // FormMain
             // 
@@ -1442,9 +1268,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataTable)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -1467,6 +1290,8 @@
             this.bindingNavigator1.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1479,24 +1304,6 @@
         private System.Windows.Forms.ToolStripMenuItem readDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Data.DataSet dataSet;
-        private System.Data.DataTable dataTable;
-        private System.Data.DataColumn dataColumnCrystal;
-        private System.Data.DataColumn dataColumnName;
-        private System.Data.DataColumn dataColumnFormula;
-        private System.Data.DataColumn dataColumnDensity;
-        private System.Data.DataColumn dataColumnA;
-        private System.Data.DataColumn dataColumnB;
-        private System.Data.DataColumn dataColumnC;
-        private System.Data.DataColumn dataColumnAlpha;
-        private System.Data.DataColumn dataColumnBeta;
-        private System.Data.DataColumn dataColumnGamma;
-        private System.Data.DataColumn dataColumnCrystalSystem;
-        private System.Data.DataColumn dataColumnPointGroup;
-        private System.Data.DataColumn dataColumnSpaceGroup;
-        private System.Data.DataColumn dataColumnAuthor;
-        private System.Data.DataColumn dataColumnTitle;
-        private System.Data.DataColumn dataColumnJournal;
         private System.Windows.Forms.BindingSource bindingSourceMain;
         private System.Windows.Forms.BindingNavigator bindingNavigator1;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
@@ -1537,7 +1344,6 @@
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.DataGridView dataGridViewMain;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutMeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolTipToolStripMenuItem;
         public System.Windows.Forms.ToolTip toolTip;
@@ -1548,7 +1354,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonPeriodicTable;
-        private System.Data.DataColumn dataColumnElementList;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReadDefault1;
@@ -1561,14 +1366,6 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.ToolStripMenuItem helpwebToolStripMenuItem;
         public Crystallography.Controls.CrystalControl crystalControl;
-        private System.Data.DataColumn dataColumnD1;
-        private System.Data.DataColumn dataColumnD2;
-        private System.Data.DataColumn dataColumnD3;
-        private System.Data.DataColumn dataColumnD4;
-        private System.Data.DataColumn dataColumnD5;
-        private System.Data.DataColumn dataColumnD6;
-        private System.Data.DataColumn dataColumnD7;
-        private System.Data.DataColumn dataColumnD8;
         private System.Windows.Forms.GroupBox groupBoxDspacing;
         private System.Windows.Forms.NumericUpDown numericUpDownD1err;
         private System.Windows.Forms.CheckBox checkBoxDspacing;
@@ -1600,21 +1397,6 @@
         private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem japaneseToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnFormulaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDensityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnADataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnBDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnCDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnAlphaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnBetaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnGammaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnCrystalSystemDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnPointGroupDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnSpaceGroupDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnAuthorDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnTitleDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnJournalDataGridViewTextBoxColumn;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ToolStripMenuItem incrementalSearchToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -1628,6 +1410,28 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem checkDuplicatedFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem importAllFileCIFOrAMCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem versionHistoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
+        private DataSet dataSet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn crystalSytemDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pointGroupDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn spaceGroupDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn authoursDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn densityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn formulaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn aDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn alphaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn betaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gammaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CrystalSystem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PointGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SpaceGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Authors;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn journalDataGridViewTextBoxColumn;
     }
 }
 
