@@ -17,48 +17,49 @@ using MessagePack;
 using MessagePack.Resolvers;
 using System.Security.Cryptography;
 using System.ServiceModel.Channels;
+using System.Reflection;
 
 namespace CSManager
 {
     public partial class FormMain : Form
     {
         #region クリップボード関連
-        private IntPtr NextHandle;
-        private const int WM_DRAWCLIPBOARD = 0x0308;
-        private const int WM_CHANGECBCHAIN = 0x030D;
+        //private IntPtr NextHandle;
+        //private const int WM_DRAWCLIPBOARD = 0x0308;
+        //private const int WM_CHANGECBCHAIN = 0x030D;
 
 
-        [DllImport("user32")]
-        public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
-        [DllImport("user32")]
-        public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
-        [DllImport("user32", CharSet = CharSet.Auto)]
-        public extern static int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-        public bool EnableClipboard = false;
-        protected override void WndProc(ref System.Windows.Forms.Message msg)
-        {
-            switch (msg.Msg)
-            {
-                case WM_DRAWCLIPBOARD:
+        //[DllImport("user32")]
+        //public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
+        //[DllImport("user32")]
+        //public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
+        //[DllImport("user32", CharSet = CharSet.Auto)]
+        //public extern static int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        //public bool EnableClipboard = false;
+        //protected override void WndProc(ref System.Windows.Forms.Message msg)
+        //{
+        //    switch (msg.Msg)
+        //    {
+        //        case WM_DRAWCLIPBOARD:
 
-                    if (EnableClipboard && ((IDataObject)Clipboard.GetDataObject()).GetDataPresent(typeof(Crystal2)))
-                    {
-                        IDataObject data = Clipboard.GetDataObject();
-                        var c2 = (Crystal2)data.GetData(typeof(Crystal2));
-                        crystalControl.Crystal = Crystal2.GetCrystal(c2);
-                    }
-                    if ((int)NextHandle != 0)
-                        SendMessage(NextHandle, msg.Msg, msg.WParam, msg.LParam);
-                    break;
-                case WM_CHANGECBCHAIN:
-                    if (msg.WParam == NextHandle)
-                        NextHandle = (IntPtr)msg.LParam;
-                    else if ((int)NextHandle != 0)
-                        SendMessage(NextHandle, msg.Msg, msg.WParam, msg.LParam);
-                    break;
-            }
-            base.WndProc(ref msg);
-        }
+        //            if (EnableClipboard && ((IDataObject)Clipboard.GetDataObject()).GetDataPresent(typeof(Crystal2)))
+        //            {
+        //                IDataObject data = Clipboard.GetDataObject();
+        //                var c2 = (Crystal2)data.GetData(typeof(Crystal2));
+        //                crystalControl.Crystal = Crystal2.GetCrystal(c2);
+        //            }
+        //            if ((int)NextHandle != 0)
+        //                SendMessage(NextHandle, msg.Msg, msg.WParam, msg.LParam);
+        //            break;
+        //        case WM_CHANGECBCHAIN:
+        //            if (msg.WParam == NextHandle)
+        //                NextHandle = (IntPtr)msg.LParam;
+        //            else if ((int)NextHandle != 0)
+        //                SendMessage(NextHandle, msg.Msg, msg.WParam, msg.LParam);
+        //            break;
+        //    }
+        //    base.WndProc(ref msg);
+        //}
         #endregion
 
         public FormPeriodicTable formPeriodicTable;
@@ -128,7 +129,14 @@ namespace CSManager
             //#endif
 
             //ユーザーパスにxmlファイルをコピー
-            File.Copy("StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
+            var appPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\";
+            if (File.Exists(appPath + "StdDB.cdb3"))
+                File.Copy(appPath + "StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
+
+            //UserAppDataPathに空フォルダがあったら削除
+            foreach (var dir in Directory.GetDirectories(UserAppDataPath))
+                if (!Directory.EnumerateFileSystemEntries(dir).Any())
+                    Directory.Delete(dir);
 
             initialDialog = new Crystallography.Controls.CommonDialog
             {
@@ -155,8 +163,6 @@ namespace CSManager
 
             this.Text = "CSManager   " + Version.VersionAndDate;
 
-            //string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
             initialDialog.progressBar.Value = (int)(initialDialog.progressBar.Maximum * 0.7);
 
             if (readDefaultDatabaseOnNextBootToolStripMenuItem.Checked)
@@ -169,22 +175,18 @@ namespace CSManager
 
             readRegistry();
 
-            NextHandle = SetClipboardViewer(this.Handle);
+            //NextHandle = SetClipboardViewer(this.Handle);
 
-            EnableClipboard = true;
+            //EnableClipboard = true;
 
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                programUpdatesToolStripMenuItem.Visible = false;//click onceの場合
-                this.Text += "   Caution! ClickOnce vesion will be not maintained in the future.";
-            }
             toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString());
             toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString());
-
 
             if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
                 File.Delete(UserAppDataPath + "CSManagerSetup.msi");
             Directory.Delete(Application.UserAppDataPath, true);
+
+            crystalControl.atomControl.AppearanceTabVisible = true;
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -193,7 +195,7 @@ namespace CSManager
             formPeriodicTable.Close();
             e.Cancel = false;
 
-            ChangeClipboardChain(this.Handle, NextHandle);
+            //ChangeClipboardChain(this.Handle, NextHandle);
 
         }
         private void readRegistry()
@@ -232,71 +234,67 @@ namespace CSManager
         }
 
         #endregion
-        private void textBoxNumOnly_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            if ((e.KeyChar < '.' || e.KeyChar > '9') && e.KeyChar != '\b' && e.KeyChar != 3 && e.KeyChar != 22)
-                e.Handled = true;
-        }
 
+        //public object[] GetTabelRows(Crystal2 crystal)
+        //{
+        //    Symmetry s = SymmetryStatic.Get_Symmetry(crystal.sym);
+        //    var elementList = "";
+        //    foreach (Atoms2 a in crystal.atoms)
+        //        if (!elementList.Contains(a.AtomNo.ToString("000")))
+        //            elementList += a.AtomNo.ToString("000") + " ";
 
-        public object[] GetTabelRows(Crystal2 crystal)
-        {
-            Symmetry s = SymmetryStatic.Get_Symmetry(crystal.sym);
-            var elementList = "";
-            foreach (Atoms2 a in crystal.atoms)
-                if (!elementList.Contains(a.AtomNo.ToString("000")))
-                    elementList += a.AtomNo.ToString("000") + " ";
+        //    double[] d = new double[8];
+        //    for (int i = 0; i < 8; i++)
+        //        if (crystal.d.Length > i)
+        //            d[i] = crystal.d[i];
+        //        else
+        //            d[i] = 0;
 
-            double[] d = new double[8];
-            for (int i = 0; i < 8; i++)
-                if (crystal.d.Length > i)
-                    d[i] = crystal.d[i];
-                else
-                    d[i] = 0;
-
-            return new object[] {
-                    serialize(crystal),
-                    crystal.name,
-                    crystal.formula,
-                    Math.Round(crystal.density,4),
-                    Math.Round(crystal.a*10,7),
-                    Math.Round(crystal.b*10,7),
-                    Math.Round(crystal.c*10,7),
-                    Math.Round(crystal.alpha*180/Math.PI,7),
-                    Math.Round(crystal.beta*180/Math.PI,7),
-                    Math.Round(crystal.gamma*180/Math.PI,7),
-                    s.CrystalSystemStr,
-                    s.PointGroupHMStr,
-                    s.SpaceGroupHMfullStr,
-                    crystal.auth,
-                    Crystal2.GetFullTitle(crystal.sect),
-                    Crystal2.GetFullJournal(crystal.jour),
-                    elementList,
-                    d[0],
-                    d[1],
-                    d[2],
-                    d[3],
-                    d[4],
-                    d[5],
-                    d[6],
-                    d[7]
-            };
-        }
+        //    return new object[] {
+        //            serialize(crystal),
+        //            crystal.name,
+        //            crystal.formula,
+        //            Math.Round(crystal.density,4),
+        //            Math.Round(crystal.a*10,7),
+        //            Math.Round(crystal.b*10,7),
+        //            Math.Round(crystal.c*10,7),
+        //            Math.Round(crystal.alpha*180/Math.PI,7),
+        //            Math.Round(crystal.beta*180/Math.PI,7),
+        //            Math.Round(crystal.gamma*180/Math.PI,7),
+        //            s.CrystalSystemStr,
+        //            s.PointGroupHMStr,
+        //            s.SpaceGroupHMfullStr,
+        //            crystal.auth,
+        //            Crystal2.GetFullTitle(crystal.sect),
+        //            Crystal2.GetFullJournal(crystal.jour),
+        //            elementList,
+        //            d[0],
+        //            d[1],
+        //            d[2],
+        //            d[3],
+        //            d[4],
+        //            d[5],
+        //            d[6],
+        //            d[7]
+        //    };
+        //}
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
+
+            
 
             string filter = "";
 
             //名前
             if (checkBoxSearchName.Checked)
             {
-                string[] str = textBoxSearchName.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var str = textBoxSearchName.Text.Split();
                 if (str.Length > 0)
                 {
                     filter = "( ";
-                    foreach (string s in str)
-                        filter += $"ColumnName LIKE '*{s}*' AND ";
+                    foreach (var s in str)
+                        filter += $"Name LIKE '*{s}*' AND ";
                     filter = filter.Remove(filter.Length - 4, 3) + ") AND ";
                 }
             }
@@ -311,13 +309,13 @@ namespace CSManager
                     filter += "( ";
                     foreach (string s in str)
                         filter +=
-                              $"( ColumnAuthor LIKE '*{s}*' OR ColumnTitle LIKE '*{s}*' OR ColumnJournal LIKE '*{s}*' ) AND ";
+                              $"( Authors LIKE '*{s}*' OR Title LIKE '*{s}*' OR Journal LIKE '*{s}*' ) AND ";
                     filter = filter.Remove(filter.Length - 4, 3) + " ) AND ";
                 }
             }
 
             if (checkBoxSearchCrystalSystem.Checked)
-                filter += $" ColumnCrystalSystem = '{comboBoxSearchCrystalSystem.Text}' AND ";
+                filter += $" CrystalSystem = '{comboBoxSearchCrystalSystem.Text}' AND ";
 
 
             //元素のためのフィルター文字列
@@ -328,7 +326,7 @@ namespace CSManager
                     filter += "(";
                     string[] str = formPeriodicTable.textBoxQueryInclude.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string elementNum in str)
-                        filter += $"ColumnElementList Like '*{elementNum}*' AND ";
+                        filter += $"Elements Like '*{elementNum}*' AND ";
                     filter = filter.Remove(filter.Length - 4, 4) + " ) AND ";
                 }
 
@@ -337,7 +335,7 @@ namespace CSManager
                     filter += "( NOT(";
                     string[] str = formPeriodicTable.textBoxQueryExclude.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string elementNum in str)
-                        filter += $"ColumnElementList Like '*{elementNum}*' OR ";
+                        filter += $"Elements Like '*{elementNum}*' OR ";
                     filter = filter.Remove(filter.Length - 3, 3) + " )) AND ";
                 }
             }
@@ -360,15 +358,15 @@ namespace CSManager
                 double UpperGamma = Convert.ToDouble(textBoxSearchCellGamma.Text) + (double)numericUpDownSearchCellAngleError.Value;
                 filter += "(";
                 if (LowerA != 0)
-                    filter += $"ColumnA >{LowerA} AND ColumnA < {UpperA} AND ";
+                    filter += $"A >{LowerA} AND A < {UpperA} AND ";
                 if (LowerB != 0)
-                    filter += $"ColumnB >{LowerB} AND ColumnB < {UpperB} AND ";
+                    filter += $"B >{LowerB} AND B < {UpperB} AND ";
                 if (LowerC != 0)
-                    filter += $"ColumnC >{LowerC} AND ColumnC < {UpperC} AND ";
+                    filter += $"C >{LowerC} AND C < {UpperC} AND ";
 
-                filter += $"ColumnAlpha >{LowerAlpha} AND ColumnAlpha < {UpperAlpha} AND ";
-                filter += $"ColumnBeta >{LowerBeta} AND ColumnBeta < {UpperBeta} AND ";
-                filter += $"ColumnGamma >{LowerGamma} AND ColumnGamma < {UpperGamma}";
+                filter += $"Alpha >{LowerAlpha} AND Alpha < {UpperAlpha} AND ";
+                filter += $"Beta >{LowerBeta} AND Beta < {UpperBeta} AND ";
+                filter += $"Gamma >{LowerGamma} AND Gamma < {UpperGamma}";
 
                 filter += " ) AND ";
             }
@@ -399,7 +397,7 @@ namespace CSManager
                             string lower = (0.1 * d[i] * (1 - err[i])).ToString();
                             filter += "(";
                             for (int j = 1; j < 9; j++)
-                                filter += $"( ColumnD{j} >{lower} AND ColumnD{j} < {upper} ) OR ";
+                                filter += $"( D{j} >{lower} AND D{j} < {upper} ) OR ";
                             filter = filter.Remove(filter.Length - 3, 3) + ") AND ";
                         }
 
@@ -410,6 +408,7 @@ namespace CSManager
             if (filter != "")
                 filter = filter.Remove(filter.Length - 4, 4);
 
+            
             bindingSourceMain.Filter = filter;
         }
 
@@ -547,27 +546,14 @@ namespace CSManager
                 bindingSourceMain.DataMember = "";
                 using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    if (filename.ToLower().EndsWith("cdb"))
-                    {
-                        var formatter = new BinaryFormatter();
-                        fs.Close();//閉じる
-                        var c = (Crystal2[])formatter.Deserialize(fs);
-                        toolStripProgressBar.Maximum = c.Length;
-                        for (int i = 0; i < c.Length; i++)
-                        {
-                            dataSet.Tables[0].Rows.Add(GetTabelRows(c[i]));
-                            if (i > progressStep * 2 && i % progressStep == 0)
-                                reportProgress(i, c.Length, stopwatch.ElapsedMilliseconds, "Loading database...");
-                        }
-                    }
-                    else if (filename.ToLower().EndsWith("cdb2"))
+                    if (filename.ToLower().EndsWith("cdb2"))
                     {
                         var formatter = new BinaryFormatter();
                         var total = (int)formatter.Deserialize(fs);
                         for (int i = 0; i < total; i++)
                         {
                             var c = (Crystal2)formatter.Deserialize(fs);
-                            dataSet.Tables[0].Rows.Add(GetTabelRows(c));
+                            dataSet.DataTable.Add(c);
 
                             if (i > progressStep * 2 && i % progressStep == 0)
                                 reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Loading database...");
@@ -577,25 +563,22 @@ namespace CSManager
                     {
                         var flag = readByte(fs);
                         var total = readInt(fs); ;
-                        //IProgress<(int, int, long, string)> ip = new Progress<(int, int, long, string)>(o => reportProgress(o));//IReport
                         //単一ファイルの場合でも、分割ファイルの場合でも使えるように、Actionを定義
                         var action = new Action<Stream>(f =>
                             {
                                 while (f.Position < f.Length)
                                 {
-                                    var rows = deserialize<Crystal2[]>(f).Select(c => GetTabelRows(c)).ToArray();
-                                    if (rows != null)
-                                        try
-                                        {
-                                            rwlock.EnterWriteLock();
-                                            foreach (var r in rows)
-                                                dataSet.Tables[0].Rows.Add(r);
-                                        }
-                                        finally { rwlock.ExitWriteLock(); }
-                                    ip.Report((dataSet.Tables[0].Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
+                                    var rows = deserialize<Crystal2[]>(f).Select(c => dataSet.DataTable.CreateRow(c)).ToList();
+                                    try
+                                    {
+                                        rwlock.EnterWriteLock();
+                                        foreach (var r in rows)
+                                            dataSet.DataTable.Add(r);
+                                    }
+                                    finally { rwlock.ExitWriteLock(); }
+                                    ip.Report((dataSet.DataTable.Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
                                 }
                             });
-
 
                         //単一ファイルの時
                         if (flag == 100)
@@ -614,7 +597,6 @@ namespace CSManager
                         return;
                 }
 
-
                 toolStripStatusLabel.Text = $"Toatal loading time: {stopwatch.ElapsedMilliseconds / 1E3:f1} sec.";
                 bindingSourceMain.DataMember = "dataTable";
                 GC.Collect();
@@ -623,6 +605,7 @@ namespace CSManager
             {
                 MessageBox.Show("Failed to load database. Sorry.");
             }
+            bindingSourceMain.Position = 0;
         }
 
         /// <summary>
@@ -817,14 +800,14 @@ namespace CSManager
 
                 (_, DataNum, FileNum, FileSizes, CheckSums) = checkDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
                 
-                var wc = new WebClient[FileNum];
+                var wc = new MyWebClient[FileNum];
                 var total = FileSizes.Sum();
                 var current = new long[FileNum];
                 var completedCount = 0;
                 long n = 1;
                 for (int i = 0; i < wc.Length; i++)
                 {
-                    wc[i] = new WebClient();
+                    wc[i] = new MyWebClient();
                     var _i = i;//このインスタンスで作成する必要あり
                     wc[i].DownloadProgressChanged +=  (s, ev) =>
                     {
@@ -851,6 +834,16 @@ namespace CSManager
             }
         }
 
+        private class MyWebClient : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri uri)
+            {
+                WebRequest w = base.GetWebRequest(uri);
+                w.Timeout = 600 * 1000;
+                return w;
+            }
+        }
+
         private void importAllCrystalsMenuItem_Click(object sender, EventArgs e) => GetAllImport();
 
         /// <summary>
@@ -873,74 +866,59 @@ namespace CSManager
                         fn.Add(file.FullName);
             });
 
-            var dialog = new SaveFileDialog() { Filter = "Database File[*.cdb3]|*.cdb3" };
-            if (dialog.ShowDialog() == DialogResult.OK)
+            var failedFile = new List<string>();
+            stopwatch.Restart();
+
+            var division = 1000;//分割単位
+            for (int i = 0; i < fn.Count; i += division)
             {
-                var failedFile = new List<string>();
-                using (var fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                var crystalList = new List<Crystal2>();
+                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
                 {
-                    //最初、全結晶数はわからないので、取りあえず4byte確保しておく
-                    fs.Write(new byte[4], 0, 4);
-                    stopwatch.Restart();
-
-                    var division = 1000;//分割単位
-                    for (int i = 0; i < fn.Count; i += division)
+                    var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
+                    try
                     {
-                        var crystalList = new List<Crystal2>();
-                        Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
-                        {
-                            var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
-                            try
-                            {
-                                rwlock.EnterWriteLock();//書き込みロック
+                        rwlock.EnterWriteLock();//書き込みロック
                                 if (crystal2 != null)
-                                    crystalList.Add(crystal2);
-                                else
-                                    failedFile.Add(fn[j]);
-                            }
-                            finally { rwlock.ExitWriteLock(); }//書き込み解放
-                        });
-                        //進捗状況報告
-                        reportProgress(i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting...");
-
-                        var bytes = serialize(crystalList.ToArray());
-                        fs.Write(bytes, 0, bytes.Length);
+                            crystalList.Add(crystal2);
+                        else
+                            failedFile.Add(fn[j]);
                     }
-                    //最後に個数を書き込む
-                    fs.Position = 0;
-                    fs.Write(BitConverter.GetBytes(fn.Count - failedFile.Count), 0, 4);
-                }
+                    finally { rwlock.ExitWriteLock(); }//書き込み解放
+                        });
+                //進捗状況報告
+                reportProgress(i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting...");
 
-                //失敗ファイルを書き込む
-                using (var writer = new StreamWriter(dialog.FileName.Remove(dialog.FileName.Length - 5, 5) + ".txt"))
-                    foreach (var s in failedFile)
-                        writer.WriteLine(Path.GetFileNameWithoutExtension(s));
+                foreach (var r in crystalList)
+                    dataSet.DataTable.Add( r);
+
             }
+
+            //失敗ファイルを書き込む
+            using (var writer = new StreamWriter(dlg.SelectedPath + "_failed.txt"))
+                foreach (var s in failedFile)
+                    writer.WriteLine(Path.GetFileNameWithoutExtension(s));
         }
 
         #endregion
 
-
-        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        private void bindingSourceMain_CurrentChanged(object sender, EventArgs e)
         {
-            try
+             try
             {
-                var row = bindingSourceMain.Current as DataRowView;
-                if (row != null) { 
-                var c2 = deserialize<Crystal2>(row[0]);
-                var c = Crystal2.GetCrystal(c2);
-                if (c != null)
+                var c2 = dataSet.DataTable.Get(bindingSourceMain.Current);
+                if (c2 != null)
                 {
-                    crystalControl.Crystal = c;
-                    Clipboard.SetDataObject(c2);
-                }
+                    var c = Crystal2.GetCrystal(c2);
+                    if (c != null)
+                    {
+                        crystalControl.Crystal = c;
+                        Clipboard.SetDataObject(c2);
+                    }
                 }
             }
-            catch { return; }
+             catch { return; }
         }
-
-        private void aboutMeToolStripMenuItem_Click(object sender, EventArgs e) => new FormAboutMe().ShowDialog();
-
 
         #region 
 
@@ -984,7 +962,7 @@ namespace CSManager
             bindingNavigator1.Visible = dataGridViewMain.Visible = false;
             foreach (Crystal2 crystal in list)
             {
-                dataSet.Tables[0].Rows.Add(GetTabelRows(crystal));
+                dataSet.DataTable.Add(crystal);
                 Application.DoEvents();
             }
             bindingNavigator1.Visible = dataGridViewMain.Visible = true;
@@ -995,17 +973,17 @@ namespace CSManager
 
         private void buttonAddCrystal_Click(object sender, EventArgs e)
         {
-            crystalControl.GenerateCrystal();
+            crystalControl.GenerateFromInterface();
             if (crystalControl.Crystal != null)
             {
-                Crystal2 crystal2 = Crystal2.GetCrystal2(crystalControl.Crystal);
-                dataSet.Tables[0].Rows.Add(GetTabelRows(crystal2));
+                Crystal2 crystal2 = Crystal2.FromCrystal(crystalControl.Crystal);
+                dataSet.DataTable.Add(crystal2);
             }
         }
 
         private void buttonChangeCrystal_Click(object sender, EventArgs e)
         {
-            crystalControl.GenerateCrystal();
+            crystalControl.GenerateFromInterface();
             Crystal2 crystal;
             if (crystalControl.Crystal != null)
             {
@@ -1013,10 +991,8 @@ namespace CSManager
                 if (i < 0)
                     buttonAddCrystal_Click(new object(), new EventArgs());
 
-                crystal = Crystal2.GetCrystal2(crystalControl.Crystal);
-                object[] o = GetTabelRows(crystal);
-                for (int j = 0; j < o.Length; j++)
-                    ((DataRowView)bindingSourceMain.Current).Row[j] = o[j];
+                crystal = Crystal2.FromCrystal(crystalControl.Crystal);
+                dataSet.DataTable.Replace(bindingSourceMain.Current, crystal);
             }
         }
 
@@ -1051,7 +1027,7 @@ namespace CSManager
                 {
                     Crystal2 c = ConvertCrystalData.ConvertToCrystal(dlg.FileName).ToCrystal2();
                     if (c != null)
-                        dataSet.Tables[0].Rows.Add(GetTabelRows(c));
+                        dataSet.DataTable.Add(c);
                 }
                 catch { }
             }
@@ -1074,12 +1050,12 @@ namespace CSManager
             for (int i = 0; i < cry.Length; i++)
             {
                 cry[i].SetAxis();
-                dataSet.Tables[0].Rows.Add(GetTabelRows(Crystal2.GetCrystal2(cry[i])));
+                dataSet.DataTable.Add(Crystal2.FromCrystal(cry[i]));
             }
         }
 
         private void clearDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-            => dataSet.Tables[0].Clear();
+            => dataSet.DataTable.Clear();
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
             => this.Close();
@@ -1182,6 +1158,18 @@ namespace CSManager
             Language.Change(this);
         }
 
+        private void versionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            initialDialog.DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.History;
+            initialDialog.Visible = true;
+        }
+
+        private void licenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            initialDialog.DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.License;
+            initialDialog.Visible = true;
+        }
+
         private void increaseToolStripMenuItem_Click(object sender, EventArgs e) => dataGridViewMain.Font = new Font(dataGridViewMain.Font.FontFamily, dataGridViewMain.Font.Size * 1.1f);
 
         private void decreaseToolStripMenuItem_Click(object sender, EventArgs e) => dataGridViewMain.Font = new Font(dataGridViewMain.Font.FontFamily, dataGridViewMain.Font.Size * 0.9f);
@@ -1190,34 +1178,12 @@ namespace CSManager
         {
             try
             {
-                MessageBox.Show(((Crystal2)(((DataRowView)bindingSourceMain.Current).Row[0])).fileName);
+                MessageBox.Show(((Crystal2)((DataRowView)bindingSourceMain.Current).Row[0]).fileName);
             }
             catch { }
         }
 
-        private void compressAndSplitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                using (var fs = new FileStream(dlg.FileName, FileMode.Open))
-                {
-                    var size = 25000000;
-                    for (int n = 0; true; n++)
-                    {
-                        var buffer = new byte[fs.Length - fs.Position > size ? size : fs.Length - fs.Position];
-                        if (buffer.Length == 0)
-                            break;
-                        fs.Read(buffer, 0, buffer.Length);
-                        using (var temp = new FileStream(dlg.FileName + "." + n.ToString("000"), FileMode.CreateNew))
-                        {
-                            temp.Write(buffer, 0, buffer.Length);
-                            temp.Flush();
-                            temp.Close();
-                        }
-                    }
-                }
-            }
-        }
+
+       
     }
 }
