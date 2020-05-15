@@ -166,7 +166,7 @@ namespace Crystallography
 
             foreach ((string e1, string e2, double min, double max) in bondCandidates)
             {
-                if (list.Contains(e1) && list.Contains(e2))
+                if (list2.Contains(e1) && list2.Contains(e2))
                 {
                     bonds.Add(new Bonds(true, list, list[list2.IndexOf(e1)], list[list2.IndexOf(e2)],
 						min / 10.0, max / 10.0, true, 0.01, 1, false, true, true, true, 0.7, true, 0));
