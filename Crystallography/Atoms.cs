@@ -90,6 +90,7 @@ namespace Crystallography
             //Atom = new List<Vector3D>();
         }
 
+
         /// <summary>
         /// ワイコフポジションだけ指定して、原子位置は実態のないコンストラクタ
         /// </summary>
@@ -125,6 +126,18 @@ namespace Crystallography
             Isotope = isotope;
         }
 
+        /// <summary>
+        /// 基本コンストラクタ
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="atomicNumber"></param>
+        /// <param name="subXray"></param>
+        /// <param name="subElectron"></param>
+        /// <param name="isotope"></param>
+        /// <param name="symmetrySeriesNumber"></param>
+        /// <param name="pos"></param>
+        /// <param name="occ"></param>
+        /// <param name="dsf"></param>
         public Atoms(string label, int atomicNumber, int subXray, int subElectron, double[] isotope, int symmetrySeriesNumber,
             Vector3D pos, double occ, DiffuseScatteringFactor dsf)
         {
@@ -132,10 +145,10 @@ namespace Crystallography
 
             Label = label;
 
-            this.Occ = occ;
-            this.X = pos.X;
-            this.Y = pos.Y;
-            this.Z = pos.Z;
+            Occ = occ;
+            X = pos.X;
+            Y = pos.Y;
+            Z = pos.Z;
 
             var temp = WyckoffPosition.GetEquivalentAtomsPosition(pos, symmetrySeriesNumber);
             WyckoffLeter = temp.WyckoffLeter;
@@ -153,43 +166,57 @@ namespace Crystallography
             ElementName = AtomicNumber.ToString() + ": " + AtomConstants.AtomicName(atomicNumber);
         }
 
+        /// <summary>
+        /// 基本コンストラクタ + エラー
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="atomicNumber"></param>
+        /// <param name="subXray"></param>
+        /// <param name="subElectron"></param>
+        /// <param name="isotope"></param>
+        /// <param name="symmetrySeriesNumber"></param>
+        /// <param name="pos"></param>
+        /// <param name="pos_err"></param>
+        /// <param name="occ"></param>
+        /// <param name="occ_err"></param>
+        /// <param name="dsf"></param>
         public Atoms(string label, int atomicNumber, int subXray, int subElectron, double[] isotope, int symmetrySeriesNumber,
-           Vector3D pos, Vector3D pos_err, double occ, double occ_err,
-            DiffuseScatteringFactor dsf,
-            Material mat, float radius)
+           Vector3D pos, Vector3D pos_err, double occ, double occ_err, DiffuseScatteringFactor dsf)
+            :this(label, atomicNumber, subXray, subElectron, isotope, symmetrySeriesNumber, pos,  occ, dsf)
         {
-            SymmetrySeriesNumber = symmetrySeriesNumber;
 
-            Label = label;
-            X = pos.X;
-            Y = pos.Y;
-            Z = pos.Z;
-            Occ = occ;
             X_err = pos_err.X;
             Y_err = pos_err.Y;
             Z_err = pos_err.Z;
             Occ_err = occ_err;
+        }
 
-            Atoms temp = WyckoffPosition.GetEquivalentAtomsPosition(pos, symmetrySeriesNumber);
-            WyckoffLeter = temp.WyckoffLeter;
-            SiteSymmetry = temp.SiteSymmetry;
-            Multiplicity = temp.Multiplicity;
-            WyckoffNumber = temp.WyckoffNumber;
-
-            Atom = temp.Atom;
-            this.Dsf = dsf;
-
-            SubNumberXray = subXray;
-            SubNumberElectron = subElectron;
-            Isotope = isotope;
-            AtomicNumber = atomicNumber;
-            ElementName = AtomicNumber.ToString() + ": " + AtomConstants.AtomicName(atomicNumber);
-
-            this.Radius = radius;
+        /// <summary>
+        /// 基本コンストラクタ + エラー + Material
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="atomicNumber"></param>
+        /// <param name="subXray"></param>
+        /// <param name="subElectron"></param>
+        /// <param name="isotope"></param>
+        /// <param name="symmetrySeriesNumber"></param>
+        /// <param name="pos"></param>
+        /// <param name="pos_err"></param>
+        /// <param name="occ"></param>
+        /// <param name="occ_err"></param>
+        /// <param name="dsf"></param>
+        /// <param name="mat"></param>
+        /// <param name="radius"></param>
+        public Atoms(string label, int atomicNumber, int subXray, int subElectron, double[] isotope, int symmetrySeriesNumber,
+           Vector3D pos, Vector3D pos_err, double occ, double occ_err,
+            DiffuseScatteringFactor dsf,Material mat, float radius)
+            :this (label,atomicNumber, subXray, subElectron, isotope, symmetrySeriesNumber, pos,  pos_err, occ, occ_err, dsf)
+        {
+            Radius = radius;
             if (mat != null)
             {
-                this.Argb = mat.Argb;
-                this.Texture = mat.Texture;
+                Argb = mat.Argb;
+                Texture = mat.Texture;
             }
         } 
         #endregion

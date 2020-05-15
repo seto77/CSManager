@@ -18,6 +18,7 @@ using MessagePack.Resolvers;
 using System.Security.Cryptography;
 using System.ServiceModel.Channels;
 using System.Reflection;
+using Microsoft.Scripting.Utils;
 
 namespace CSManager
 {
@@ -235,181 +236,73 @@ namespace CSManager
 
         #endregion
 
-        //public object[] GetTabelRows(Crystal2 crystal)
-        //{
-        //    Symmetry s = SymmetryStatic.Get_Symmetry(crystal.sym);
-        //    var elementList = "";
-        //    foreach (Atoms2 a in crystal.atoms)
-        //        if (!elementList.Contains(a.AtomNo.ToString("000")))
-        //            elementList += a.AtomNo.ToString("000") + " ";
-
-        //    double[] d = new double[8];
-        //    for (int i = 0; i < 8; i++)
-        //        if (crystal.d.Length > i)
-        //            d[i] = crystal.d[i];
-        //        else
-        //            d[i] = 0;
-
-        //    return new object[] {
-        //            serialize(crystal),
-        //            crystal.name,
-        //            crystal.formula,
-        //            Math.Round(crystal.density,4),
-        //            Math.Round(crystal.a*10,7),
-        //            Math.Round(crystal.b*10,7),
-        //            Math.Round(crystal.c*10,7),
-        //            Math.Round(crystal.alpha*180/Math.PI,7),
-        //            Math.Round(crystal.beta*180/Math.PI,7),
-        //            Math.Round(crystal.gamma*180/Math.PI,7),
-        //            s.CrystalSystemStr,
-        //            s.PointGroupHMStr,
-        //            s.SpaceGroupHMfullStr,
-        //            crystal.auth,
-        //            Crystal2.GetFullTitle(crystal.sect),
-        //            Crystal2.GetFullJournal(crystal.jour),
-        //            elementList,
-        //            d[0],
-        //            d[1],
-        //            d[2],
-        //            d[3],
-        //            d[4],
-        //            d[5],
-        //            d[6],
-        //            d[7]
-        //    };
-        //}
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
 
-            
-
-            string filter = "";
+            var filter = new List<string>();
 
             //名前
-            if (checkBoxSearchName.Checked)
-            {
-                var str = textBoxSearchName.Text.Split();
-                if (str.Length > 0)
-                {
-                    filter = "( ";
-                    foreach (var s in str)
-                        filter += $"Name LIKE '*{s}*' AND ";
-                    filter = filter.Remove(filter.Length - 4, 3) + ") AND ";
-                }
-            }
+            if (checkBoxSearchName.Checked && textBoxSearchName.Text != "")
+                filter.Add(string.Join(" AND ", textBoxSearchName.Text.Split().Select(s => $"Name LIKE '*{s}*'")));
 
             //Reference
-            if (checkBoxSearchRefference.Checked)
-            {
-                string[] str = textBoxSearchRefference.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (str.Length > 0)
-                {
+            if (checkBoxSearchRefference.Checked && textBoxSearchRefference.Text != "")
+                filter.Add(string.Join(" AND ", textBoxSearchRefference.Text.Split().Select(s => $"(Authors LIKE '*{s}*' OR Title LIKE '*{s}*' OR Journal LIKE '*{s}*')")));
 
-                    filter += "( ";
-                    foreach (string s in str)
-                        filter +=
-                              $"( Authors LIKE '*{s}*' OR Title LIKE '*{s}*' OR Journal LIKE '*{s}*' ) AND ";
-                    filter = filter.Remove(filter.Length - 4, 3) + " ) AND ";
-                }
-            }
-
-            if (checkBoxSearchCrystalSystem.Checked)
-                filter += $" CrystalSystem = '{comboBoxSearchCrystalSystem.Text}' AND ";
-
+            if (checkBoxSearchCrystalSystem.Checked && comboBoxSearchCrystalSystem.SelectedIndex >= 0)
+                filter.Add($" CrystalSystem = '{comboBoxSearchCrystalSystem.Text}'");
 
             //元素のためのフィルター文字列
-            if (checkBoxSearchElements.Checked)
-            {
-                if (formPeriodicTable.textBoxQueryInclude.Text != "")
-                {
-                    filter += "(";
-                    string[] str = formPeriodicTable.textBoxQueryInclude.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string elementNum in str)
-                        filter += $"Elements Like '*{elementNum}*' AND ";
-                    filter = filter.Remove(filter.Length - 4, 4) + " ) AND ";
-                }
+            if (checkBoxSearchElements.Checked && formPeriodicTable.IncludesStr.Length != 0)
+                filter.Add(string.Join(" AND ", formPeriodicTable.IncludesStr.Select(s => $"Elements Like '*{s}*'")));
 
-                if (formPeriodicTable.textBoxQueryExclude.Text != "")
-                {
-                    filter += "( NOT(";
-                    string[] str = formPeriodicTable.textBoxQueryExclude.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string elementNum in str)
-                        filter += $"Elements Like '*{elementNum}*' OR ";
-                    filter = filter.Remove(filter.Length - 3, 3) + " )) AND ";
-                }
-            }
+            if (checkBoxSearchElements.Checked && formPeriodicTable.ExcludesStr.Length != 0)
+                filter.Add("NOT(" + string.Join(" OR ", formPeriodicTable.ExcludesStr.Select(s => $"Elements Like '*{s}*'")) + ")");//NOT句をつける
 
             //格子定数のフィルター
             if (checkBoxSearchCellParameter.Checked)
             {
-                double LowerA = Convert.ToDouble(textBoxSearchCellA.Text) * (1 - (double)numericUpDownSearchCellLengthError.Value / 100);
-                double UpperA = Convert.ToDouble(textBoxSearchCellA.Text) * (1 + (double)numericUpDownSearchCellLengthError.Value / 100);
-                double LowerB = Convert.ToDouble(textBoxSearchCellB.Text) * (1 - (double)numericUpDownSearchCellLengthError.Value / 100);
-                double UpperB = Convert.ToDouble(textBoxSearchCellB.Text) * (1 + (double)numericUpDownSearchCellLengthError.Value / 100);
-                double LowerC = Convert.ToDouble(textBoxSearchCellC.Text) * (1 - (double)numericUpDownSearchCellLengthError.Value / 100);
-                double UpperC = Convert.ToDouble(textBoxSearchCellC.Text) * (1 + (double)numericUpDownSearchCellLengthError.Value / 100);
+                var lenErr = numericBoxCellLengthErr.Value / 100;
+                var angErr = numericBoxCellAngleErr.Value / 100;
+                var func = new Func<string, double, double, string>((symbol, val, err) => val != 0 ? $"{symbol} >{val * (1 - err)} AND {symbol} < {val * (1 + err)}" : "");
 
-                double LowerAlpha = (Convert.ToDouble(textBoxSearchCellAlpha.Text) - (double)numericUpDownSearchCellAngleError.Value);
-                double UpperAlpha = Convert.ToDouble(textBoxSearchCellAlpha.Text) + (double)numericUpDownSearchCellAngleError.Value;
-                double LowerBeta = Convert.ToDouble(textBoxSearchCellBeta.Text) - (double)numericUpDownSearchCellAngleError.Value;
-                double UpperBeta = Convert.ToDouble(textBoxSearchCellBeta.Text) + (double)numericUpDownSearchCellAngleError.Value;
-                double LowerGamma = Convert.ToDouble(textBoxSearchCellGamma.Text) - (double)numericUpDownSearchCellAngleError.Value;
-                double UpperGamma = Convert.ToDouble(textBoxSearchCellGamma.Text) + (double)numericUpDownSearchCellAngleError.Value;
-                filter += "(";
-                if (LowerA != 0)
-                    filter += $"A >{LowerA} AND A < {UpperA} AND ";
-                if (LowerB != 0)
-                    filter += $"B >{LowerB} AND B < {UpperB} AND ";
-                if (LowerC != 0)
-                    filter += $"C >{LowerC} AND C < {UpperC} AND ";
-
-                filter += $"Alpha >{LowerAlpha} AND Alpha < {UpperAlpha} AND ";
-                filter += $"Beta >{LowerBeta} AND Beta < {UpperBeta} AND ";
-                filter += $"Gamma >{LowerGamma} AND Gamma < {UpperGamma}";
-
-                filter += " ) AND ";
+                filter.Add(func("A", numericBoxCellA.Value, lenErr));
+                filter.Add(func("B", numericBoxCellB.Value, lenErr));
+                filter.Add(func("C", numericBoxCellC.Value, lenErr));
+                filter.Add(func("Alpha", numericBoxCellAlpha.Value, angErr));
+                filter.Add(func("Beta", numericBoxCellBeta.Value, angErr));
+                filter.Add(func("Gamma", numericBoxCellGamma.Value, angErr));
             }
 
             if (checkBoxDspacing.Checked)
             {
-                double[] d = new double[3];
-                for (int i = 0; i < 3; i++)
-                    d[i] = 0;
-                double[] err = new double[] { (double)numericUpDownD1err.Value / 100, (double)numericUpDownD2err.Value / 100, (double)numericUpDownD3err.Value / 100 };
-                try
+                var func = new Func<double, double, string>((val, err) =>
                 {
-                    if (checkBoxD1.Checked)
-                        d[0] = Convert.ToDouble(textBoxD1.Text);
-                    if (checkBoxD2.Checked)
-                        d[1] = Convert.ToDouble(textBoxD2.Text);
-                    if (checkBoxD3.Checked)
-                        d[2] = Convert.ToDouble(textBoxD3.Text);
-                }
-                catch { }
-                if (!(d[0] == 0 && d[1] == 0 && d[2] == 0))
-                {
-                    filter += "(";
-                    for (int i = 0; i < 3; i++)
-                        if (d[i] != 0)
-                        {
-                            string upper = (0.1 * d[i] * (1 + err[i])).ToString();
-                            string lower = (0.1 * d[i] * (1 - err[i])).ToString();
-                            filter += "(";
-                            for (int j = 1; j < 9; j++)
-                                filter += $"( D{j} >{lower} AND D{j} < {upper} ) OR ";
-                            filter = filter.Remove(filter.Length - 3, 3) + ") AND ";
-                        }
+                    if (val == 0) return "";
+                    var temp = new List<string>();
+                    for (int j = 1; j < 9; j++)
+                        temp.Add($"( D{j} > {val * (1 - err)} AND D{j} < {val * (1 + err)} )");
+                    return string.Join(" OR ", temp);
+                });
 
-                    filter = filter.Remove(filter.Length - 4, 4) + ") AND ";
-                }
+                if (checkBoxD1.Checked)
+                    filter.Add(func(numericBoxD1.Value, numericBoxD1Err.Value / 100));
+                if (checkBoxD2.Checked)
+                    filter.Add(func(numericBoxD2.Value, numericBoxD2Err.Value / 100));
+                if (checkBoxD3.Checked)
+                    filter.Add(func(numericBoxD3.Value, numericBoxD3Err.Value / 100));
             }
 
-            if (filter != "")
-                filter = filter.Remove(filter.Length - 4, 4);
+            //格子定数のフィルター
+            if (checkBoxDensity.Checked && numericBoxDensity.Value != 0)
+            {
+                double val = numericBoxDensity.Value, err = numericBoxDensityErr.Value / 100;
+                filter.Add($"Density >{val * (1 - err)} AND Density < {val * (1 + err)}");
+            }
 
-            
-            bindingSourceMain.Filter = filter;
+            bindingSourceMain.Filter = string.Join(" AND ", filter.Where(f => f != "").Select(f => "(" + f + ")"));
+
         }
 
         private void checkBoxSearch_CheckedChanged(object sender, EventArgs e)
@@ -423,6 +316,7 @@ namespace CSManager
             comboBoxSearchCrystalSystem.Visible = checkBoxSearchCrystalSystem.Checked;
             groupBoxCellParameter.Visible = checkBoxSearchCellParameter.Checked;
             groupBoxDspacing.Visible = checkBoxDspacing.Checked;
+            groupBoxDensity.Visible = checkBoxDensity.Checked;
         }
 
 
@@ -1092,13 +986,13 @@ namespace CSManager
             => groupBoxDspacing.Enabled = checkBoxDspacing.Checked;
 
         private void checkBoxD1_CheckedChanged(object sender, EventArgs e)
-            => textBoxD1.Enabled = numericUpDownD1err.Enabled = checkBoxD1.Checked;
+            => numericBoxD1.Enabled = numericBoxD1Err.Enabled = checkBoxD1.Checked;
 
         private void checkBoxD2_CheckedChanged(object sender, EventArgs e)
-            => textBoxD2.Enabled = numericUpDownD2err.Enabled = checkBoxD2.Checked;
+            => numericBoxD2.Enabled = numericBoxD2Err.Enabled = checkBoxD2.Checked;
 
         private void checkBoxD3_CheckedChanged(object sender, EventArgs e)
-            => textBoxD3.Enabled = numericUpDownD3err.Enabled = checkBoxD3.Checked;
+            => numericBoxD3.Enabled = numericBoxD3Err.Enabled = checkBoxD3.Checked;
 
 
         private void hintToolStripMenuItem_Click(object sender, EventArgs e)

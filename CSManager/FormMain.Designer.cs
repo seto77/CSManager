@@ -31,10 +31,34 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewMain = new System.Windows.Forms.DataGridView();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.densityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.formulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.aDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.alphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.betaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CrystalSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PointGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpaceGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Authors = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.journalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bindingSourceMain = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet = new CSManager.DataSet();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.buttonChange = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -49,50 +73,13 @@
             this.comboBoxSearchCrystalSystem = new System.Windows.Forms.ComboBox();
             this.checkBoxSearchCellParameter = new System.Windows.Forms.CheckBox();
             this.groupBoxCellParameter = new System.Windows.Forms.GroupBox();
-            this.textBoxSearchCellA = new System.Windows.Forms.TextBox();
-            this.textBoxSearchCellBeta = new System.Windows.Forms.TextBox();
-            this.textBoxSearchCellAlpha = new System.Windows.Forms.TextBox();
-            this.numericUpDownSearchCellLengthError = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownSearchCellAngleError = new System.Windows.Forms.NumericUpDown();
-            this.label34 = new System.Windows.Forms.Label();
-            this.textBoxSearchCellC = new System.Windows.Forms.TextBox();
-            this.textBoxSearchCellGamma = new System.Windows.Forms.TextBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.textBoxSearchCellB = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.checkBoxDspacing = new System.Windows.Forms.CheckBox();
             this.groupBoxDspacing = new System.Windows.Forms.GroupBox();
-            this.numericUpDownD3err = new System.Windows.Forms.NumericUpDown();
             this.checkBoxD3 = new System.Windows.Forms.CheckBox();
             this.checkBoxD2 = new System.Windows.Forms.CheckBox();
             this.checkBoxD1 = new System.Windows.Forms.CheckBox();
-            this.numericUpDownD2err = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.numericUpDownD1err = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBoxD3 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBoxD1 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBoxD2 = new System.Windows.Forms.TextBox();
+            this.checkBoxDensity = new System.Windows.Forms.CheckBox();
+            this.groupBoxDensity = new System.Windows.Forms.GroupBox();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -145,46 +132,41 @@
             this.japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.crystalControl = new Crystallography.Controls.CrystalControl();
-            this.bindingSourceMain = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet = new CSManager.DataSet();
-            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.densityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.formulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.aDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.alphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.betaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CrystalSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PointGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SpaceGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Authors = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.journalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numericBoxCellGamma = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellAngleErr = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellLengthErr = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellC = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellBeta = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellAlpha = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellB = new Crystallography.Controls.NumericBox();
+            this.numericBoxCellA = new Crystallography.Controls.NumericBox();
+            this.numericBoxD3Err = new Crystallography.Controls.NumericBox();
+            this.numericBoxD2Err = new Crystallography.Controls.NumericBox();
+            this.numericBoxD1Err = new Crystallography.Controls.NumericBox();
+            this.numericBoxD3 = new Crystallography.Controls.NumericBox();
+            this.numericBoxD2 = new Crystallography.Controls.NumericBox();
+            this.numericBoxD1 = new Crystallography.Controls.NumericBox();
+            this.numericBoxDensity = new Crystallography.Controls.NumericBox();
+            this.numericBoxDensityErr = new Crystallography.Controls.NumericBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBoxCellParameter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchCellLengthError)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchCellAngleError)).BeginInit();
             this.groupBoxDspacing.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD3err)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD2err)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD1err)).BeginInit();
+            this.groupBoxDensity.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -234,30 +216,167 @@
             this.titleDataGridViewTextBoxColumn,
             this.journalDataGridViewTextBoxColumn});
             this.dataGridViewMain.DataSource = this.bindingSourceMain;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewMain.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewMain.DefaultCellStyle = dataGridViewCellStyle9;
             resources.ApplyResources(this.dataGridViewMain, "dataGridViewMain");
             this.dataGridViewMain.MultiSelect = false;
             this.dataGridViewMain.Name = "dataGridViewMain";
             this.dataGridViewMain.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewMain.RowHeadersVisible = false;
             this.dataGridViewMain.RowTemplate.Height = 21;
             this.dataGridViewMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.toolTip.SetToolTip(this.dataGridViewMain, resources.GetString("dataGridViewMain.ToolTip"));
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.DataPropertyName = "Name";
+            resources.ApplyResources(this.ColumnName, "ColumnName");
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            // 
+            // densityDataGridViewTextBoxColumn
+            // 
+            this.densityDataGridViewTextBoxColumn.DataPropertyName = "Density";
+            dataGridViewCellStyle2.Format = "N4";
+            dataGridViewCellStyle2.NullValue = null;
+            this.densityDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            resources.ApplyResources(this.densityDataGridViewTextBoxColumn, "densityDataGridViewTextBoxColumn");
+            this.densityDataGridViewTextBoxColumn.Name = "densityDataGridViewTextBoxColumn";
+            this.densityDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // formulaDataGridViewTextBoxColumn
+            // 
+            this.formulaDataGridViewTextBoxColumn.DataPropertyName = "Formula";
+            resources.ApplyResources(this.formulaDataGridViewTextBoxColumn, "formulaDataGridViewTextBoxColumn");
+            this.formulaDataGridViewTextBoxColumn.Name = "formulaDataGridViewTextBoxColumn";
+            this.formulaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // aDataGridViewTextBoxColumn
+            // 
+            this.aDataGridViewTextBoxColumn.DataPropertyName = "A";
+            dataGridViewCellStyle3.Format = "#.######";
+            dataGridViewCellStyle3.NullValue = null;
+            this.aDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.aDataGridViewTextBoxColumn, "aDataGridViewTextBoxColumn");
+            this.aDataGridViewTextBoxColumn.Name = "aDataGridViewTextBoxColumn";
+            this.aDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // bDataGridViewTextBoxColumn
+            // 
+            this.bDataGridViewTextBoxColumn.DataPropertyName = "B";
+            dataGridViewCellStyle4.Format = "#.######";
+            dataGridViewCellStyle4.NullValue = null;
+            this.bDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            resources.ApplyResources(this.bDataGridViewTextBoxColumn, "bDataGridViewTextBoxColumn");
+            this.bDataGridViewTextBoxColumn.Name = "bDataGridViewTextBoxColumn";
+            this.bDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cDataGridViewTextBoxColumn
+            // 
+            this.cDataGridViewTextBoxColumn.DataPropertyName = "C";
+            dataGridViewCellStyle5.Format = "#.######";
+            dataGridViewCellStyle5.NullValue = null;
+            this.cDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            resources.ApplyResources(this.cDataGridViewTextBoxColumn, "cDataGridViewTextBoxColumn");
+            this.cDataGridViewTextBoxColumn.Name = "cDataGridViewTextBoxColumn";
+            this.cDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // alphaDataGridViewTextBoxColumn
+            // 
+            this.alphaDataGridViewTextBoxColumn.DataPropertyName = "Alpha";
+            dataGridViewCellStyle6.Format = "#.####";
+            dataGridViewCellStyle6.NullValue = null;
+            this.alphaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            resources.ApplyResources(this.alphaDataGridViewTextBoxColumn, "alphaDataGridViewTextBoxColumn");
+            this.alphaDataGridViewTextBoxColumn.Name = "alphaDataGridViewTextBoxColumn";
+            this.alphaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // betaDataGridViewTextBoxColumn
+            // 
+            this.betaDataGridViewTextBoxColumn.DataPropertyName = "Beta";
+            dataGridViewCellStyle7.Format = "#.####";
+            dataGridViewCellStyle7.NullValue = null;
+            this.betaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            resources.ApplyResources(this.betaDataGridViewTextBoxColumn, "betaDataGridViewTextBoxColumn");
+            this.betaDataGridViewTextBoxColumn.Name = "betaDataGridViewTextBoxColumn";
+            this.betaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // gammaDataGridViewTextBoxColumn
+            // 
+            this.gammaDataGridViewTextBoxColumn.DataPropertyName = "Gamma";
+            dataGridViewCellStyle8.Format = "#.####";
+            dataGridViewCellStyle8.NullValue = null;
+            this.gammaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            resources.ApplyResources(this.gammaDataGridViewTextBoxColumn, "gammaDataGridViewTextBoxColumn");
+            this.gammaDataGridViewTextBoxColumn.Name = "gammaDataGridViewTextBoxColumn";
+            this.gammaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // CrystalSystem
+            // 
+            this.CrystalSystem.DataPropertyName = "CrystalSystem";
+            resources.ApplyResources(this.CrystalSystem, "CrystalSystem");
+            this.CrystalSystem.Name = "CrystalSystem";
+            this.CrystalSystem.ReadOnly = true;
+            // 
+            // PointGroup
+            // 
+            this.PointGroup.DataPropertyName = "PointGroup";
+            resources.ApplyResources(this.PointGroup, "PointGroup");
+            this.PointGroup.Name = "PointGroup";
+            this.PointGroup.ReadOnly = true;
+            // 
+            // SpaceGroup
+            // 
+            this.SpaceGroup.DataPropertyName = "SpaceGroup";
+            resources.ApplyResources(this.SpaceGroup, "SpaceGroup");
+            this.SpaceGroup.Name = "SpaceGroup";
+            this.SpaceGroup.ReadOnly = true;
+            // 
+            // Authors
+            // 
+            this.Authors.DataPropertyName = "Authors";
+            resources.ApplyResources(this.Authors, "Authors");
+            this.Authors.Name = "Authors";
+            this.Authors.ReadOnly = true;
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            resources.ApplyResources(this.titleDataGridViewTextBoxColumn, "titleDataGridViewTextBoxColumn");
+            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            this.titleDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // journalDataGridViewTextBoxColumn
+            // 
+            this.journalDataGridViewTextBoxColumn.DataPropertyName = "Journal";
+            resources.ApplyResources(this.journalDataGridViewTextBoxColumn, "journalDataGridViewTextBoxColumn");
+            this.journalDataGridViewTextBoxColumn.Name = "journalDataGridViewTextBoxColumn";
+            this.journalDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // bindingSourceMain
+            // 
+            this.bindingSourceMain.DataMember = "DataTable";
+            this.bindingSourceMain.DataSource = this.dataSet;
+            this.bindingSourceMain.CurrentChanged += new System.EventHandler(this.bindingSourceMain_CurrentChanged);
+            // 
+            // dataSet
+            // 
+            this.dataSet.DataSetName = "DataSet";
+            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // splitContainer2
             // 
@@ -308,6 +427,8 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBoxCellParameter);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxDspacing);
             this.flowLayoutPanel1.Controls.Add(this.groupBoxDspacing);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxDensity);
+            this.flowLayoutPanel1.Controls.Add(this.groupBoxDensity);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
             // checkBoxSearchName
@@ -385,187 +506,17 @@
             // 
             // groupBoxCellParameter
             // 
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellA);
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellBeta);
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellAlpha);
-            this.groupBoxCellParameter.Controls.Add(this.numericUpDownSearchCellLengthError);
-            this.groupBoxCellParameter.Controls.Add(this.numericUpDownSearchCellAngleError);
-            this.groupBoxCellParameter.Controls.Add(this.label34);
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellC);
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellGamma);
-            this.groupBoxCellParameter.Controls.Add(this.label35);
-            this.groupBoxCellParameter.Controls.Add(this.label36);
-            this.groupBoxCellParameter.Controls.Add(this.label37);
-            this.groupBoxCellParameter.Controls.Add(this.label38);
-            this.groupBoxCellParameter.Controls.Add(this.label42);
-            this.groupBoxCellParameter.Controls.Add(this.label41);
-            this.groupBoxCellParameter.Controls.Add(this.label3);
-            this.groupBoxCellParameter.Controls.Add(this.label2);
-            this.groupBoxCellParameter.Controls.Add(this.label1);
-            this.groupBoxCellParameter.Controls.Add(this.label43);
-            this.groupBoxCellParameter.Controls.Add(this.label40);
-            this.groupBoxCellParameter.Controls.Add(this.label39);
-            this.groupBoxCellParameter.Controls.Add(this.textBoxSearchCellB);
-            this.groupBoxCellParameter.Controls.Add(this.label4);
-            this.groupBoxCellParameter.Controls.Add(this.label5);
-            this.groupBoxCellParameter.Controls.Add(this.label6);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellGamma);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellAngleErr);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellLengthErr);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellC);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellBeta);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellAlpha);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellB);
+            this.groupBoxCellParameter.Controls.Add(this.numericBoxCellA);
             resources.ApplyResources(this.groupBoxCellParameter, "groupBoxCellParameter");
             this.groupBoxCellParameter.Name = "groupBoxCellParameter";
             this.groupBoxCellParameter.TabStop = false;
-            // 
-            // textBoxSearchCellA
-            // 
-            resources.ApplyResources(this.textBoxSearchCellA, "textBoxSearchCellA");
-            this.textBoxSearchCellA.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxSearchCellA.Name = "textBoxSearchCellA";
-            // 
-            // textBoxSearchCellBeta
-            // 
-            resources.ApplyResources(this.textBoxSearchCellBeta, "textBoxSearchCellBeta");
-            this.textBoxSearchCellBeta.Name = "textBoxSearchCellBeta";
-            // 
-            // textBoxSearchCellAlpha
-            // 
-            resources.ApplyResources(this.textBoxSearchCellAlpha, "textBoxSearchCellAlpha");
-            this.textBoxSearchCellAlpha.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxSearchCellAlpha.Name = "textBoxSearchCellAlpha";
-            // 
-            // numericUpDownSearchCellLengthError
-            // 
-            this.numericUpDownSearchCellLengthError.DecimalPlaces = 1;
-            resources.ApplyResources(this.numericUpDownSearchCellLengthError, "numericUpDownSearchCellLengthError");
-            this.numericUpDownSearchCellLengthError.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownSearchCellLengthError.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownSearchCellLengthError.Name = "numericUpDownSearchCellLengthError";
-            this.numericUpDownSearchCellLengthError.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDownSearchCellAngleError
-            // 
-            this.numericUpDownSearchCellAngleError.DecimalPlaces = 1;
-            resources.ApplyResources(this.numericUpDownSearchCellAngleError, "numericUpDownSearchCellAngleError");
-            this.numericUpDownSearchCellAngleError.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownSearchCellAngleError.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownSearchCellAngleError.Name = "numericUpDownSearchCellAngleError";
-            this.numericUpDownSearchCellAngleError.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // label34
-            // 
-            resources.ApplyResources(this.label34, "label34");
-            this.label34.Name = "label34";
-            // 
-            // textBoxSearchCellC
-            // 
-            resources.ApplyResources(this.textBoxSearchCellC, "textBoxSearchCellC");
-            this.textBoxSearchCellC.Name = "textBoxSearchCellC";
-            // 
-            // textBoxSearchCellGamma
-            // 
-            resources.ApplyResources(this.textBoxSearchCellGamma, "textBoxSearchCellGamma");
-            this.textBoxSearchCellGamma.Name = "textBoxSearchCellGamma";
-            // 
-            // label35
-            // 
-            resources.ApplyResources(this.label35, "label35");
-            this.label35.Name = "label35";
-            // 
-            // label36
-            // 
-            resources.ApplyResources(this.label36, "label36");
-            this.label36.Name = "label36";
-            // 
-            // label37
-            // 
-            resources.ApplyResources(this.label37, "label37");
-            this.label37.Name = "label37";
-            // 
-            // label38
-            // 
-            resources.ApplyResources(this.label38, "label38");
-            this.label38.Name = "label38";
-            // 
-            // label42
-            // 
-            resources.ApplyResources(this.label42, "label42");
-            this.label42.Name = "label42";
-            // 
-            // label41
-            // 
-            resources.ApplyResources(this.label41, "label41");
-            this.label41.Name = "label41";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // label43
-            // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
-            // 
-            // label40
-            // 
-            resources.ApplyResources(this.label40, "label40");
-            this.label40.Name = "label40";
-            // 
-            // label39
-            // 
-            resources.ApplyResources(this.label39, "label39");
-            this.label39.Name = "label39";
-            // 
-            // textBoxSearchCellB
-            // 
-            resources.ApplyResources(this.textBoxSearchCellB, "textBoxSearchCellB");
-            this.textBoxSearchCellB.Name = "textBoxSearchCellB";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
             // 
             // checkBoxDspacing
             // 
@@ -577,48 +528,18 @@
             // 
             // groupBoxDspacing
             // 
-            this.groupBoxDspacing.Controls.Add(this.numericUpDownD3err);
             this.groupBoxDspacing.Controls.Add(this.checkBoxD3);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD3Err);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD2Err);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD1Err);
             this.groupBoxDspacing.Controls.Add(this.checkBoxD2);
             this.groupBoxDspacing.Controls.Add(this.checkBoxD1);
-            this.groupBoxDspacing.Controls.Add(this.numericUpDownD2err);
-            this.groupBoxDspacing.Controls.Add(this.label13);
-            this.groupBoxDspacing.Controls.Add(this.numericUpDownD1err);
-            this.groupBoxDspacing.Controls.Add(this.label9);
-            this.groupBoxDspacing.Controls.Add(this.textBoxD3);
-            this.groupBoxDspacing.Controls.Add(this.label12);
-            this.groupBoxDspacing.Controls.Add(this.label10);
-            this.groupBoxDspacing.Controls.Add(this.label8);
-            this.groupBoxDspacing.Controls.Add(this.label11);
-            this.groupBoxDspacing.Controls.Add(this.textBoxD1);
-            this.groupBoxDspacing.Controls.Add(this.label7);
-            this.groupBoxDspacing.Controls.Add(this.label15);
-            this.groupBoxDspacing.Controls.Add(this.label16);
-            this.groupBoxDspacing.Controls.Add(this.textBoxD2);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD3);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD2);
+            this.groupBoxDspacing.Controls.Add(this.numericBoxD1);
             resources.ApplyResources(this.groupBoxDspacing, "groupBoxDspacing");
             this.groupBoxDspacing.Name = "groupBoxDspacing";
             this.groupBoxDspacing.TabStop = false;
-            // 
-            // numericUpDownD3err
-            // 
-            this.numericUpDownD3err.DecimalPlaces = 1;
-            resources.ApplyResources(this.numericUpDownD3err, "numericUpDownD3err");
-            this.numericUpDownD3err.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD3err.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD3err.Name = "numericUpDownD3err";
-            this.numericUpDownD3err.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
             // 
             // checkBoxD3
             // 
@@ -643,108 +564,21 @@
             this.checkBoxD1.UseVisualStyleBackColor = true;
             this.checkBoxD1.CheckedChanged += new System.EventHandler(this.checkBoxD1_CheckedChanged);
             // 
-            // numericUpDownD2err
+            // checkBoxDensity
             // 
-            this.numericUpDownD2err.DecimalPlaces = 1;
-            resources.ApplyResources(this.numericUpDownD2err, "numericUpDownD2err");
-            this.numericUpDownD2err.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD2err.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD2err.Name = "numericUpDownD2err";
-            this.numericUpDownD2err.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
+            resources.ApplyResources(this.checkBoxDensity, "checkBoxDensity");
+            this.checkBoxDensity.Name = "checkBoxDensity";
+            this.checkBoxDensity.UseVisualStyleBackColor = true;
+            this.checkBoxDensity.CheckedChanged += new System.EventHandler(this.textBoxSearchAllField_TextChanged);
+            this.checkBoxDensity.Click += new System.EventHandler(this.checkBoxSearch_CheckedChanged);
             // 
-            // label13
+            // groupBoxDensity
             // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // numericUpDownD1err
-            // 
-            this.numericUpDownD1err.DecimalPlaces = 1;
-            resources.ApplyResources(this.numericUpDownD1err, "numericUpDownD1err");
-            this.numericUpDownD1err.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD1err.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownD1err.Name = "numericUpDownD1err";
-            this.numericUpDownD1err.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // textBoxD3
-            // 
-            resources.ApplyResources(this.textBoxD3, "textBoxD3");
-            this.textBoxD3.Name = "textBoxD3";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // textBoxD1
-            // 
-            resources.ApplyResources(this.textBoxD1, "textBoxD1");
-            this.textBoxD1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxD1.Name = "textBoxD1";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // textBoxD2
-            // 
-            resources.ApplyResources(this.textBoxD2, "textBoxD2");
-            this.textBoxD2.Name = "textBoxD2";
+            this.groupBoxDensity.Controls.Add(this.numericBoxDensity);
+            this.groupBoxDensity.Controls.Add(this.numericBoxDensityErr);
+            resources.ApplyResources(this.groupBoxDensity, "groupBoxDensity");
+            this.groupBoxDensity.Name = "groupBoxDensity";
+            this.groupBoxDensity.TabStop = false;
             // 
             // buttonSearch
             // 
@@ -1131,121 +965,523 @@
             this.crystalControl.VisibleReferenceTab = true;
             this.crystalControl.VisibleStressStrainTab = false;
             // 
-            // bindingSourceMain
+            // numericBoxCellGamma
             // 
-            this.bindingSourceMain.DataMember = "DataTable";
-            this.bindingSourceMain.DataSource = this.dataSet;
-            this.bindingSourceMain.CurrentChanged += new System.EventHandler(this.bindingSourceMain_CurrentChanged);
+            this.numericBoxCellGamma.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellGamma, "numericBoxCellGamma");
+            this.numericBoxCellGamma.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellGamma.DecimalPlaces = -2;
+            this.numericBoxCellGamma.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellGamma.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellGamma.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellGamma.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellGamma.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellGamma.Maximum = 179D;
+            this.numericBoxCellGamma.Minimum = 1D;
+            this.numericBoxCellGamma.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellGamma.MouseSpeed = 1D;
+            this.numericBoxCellGamma.Multiline = false;
+            this.numericBoxCellGamma.Name = "numericBoxCellGamma";
+            this.numericBoxCellGamma.RadianValue = 1.5707963267948966D;
+            this.numericBoxCellGamma.ReadOnly = false;
+            this.numericBoxCellGamma.RestrictLimitValue = true;
+            this.numericBoxCellGamma.ShowFraction = false;
+            this.numericBoxCellGamma.ShowPositiveSign = false;
+            this.numericBoxCellGamma.SkipEventDuringInput = false;
+            this.numericBoxCellGamma.SmartIncrement = true;
+            this.numericBoxCellGamma.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellGamma.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellGamma.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellGamma.ThonsandsSeparator = true;
+            this.numericBoxCellGamma.UpDown_Increment = 1D;
+            this.numericBoxCellGamma.Value = 90D;
+            this.numericBoxCellGamma.WordWrap = true;
             // 
-            // dataSet
+            // numericBoxCellAngleErr
             // 
-            this.dataSet.DataSetName = "DataSet";
-            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.numericBoxCellAngleErr.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellAngleErr, "numericBoxCellAngleErr");
+            this.numericBoxCellAngleErr.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAngleErr.DecimalPlaces = 1;
+            this.numericBoxCellAngleErr.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAngleErr.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellAngleErr.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAngleErr.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellAngleErr.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellAngleErr.Maximum = 50D;
+            this.numericBoxCellAngleErr.Minimum = 0D;
+            this.numericBoxCellAngleErr.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellAngleErr.MouseSpeed = 1D;
+            this.numericBoxCellAngleErr.Multiline = false;
+            this.numericBoxCellAngleErr.Name = "numericBoxCellAngleErr";
+            this.numericBoxCellAngleErr.RadianValue = 0.052359877559829883D;
+            this.numericBoxCellAngleErr.ReadOnly = false;
+            this.numericBoxCellAngleErr.RestrictLimitValue = true;
+            this.numericBoxCellAngleErr.ShowFraction = false;
+            this.numericBoxCellAngleErr.ShowPositiveSign = false;
+            this.numericBoxCellAngleErr.ShowUpDown = true;
+            this.numericBoxCellAngleErr.SkipEventDuringInput = false;
+            this.numericBoxCellAngleErr.SmartIncrement = false;
+            this.numericBoxCellAngleErr.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellAngleErr.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellAngleErr.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellAngleErr.ThonsandsSeparator = true;
+            this.numericBoxCellAngleErr.UpDown_Increment = 0.5D;
+            this.numericBoxCellAngleErr.Value = 3D;
+            this.numericBoxCellAngleErr.WordWrap = true;
             // 
-            // ColumnName
+            // numericBoxCellLengthErr
             // 
-            this.ColumnName.DataPropertyName = "Name";
-            resources.ApplyResources(this.ColumnName, "ColumnName");
-            this.ColumnName.Name = "ColumnName";
-            this.ColumnName.ReadOnly = true;
+            this.numericBoxCellLengthErr.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellLengthErr, "numericBoxCellLengthErr");
+            this.numericBoxCellLengthErr.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellLengthErr.DecimalPlaces = 1;
+            this.numericBoxCellLengthErr.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellLengthErr.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellLengthErr.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellLengthErr.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellLengthErr.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellLengthErr.Maximum = 50D;
+            this.numericBoxCellLengthErr.Minimum = 0D;
+            this.numericBoxCellLengthErr.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellLengthErr.MouseSpeed = 1D;
+            this.numericBoxCellLengthErr.Multiline = false;
+            this.numericBoxCellLengthErr.Name = "numericBoxCellLengthErr";
+            this.numericBoxCellLengthErr.RadianValue = 0.052359877559829883D;
+            this.numericBoxCellLengthErr.ReadOnly = false;
+            this.numericBoxCellLengthErr.RestrictLimitValue = true;
+            this.numericBoxCellLengthErr.ShowFraction = false;
+            this.numericBoxCellLengthErr.ShowPositiveSign = false;
+            this.numericBoxCellLengthErr.ShowUpDown = true;
+            this.numericBoxCellLengthErr.SkipEventDuringInput = false;
+            this.numericBoxCellLengthErr.SmartIncrement = false;
+            this.numericBoxCellLengthErr.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellLengthErr.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellLengthErr.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellLengthErr.ThonsandsSeparator = true;
+            this.numericBoxCellLengthErr.UpDown_Increment = 0.5D;
+            this.numericBoxCellLengthErr.Value = 3D;
+            this.numericBoxCellLengthErr.WordWrap = true;
             // 
-            // densityDataGridViewTextBoxColumn
+            // numericBoxCellC
             // 
-            this.densityDataGridViewTextBoxColumn.DataPropertyName = "Density";
-            resources.ApplyResources(this.densityDataGridViewTextBoxColumn, "densityDataGridViewTextBoxColumn");
-            this.densityDataGridViewTextBoxColumn.Name = "densityDataGridViewTextBoxColumn";
-            this.densityDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxCellC.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellC, "numericBoxCellC");
+            this.numericBoxCellC.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellC.DecimalPlaces = -2;
+            this.numericBoxCellC.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellC.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellC.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellC.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellC.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellC.Maximum = 100D;
+            this.numericBoxCellC.Minimum = 0D;
+            this.numericBoxCellC.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellC.MouseSpeed = 1D;
+            this.numericBoxCellC.Multiline = false;
+            this.numericBoxCellC.Name = "numericBoxCellC";
+            this.numericBoxCellC.RadianValue = 0D;
+            this.numericBoxCellC.ReadOnly = false;
+            this.numericBoxCellC.RestrictLimitValue = true;
+            this.numericBoxCellC.ShowFraction = false;
+            this.numericBoxCellC.ShowPositiveSign = false;
+            this.numericBoxCellC.SkipEventDuringInput = false;
+            this.numericBoxCellC.SmartIncrement = true;
+            this.numericBoxCellC.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellC.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellC.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellC.ThonsandsSeparator = true;
+            this.numericBoxCellC.UpDown_Increment = 1D;
+            this.numericBoxCellC.Value = 0D;
+            this.numericBoxCellC.WordWrap = true;
             // 
-            // formulaDataGridViewTextBoxColumn
+            // numericBoxCellBeta
             // 
-            this.formulaDataGridViewTextBoxColumn.DataPropertyName = "Formula";
-            resources.ApplyResources(this.formulaDataGridViewTextBoxColumn, "formulaDataGridViewTextBoxColumn");
-            this.formulaDataGridViewTextBoxColumn.Name = "formulaDataGridViewTextBoxColumn";
-            this.formulaDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxCellBeta.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellBeta, "numericBoxCellBeta");
+            this.numericBoxCellBeta.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellBeta.DecimalPlaces = -2;
+            this.numericBoxCellBeta.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellBeta.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellBeta.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellBeta.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellBeta.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellBeta.Maximum = 179D;
+            this.numericBoxCellBeta.Minimum = 1D;
+            this.numericBoxCellBeta.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellBeta.MouseSpeed = 1D;
+            this.numericBoxCellBeta.Multiline = false;
+            this.numericBoxCellBeta.Name = "numericBoxCellBeta";
+            this.numericBoxCellBeta.RadianValue = 1.5707963267948966D;
+            this.numericBoxCellBeta.ReadOnly = false;
+            this.numericBoxCellBeta.RestrictLimitValue = true;
+            this.numericBoxCellBeta.ShowFraction = false;
+            this.numericBoxCellBeta.ShowPositiveSign = false;
+            this.numericBoxCellBeta.SkipEventDuringInput = false;
+            this.numericBoxCellBeta.SmartIncrement = true;
+            this.numericBoxCellBeta.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellBeta.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellBeta.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellBeta.ThonsandsSeparator = true;
+            this.numericBoxCellBeta.UpDown_Increment = 1D;
+            this.numericBoxCellBeta.Value = 90D;
+            this.numericBoxCellBeta.WordWrap = true;
             // 
-            // aDataGridViewTextBoxColumn
+            // numericBoxCellAlpha
             // 
-            this.aDataGridViewTextBoxColumn.DataPropertyName = "A";
-            resources.ApplyResources(this.aDataGridViewTextBoxColumn, "aDataGridViewTextBoxColumn");
-            this.aDataGridViewTextBoxColumn.Name = "aDataGridViewTextBoxColumn";
-            this.aDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxCellAlpha.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellAlpha, "numericBoxCellAlpha");
+            this.numericBoxCellAlpha.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAlpha.DecimalPlaces = -2;
+            this.numericBoxCellAlpha.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAlpha.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellAlpha.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellAlpha.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellAlpha.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellAlpha.Maximum = 179D;
+            this.numericBoxCellAlpha.Minimum = 1D;
+            this.numericBoxCellAlpha.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellAlpha.MouseSpeed = 1D;
+            this.numericBoxCellAlpha.Multiline = false;
+            this.numericBoxCellAlpha.Name = "numericBoxCellAlpha";
+            this.numericBoxCellAlpha.RadianValue = 1.5707963267948966D;
+            this.numericBoxCellAlpha.ReadOnly = false;
+            this.numericBoxCellAlpha.RestrictLimitValue = true;
+            this.numericBoxCellAlpha.ShowFraction = false;
+            this.numericBoxCellAlpha.ShowPositiveSign = false;
+            this.numericBoxCellAlpha.SkipEventDuringInput = false;
+            this.numericBoxCellAlpha.SmartIncrement = true;
+            this.numericBoxCellAlpha.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellAlpha.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellAlpha.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellAlpha.ThonsandsSeparator = true;
+            this.numericBoxCellAlpha.UpDown_Increment = 1D;
+            this.numericBoxCellAlpha.Value = 90D;
+            this.numericBoxCellAlpha.WordWrap = true;
             // 
-            // bDataGridViewTextBoxColumn
+            // numericBoxCellB
             // 
-            this.bDataGridViewTextBoxColumn.DataPropertyName = "B";
-            resources.ApplyResources(this.bDataGridViewTextBoxColumn, "bDataGridViewTextBoxColumn");
-            this.bDataGridViewTextBoxColumn.Name = "bDataGridViewTextBoxColumn";
-            this.bDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxCellB.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellB, "numericBoxCellB");
+            this.numericBoxCellB.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellB.DecimalPlaces = -2;
+            this.numericBoxCellB.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellB.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellB.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellB.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellB.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellB.Maximum = 100D;
+            this.numericBoxCellB.Minimum = 0D;
+            this.numericBoxCellB.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellB.MouseSpeed = 1D;
+            this.numericBoxCellB.Multiline = false;
+            this.numericBoxCellB.Name = "numericBoxCellB";
+            this.numericBoxCellB.RadianValue = 0D;
+            this.numericBoxCellB.ReadOnly = false;
+            this.numericBoxCellB.RestrictLimitValue = true;
+            this.numericBoxCellB.ShowFraction = false;
+            this.numericBoxCellB.ShowPositiveSign = false;
+            this.numericBoxCellB.SkipEventDuringInput = false;
+            this.numericBoxCellB.SmartIncrement = true;
+            this.numericBoxCellB.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellB.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellB.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellB.ThonsandsSeparator = true;
+            this.numericBoxCellB.UpDown_Increment = 1D;
+            this.numericBoxCellB.Value = 0D;
+            this.numericBoxCellB.WordWrap = true;
             // 
-            // cDataGridViewTextBoxColumn
+            // numericBoxCellA
             // 
-            this.cDataGridViewTextBoxColumn.DataPropertyName = "C";
-            resources.ApplyResources(this.cDataGridViewTextBoxColumn, "cDataGridViewTextBoxColumn");
-            this.cDataGridViewTextBoxColumn.Name = "cDataGridViewTextBoxColumn";
-            this.cDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxCellA.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxCellA, "numericBoxCellA");
+            this.numericBoxCellA.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellA.DecimalPlaces = -2;
+            this.numericBoxCellA.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellA.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellA.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxCellA.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxCellA.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxCellA.Maximum = 100D;
+            this.numericBoxCellA.Minimum = 0D;
+            this.numericBoxCellA.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxCellA.MouseSpeed = 1D;
+            this.numericBoxCellA.Multiline = false;
+            this.numericBoxCellA.Name = "numericBoxCellA";
+            this.numericBoxCellA.RadianValue = 0D;
+            this.numericBoxCellA.ReadOnly = false;
+            this.numericBoxCellA.RestrictLimitValue = true;
+            this.numericBoxCellA.ShowFraction = false;
+            this.numericBoxCellA.ShowPositiveSign = false;
+            this.numericBoxCellA.SkipEventDuringInput = false;
+            this.numericBoxCellA.SmartIncrement = true;
+            this.numericBoxCellA.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxCellA.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxCellA.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxCellA.ThonsandsSeparator = true;
+            this.numericBoxCellA.UpDown_Increment = 1D;
+            this.numericBoxCellA.Value = 0D;
+            this.numericBoxCellA.WordWrap = true;
             // 
-            // alphaDataGridViewTextBoxColumn
+            // numericBoxD3Err
             // 
-            this.alphaDataGridViewTextBoxColumn.DataPropertyName = "Alpha";
-            resources.ApplyResources(this.alphaDataGridViewTextBoxColumn, "alphaDataGridViewTextBoxColumn");
-            this.alphaDataGridViewTextBoxColumn.Name = "alphaDataGridViewTextBoxColumn";
-            this.alphaDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxD3Err.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD3Err, "numericBoxD3Err");
+            this.numericBoxD3Err.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3Err.DecimalPlaces = 1;
+            this.numericBoxD3Err.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3Err.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD3Err.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3Err.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD3Err.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD3Err.Maximum = 50D;
+            this.numericBoxD3Err.Minimum = 0D;
+            this.numericBoxD3Err.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD3Err.MouseSpeed = 1D;
+            this.numericBoxD3Err.Multiline = false;
+            this.numericBoxD3Err.Name = "numericBoxD3Err";
+            this.numericBoxD3Err.RadianValue = 0.052359877559829883D;
+            this.numericBoxD3Err.ReadOnly = false;
+            this.numericBoxD3Err.RestrictLimitValue = true;
+            this.numericBoxD3Err.ShowFraction = false;
+            this.numericBoxD3Err.ShowPositiveSign = false;
+            this.numericBoxD3Err.ShowUpDown = true;
+            this.numericBoxD3Err.SkipEventDuringInput = false;
+            this.numericBoxD3Err.SmartIncrement = false;
+            this.numericBoxD3Err.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD3Err.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD3Err.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD3Err.ThonsandsSeparator = true;
+            this.numericBoxD3Err.UpDown_Increment = 0.5D;
+            this.numericBoxD3Err.Value = 3D;
+            this.numericBoxD3Err.WordWrap = true;
             // 
-            // betaDataGridViewTextBoxColumn
+            // numericBoxD2Err
             // 
-            this.betaDataGridViewTextBoxColumn.DataPropertyName = "Beta";
-            resources.ApplyResources(this.betaDataGridViewTextBoxColumn, "betaDataGridViewTextBoxColumn");
-            this.betaDataGridViewTextBoxColumn.Name = "betaDataGridViewTextBoxColumn";
-            this.betaDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxD2Err.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD2Err, "numericBoxD2Err");
+            this.numericBoxD2Err.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2Err.DecimalPlaces = 1;
+            this.numericBoxD2Err.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2Err.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD2Err.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2Err.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD2Err.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD2Err.Maximum = 50D;
+            this.numericBoxD2Err.Minimum = 0D;
+            this.numericBoxD2Err.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD2Err.MouseSpeed = 1D;
+            this.numericBoxD2Err.Multiline = false;
+            this.numericBoxD2Err.Name = "numericBoxD2Err";
+            this.numericBoxD2Err.RadianValue = 0.052359877559829883D;
+            this.numericBoxD2Err.ReadOnly = false;
+            this.numericBoxD2Err.RestrictLimitValue = true;
+            this.numericBoxD2Err.ShowFraction = false;
+            this.numericBoxD2Err.ShowPositiveSign = false;
+            this.numericBoxD2Err.ShowUpDown = true;
+            this.numericBoxD2Err.SkipEventDuringInput = false;
+            this.numericBoxD2Err.SmartIncrement = false;
+            this.numericBoxD2Err.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD2Err.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD2Err.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD2Err.ThonsandsSeparator = true;
+            this.numericBoxD2Err.UpDown_Increment = 0.5D;
+            this.numericBoxD2Err.Value = 3D;
+            this.numericBoxD2Err.WordWrap = true;
             // 
-            // gammaDataGridViewTextBoxColumn
+            // numericBoxD1Err
             // 
-            this.gammaDataGridViewTextBoxColumn.DataPropertyName = "Gamma";
-            resources.ApplyResources(this.gammaDataGridViewTextBoxColumn, "gammaDataGridViewTextBoxColumn");
-            this.gammaDataGridViewTextBoxColumn.Name = "gammaDataGridViewTextBoxColumn";
-            this.gammaDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxD1Err.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD1Err, "numericBoxD1Err");
+            this.numericBoxD1Err.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1Err.DecimalPlaces = 1;
+            this.numericBoxD1Err.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1Err.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD1Err.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1Err.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD1Err.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD1Err.Maximum = 50D;
+            this.numericBoxD1Err.Minimum = 0D;
+            this.numericBoxD1Err.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD1Err.MouseSpeed = 1D;
+            this.numericBoxD1Err.Multiline = false;
+            this.numericBoxD1Err.Name = "numericBoxD1Err";
+            this.numericBoxD1Err.RadianValue = 0.052359877559829883D;
+            this.numericBoxD1Err.ReadOnly = false;
+            this.numericBoxD1Err.RestrictLimitValue = true;
+            this.numericBoxD1Err.ShowFraction = false;
+            this.numericBoxD1Err.ShowPositiveSign = false;
+            this.numericBoxD1Err.ShowUpDown = true;
+            this.numericBoxD1Err.SkipEventDuringInput = false;
+            this.numericBoxD1Err.SmartIncrement = false;
+            this.numericBoxD1Err.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD1Err.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD1Err.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD1Err.ThonsandsSeparator = true;
+            this.numericBoxD1Err.UpDown_Increment = 0.5D;
+            this.numericBoxD1Err.Value = 3D;
+            this.numericBoxD1Err.WordWrap = true;
             // 
-            // CrystalSystem
+            // numericBoxD3
             // 
-            this.CrystalSystem.DataPropertyName = "CrystalSystem";
-            resources.ApplyResources(this.CrystalSystem, "CrystalSystem");
-            this.CrystalSystem.Name = "CrystalSystem";
-            this.CrystalSystem.ReadOnly = true;
+            this.numericBoxD3.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD3, "numericBoxD3");
+            this.numericBoxD3.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3.DecimalPlaces = 2;
+            this.numericBoxD3.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD3.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD3.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD3.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD3.Maximum = 100D;
+            this.numericBoxD3.Minimum = 0D;
+            this.numericBoxD3.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD3.MouseSpeed = 1D;
+            this.numericBoxD3.Multiline = false;
+            this.numericBoxD3.Name = "numericBoxD3";
+            this.numericBoxD3.RadianValue = 0D;
+            this.numericBoxD3.ReadOnly = false;
+            this.numericBoxD3.RestrictLimitValue = true;
+            this.numericBoxD3.ShowFraction = false;
+            this.numericBoxD3.ShowPositiveSign = false;
+            this.numericBoxD3.SkipEventDuringInput = false;
+            this.numericBoxD3.SmartIncrement = true;
+            this.numericBoxD3.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD3.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD3.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD3.ThonsandsSeparator = true;
+            this.numericBoxD3.UpDown_Increment = 1D;
+            this.numericBoxD3.Value = 0D;
+            this.numericBoxD3.WordWrap = true;
             // 
-            // PointGroup
+            // numericBoxD2
             // 
-            this.PointGroup.DataPropertyName = "PointGroup";
-            resources.ApplyResources(this.PointGroup, "PointGroup");
-            this.PointGroup.Name = "PointGroup";
-            this.PointGroup.ReadOnly = true;
+            this.numericBoxD2.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD2, "numericBoxD2");
+            this.numericBoxD2.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2.DecimalPlaces = 2;
+            this.numericBoxD2.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD2.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD2.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD2.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD2.Maximum = 100D;
+            this.numericBoxD2.Minimum = 0D;
+            this.numericBoxD2.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD2.MouseSpeed = 1D;
+            this.numericBoxD2.Multiline = false;
+            this.numericBoxD2.Name = "numericBoxD2";
+            this.numericBoxD2.RadianValue = 0D;
+            this.numericBoxD2.ReadOnly = false;
+            this.numericBoxD2.RestrictLimitValue = true;
+            this.numericBoxD2.ShowFraction = false;
+            this.numericBoxD2.ShowPositiveSign = false;
+            this.numericBoxD2.SkipEventDuringInput = false;
+            this.numericBoxD2.SmartIncrement = true;
+            this.numericBoxD2.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD2.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD2.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD2.ThonsandsSeparator = true;
+            this.numericBoxD2.UpDown_Increment = 1D;
+            this.numericBoxD2.Value = 0D;
+            this.numericBoxD2.WordWrap = true;
             // 
-            // SpaceGroup
+            // numericBoxD1
             // 
-            this.SpaceGroup.DataPropertyName = "SpaceGroup";
-            resources.ApplyResources(this.SpaceGroup, "SpaceGroup");
-            this.SpaceGroup.Name = "SpaceGroup";
-            this.SpaceGroup.ReadOnly = true;
+            this.numericBoxD1.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxD1, "numericBoxD1");
+            this.numericBoxD1.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1.DecimalPlaces = 2;
+            this.numericBoxD1.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD1.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxD1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxD1.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxD1.Maximum = 100D;
+            this.numericBoxD1.Minimum = 0D;
+            this.numericBoxD1.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxD1.MouseSpeed = 1D;
+            this.numericBoxD1.Multiline = false;
+            this.numericBoxD1.Name = "numericBoxD1";
+            this.numericBoxD1.RadianValue = 0D;
+            this.numericBoxD1.ReadOnly = false;
+            this.numericBoxD1.RestrictLimitValue = true;
+            this.numericBoxD1.ShowFraction = false;
+            this.numericBoxD1.ShowPositiveSign = false;
+            this.numericBoxD1.SkipEventDuringInput = false;
+            this.numericBoxD1.SmartIncrement = true;
+            this.numericBoxD1.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxD1.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxD1.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxD1.ThonsandsSeparator = true;
+            this.numericBoxD1.UpDown_Increment = 1D;
+            this.numericBoxD1.Value = 0D;
+            this.numericBoxD1.WordWrap = true;
             // 
-            // Authors
+            // numericBoxDensity
             // 
-            this.Authors.DataPropertyName = "Authors";
-            resources.ApplyResources(this.Authors, "Authors");
-            this.Authors.Name = "Authors";
-            this.Authors.ReadOnly = true;
+            this.numericBoxDensity.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxDensity, "numericBoxDensity");
+            this.numericBoxDensity.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensity.DecimalPlaces = 3;
+            this.numericBoxDensity.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensity.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxDensity.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensity.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxDensity.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxDensity.Maximum = 100D;
+            this.numericBoxDensity.Minimum = 0D;
+            this.numericBoxDensity.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxDensity.MouseSpeed = 1D;
+            this.numericBoxDensity.Multiline = false;
+            this.numericBoxDensity.Name = "numericBoxDensity";
+            this.numericBoxDensity.RadianValue = 0D;
+            this.numericBoxDensity.ReadOnly = false;
+            this.numericBoxDensity.RestrictLimitValue = true;
+            this.numericBoxDensity.ShowFraction = false;
+            this.numericBoxDensity.ShowPositiveSign = false;
+            this.numericBoxDensity.SkipEventDuringInput = false;
+            this.numericBoxDensity.SmartIncrement = true;
+            this.numericBoxDensity.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxDensity.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxDensity.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxDensity.ThonsandsSeparator = true;
+            this.numericBoxDensity.UpDown_Increment = 1D;
+            this.numericBoxDensity.Value = 0D;
+            this.numericBoxDensity.WordWrap = true;
             // 
-            // titleDataGridViewTextBoxColumn
+            // numericBoxDensityErr
             // 
-            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
-            resources.ApplyResources(this.titleDataGridViewTextBoxColumn, "titleDataGridViewTextBoxColumn");
-            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
-            this.titleDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // journalDataGridViewTextBoxColumn
-            // 
-            this.journalDataGridViewTextBoxColumn.DataPropertyName = "Journal";
-            resources.ApplyResources(this.journalDataGridViewTextBoxColumn, "journalDataGridViewTextBoxColumn");
-            this.journalDataGridViewTextBoxColumn.Name = "journalDataGridViewTextBoxColumn";
-            this.journalDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numericBoxDensityErr.AllowMouseControl = false;
+            resources.ApplyResources(this.numericBoxDensityErr, "numericBoxDensityErr");
+            this.numericBoxDensityErr.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensityErr.DecimalPlaces = 1;
+            this.numericBoxDensityErr.FooterBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensityErr.FooterForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxDensityErr.HeaderBackColor = System.Drawing.Color.Transparent;
+            this.numericBoxDensityErr.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.numericBoxDensityErr.HeaderMargin = new System.Windows.Forms.Padding(0);
+            this.numericBoxDensityErr.Maximum = 50D;
+            this.numericBoxDensityErr.Minimum = 0D;
+            this.numericBoxDensityErr.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
+            this.numericBoxDensityErr.MouseSpeed = 1D;
+            this.numericBoxDensityErr.Multiline = false;
+            this.numericBoxDensityErr.Name = "numericBoxDensityErr";
+            this.numericBoxDensityErr.RadianValue = 0.052359877559829883D;
+            this.numericBoxDensityErr.ReadOnly = false;
+            this.numericBoxDensityErr.RestrictLimitValue = true;
+            this.numericBoxDensityErr.ShowFraction = false;
+            this.numericBoxDensityErr.ShowPositiveSign = false;
+            this.numericBoxDensityErr.ShowUpDown = true;
+            this.numericBoxDensityErr.SkipEventDuringInput = false;
+            this.numericBoxDensityErr.SmartIncrement = false;
+            this.numericBoxDensityErr.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.numericBoxDensityErr.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
+            this.numericBoxDensityErr.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
+            this.numericBoxDensityErr.ThonsandsSeparator = true;
+            this.numericBoxDensityErr.UpDown_Increment = 0.5D;
+            this.numericBoxDensityErr.Value = 3D;
+            this.numericBoxDensityErr.WordWrap = true;
             // 
             // FormMain
             // 
@@ -1268,6 +1504,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -1275,14 +1513,9 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.groupBoxCellParameter.ResumeLayout(false);
-            this.groupBoxCellParameter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchCellLengthError)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSearchCellAngleError)).EndInit();
             this.groupBoxDspacing.ResumeLayout(false);
             this.groupBoxDspacing.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD3err)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD2err)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownD1err)).EndInit();
+            this.groupBoxDensity.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
@@ -1290,8 +1523,6 @@
             this.bindingNavigator1.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1321,24 +1552,6 @@
         private System.Windows.Forms.CheckBox checkBoxSearchName;
         private System.Windows.Forms.CheckBox checkBoxSearchRefference;
         private System.Windows.Forms.GroupBox groupBoxCellParameter;
-        private System.Windows.Forms.NumericUpDown numericUpDownSearchCellLengthError;
-        private System.Windows.Forms.NumericUpDown numericUpDownSearchCellAngleError;
-        private System.Windows.Forms.Label label34;
-        public System.Windows.Forms.TextBox textBoxSearchCellC;
-        public System.Windows.Forms.TextBox textBoxSearchCellGamma;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label38;
-        public System.Windows.Forms.TextBox textBoxSearchCellA;
-        private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.Label label39;
-        public System.Windows.Forms.TextBox textBoxSearchCellB;
-        public System.Windows.Forms.TextBox textBoxSearchCellAlpha;
-        public System.Windows.Forms.TextBox textBoxSearchCellBeta;
         private System.Windows.Forms.CheckBox checkBoxSearchElements;
         private System.Windows.Forms.CheckBox checkBoxSearchCrystalSystem;
         private System.Windows.Forms.Button buttonSearch;
@@ -1347,12 +1560,6 @@
         private System.Windows.Forms.ToolStripMenuItem optionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolTipToolStripMenuItem;
         public System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonPeriodicTable;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -1367,23 +1574,8 @@
         private System.Windows.Forms.ToolStripMenuItem helpwebToolStripMenuItem;
         public Crystallography.Controls.CrystalControl crystalControl;
         private System.Windows.Forms.GroupBox groupBoxDspacing;
-        private System.Windows.Forms.NumericUpDown numericUpDownD1err;
         private System.Windows.Forms.CheckBox checkBoxDspacing;
-        public System.Windows.Forms.TextBox textBoxD3;
-        private System.Windows.Forms.Label label10;
-        public System.Windows.Forms.TextBox textBoxD1;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        public System.Windows.Forms.TextBox textBoxD2;
-        private System.Windows.Forms.NumericUpDown numericUpDownD3err;
         private System.Windows.Forms.CheckBox checkBoxD1;
-        private System.Windows.Forms.NumericUpDown numericUpDownD2err;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBoxD3;
         private System.Windows.Forms.CheckBox checkBoxD2;
         private System.Windows.Forms.ToolStripMenuItem hintToolStripMenuItem;
@@ -1432,6 +1624,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Authors;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn journalDataGridViewTextBoxColumn;
+        private Crystallography.Controls.NumericBox numericBoxCellGamma;
+        private Crystallography.Controls.NumericBox numericBoxCellAngleErr;
+        private Crystallography.Controls.NumericBox numericBoxCellLengthErr;
+        private Crystallography.Controls.NumericBox numericBoxCellC;
+        private Crystallography.Controls.NumericBox numericBoxCellBeta;
+        private Crystallography.Controls.NumericBox numericBoxCellAlpha;
+        private Crystallography.Controls.NumericBox numericBoxCellB;
+        private Crystallography.Controls.NumericBox numericBoxCellA;
+        private Crystallography.Controls.NumericBox numericBoxD3Err;
+        private Crystallography.Controls.NumericBox numericBoxD2Err;
+        private Crystallography.Controls.NumericBox numericBoxD1Err;
+        private Crystallography.Controls.NumericBox numericBoxD3;
+        private Crystallography.Controls.NumericBox numericBoxD2;
+        private Crystallography.Controls.NumericBox numericBoxD1;
+        private System.Windows.Forms.CheckBox checkBoxDensity;
+        private System.Windows.Forms.GroupBox groupBoxDensity;
+        private Crystallography.Controls.NumericBox numericBoxDensity;
+        private Crystallography.Controls.NumericBox numericBoxDensityErr;
     }
 }
 

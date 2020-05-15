@@ -1144,7 +1144,7 @@ namespace Crystallography
             SetPeakIntensity(WaveSource.Xray, WaveColor.Monochrome, waveLentgh, null);
 
             //強度の順にソート
-            SortPlaneByIntensity[] s = new SortPlaneByIntensity[this.Plane.Count];
+            var s = new SortPlaneByIntensity[this.Plane.Count];
             for (int i = 0; i < Plane.Count; i++)
                 s[i] = new SortPlaneByIntensity(Plane[i].d, Plane[i].Intensity);
 
