@@ -281,6 +281,8 @@ namespace CSManager {
             
             private global::System.Data.DataColumn columnSerializedCrystal2;
             
+            private global::System.Data.DataColumn columnVisible;
+            
             private global::System.Data.DataColumn columnName;
             
             private global::System.Data.DataColumn columnFormula;
@@ -367,6 +369,14 @@ namespace CSManager {
             public global::System.Data.DataColumn SerializedCrystal2Column {
                 get {
                     return this.columnSerializedCrystal2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn VisibleColumn {
+                get {
+                    return this.columnVisible;
                 }
             }
             
@@ -601,6 +611,7 @@ namespace CSManager {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DataTableRow AddDataTableRow(
                         object SerializedCrystal2, 
+                        bool Visible, 
                         string Name, 
                         string Formula, 
                         double Density, 
@@ -628,6 +639,7 @@ namespace CSManager {
                 DataTableRow rowDataTableRow = ((DataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SerializedCrystal2,
+                        Visible,
                         Name,
                         Formula,
                         Density,
@@ -675,6 +687,7 @@ namespace CSManager {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
                 this.columnSerializedCrystal2 = base.Columns["SerializedCrystal2"];
+                this.columnVisible = base.Columns["Visible"];
                 this.columnName = base.Columns["Name"];
                 this.columnFormula = base.Columns["Formula"];
                 this.columnDensity = base.Columns["Density"];
@@ -706,6 +719,8 @@ namespace CSManager {
             private void InitClass() {
                 this.columnSerializedCrystal2 = new global::System.Data.DataColumn("SerializedCrystal2", typeof(object), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSerializedCrystal2);
+                this.columnVisible = new global::System.Data.DataColumn("Visible", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVisible);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
                 this.columnFormula = new global::System.Data.DataColumn("Formula", typeof(string), null, global::System.Data.MappingType.Element);
@@ -907,6 +922,22 @@ namespace CSManager {
                 }
                 set {
                     this[this.tableDataTable.SerializedCrystal2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Visible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableDataTable.VisibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("テーブル \'DataTable\' にある列 \'Visible\' の値は DBNull です。", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable.VisibleColumn] = value;
                 }
             }
             
@@ -1304,6 +1335,18 @@ namespace CSManager {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSerializedCrystal2Null() {
                 this[this.tableDataTable.SerializedCrystal2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsVisibleNull() {
+                return this.IsNull(this.tableDataTable.VisibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetVisibleNull() {
+                this[this.tableDataTable.VisibleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

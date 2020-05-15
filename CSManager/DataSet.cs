@@ -12,7 +12,7 @@ namespace CSManager
 
     partial class DataSet
     {
-        static readonly object lockObj=new object();
+        static readonly object lockObj = new object();
         public static void ReplaceBase(DataRowCollection rows, DataRow r, int i)
         {
             for (int j = 0; j < rows[i].ItemArray.Length; j++)
@@ -65,19 +65,20 @@ namespace CSManager
                 Array.Copy(c.d, d, c.d.Length);
 
                 DataTableRow dr;
-                lock(lockObj)
+                lock (lockObj)
                     dr = NewDataTableRow();
 
                 dr.SerializedCrystal2 = serialize(c);
+                dr.Visible = true;
                 dr.Name = c.name;
                 dr.Formula = c.formula;
-                dr.Density = Math.Round(c.density, 4);
-                dr.A = Math.Round(c.a * 10, 7); 
-                dr.B = Math.Round(c.b * 10, 7);
-                dr.C = Math.Round(c.c * 10, 7);
-                dr.Alpha = Math.Round(c.alpha * 180 / Math.PI, 7);
-                dr.Beta = Math.Round(c.beta * 180 / Math.PI, 7);
-                dr.Gamma = Math.Round(c.gamma * 180 / Math.PI, 7);
+                dr.Density = c.density;
+                dr.A = c.a * 10;
+                dr.B = c.b * 10;
+                dr.C = c.c * 10;
+                dr.Alpha = c.alpha * 180 / Math.PI;
+                dr.Beta = c.beta * 180 / Math.PI;
+                dr.Gamma = c.gamma * 180 / Math.PI;
                 dr.CrystalSystem = SymmetryStatic.StrArray[c.sym][16];//s.CrystalSystemStr;
                 dr.PointGroup = SymmetryStatic.StrArray[c.sym][13];
                 dr.SpaceGroup = SymmetryStatic.StrArray[c.sym][4];
@@ -97,7 +98,7 @@ namespace CSManager
                 return dr;
             }
 
-            
+
 
 
 
