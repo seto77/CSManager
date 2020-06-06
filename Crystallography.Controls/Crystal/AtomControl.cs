@@ -11,23 +11,42 @@ namespace Crystallography.Controls
     public partial class AtomControl : UserControl
     {
         #region プロパティ, フィールド, イベントハンドラ
+
+        public Crystal Crystal
+        {
+            get => crystal; set
+            {
+                crystal = value;
+                
+                if (crystal != null)
+                {
+                    table.Clear();
+                    AddRange(Crystal.Atoms);
+                    //なぜかEnabledカラムのVisibleが予期せず変わってしまうことがあるので、appearanceTabVisibleを使う.
+                    dataGridView.Columns["enabledColumn"].Visible = appearanceTabVisible;
+                }
+            }
+        }
+        private Crystal crystal = null;
+
+        public int SymmetrySeriesNumber { get=> crystal !=null ? crystal.SymmetrySeriesNumber: 0;} 
+
         DataSet.DataTableAtomDataTable table;
         public bool SkipEvent { get; set; } = false;
-        public int SymmetrySeriesNumber { get; set; } = 0;
+        
 
-        private bool details1 = false;
-
+        
         public bool AtomicPositionError
         {
             set
             {
-                details1 = value;
+                atmicPositionError = value;
                 if (value == false)
                 {
                     tableLayoutPanel1.ColumnStyles[4].SizeType = tableLayoutPanel1.ColumnStyles[7].SizeType = SizeType.Absolute;
                     tableLayoutPanel1.ColumnStyles[4].Width = tableLayoutPanel1.ColumnStyles[7].Width = 0;
 
-                    numericalTextBoxXerr.TabStop = numericalTextBoxYerr.TabStop = numericalTextBoxZerr.TabStop = numericalTextBoxOccerr.TabStop = false;
+                    numericBoxXerr.TabStop = numericBoxYerr.TabStop = numericBoxZerr.TabStop = numericBoxOccerr.TabStop = false;
                 }
                 else
                 {
@@ -37,42 +56,42 @@ namespace Crystallography.Controls
                     tableLayoutPanel1.ColumnStyles[1].Width = tableLayoutPanel1.ColumnStyles[3].Width = tableLayoutPanel1.ColumnStyles[4].Width
                         = tableLayoutPanel1.ColumnStyles[6].Width = tableLayoutPanel1.ColumnStyles[7].Width = 20;
 
-                    numericalTextBoxXerr.TabStop = numericalTextBoxYerr.TabStop = numericalTextBoxZerr.TabStop = numericalTextBoxOccerr.TabStop = true;
+                    numericBoxXerr.TabStop = numericBoxYerr.TabStop = numericBoxZerr.TabStop = numericBoxOccerr.TabStop = true;
                 }
             }
-            get => details1;
+            get => atmicPositionError;
         }
-
-        private bool details2 = false;
+        private bool atmicPositionError = false;
 
         public bool DebyeWallerError
         {
             set
             {
-                details2 = value;
+                debyeWallerError = value;
                 if (value == false)
                 {
-                    numericBoxBiso.Width = numericalTextBoxB11.Width = numericalTextBoxB12.Width =
-                        numericalTextBoxB13.Width = numericalTextBoxB22.Width = numericalTextBoxB23.Width = numericalTextBoxB33.Width = 60;
+                    //numericBoxBiso.Width = numericBoxB11.Width = numericBoxB12.Width =
+                    //    numericBoxB13.Width = numericBoxB22.Width = numericBoxB23.Width = numericBoxB33.Width = 60;
 
-                    numericalTextBoxBisoerr.Visible = numericalTextBoxB11err.Visible = numericalTextBoxB12err.Visible = numericalTextBoxB13err.Visible = numericalTextBoxB22err.Visible
-                    = numericalTextBoxB23err.Visible = numericalTextBoxB33err.Visible = false;
+                    numericBoxBisoerr.Visible = numericBoxB11err.Visible = numericBoxB12err.Visible = numericBoxB13err.Visible = numericBoxB22err.Visible
+                    = numericBoxB23err.Visible = numericBoxB33err.Visible = false;
                 }
                 else
                 {
-                    numericBoxBiso.Width = numericalTextBoxB11.Width = numericalTextBoxB12.Width =
-                        numericalTextBoxB13.Width = numericalTextBoxB22.Width = numericalTextBoxB23.Width = numericalTextBoxB33.Width = 45;
+                    //numericBoxBiso.Width = numericBoxB11.Width = numericBoxB12.Width =
+                    //    numericBoxB13.Width = numericBoxB22.Width = numericBoxB23.Width = numericBoxB33.Width = 45;
 
-                    numericalTextBoxBisoerr.Visible = numericBoxBiso.Visible =
-                    numericalTextBoxB33err.Visible = numericalTextBoxB23err.Visible =
-                    numericalTextBoxB22err.Visible = numericalTextBoxB13err.Visible =
-                    numericalTextBoxB12err.Visible = numericalTextBoxB11err.Visible = true;
+                    numericBoxBisoerr.Visible = numericBoxBiso.Visible =
+                    numericBoxB33err.Visible = numericBoxB23err.Visible =
+                    numericBoxB22err.Visible = numericBoxB13err.Visible =
+                    numericBoxB12err.Visible = numericBoxB11err.Visible = true;
                 }
             }
-            get => details2;
+            get => debyeWallerError;
         }
+        private bool debyeWallerError = false;
 
-        public bool Istoropy
+        public bool UseIsotropy
         {
             set
             {
@@ -84,61 +103,74 @@ namespace Crystallography.Controls
             get => radioButtonIsotoropy.Checked;
         }
 
+        public bool UseTypeU
+        {
+            set
+            {
+                if (value)
+                    radioButtonDebyeWallerTypeU.Checked = true;
+                else
+                    radioButtonDebyeWallerTypeB.Checked = true;
+            }
+            get => radioButtonDebyeWallerTypeU.Checked;
+        }
+
+
         #region 温度因子 プロパティ
         [Category("Atom")]
-        public double Biso { set => numericBoxBiso.Value = value; get => numericBoxBiso.Value; }
+        public double Iso { set => numericBoxBiso.Value = value; get => numericBoxBiso.Value; }
         [Category("Atom")]
-        public double BisoErr { set => numericalTextBoxBisoerr.Value = value; get => numericalTextBoxBisoerr.Value; }
+        public double IsoErr { set => numericBoxBisoerr.Value = value; get => numericBoxBisoerr.Value; }
         [Category("Atom")]
-        public double B11 { set => numericalTextBoxB11.Value = value; get => numericalTextBoxB11.Value; }
+        public double Aniso11 { set => numericBoxB11.Value = value; get => numericBoxB11.Value; }
         [Category("Atom")]
-        public double B11Err { set => numericalTextBoxB11err.Value = value; get => numericalTextBoxB11err.Value; }
+        public double Aniso11Err { set => numericBoxB11err.Value = value; get => numericBoxB11err.Value; }
         [Category("Atom")]
-        public double B12 { set => numericalTextBoxB12.Value = value; get => numericalTextBoxB12.Value; }
+        public double Aniso12 { set => numericBoxB12.Value = value; get => numericBoxB12.Value; }
         [Category("Atom")]
-        public double B12Err { set => numericalTextBoxB12err.Value = value; get => numericalTextBoxB12err.Value; }
+        public double Aniso12Err { set => numericBoxB12err.Value = value; get => numericBoxB12err.Value; }
         [Category("Atom")]
-        public double B13 { set => numericalTextBoxB13.Value = value; get => numericalTextBoxB13.Value; }
+        public double Aniso13 { set => numericBoxB13.Value = value; get => numericBoxB13.Value; }
         [Category("Atom")]
-        public double B13Err { set => numericalTextBoxB13err.Value = value; get => numericalTextBoxB13err.Value; }
+        public double Aniso13Err { set => numericBoxB13err.Value = value; get => numericBoxB13err.Value; }
         [Category("Atom")]
-        public double B22 { set => numericalTextBoxB22.Value = value; get => numericalTextBoxB22.Value; }
+        public double Aniso22 { set => numericBoxB22.Value = value; get => numericBoxB22.Value; }
         [Category("Atom")]
-        public double B22Err { set => numericalTextBoxB22err.Value = value; get => numericalTextBoxB22err.Value; }
+        public double Aniso22Err { set => numericBoxB22err.Value = value; get => numericBoxB22err.Value; }
         [Category("Atom")]
-        public double B23 { set => numericalTextBoxB23.Value = value; get { return numericalTextBoxB23.Value; } }
+        public double Aniso23 { set => numericBoxB23.Value = value; get { return numericBoxB23.Value; } }
         [Category("Atom")]
-        public double B23Err { set { numericalTextBoxB23err.Value = value; } get { return numericalTextBoxB23err.Value; } }
+        public double Aniso23Err { set { numericBoxB23err.Value = value; } get { return numericBoxB23err.Value; } }
         [Category("Atom")]
-        public double B33 { set { numericalTextBoxB33.Value = value; } get { return numericalTextBoxB33.Value; } }
+        public double Aniso33 { set { numericBoxB33.Value = value; } get { return numericBoxB33.Value; } }
         [Category("Atom")]
-        public double B33Err { set { numericalTextBoxB33err.Value = value; } get { return numericalTextBoxB33err.Value; } }
+        public double Aniso33Err { set { numericBoxB33err.Value = value; } get { return numericBoxB33err.Value; } }
         #endregion
 
         #region 原子位置 プロパティ
         [Category("Atom")]
-        public double X { set { numericTextBoxX.Value = value; } get { return numericTextBoxX.Value; } }
+        public double X { set { numericBoxX.Value = value; } get { return numericBoxX.Value; } }
 
         [Category("Atom")]
-        public double XErr { set { numericalTextBoxXerr.Value = value; } get { return numericalTextBoxXerr.Value; } }
+        public double XErr { set { numericBoxXerr.Value = value; } get { return numericBoxXerr.Value; } }
 
         [Category("Atom")]
-        public double Y { set { numericTextBoxY.Value = value; } get { return numericTextBoxY.Value; } }
+        public double Y { set { numericBoxY.Value = value; } get { return numericBoxY.Value; } }
 
         [Category("Atom")]
-        public double YErr { set { numericalTextBoxYerr.Value = value; } get { return numericalTextBoxYerr.Value; } }
+        public double YErr { set { numericBoxYerr.Value = value; } get { return numericBoxYerr.Value; } }
 
         [Category("Atom")]
-        public double Z { set { numericTextBoxZ.Value = value; } get { return numericTextBoxZ.Value; } }
+        public double Z { set { numericBoxZ.Value = value; } get { return numericBoxZ.Value; } }
 
         [Category("Atom")]
-        public double ZErr { set => numericalTextBoxZerr.Value = value; get => numericalTextBoxZerr.Value; }
+        public double ZErr { set => numericBoxZerr.Value = value; get => numericBoxZerr.Value; }
         #endregion
 
         [Category("Atom")]
-        public double Occ { set => numericTextBoxOcc.Value = value; get => numericTextBoxOcc.Value; }
+        public double Occ { set => numericBoxOcc.Value = value; get => numericBoxOcc.Value; }
         [Category("Atom")]
-        public double OccErr { set => numericalTextBoxOccerr.Value = value; get => numericalTextBoxOccerr.Value; }
+        public double OccErr { set => numericBoxOccerr.Value = value; get => numericBoxOccerr.Value; }
         [Category("Atom")]
         public string Label { set => textBoxLabel.Text = value; get => textBoxLabel.Text; }
         [Category("Atom")]
@@ -183,6 +215,9 @@ namespace Crystallography.Controls
         public double Radius { get => numericBoxAtomRadius.Value; set => numericBoxAtomRadius.Value = value; }
         [Category("Material properties")]
         public Color AtomColor { get => colorControlAtomColor.Color; set => colorControlAtomColor.Color = value; }
+        [Category("Material properties")]
+        public bool ShowLabel { get => checkBoxShowLabel.Checked; set => checkBoxShowLabel.Checked = value; }
+
 
         #endregion
 
@@ -212,7 +247,15 @@ namespace Crystallography.Controls
         public int SelectedTabIndex { get => tabControl.SelectedIndex; set => tabControl.SelectedIndex = value; }
         #endregion
 
+        /// <summary>
+        /// 原子のパラメータが変更された時のイベント
+        /// </summary>
         public event EventHandler ItemsChanged;
+
+        /// <summary>
+        /// GLEnabledチェックが変更された時だけのイベント. (今のところFormStructureだけが受け取る)
+        /// </summary>
+        public event EventHandler GLEnableChanged;
 
         #endregion プロパティ
 
@@ -226,10 +269,12 @@ namespace Crystallography.Controls
             //   toolTip.SetTooltipToUsercontrol(this);
 
             //なぜか一部のnumericBoxのUp/Downが消えてしまうので、対処
-
             numericBoxAmbient.ShowUpDown = numericBoxDiffusion.ShowUpDown = numericBoxSpecular.ShowUpDown = numericBoxShininess.ShowUpDown =
                 numericBoxEmission.ShowUpDown = numericBoxAlpha.ShowUpDown = numericBoxAtomRadius.ShowUpDown = true;
+
+            dataGridView.Columns["enabledColumn"].Visible = false;
         }
+
         #endregion
 
         #region タブベージの表示/非表示制御
@@ -258,6 +303,23 @@ namespace Crystallography.Controls
         {
             flowLayoutPanelAniso1.Visible = flowLayoutPanelAniso2.Visible = !radioButtonIsotoropy.Checked;
             flowLayoutPanelIso.Visible = radioButtonIsotoropy.Checked;
+
+            labelDimension.Text = radioButtonDebyeWallerTypeB.Checked && radioButtonAnisotropy.Checked ? "Dimension: None" : "Dimension: Å^2";
+        }
+
+        private void radioButtonDebyeWallerTypeU_CheckedChanged(object sender, EventArgs e)
+        {
+            var U = radioButtonDebyeWallerTypeU.Checked;
+            numericBoxBiso.HeaderText = U ? "Uiso" : "Biso";
+            numericBoxB11.HeaderText = U ? "U11" : "B11";
+            numericBoxB22.HeaderText = U ? "U22" : "B22";
+            numericBoxB33.HeaderText = U ? "U33" : "B33";
+            numericBoxB12.HeaderText = U ? "U12" : "B12";
+            numericBoxB23.HeaderText = U ? "U23" : "B23";
+            numericBoxB13.HeaderText = U ? "U13" : "B13";
+
+            labelDimension.Text = radioButtonDebyeWallerTypeB.Checked && radioButtonAnisotropy.Checked ? "Dimension: None" : "Dimension: Å^2";
+
         }
 
         //原子番号コンボ
@@ -333,9 +395,7 @@ namespace Crystallography.Controls
 
         private void buttonEditIsotopeAbundance_Click(object sender, EventArgs e)
         {
-            FormIsotopeComposition formIsotopeComposition = new FormIsotopeComposition();
-            formIsotopeComposition.AtomNumber = AtomNo;
-            formIsotopeComposition.IsotopicComposition = isotopicComposition;
+            var formIsotopeComposition = new FormIsotopeComposition { AtomNumber = AtomNo, IsotopicComposition = isotopicComposition };
             if (formIsotopeComposition.ShowDialog() == DialogResult.OK)
                 IsotopicComposition = formIsotopeComposition.IsotopicComposition;
         }
@@ -361,9 +421,16 @@ namespace Crystallography.Controls
         /// <param name="atoms"></param>
         public void AddRange(IEnumerable<Atoms> atoms)
         {
-            foreach (var a in atoms)
-                table.Add(a);
-            ItemsChanged?.Invoke(this, new EventArgs());
+            if (atoms != null)
+            {
+                SkipEvent = true;
+                foreach (var a in atoms)
+                    table.Add(a);
+                SkipEvent = false;
+                ItemsChanged?.Invoke(this, new EventArgs());
+                bindingSource_PositionChanged(new object(), new EventArgs());
+            }
+            
         }
 
         /// <summary>
@@ -400,6 +467,7 @@ namespace Crystallography.Controls
                 a.Texture = atoms.Texture;
                 a.Radius = atoms.Radius;
                 a.Argb = atoms.Argb;
+                a.ShowLabel = atoms.ShowLabel;
             }
             ItemsChanged?.Invoke(this, new EventArgs());
         }
@@ -419,7 +487,7 @@ namespace Crystallography.Controls
         /// </summary>
         public void ResetSymmetry(int symmetrySeriesNumber)
         {
-            SymmetrySeriesNumber = symmetrySeriesNumber;
+            //SymmetrySeriesNumber = symmetrySeriesNumber;
             for (int i = 0; i < table.Rows.Count; i++)
             {
                 var a = table.Get(i);
@@ -454,16 +522,52 @@ namespace Crystallography.Controls
             AtomSubNoElectron = atoms.SubNumberElectron;
             IsotopicComposition = atoms.Isotope;
 
-            X = atoms.X; Y = atoms.Y; Z = atoms.Z; Occ = atoms.Occ;
-            XErr = atoms.X_err; YErr = atoms.Y_err; ZErr = atoms.Z_err; OccErr = atoms.Occ_err;
+            #region 原子位置、占有率
+            X = atoms.X; XErr = atoms.X_err;
+            Y = atoms.Y; YErr = atoms.Y_err;
+            Z = atoms.Z; ZErr = atoms.Z_err;
+            Occ = atoms.Occ; OccErr = atoms.Occ_err;
+            #endregion
 
-            Biso = atoms.Dsf.Biso; B11 = atoms.Dsf.B11; B12 = atoms.Dsf.B12; B13 = atoms.Dsf.B31; B22 = atoms.Dsf.B22; B23 = atoms.Dsf.B23; B33 = atoms.Dsf.B33;
-            BisoErr = atoms.Dsf.Biso_err; B11Err = atoms.Dsf.B11_err; B12Err = atoms.Dsf.B12_err; B13Err = atoms.Dsf.B31_err; B22Err = atoms.Dsf.B22_err; B23Err = atoms.Dsf.B23_err; B33Err = atoms.Dsf.B33_err;
-            Istoropy = atoms.Dsf.IsIso;
 
-            Ambient = atoms.Ambient; Diffusion = atoms.Diffusion; Emission = atoms.Emission; Shininess = atoms.Shininess; Specular = atoms.Specular;
+            #region 温度因子関係
+            UseIsotropy = atoms.Dsf.UseIso;
+            UseTypeU = atoms.Dsf.OriginalType == DiffuseScatteringFactor.Type.U;
 
-            Radius = atoms.Radius; AtomColor = Color.FromArgb(atoms.Argb); Alpha = Color.FromArgb(atoms.Argb).A / 255f;
+         
+            Iso = UseTypeU ? atoms.Dsf.Uiso * 100 : atoms.Dsf.Biso * 100;
+            Aniso11 = UseTypeU ? atoms.Dsf.U11 * 100 : atoms.Dsf.B11;
+            Aniso12 = UseTypeU ? atoms.Dsf.U12 * 100 : atoms.Dsf.B12;
+            Aniso13 = UseTypeU ? atoms.Dsf.U31 * 100 : atoms.Dsf.B31;
+            Aniso22 = UseTypeU ? atoms.Dsf.U22 * 100 : atoms.Dsf.B22;
+            Aniso23 = UseTypeU ? atoms.Dsf.U23 * 100 : atoms.Dsf.B23;
+            Aniso33 = UseTypeU ? atoms.Dsf.U31 * 100 : atoms.Dsf.B31;
+          
+            IsoErr = UseTypeU ? atoms.Dsf.Uiso_err * 100 : atoms.Dsf.Biso_err * 100;
+            Aniso11Err = UseTypeU ? atoms.Dsf.U11_err * 100 : atoms.Dsf.B11_err;
+            Aniso12Err = UseTypeU ? atoms.Dsf.U12_err * 100 : atoms.Dsf.B12_err;
+            Aniso13Err = UseTypeU ? atoms.Dsf.U31_err * 100 : atoms.Dsf.B31_err;
+            Aniso22Err = UseTypeU ? atoms.Dsf.U22_err * 100 : atoms.Dsf.B22_err;
+            Aniso23Err = UseTypeU ? atoms.Dsf.U23_err * 100 : atoms.Dsf.B23_err;
+            Aniso33Err = UseTypeU ? atoms.Dsf.U31_err * 100 : atoms.Dsf.B31_err;
+
+            #endregion
+
+            #region Appearance関連
+
+            Ambient = atoms.Ambient;
+            Diffusion = atoms.Diffusion;
+            Emission = atoms.Emission;
+            Shininess = atoms.Shininess;
+            Specular = atoms.Specular;
+
+            Radius = atoms.Radius;
+            AtomColor = Color.FromArgb(atoms.Argb);
+            Alpha = Color.FromArgb(atoms.Argb).A / 255f;
+
+            ShowLabel = atoms.ShowLabel;
+
+            #endregion
         }
 
 
@@ -473,12 +577,23 @@ namespace Crystallography.Controls
         /// <returns></returns>
         private Atoms GetFromInterface()
         {
-            var dsf = new DiffuseScatteringFactor(Istoropy, Biso, B11, B22, B33, B12, B23, B13, BisoErr, B11Err, B22Err, B33Err, B12Err, B23Err, B13Err);
+
+            var aniso = UseTypeU ?
+                new[] { Aniso11 / 100, Aniso22 / 100, Aniso33 / 100, Aniso12 / 100, Aniso23 / 100, Aniso13 / 100 } :
+                new[] { Aniso11, Aniso22, Aniso33, Aniso12, Aniso23, Aniso13 };
+
+            var anisoErr = UseTypeU ?
+                new[] { Aniso11Err / 100, Aniso22Err / 100, Aniso33Err / 100, Aniso12Err / 100, Aniso23Err / 100, Aniso13Err / 100 } :
+                new[] { Aniso11Err, Aniso22Err, Aniso33Err, Aniso12Err, Aniso23Err, Aniso13Err };
+
+            var dsf = new DiffuseScatteringFactor(UseTypeU ? DiffuseScatteringFactor.Type.U : DiffuseScatteringFactor.Type.B,
+                UseIsotropy, Iso / 100, IsoErr / 100, aniso, anisoErr, Crystal.CellValue);
+
             var material = new Material(AtomColor.ToArgb(), (Ambient, Diffusion, Specular, Shininess, Emission), Alpha);
 
             var atoms = new Atoms(Label, AtomNo, AtomSubNoXray, AtomSubNoElectron, IsotopicComposition,
                 SymmetrySeriesNumber, new Vector3D(X, Y, Z), new Vector3D(XErr, YErr, ZErr), Occ, OccErr, dsf,
-                material, (float)Radius);
+                material, (float)Radius, true, ShowLabel);
             return atoms;
         }
         #endregion
@@ -608,6 +723,9 @@ namespace Crystallography.Controls
             //  this.toolTip.SetToolTip(this.listBoxAtoms, "displya element, position, symmetry seeting for each atoms.");
         }
 
+      
+
+
         private void buttonOriginShift_Click(object sender, EventArgs e)
         {
             var button = sender as Button;
@@ -640,6 +758,22 @@ namespace Crystallography.Controls
             buttonChangeToSameElement.Visible = tabControl.SelectedTab == tabPageAppearance;
         }
 
+        private void dataGridViewAtom_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == 0)
+            {
+               Crystal.Atoms[e.RowIndex].GLEnabled= table.Get(e.RowIndex).GLEnabled 
+                    = (bool)dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                GLEnableChanged?.Invoke(this, new EventArgs());
+            }
+        }
 
+        private void dataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            //チェックボックスが変わると即座に反映させる
+            var x = dataGridView.CurrentCellAddress.X;
+            if ((x == 0) && dataGridView.IsCurrentCellDirty)
+                dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);//コミットする
+        }
     }
 }

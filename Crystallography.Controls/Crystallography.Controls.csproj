@@ -128,8 +128,8 @@
     <Reference Include="IronPython.Wpf, Version=2.7.10.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.10\lib\net45\IronPython.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=4.9.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.9.1\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Dynamic, Version=1.2.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
@@ -292,12 +292,6 @@
     <Compile Include="FormCrystalSelection.Designer.cs">
       <DependentUpon>FormCrystalSelection.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormElasticity.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormElasticity.Designer.cs">
-      <DependentUpon>FormElasticity.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormPDF.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -341,6 +335,12 @@
       <DependentUpon>FormMacroList.cs</DependentUpon>
     </Compile>
     <Compile Include="Macro\Macro.cs" />
+    <Compile Include="Numeric\NumericBoxWithMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Numeric\NumericBoxWithMenu.Designer.cs">
+      <DependentUpon>NumericBoxWithMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaclaControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -490,9 +490,6 @@
       <DependentUpon>FormCrystalSelection.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormElasticity.resx">
-      <DependentUpon>FormElasticity.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormPDF.resx">
       <DependentUpon>FormPDF.cs</DependentUpon>
     </EmbeddedResource>
@@ -517,6 +514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Numeric\NumericBox.ja.resx">
       <DependentUpon>NumericBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Numeric\NumericBoxWithMenu.resx">
+      <DependentUpon>NumericBoxWithMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaclaControl.resx">
       <DependentUpon>SaclaControl.cs</DependentUpon>
@@ -635,7 +635,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Crystallography\Crystallography.csproj">
+    <ProjectReference Include="..\..\Crystallography\Crystallography\Crystallography.csproj">
       <Project>{433b6cbf-1e0b-4e01-ab6d-753d92dc354e}</Project>
       <Name>Crystallography</Name>
     </ProjectReference>
