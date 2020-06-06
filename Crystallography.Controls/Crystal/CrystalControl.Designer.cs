@@ -34,10 +34,13 @@
             this.tabPageBasicInfo = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.numericBoxZnumber = new Crystallography.Controls.NumericBox();
             this.numericBoxVolume = new Crystallography.Controls.NumericBox();
             this.numericBoxDensity = new Crystallography.Controls.NumericBox();
             this.colorControl = new Crystallography.Controls.ColorControl();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.textBoxFormula = new System.Windows.Forms.TextBox();
+            this.numericBoxZnumber = new Crystallography.Controls.NumericBox();
+            this.label90 = new System.Windows.Forms.Label();
             this.symmetryControl = new Crystallography.Controls.SymmetryControl();
             this.tabPageAtom = new System.Windows.Forms.TabPage();
             this.atomControl = new Crystallography.Controls.AtomControl();
@@ -98,7 +101,7 @@
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.numericalTextBoxEOS_V0perMol = new Crystallography.Controls.NumericBox();
+            this.numericBoxEOS_V0perMol = new Crystallography.Controls.NumericBox();
             this.numericBoxEOS_V0perCell = new Crystallography.Controls.NumericBox();
             this.numericBoxEOS_KT0 = new Crystallography.Controls.NumericBox();
             this.label70 = new System.Windows.Forms.Label();
@@ -110,12 +113,12 @@
             this.radioButtonVinet = new System.Windows.Forms.RadioButton();
             this.radioButtonBirchMurnaghan = new System.Windows.Forms.RadioButton();
             this.numericBoxEOS_T0 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxTemperature = new Crystallography.Controls.NumericBox();
+            this.numericBoxTemperature = new Crystallography.Controls.NumericBox();
             this.numericBoxPressure = new Crystallography.Controls.NumericBox();
             this.tabPageElasticity = new System.Windows.Forms.TabPage();
             this.elasticityControl1 = new Crystallography.Controls.ElasticityControl();
             this.tabPageStrainStress = new System.Windows.Forms.TabPage();
-            this.numericalTextBoxHill = new Crystallography.Controls.NumericBox();
+            this.numericBoxHill = new Crystallography.Controls.NumericBox();
             this.label116 = new System.Windows.Forms.Label();
             this.label117 = new System.Windows.Forms.Label();
             this.label109 = new System.Windows.Forms.Label();
@@ -132,18 +135,18 @@
             this.label106 = new System.Windows.Forms.Label();
             this.label107 = new System.Windows.Forms.Label();
             this.label108 = new System.Windows.Forms.Label();
-            this.numericalTextBoxStress33 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStress22 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStress11 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStress23 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStress13 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStress12 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain33 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain11 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain22 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain12 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain23 = new Crystallography.Controls.NumericBox();
-            this.numericalTextBoxStrain13 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress33 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress22 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress11 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress23 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress13 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStress12 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain33 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain11 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain22 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain12 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain23 = new Crystallography.Controls.NumericBox();
+            this.numericBoxStrain13 = new Crystallography.Controls.NumericBox();
             this.tabPagePolycrystalline = new System.Windows.Forms.TabPage();
             this.contextMenuStripPoleFigure = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.readToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -179,8 +182,6 @@
             this.revertCellConstantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.strainControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBoxFormula = new System.Windows.Forms.TextBox();
-            this.label90 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -191,6 +192,7 @@
             this.tabPageBasicInfo.SuspendLayout();
             this.panel5.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tabPageAtom.SuspendLayout();
             this.panelAtom.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -248,114 +250,45 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.flowLayoutPanel4);
+            this.panel5.Controls.Add(this.panel1);
             this.panel5.Controls.Add(this.symmetryControl);
             resources.ApplyResources(this.panel5, "panel5");
             this.panel5.Name = "panel5";
             // 
             // flowLayoutPanel4
             // 
-            this.flowLayoutPanel4.Controls.Add(this.numericBoxZnumber);
             this.flowLayoutPanel4.Controls.Add(this.numericBoxVolume);
             this.flowLayoutPanel4.Controls.Add(this.numericBoxDensity);
             this.flowLayoutPanel4.Controls.Add(this.colorControl);
             resources.ApplyResources(this.flowLayoutPanel4, "flowLayoutPanel4");
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             // 
-            // numericBoxZnumber
-            // 
-            this.numericBoxZnumber.AllowMouseControl = false;
-            resources.ApplyResources(this.numericBoxZnumber, "numericBoxZnumber");
-            this.numericBoxZnumber.BackColor = System.Drawing.Color.Transparent;
-            this.numericBoxZnumber.DecimalPlaces = -2;
-            this.numericBoxZnumber.FooterBackColor = System.Drawing.Color.Transparent;
-            this.numericBoxZnumber.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxZnumber.HeaderBackColor = System.Drawing.Color.Transparent;
-            this.numericBoxZnumber.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxZnumber.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxZnumber.Maximum = double.PositiveInfinity;
-            this.numericBoxZnumber.Minimum = double.NegativeInfinity;
-            this.numericBoxZnumber.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxZnumber.MouseSpeed = 1D;
-            this.numericBoxZnumber.Multiline = false;
-            this.numericBoxZnumber.Name = "numericBoxZnumber";
-            this.numericBoxZnumber.RadianValue = 0D;
-            this.numericBoxZnumber.ReadOnly = true;
-            this.numericBoxZnumber.RestrictLimitValue = true;
-            this.numericBoxZnumber.ShowFraction = false;
-            this.numericBoxZnumber.ShowPositiveSign = false;
-            this.numericBoxZnumber.SkipEventDuringInput = false;
-            this.numericBoxZnumber.SmartIncrement = true;
-            this.numericBoxZnumber.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxZnumber.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxZnumber.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
-            this.numericBoxZnumber.ThonsandsSeparator = true;
-            this.numericBoxZnumber.UpDown_Increment = 1D;
-            this.numericBoxZnumber.Value = 0D;
-            this.numericBoxZnumber.WordWrap = true;
-            // 
             // numericBoxVolume
             // 
-            this.numericBoxVolume.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxVolume, "numericBoxVolume");
             this.numericBoxVolume.BackColor = System.Drawing.SystemColors.Control;
             this.numericBoxVolume.DecimalPlaces = 4;
             this.numericBoxVolume.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxVolume.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxVolume.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxVolume.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxVolume.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxVolume.Maximum = double.PositiveInfinity;
-            this.numericBoxVolume.Minimum = double.NegativeInfinity;
-            this.numericBoxVolume.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxVolume.MouseSpeed = 1D;
-            this.numericBoxVolume.Multiline = false;
             this.numericBoxVolume.Name = "numericBoxVolume";
-            this.numericBoxVolume.RadianValue = 0D;
             this.numericBoxVolume.ReadOnly = true;
             this.numericBoxVolume.RestrictLimitValue = false;
-            this.numericBoxVolume.ShowFraction = false;
-            this.numericBoxVolume.ShowPositiveSign = false;
             this.numericBoxVolume.SkipEventDuringInput = false;
             this.numericBoxVolume.SmartIncrement = true;
             this.numericBoxVolume.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxVolume.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxVolume.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxVolume.ThonsandsSeparator = false;
-            this.numericBoxVolume.UpDown_Increment = 1D;
-            this.numericBoxVolume.Value = 0D;
-            this.numericBoxVolume.WordWrap = true;
             // 
             // numericBoxDensity
             // 
-            this.numericBoxDensity.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxDensity, "numericBoxDensity");
             this.numericBoxDensity.BackColor = System.Drawing.Color.Transparent;
             this.numericBoxDensity.DecimalPlaces = 4;
-            this.numericBoxDensity.FooterBackColor = System.Drawing.Color.Transparent;
-            this.numericBoxDensity.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxDensity.HeaderBackColor = System.Drawing.Color.Transparent;
-            this.numericBoxDensity.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxDensity.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxDensity.Maximum = double.PositiveInfinity;
-            this.numericBoxDensity.Minimum = double.NegativeInfinity;
-            this.numericBoxDensity.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxDensity.MouseSpeed = 1D;
-            this.numericBoxDensity.Multiline = false;
             this.numericBoxDensity.Name = "numericBoxDensity";
-            this.numericBoxDensity.RadianValue = 0D;
             this.numericBoxDensity.ReadOnly = true;
-            this.numericBoxDensity.RestrictLimitValue = true;
-            this.numericBoxDensity.ShowFraction = false;
-            this.numericBoxDensity.ShowPositiveSign = false;
             this.numericBoxDensity.SkipEventDuringInput = false;
             this.numericBoxDensity.SmartIncrement = true;
             this.numericBoxDensity.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxDensity.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxDensity.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
             this.numericBoxDensity.ThonsandsSeparator = true;
-            this.numericBoxDensity.UpDown_Increment = 1D;
-            this.numericBoxDensity.Value = 0D;
-            this.numericBoxDensity.WordWrap = true;
             // 
             // colorControl
             // 
@@ -372,12 +305,43 @@
             this.colorControl.Red = 240;
             this.colorControl.RedF = 0.9411765F;
             // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.textBoxFormula);
+            this.panel1.Controls.Add(this.numericBoxZnumber);
+            this.panel1.Controls.Add(this.label90);
+            this.panel1.Name = "panel1";
+            // 
+            // textBoxFormula
+            // 
+            resources.ApplyResources(this.textBoxFormula, "textBoxFormula");
+            this.textBoxFormula.Name = "textBoxFormula";
+            this.textBoxFormula.ReadOnly = true;
+            // 
+            // numericBoxZnumber
+            // 
+            resources.ApplyResources(this.numericBoxZnumber, "numericBoxZnumber");
+            this.numericBoxZnumber.BackColor = System.Drawing.Color.Transparent;
+            this.numericBoxZnumber.Name = "numericBoxZnumber";
+            this.numericBoxZnumber.ReadOnly = true;
+            this.numericBoxZnumber.SkipEventDuringInput = false;
+            this.numericBoxZnumber.SmartIncrement = true;
+            this.numericBoxZnumber.TextBoxBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxZnumber.ThonsandsSeparator = true;
+            // 
+            // label90
+            // 
+            resources.ApplyResources(this.label90, "label90");
+            this.label90.Name = "label90";
+            // 
             // symmetryControl
             // 
             this.symmetryControl.CellConstants = ((System.ValueTuple<double, double, double, double, double, double>)(resources.GetObject("symmetryControl.CellConstants")));
             this.symmetryControl.CellConstantsErr = ((System.ValueTuple<double, double, double, double, double, double>)(resources.GetObject("symmetryControl.CellConstantsErr")));
             resources.ApplyResources(this.symmetryControl, "symmetryControl");
             this.symmetryControl.Name = "symmetryControl";
+            this.symmetryControl.ShowError = false;
             this.symmetryControl.SkipEvent = false;
             this.symmetryControl.SymmetrySeriesNumber = 0;
             this.symmetryControl.ItemChanged += new System.EventHandler(this.symmetryControl_ItemChanged);
@@ -394,6 +358,18 @@
             // 
             this.atomControl.Alpha = 0F;
             this.atomControl.Ambient = 0F;
+            this.atomControl.Aniso11 = 0D;
+            this.atomControl.Aniso11Err = 0D;
+            this.atomControl.Aniso12 = 0D;
+            this.atomControl.Aniso12Err = 0D;
+            this.atomControl.Aniso13 = 0D;
+            this.atomControl.Aniso13Err = 0D;
+            this.atomControl.Aniso22 = 0D;
+            this.atomControl.Aniso22Err = 0D;
+            this.atomControl.Aniso23 = 0D;
+            this.atomControl.Aniso23Err = 0D;
+            this.atomControl.Aniso33 = 0D;
+            this.atomControl.Aniso33Err = 0D;
             this.atomControl.AppearanceTabVisible = false;
             this.atomControl.AtomColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.atomControl.AtomicPositionError = false;
@@ -401,27 +377,15 @@
             this.atomControl.AtomSubNoElectron = -1;
             this.atomControl.AtomSubNoXray = -1;
             resources.ApplyResources(this.atomControl, "atomControl");
-            this.atomControl.B11 = 0D;
-            this.atomControl.B11Err = 0D;
-            this.atomControl.B12 = 0D;
-            this.atomControl.B12Err = 0D;
-            this.atomControl.B13 = 0D;
-            this.atomControl.B13Err = 0D;
-            this.atomControl.B22 = 0D;
-            this.atomControl.B22Err = 0D;
-            this.atomControl.B23 = 0D;
-            this.atomControl.B23Err = 0D;
-            this.atomControl.B33 = 0D;
-            this.atomControl.B33Err = 0D;
-            this.atomControl.Biso = 0D;
-            this.atomControl.BisoErr = 0D;
+            this.atomControl.Crystal = null;
             this.atomControl.DebyeWallerError = false;
             this.atomControl.DebyeWallerTabVisible = true;
             this.atomControl.Diffusion = 0F;
             this.atomControl.ElementAndPositionTabVisible = true;
             this.atomControl.Emission = 0F;
+            this.atomControl.Iso = 0D;
+            this.atomControl.IsoErr = 0D;
             this.atomControl.IsotopicComposition = null;
-            this.atomControl.Istoropy = false;
             this.atomControl.Label = "";
             this.atomControl.Name = "atomControl";
             this.atomControl.Occ = 0D;
@@ -431,9 +395,11 @@
             this.atomControl.ScatteringFactorTabVisible = true;
             this.atomControl.SelectedTabIndex = 0;
             this.atomControl.Shininess = 0F;
+            this.atomControl.ShowLabel = false;
             this.atomControl.SkipEvent = false;
             this.atomControl.Specular = 0F;
-            this.atomControl.SymmetrySeriesNumber = 0;
+            this.atomControl.UseIsotropy = false;
+            this.atomControl.UseTypeU = false;
             this.atomControl.X = 0D;
             this.atomControl.XErr = 0D;
             this.atomControl.Y = 0D;
@@ -477,7 +443,8 @@
             // bondControl
             // 
             resources.ApplyResources(this.bondControl, "bondControl");
-            this.bondControl.ElementList = new string[0];
+            this.bondControl.Crystal = null;
+            this.bondControl.ElementList = null;
             this.bondControl.Name = "bondControl";
             this.bondControl.SkipEvent = false;
             // 
@@ -551,7 +518,7 @@
             this.tabPageEOS.Controls.Add(this.groupBox3);
             this.tabPageEOS.Controls.Add(this.groupBox2);
             this.tabPageEOS.Controls.Add(this.numericBoxEOS_T0);
-            this.tabPageEOS.Controls.Add(this.numericalTextBoxTemperature);
+            this.tabPageEOS.Controls.Add(this.numericBoxTemperature);
             this.tabPageEOS.Controls.Add(this.numericBoxPressure);
             resources.ApplyResources(this.tabPageEOS, "tabPageEOS");
             this.tabPageEOS.Name = "tabPageEOS";
@@ -571,7 +538,7 @@
             resources.ApplyResources(this.checkBoxUseEOS, "checkBoxUseEOS");
             this.checkBoxUseEOS.Name = "checkBoxUseEOS";
             this.checkBoxUseEOS.UseVisualStyleBackColor = true;
-            this.checkBoxUseEOS.CheckedChanged += new System.EventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.checkBoxUseEOS.CheckedChanged += new System.EventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // groupBox3
             // 
@@ -612,69 +579,29 @@
             // 
             // numericBoxEOS_C
             // 
-            this.numericBoxEOS_C.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_C, "numericBoxEOS_C");
             this.numericBoxEOS_C.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_C.DecimalPlaces = -1;
             this.numericBoxEOS_C.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_C.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_C.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_C.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_C.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_C.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_C.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_C.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_C.MouseSpeed = 1D;
-            this.numericBoxEOS_C.Multiline = false;
             this.numericBoxEOS_C.Name = "numericBoxEOS_C";
-            this.numericBoxEOS_C.RadianValue = 0D;
-            this.numericBoxEOS_C.ReadOnly = false;
             this.numericBoxEOS_C.RestrictLimitValue = false;
-            this.numericBoxEOS_C.ShowFraction = false;
-            this.numericBoxEOS_C.ShowPositiveSign = false;
             this.numericBoxEOS_C.SkipEventDuringInput = false;
             this.numericBoxEOS_C.SmartIncrement = true;
-            this.numericBoxEOS_C.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_C.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_C.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_C.ThonsandsSeparator = false;
-            this.numericBoxEOS_C.UpDown_Increment = 1D;
-            this.numericBoxEOS_C.Value = 0D;
-            this.numericBoxEOS_C.WordWrap = true;
-            this.numericBoxEOS_C.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_C.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_B
             // 
-            this.numericBoxEOS_B.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_B, "numericBoxEOS_B");
             this.numericBoxEOS_B.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_B.DecimalPlaces = -1;
             this.numericBoxEOS_B.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_B.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_B.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_B.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_B.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_B.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_B.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_B.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_B.MouseSpeed = 1D;
-            this.numericBoxEOS_B.Multiline = false;
             this.numericBoxEOS_B.Name = "numericBoxEOS_B";
-            this.numericBoxEOS_B.RadianValue = 0D;
-            this.numericBoxEOS_B.ReadOnly = false;
             this.numericBoxEOS_B.RestrictLimitValue = false;
-            this.numericBoxEOS_B.ShowFraction = false;
-            this.numericBoxEOS_B.ShowPositiveSign = false;
             this.numericBoxEOS_B.SkipEventDuringInput = false;
             this.numericBoxEOS_B.SmartIncrement = true;
-            this.numericBoxEOS_B.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_B.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_B.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_B.ThonsandsSeparator = false;
-            this.numericBoxEOS_B.UpDown_Increment = 1D;
-            this.numericBoxEOS_B.Value = 0D;
-            this.numericBoxEOS_B.WordWrap = true;
-            this.numericBoxEOS_B.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_B.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // textBox1
             // 
@@ -688,106 +615,46 @@
             resources.ApplyResources(this.radioButtonTdependenceK0andV0, "radioButtonTdependenceK0andV0");
             this.radioButtonTdependenceK0andV0.Name = "radioButtonTdependenceK0andV0";
             this.radioButtonTdependenceK0andV0.UseVisualStyleBackColor = true;
-            this.radioButtonTdependenceK0andV0.CheckedChanged += new System.EventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.radioButtonTdependenceK0andV0.CheckedChanged += new System.EventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_A
             // 
-            this.numericBoxEOS_A.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_A, "numericBoxEOS_A");
             this.numericBoxEOS_A.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_A.DecimalPlaces = -1;
             this.numericBoxEOS_A.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_A.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_A.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_A.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_A.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_A.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_A.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_A.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_A.MouseSpeed = 1D;
-            this.numericBoxEOS_A.Multiline = false;
             this.numericBoxEOS_A.Name = "numericBoxEOS_A";
-            this.numericBoxEOS_A.RadianValue = 0D;
-            this.numericBoxEOS_A.ReadOnly = false;
             this.numericBoxEOS_A.RestrictLimitValue = false;
-            this.numericBoxEOS_A.ShowFraction = false;
-            this.numericBoxEOS_A.ShowPositiveSign = false;
             this.numericBoxEOS_A.SkipEventDuringInput = false;
             this.numericBoxEOS_A.SmartIncrement = true;
-            this.numericBoxEOS_A.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_A.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_A.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_A.ThonsandsSeparator = false;
-            this.numericBoxEOS_A.UpDown_Increment = 1D;
-            this.numericBoxEOS_A.Value = 0D;
-            this.numericBoxEOS_A.WordWrap = true;
-            this.numericBoxEOS_A.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_A.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_KperT
             // 
-            this.numericBoxEOS_KperT.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_KperT, "numericBoxEOS_KperT");
             this.numericBoxEOS_KperT.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KperT.DecimalPlaces = -1;
             this.numericBoxEOS_KperT.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KperT.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_KperT.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KperT.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_KperT.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_KperT.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_KperT.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_KperT.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_KperT.MouseSpeed = 1D;
-            this.numericBoxEOS_KperT.Multiline = false;
             this.numericBoxEOS_KperT.Name = "numericBoxEOS_KperT";
-            this.numericBoxEOS_KperT.RadianValue = 0D;
-            this.numericBoxEOS_KperT.ReadOnly = false;
             this.numericBoxEOS_KperT.RestrictLimitValue = false;
-            this.numericBoxEOS_KperT.ShowFraction = false;
-            this.numericBoxEOS_KperT.ShowPositiveSign = false;
             this.numericBoxEOS_KperT.SkipEventDuringInput = false;
             this.numericBoxEOS_KperT.SmartIncrement = true;
-            this.numericBoxEOS_KperT.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_KperT.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_KperT.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_KperT.ThonsandsSeparator = false;
-            this.numericBoxEOS_KperT.UpDown_Increment = 1D;
-            this.numericBoxEOS_KperT.Value = 0D;
-            this.numericBoxEOS_KperT.WordWrap = true;
-            this.numericBoxEOS_KperT.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_KperT.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_Gamma0
             // 
-            this.numericBoxEOS_Gamma0.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_Gamma0, "numericBoxEOS_Gamma0");
             this.numericBoxEOS_Gamma0.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Gamma0.DecimalPlaces = -1;
             this.numericBoxEOS_Gamma0.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Gamma0.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_Gamma0.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Gamma0.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_Gamma0.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_Gamma0.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_Gamma0.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_Gamma0.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_Gamma0.MouseSpeed = 1D;
-            this.numericBoxEOS_Gamma0.Multiline = false;
             this.numericBoxEOS_Gamma0.Name = "numericBoxEOS_Gamma0";
-            this.numericBoxEOS_Gamma0.RadianValue = 0D;
-            this.numericBoxEOS_Gamma0.ReadOnly = false;
             this.numericBoxEOS_Gamma0.RestrictLimitValue = false;
-            this.numericBoxEOS_Gamma0.ShowFraction = false;
-            this.numericBoxEOS_Gamma0.ShowPositiveSign = false;
             this.numericBoxEOS_Gamma0.SkipEventDuringInput = false;
             this.numericBoxEOS_Gamma0.SmartIncrement = true;
-            this.numericBoxEOS_Gamma0.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_Gamma0.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_Gamma0.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_Gamma0.ThonsandsSeparator = false;
-            this.numericBoxEOS_Gamma0.UpDown_Increment = 1D;
-            this.numericBoxEOS_Gamma0.Value = 0D;
-            this.numericBoxEOS_Gamma0.WordWrap = true;
-            this.numericBoxEOS_Gamma0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_Gamma0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // label76
             // 
@@ -881,69 +748,31 @@
             // 
             // numericBoxEOS_Theta0
             // 
-            this.numericBoxEOS_Theta0.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_Theta0, "numericBoxEOS_Theta0");
             this.numericBoxEOS_Theta0.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Theta0.DecimalPlaces = -1;
             this.numericBoxEOS_Theta0.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Theta0.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_Theta0.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Theta0.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_Theta0.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_Theta0.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_Theta0.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_Theta0.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_Theta0.MouseSpeed = 1D;
-            this.numericBoxEOS_Theta0.Multiline = false;
             this.numericBoxEOS_Theta0.Name = "numericBoxEOS_Theta0";
             this.numericBoxEOS_Theta0.RadianValue = 5.2359877559829888D;
-            this.numericBoxEOS_Theta0.ReadOnly = false;
             this.numericBoxEOS_Theta0.RestrictLimitValue = false;
-            this.numericBoxEOS_Theta0.ShowFraction = false;
-            this.numericBoxEOS_Theta0.ShowPositiveSign = false;
             this.numericBoxEOS_Theta0.SkipEventDuringInput = false;
             this.numericBoxEOS_Theta0.SmartIncrement = true;
-            this.numericBoxEOS_Theta0.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_Theta0.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_Theta0.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_Theta0.ThonsandsSeparator = false;
-            this.numericBoxEOS_Theta0.UpDown_Increment = 1D;
             this.numericBoxEOS_Theta0.Value = 300D;
-            this.numericBoxEOS_Theta0.WordWrap = true;
-            this.numericBoxEOS_Theta0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_Theta0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_Q
             // 
-            this.numericBoxEOS_Q.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_Q, "numericBoxEOS_Q");
             this.numericBoxEOS_Q.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Q.DecimalPlaces = -1;
             this.numericBoxEOS_Q.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Q.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_Q.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_Q.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_Q.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_Q.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_Q.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_Q.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_Q.MouseSpeed = 1D;
-            this.numericBoxEOS_Q.Multiline = false;
             this.numericBoxEOS_Q.Name = "numericBoxEOS_Q";
-            this.numericBoxEOS_Q.RadianValue = 0D;
-            this.numericBoxEOS_Q.ReadOnly = false;
             this.numericBoxEOS_Q.RestrictLimitValue = false;
-            this.numericBoxEOS_Q.ShowFraction = false;
-            this.numericBoxEOS_Q.ShowPositiveSign = false;
             this.numericBoxEOS_Q.SkipEventDuringInput = false;
             this.numericBoxEOS_Q.SmartIncrement = true;
-            this.numericBoxEOS_Q.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_Q.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_Q.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_Q.ThonsandsSeparator = false;
-            this.numericBoxEOS_Q.UpDown_Increment = 1D;
-            this.numericBoxEOS_Q.Value = 0D;
-            this.numericBoxEOS_Q.WordWrap = true;
-            this.numericBoxEOS_Q.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_Q.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // label3
             // 
@@ -957,7 +786,7 @@
             this.radioButtonMieGruneisen.Name = "radioButtonMieGruneisen";
             this.radioButtonMieGruneisen.TabStop = true;
             this.radioButtonMieGruneisen.UseVisualStyleBackColor = true;
-            this.radioButtonMieGruneisen.CheckedChanged += new System.EventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.radioButtonMieGruneisen.CheckedChanged += new System.EventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // label98
             // 
@@ -978,7 +807,7 @@
             this.groupBox2.Controls.Add(this.label67);
             this.groupBox2.Controls.Add(this.label66);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.numericalTextBoxEOS_V0perMol);
+            this.groupBox2.Controls.Add(this.numericBoxEOS_V0perMol);
             this.groupBox2.Controls.Add(this.numericBoxEOS_V0perCell);
             this.groupBox2.Controls.Add(this.numericBoxEOS_KT0);
             this.groupBox2.Controls.Add(this.label70);
@@ -1018,106 +847,52 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
-            // numericalTextBoxEOS_V0perMol
+            // numericBoxEOS_V0perMol
             // 
-            this.numericalTextBoxEOS_V0perMol.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxEOS_V0perMol, "numericalTextBoxEOS_V0perMol");
-            this.numericalTextBoxEOS_V0perMol.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxEOS_V0perMol.DecimalPlaces = -1;
-            this.numericalTextBoxEOS_V0perMol.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxEOS_V0perMol.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxEOS_V0perMol.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxEOS_V0perMol.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxEOS_V0perMol.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxEOS_V0perMol.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxEOS_V0perMol.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxEOS_V0perMol.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxEOS_V0perMol.MouseSpeed = 1D;
-            this.numericalTextBoxEOS_V0perMol.Multiline = false;
-            this.numericalTextBoxEOS_V0perMol.Name = "numericalTextBoxEOS_V0perMol";
-            this.numericalTextBoxEOS_V0perMol.RadianValue = 5.2359877559829888D;
-            this.numericalTextBoxEOS_V0perMol.ReadOnly = true;
-            this.numericalTextBoxEOS_V0perMol.RestrictLimitValue = false;
-            this.numericalTextBoxEOS_V0perMol.ShowFraction = false;
-            this.numericalTextBoxEOS_V0perMol.ShowPositiveSign = false;
-            this.numericalTextBoxEOS_V0perMol.SkipEventDuringInput = false;
-            this.numericalTextBoxEOS_V0perMol.SmartIncrement = true;
-            this.numericalTextBoxEOS_V0perMol.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxEOS_V0perMol.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxEOS_V0perMol.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxEOS_V0perMol.ThonsandsSeparator = false;
-            this.numericalTextBoxEOS_V0perMol.UpDown_Increment = 1D;
-            this.numericalTextBoxEOS_V0perMol.Value = 300D;
-            this.numericalTextBoxEOS_V0perMol.WordWrap = true;
-            this.numericalTextBoxEOS_V0perMol.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_V0perMol_ValueChanged);
-            this.numericalTextBoxEOS_V0perMol.Click2 += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_V0perMol_Click2);
+            resources.ApplyResources(this.numericBoxEOS_V0perMol, "numericBoxEOS_V0perMol");
+            this.numericBoxEOS_V0perMol.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxEOS_V0perMol.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxEOS_V0perMol.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxEOS_V0perMol.Name = "numericBoxEOS_V0perMol";
+            this.numericBoxEOS_V0perMol.RadianValue = 5.2359877559829888D;
+            this.numericBoxEOS_V0perMol.ReadOnly = true;
+            this.numericBoxEOS_V0perMol.RestrictLimitValue = false;
+            this.numericBoxEOS_V0perMol.SkipEventDuringInput = false;
+            this.numericBoxEOS_V0perMol.SmartIncrement = true;
+            this.numericBoxEOS_V0perMol.TextBoxBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxEOS_V0perMol.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericBoxEOS_V0perMol.Value = 300D;
+            this.numericBoxEOS_V0perMol.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_V0perMol_ValueChanged);
+            this.numericBoxEOS_V0perMol.Click2 += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_V0perMol_Click2);
             // 
             // numericBoxEOS_V0perCell
             // 
-            this.numericBoxEOS_V0perCell.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_V0perCell, "numericBoxEOS_V0perCell");
             this.numericBoxEOS_V0perCell.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_V0perCell.DecimalPlaces = -1;
             this.numericBoxEOS_V0perCell.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_V0perCell.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_V0perCell.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_V0perCell.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_V0perCell.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_V0perCell.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_V0perCell.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_V0perCell.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_V0perCell.MouseSpeed = 1D;
-            this.numericBoxEOS_V0perCell.Multiline = false;
             this.numericBoxEOS_V0perCell.Name = "numericBoxEOS_V0perCell";
             this.numericBoxEOS_V0perCell.RadianValue = 5.2359877559829888D;
-            this.numericBoxEOS_V0perCell.ReadOnly = false;
             this.numericBoxEOS_V0perCell.RestrictLimitValue = false;
-            this.numericBoxEOS_V0perCell.ShowFraction = false;
-            this.numericBoxEOS_V0perCell.ShowPositiveSign = false;
             this.numericBoxEOS_V0perCell.SkipEventDuringInput = false;
             this.numericBoxEOS_V0perCell.SmartIncrement = true;
-            this.numericBoxEOS_V0perCell.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_V0perCell.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_V0perCell.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_V0perCell.ThonsandsSeparator = false;
-            this.numericBoxEOS_V0perCell.UpDown_Increment = 1D;
             this.numericBoxEOS_V0perCell.Value = 300D;
-            this.numericBoxEOS_V0perCell.WordWrap = true;
-            this.numericBoxEOS_V0perCell.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
-            this.numericBoxEOS_V0perCell.Click2 += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_V0perCell_Click2);
+            this.numericBoxEOS_V0perCell.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_V0perCell.Click2 += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_V0perCell_Click2);
             // 
             // numericBoxEOS_KT0
             // 
-            this.numericBoxEOS_KT0.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_KT0, "numericBoxEOS_KT0");
             this.numericBoxEOS_KT0.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KT0.DecimalPlaces = -1;
             this.numericBoxEOS_KT0.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KT0.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_KT0.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KT0.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_KT0.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_KT0.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_KT0.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_KT0.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_KT0.MouseSpeed = 1D;
-            this.numericBoxEOS_KT0.Multiline = false;
             this.numericBoxEOS_KT0.Name = "numericBoxEOS_KT0";
-            this.numericBoxEOS_KT0.RadianValue = 0D;
-            this.numericBoxEOS_KT0.ReadOnly = false;
             this.numericBoxEOS_KT0.RestrictLimitValue = false;
-            this.numericBoxEOS_KT0.ShowFraction = false;
-            this.numericBoxEOS_KT0.ShowPositiveSign = false;
             this.numericBoxEOS_KT0.SkipEventDuringInput = false;
             this.numericBoxEOS_KT0.SmartIncrement = true;
-            this.numericBoxEOS_KT0.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_KT0.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_KT0.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_KT0.ThonsandsSeparator = false;
-            this.numericBoxEOS_KT0.UpDown_Increment = 1D;
-            this.numericBoxEOS_KT0.Value = 0D;
-            this.numericBoxEOS_KT0.WordWrap = true;
-            this.numericBoxEOS_KT0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_KT0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // label70
             // 
@@ -1146,43 +921,25 @@
             // 
             // numericBoxEOS_KprimeT0
             // 
-            this.numericBoxEOS_KprimeT0.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_KprimeT0, "numericBoxEOS_KprimeT0");
             this.numericBoxEOS_KprimeT0.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KprimeT0.DecimalPlaces = -1;
             this.numericBoxEOS_KprimeT0.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KprimeT0.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_KprimeT0.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_KprimeT0.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_KprimeT0.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_KprimeT0.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_KprimeT0.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_KprimeT0.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_KprimeT0.MouseSpeed = 1D;
-            this.numericBoxEOS_KprimeT0.Multiline = false;
             this.numericBoxEOS_KprimeT0.Name = "numericBoxEOS_KprimeT0";
             this.numericBoxEOS_KprimeT0.RadianValue = 0.069813170079773182D;
-            this.numericBoxEOS_KprimeT0.ReadOnly = false;
             this.numericBoxEOS_KprimeT0.RestrictLimitValue = false;
-            this.numericBoxEOS_KprimeT0.ShowFraction = false;
-            this.numericBoxEOS_KprimeT0.ShowPositiveSign = false;
             this.numericBoxEOS_KprimeT0.SkipEventDuringInput = false;
             this.numericBoxEOS_KprimeT0.SmartIncrement = true;
-            this.numericBoxEOS_KprimeT0.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_KprimeT0.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEOS_KprimeT0.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericBoxEOS_KprimeT0.ThonsandsSeparator = false;
-            this.numericBoxEOS_KprimeT0.UpDown_Increment = 1D;
             this.numericBoxEOS_KprimeT0.Value = 4D;
-            this.numericBoxEOS_KprimeT0.WordWrap = true;
-            this.numericBoxEOS_KprimeT0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_KprimeT0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // radioButtonVinet
             // 
             resources.ApplyResources(this.radioButtonVinet, "radioButtonVinet");
             this.radioButtonVinet.Name = "radioButtonVinet";
             this.radioButtonVinet.UseVisualStyleBackColor = true;
-            this.radioButtonVinet.CheckedChanged += new System.EventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.radioButtonVinet.CheckedChanged += new System.EventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // radioButtonBirchMurnaghan
             // 
@@ -1191,105 +948,49 @@
             this.radioButtonBirchMurnaghan.Name = "radioButtonBirchMurnaghan";
             this.radioButtonBirchMurnaghan.TabStop = true;
             this.radioButtonBirchMurnaghan.UseVisualStyleBackColor = true;
-            this.radioButtonBirchMurnaghan.CheckedChanged += new System.EventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.radioButtonBirchMurnaghan.CheckedChanged += new System.EventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxEOS_T0
             // 
-            this.numericBoxEOS_T0.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEOS_T0, "numericBoxEOS_T0");
             this.numericBoxEOS_T0.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_T0.DecimalPlaces = -1;
             this.numericBoxEOS_T0.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_T0.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxEOS_T0.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEOS_T0.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEOS_T0.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEOS_T0.Maximum = double.PositiveInfinity;
-            this.numericBoxEOS_T0.Minimum = double.NegativeInfinity;
-            this.numericBoxEOS_T0.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxEOS_T0.MouseSpeed = 1D;
-            this.numericBoxEOS_T0.Multiline = false;
             this.numericBoxEOS_T0.Name = "numericBoxEOS_T0";
             this.numericBoxEOS_T0.RadianValue = 5.2359877559829888D;
-            this.numericBoxEOS_T0.ReadOnly = false;
             this.numericBoxEOS_T0.RestrictLimitValue = false;
-            this.numericBoxEOS_T0.ShowFraction = false;
-            this.numericBoxEOS_T0.ShowPositiveSign = false;
             this.numericBoxEOS_T0.SkipEventDuringInput = false;
             this.numericBoxEOS_T0.SmartIncrement = true;
-            this.numericBoxEOS_T0.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEOS_T0.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxEOS_T0.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
-            this.numericBoxEOS_T0.ThonsandsSeparator = false;
-            this.numericBoxEOS_T0.UpDown_Increment = 1D;
             this.numericBoxEOS_T0.Value = 300D;
-            this.numericBoxEOS_T0.WordWrap = true;
-            this.numericBoxEOS_T0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            this.numericBoxEOS_T0.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
-            // numericalTextBoxTemperature
+            // numericBoxTemperature
             // 
-            this.numericalTextBoxTemperature.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxTemperature, "numericalTextBoxTemperature");
-            this.numericalTextBoxTemperature.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxTemperature.DecimalPlaces = -1;
-            this.numericalTextBoxTemperature.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxTemperature.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxTemperature.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxTemperature.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxTemperature.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxTemperature.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxTemperature.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxTemperature.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxTemperature.MouseSpeed = 1D;
-            this.numericalTextBoxTemperature.Multiline = false;
-            this.numericalTextBoxTemperature.Name = "numericalTextBoxTemperature";
-            this.numericalTextBoxTemperature.RadianValue = 5.2359877559829888D;
-            this.numericalTextBoxTemperature.ReadOnly = false;
-            this.numericalTextBoxTemperature.RestrictLimitValue = false;
-            this.numericalTextBoxTemperature.ShowFraction = false;
-            this.numericalTextBoxTemperature.ShowPositiveSign = false;
-            this.numericalTextBoxTemperature.SkipEventDuringInput = false;
-            this.numericalTextBoxTemperature.SmartIncrement = true;
-            this.numericalTextBoxTemperature.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxTemperature.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxTemperature.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
-            this.numericalTextBoxTemperature.ThonsandsSeparator = false;
-            this.numericalTextBoxTemperature.UpDown_Increment = 1D;
-            this.numericalTextBoxTemperature.Value = 300D;
-            this.numericalTextBoxTemperature.WordWrap = true;
-            this.numericalTextBoxTemperature.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericalTextBoxEOS_State_ValueChanged);
+            resources.ApplyResources(this.numericBoxTemperature, "numericBoxTemperature");
+            this.numericBoxTemperature.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxTemperature.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxTemperature.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxTemperature.Name = "numericBoxTemperature";
+            this.numericBoxTemperature.RadianValue = 5.2359877559829888D;
+            this.numericBoxTemperature.RestrictLimitValue = false;
+            this.numericBoxTemperature.SkipEventDuringInput = false;
+            this.numericBoxTemperature.SmartIncrement = true;
+            this.numericBoxTemperature.Value = 300D;
+            this.numericBoxTemperature.ValueChanged += new Crystallography.Controls.NumericBox.MyEventHandler(this.numericBoxEOS_State_ValueChanged);
             // 
             // numericBoxPressure
             // 
-            this.numericBoxPressure.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxPressure, "numericBoxPressure");
             this.numericBoxPressure.BackColor = System.Drawing.SystemColors.Control;
             this.numericBoxPressure.DecimalPlaces = 5;
             this.numericBoxPressure.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxPressure.FooterForeColor = System.Drawing.SystemColors.ControlText;
             this.numericBoxPressure.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxPressure.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxPressure.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxPressure.Maximum = double.PositiveInfinity;
-            this.numericBoxPressure.Minimum = double.NegativeInfinity;
-            this.numericBoxPressure.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericBoxPressure.MouseSpeed = 1D;
-            this.numericBoxPressure.Multiline = false;
             this.numericBoxPressure.Name = "numericBoxPressure";
-            this.numericBoxPressure.RadianValue = 0D;
             this.numericBoxPressure.ReadOnly = true;
             this.numericBoxPressure.RestrictLimitValue = false;
-            this.numericBoxPressure.ShowFraction = false;
-            this.numericBoxPressure.ShowPositiveSign = false;
             this.numericBoxPressure.SkipEventDuringInput = false;
             this.numericBoxPressure.SmartIncrement = true;
             this.numericBoxPressure.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxPressure.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxPressure.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
-            this.numericBoxPressure.ThonsandsSeparator = false;
-            this.numericBoxPressure.UpDown_Increment = 1D;
-            this.numericBoxPressure.Value = 0D;
-            this.numericBoxPressure.WordWrap = true;
             // 
             // tabPageElasticity
             // 
@@ -1309,7 +1010,7 @@
             // tabPageStrainStress
             // 
             this.tabPageStrainStress.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxHill);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxHill);
             this.tabPageStrainStress.Controls.Add(this.label116);
             this.tabPageStrainStress.Controls.Add(this.label117);
             this.tabPageStrainStress.Controls.Add(this.label109);
@@ -1326,52 +1027,34 @@
             this.tabPageStrainStress.Controls.Add(this.label106);
             this.tabPageStrainStress.Controls.Add(this.label107);
             this.tabPageStrainStress.Controls.Add(this.label108);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress33);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress22);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress11);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress23);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress13);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStress12);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain33);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain11);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain22);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain12);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain23);
-            this.tabPageStrainStress.Controls.Add(this.numericalTextBoxStrain13);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress33);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress22);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress11);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress23);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress13);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStress12);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain33);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain11);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain22);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain12);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain23);
+            this.tabPageStrainStress.Controls.Add(this.numericBoxStrain13);
             resources.ApplyResources(this.tabPageStrainStress, "tabPageStrainStress");
             this.tabPageStrainStress.Name = "tabPageStrainStress";
             // 
-            // numericalTextBoxHill
+            // numericBoxHill
             // 
-            this.numericalTextBoxHill.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxHill, "numericalTextBoxHill");
-            this.numericalTextBoxHill.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxHill.DecimalPlaces = -1;
-            this.numericalTextBoxHill.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxHill.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxHill.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxHill.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxHill.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxHill.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxHill.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxHill.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxHill.MouseSpeed = 1D;
-            this.numericalTextBoxHill.Multiline = false;
-            this.numericalTextBoxHill.Name = "numericalTextBoxHill";
-            this.numericalTextBoxHill.RadianValue = 0.017453292519943295D;
-            this.numericalTextBoxHill.ReadOnly = false;
-            this.numericalTextBoxHill.RestrictLimitValue = false;
-            this.numericalTextBoxHill.ShowFraction = false;
-            this.numericalTextBoxHill.ShowPositiveSign = false;
-            this.numericalTextBoxHill.SkipEventDuringInput = false;
-            this.numericalTextBoxHill.SmartIncrement = true;
-            this.numericalTextBoxHill.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxHill.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxHill.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxHill.ThonsandsSeparator = false;
-            this.numericalTextBoxHill.UpDown_Increment = 1D;
-            this.numericalTextBoxHill.Value = 1D;
-            this.numericalTextBoxHill.WordWrap = true;
+            resources.ApplyResources(this.numericBoxHill, "numericBoxHill");
+            this.numericBoxHill.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxHill.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxHill.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxHill.Name = "numericBoxHill";
+            this.numericBoxHill.RadianValue = 0.017453292519943295D;
+            this.numericBoxHill.RestrictLimitValue = false;
+            this.numericBoxHill.SkipEventDuringInput = false;
+            this.numericBoxHill.SmartIncrement = true;
+            this.numericBoxHill.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericBoxHill.Value = 1D;
             // 
             // label116
             // 
@@ -1453,389 +1136,149 @@
             resources.ApplyResources(this.label108, "label108");
             this.label108.Name = "label108";
             // 
-            // numericalTextBoxStress33
+            // numericBoxStress33
             // 
-            this.numericalTextBoxStress33.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress33, "numericalTextBoxStress33");
-            this.numericalTextBoxStress33.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress33.DecimalPlaces = -1;
-            this.numericalTextBoxStress33.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress33.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress33.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress33.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress33.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress33.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress33.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress33.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress33.MouseSpeed = 1D;
-            this.numericalTextBoxStress33.Multiline = false;
-            this.numericalTextBoxStress33.Name = "numericalTextBoxStress33";
-            this.numericalTextBoxStress33.RadianValue = 0D;
-            this.numericalTextBoxStress33.ReadOnly = false;
-            this.numericalTextBoxStress33.RestrictLimitValue = false;
-            this.numericalTextBoxStress33.ShowFraction = false;
-            this.numericalTextBoxStress33.ShowPositiveSign = false;
-            this.numericalTextBoxStress33.SkipEventDuringInput = false;
-            this.numericalTextBoxStress33.SmartIncrement = true;
-            this.numericalTextBoxStress33.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress33.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress33.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress33.ThonsandsSeparator = false;
-            this.numericalTextBoxStress33.UpDown_Increment = 1D;
-            this.numericalTextBoxStress33.Value = 0D;
-            this.numericalTextBoxStress33.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress33, "numericBoxStress33");
+            this.numericBoxStress33.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress33.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress33.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress33.Name = "numericBoxStress33";
+            this.numericBoxStress33.RestrictLimitValue = false;
+            this.numericBoxStress33.SkipEventDuringInput = false;
+            this.numericBoxStress33.SmartIncrement = true;
+            this.numericBoxStress33.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStress22
+            // numericBoxStress22
             // 
-            this.numericalTextBoxStress22.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress22, "numericalTextBoxStress22");
-            this.numericalTextBoxStress22.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress22.DecimalPlaces = -1;
-            this.numericalTextBoxStress22.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress22.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress22.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress22.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress22.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress22.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress22.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress22.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress22.MouseSpeed = 1D;
-            this.numericalTextBoxStress22.Multiline = false;
-            this.numericalTextBoxStress22.Name = "numericalTextBoxStress22";
-            this.numericalTextBoxStress22.RadianValue = 0D;
-            this.numericalTextBoxStress22.ReadOnly = false;
-            this.numericalTextBoxStress22.RestrictLimitValue = false;
-            this.numericalTextBoxStress22.ShowFraction = false;
-            this.numericalTextBoxStress22.ShowPositiveSign = false;
-            this.numericalTextBoxStress22.SkipEventDuringInput = false;
-            this.numericalTextBoxStress22.SmartIncrement = true;
-            this.numericalTextBoxStress22.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress22.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress22.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress22.ThonsandsSeparator = false;
-            this.numericalTextBoxStress22.UpDown_Increment = 1D;
-            this.numericalTextBoxStress22.Value = 0D;
-            this.numericalTextBoxStress22.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress22, "numericBoxStress22");
+            this.numericBoxStress22.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress22.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress22.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress22.Name = "numericBoxStress22";
+            this.numericBoxStress22.RestrictLimitValue = false;
+            this.numericBoxStress22.SkipEventDuringInput = false;
+            this.numericBoxStress22.SmartIncrement = true;
+            this.numericBoxStress22.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStress11
+            // numericBoxStress11
             // 
-            this.numericalTextBoxStress11.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress11, "numericalTextBoxStress11");
-            this.numericalTextBoxStress11.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress11.DecimalPlaces = -1;
-            this.numericalTextBoxStress11.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress11.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress11.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress11.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress11.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress11.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress11.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress11.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress11.MouseSpeed = 1D;
-            this.numericalTextBoxStress11.Multiline = false;
-            this.numericalTextBoxStress11.Name = "numericalTextBoxStress11";
-            this.numericalTextBoxStress11.RadianValue = 0D;
-            this.numericalTextBoxStress11.ReadOnly = false;
-            this.numericalTextBoxStress11.RestrictLimitValue = false;
-            this.numericalTextBoxStress11.ShowFraction = false;
-            this.numericalTextBoxStress11.ShowPositiveSign = false;
-            this.numericalTextBoxStress11.SkipEventDuringInput = false;
-            this.numericalTextBoxStress11.SmartIncrement = true;
-            this.numericalTextBoxStress11.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress11.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress11.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress11.ThonsandsSeparator = false;
-            this.numericalTextBoxStress11.UpDown_Increment = 1D;
-            this.numericalTextBoxStress11.Value = 0D;
-            this.numericalTextBoxStress11.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress11, "numericBoxStress11");
+            this.numericBoxStress11.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress11.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress11.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress11.Name = "numericBoxStress11";
+            this.numericBoxStress11.RestrictLimitValue = false;
+            this.numericBoxStress11.SkipEventDuringInput = false;
+            this.numericBoxStress11.SmartIncrement = true;
+            this.numericBoxStress11.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStress23
+            // numericBoxStress23
             // 
-            this.numericalTextBoxStress23.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress23, "numericalTextBoxStress23");
-            this.numericalTextBoxStress23.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress23.DecimalPlaces = -1;
-            this.numericalTextBoxStress23.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress23.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress23.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress23.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress23.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress23.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress23.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress23.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress23.MouseSpeed = 1D;
-            this.numericalTextBoxStress23.Multiline = false;
-            this.numericalTextBoxStress23.Name = "numericalTextBoxStress23";
-            this.numericalTextBoxStress23.RadianValue = 0D;
-            this.numericalTextBoxStress23.ReadOnly = false;
-            this.numericalTextBoxStress23.RestrictLimitValue = false;
-            this.numericalTextBoxStress23.ShowFraction = false;
-            this.numericalTextBoxStress23.ShowPositiveSign = false;
-            this.numericalTextBoxStress23.SkipEventDuringInput = false;
-            this.numericalTextBoxStress23.SmartIncrement = true;
-            this.numericalTextBoxStress23.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress23.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress23.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress23.ThonsandsSeparator = false;
-            this.numericalTextBoxStress23.UpDown_Increment = 1D;
-            this.numericalTextBoxStress23.Value = 0D;
-            this.numericalTextBoxStress23.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress23, "numericBoxStress23");
+            this.numericBoxStress23.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress23.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress23.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress23.Name = "numericBoxStress23";
+            this.numericBoxStress23.RestrictLimitValue = false;
+            this.numericBoxStress23.SkipEventDuringInput = false;
+            this.numericBoxStress23.SmartIncrement = true;
+            this.numericBoxStress23.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStress13
+            // numericBoxStress13
             // 
-            this.numericalTextBoxStress13.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress13, "numericalTextBoxStress13");
-            this.numericalTextBoxStress13.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress13.DecimalPlaces = -1;
-            this.numericalTextBoxStress13.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress13.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress13.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress13.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress13.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress13.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress13.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress13.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress13.MouseSpeed = 1D;
-            this.numericalTextBoxStress13.Multiline = false;
-            this.numericalTextBoxStress13.Name = "numericalTextBoxStress13";
-            this.numericalTextBoxStress13.RadianValue = 0D;
-            this.numericalTextBoxStress13.ReadOnly = false;
-            this.numericalTextBoxStress13.RestrictLimitValue = false;
-            this.numericalTextBoxStress13.ShowFraction = false;
-            this.numericalTextBoxStress13.ShowPositiveSign = false;
-            this.numericalTextBoxStress13.SkipEventDuringInput = false;
-            this.numericalTextBoxStress13.SmartIncrement = true;
-            this.numericalTextBoxStress13.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress13.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress13.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress13.ThonsandsSeparator = false;
-            this.numericalTextBoxStress13.UpDown_Increment = 1D;
-            this.numericalTextBoxStress13.Value = 0D;
-            this.numericalTextBoxStress13.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress13, "numericBoxStress13");
+            this.numericBoxStress13.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress13.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress13.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress13.Name = "numericBoxStress13";
+            this.numericBoxStress13.RestrictLimitValue = false;
+            this.numericBoxStress13.SkipEventDuringInput = false;
+            this.numericBoxStress13.SmartIncrement = true;
+            this.numericBoxStress13.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStress12
+            // numericBoxStress12
             // 
-            this.numericalTextBoxStress12.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStress12, "numericalTextBoxStress12");
-            this.numericalTextBoxStress12.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress12.DecimalPlaces = -1;
-            this.numericalTextBoxStress12.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress12.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress12.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStress12.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStress12.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStress12.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStress12.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStress12.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStress12.MouseSpeed = 1D;
-            this.numericalTextBoxStress12.Multiline = false;
-            this.numericalTextBoxStress12.Name = "numericalTextBoxStress12";
-            this.numericalTextBoxStress12.RadianValue = 0D;
-            this.numericalTextBoxStress12.ReadOnly = false;
-            this.numericalTextBoxStress12.RestrictLimitValue = false;
-            this.numericalTextBoxStress12.ShowFraction = false;
-            this.numericalTextBoxStress12.ShowPositiveSign = false;
-            this.numericalTextBoxStress12.SkipEventDuringInput = false;
-            this.numericalTextBoxStress12.SmartIncrement = true;
-            this.numericalTextBoxStress12.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStress12.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStress12.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStress12.ThonsandsSeparator = false;
-            this.numericalTextBoxStress12.UpDown_Increment = 1D;
-            this.numericalTextBoxStress12.Value = 0D;
-            this.numericalTextBoxStress12.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStress12, "numericBoxStress12");
+            this.numericBoxStress12.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress12.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress12.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStress12.Name = "numericBoxStress12";
+            this.numericBoxStress12.RestrictLimitValue = false;
+            this.numericBoxStress12.SkipEventDuringInput = false;
+            this.numericBoxStress12.SmartIncrement = true;
+            this.numericBoxStress12.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain33
+            // numericBoxStrain33
             // 
-            this.numericalTextBoxStrain33.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain33, "numericalTextBoxStrain33");
-            this.numericalTextBoxStrain33.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain33.DecimalPlaces = -1;
-            this.numericalTextBoxStrain33.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain33.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain33.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain33.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain33.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain33.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain33.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain33.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain33.MouseSpeed = 1D;
-            this.numericalTextBoxStrain33.Multiline = false;
-            this.numericalTextBoxStrain33.Name = "numericalTextBoxStrain33";
-            this.numericalTextBoxStrain33.RadianValue = 0D;
-            this.numericalTextBoxStrain33.ReadOnly = false;
-            this.numericalTextBoxStrain33.RestrictLimitValue = false;
-            this.numericalTextBoxStrain33.ShowFraction = false;
-            this.numericalTextBoxStrain33.ShowPositiveSign = false;
-            this.numericalTextBoxStrain33.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain33.SmartIncrement = true;
-            this.numericalTextBoxStrain33.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain33.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain33.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain33.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain33.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain33.Value = 0D;
-            this.numericalTextBoxStrain33.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain33, "numericBoxStrain33");
+            this.numericBoxStrain33.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain33.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain33.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain33.Name = "numericBoxStrain33";
+            this.numericBoxStrain33.RestrictLimitValue = false;
+            this.numericBoxStrain33.SkipEventDuringInput = false;
+            this.numericBoxStrain33.SmartIncrement = true;
+            this.numericBoxStrain33.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain11
+            // numericBoxStrain11
             // 
-            this.numericalTextBoxStrain11.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain11, "numericalTextBoxStrain11");
-            this.numericalTextBoxStrain11.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain11.DecimalPlaces = -1;
-            this.numericalTextBoxStrain11.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain11.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain11.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain11.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain11.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain11.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain11.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain11.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain11.MouseSpeed = 1D;
-            this.numericalTextBoxStrain11.Multiline = false;
-            this.numericalTextBoxStrain11.Name = "numericalTextBoxStrain11";
-            this.numericalTextBoxStrain11.RadianValue = 0D;
-            this.numericalTextBoxStrain11.ReadOnly = false;
-            this.numericalTextBoxStrain11.RestrictLimitValue = false;
-            this.numericalTextBoxStrain11.ShowFraction = false;
-            this.numericalTextBoxStrain11.ShowPositiveSign = false;
-            this.numericalTextBoxStrain11.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain11.SmartIncrement = true;
-            this.numericalTextBoxStrain11.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain11.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain11.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain11.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain11.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain11.Value = 0D;
-            this.numericalTextBoxStrain11.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain11, "numericBoxStrain11");
+            this.numericBoxStrain11.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain11.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain11.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain11.Name = "numericBoxStrain11";
+            this.numericBoxStrain11.RestrictLimitValue = false;
+            this.numericBoxStrain11.SkipEventDuringInput = false;
+            this.numericBoxStrain11.SmartIncrement = true;
+            this.numericBoxStrain11.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain22
+            // numericBoxStrain22
             // 
-            this.numericalTextBoxStrain22.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain22, "numericalTextBoxStrain22");
-            this.numericalTextBoxStrain22.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain22.DecimalPlaces = -1;
-            this.numericalTextBoxStrain22.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain22.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain22.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain22.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain22.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain22.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain22.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain22.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain22.MouseSpeed = 1D;
-            this.numericalTextBoxStrain22.Multiline = false;
-            this.numericalTextBoxStrain22.Name = "numericalTextBoxStrain22";
-            this.numericalTextBoxStrain22.RadianValue = 0D;
-            this.numericalTextBoxStrain22.ReadOnly = false;
-            this.numericalTextBoxStrain22.RestrictLimitValue = false;
-            this.numericalTextBoxStrain22.ShowFraction = false;
-            this.numericalTextBoxStrain22.ShowPositiveSign = false;
-            this.numericalTextBoxStrain22.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain22.SmartIncrement = true;
-            this.numericalTextBoxStrain22.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain22.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain22.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain22.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain22.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain22.Value = 0D;
-            this.numericalTextBoxStrain22.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain22, "numericBoxStrain22");
+            this.numericBoxStrain22.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain22.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain22.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain22.Name = "numericBoxStrain22";
+            this.numericBoxStrain22.RestrictLimitValue = false;
+            this.numericBoxStrain22.SkipEventDuringInput = false;
+            this.numericBoxStrain22.SmartIncrement = true;
+            this.numericBoxStrain22.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain12
+            // numericBoxStrain12
             // 
-            this.numericalTextBoxStrain12.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain12, "numericalTextBoxStrain12");
-            this.numericalTextBoxStrain12.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain12.DecimalPlaces = -1;
-            this.numericalTextBoxStrain12.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain12.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain12.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain12.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain12.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain12.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain12.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain12.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain12.MouseSpeed = 1D;
-            this.numericalTextBoxStrain12.Multiline = false;
-            this.numericalTextBoxStrain12.Name = "numericalTextBoxStrain12";
-            this.numericalTextBoxStrain12.RadianValue = 0D;
-            this.numericalTextBoxStrain12.ReadOnly = false;
-            this.numericalTextBoxStrain12.RestrictLimitValue = false;
-            this.numericalTextBoxStrain12.ShowFraction = false;
-            this.numericalTextBoxStrain12.ShowPositiveSign = false;
-            this.numericalTextBoxStrain12.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain12.SmartIncrement = true;
-            this.numericalTextBoxStrain12.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain12.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain12.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain12.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain12.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain12.Value = 0D;
-            this.numericalTextBoxStrain12.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain12, "numericBoxStrain12");
+            this.numericBoxStrain12.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain12.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain12.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain12.Name = "numericBoxStrain12";
+            this.numericBoxStrain12.RestrictLimitValue = false;
+            this.numericBoxStrain12.SkipEventDuringInput = false;
+            this.numericBoxStrain12.SmartIncrement = true;
+            this.numericBoxStrain12.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain23
+            // numericBoxStrain23
             // 
-            this.numericalTextBoxStrain23.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain23, "numericalTextBoxStrain23");
-            this.numericalTextBoxStrain23.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain23.DecimalPlaces = -1;
-            this.numericalTextBoxStrain23.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain23.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain23.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain23.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain23.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain23.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain23.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain23.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain23.MouseSpeed = 1D;
-            this.numericalTextBoxStrain23.Multiline = false;
-            this.numericalTextBoxStrain23.Name = "numericalTextBoxStrain23";
-            this.numericalTextBoxStrain23.RadianValue = 0D;
-            this.numericalTextBoxStrain23.ReadOnly = false;
-            this.numericalTextBoxStrain23.RestrictLimitValue = false;
-            this.numericalTextBoxStrain23.ShowFraction = false;
-            this.numericalTextBoxStrain23.ShowPositiveSign = false;
-            this.numericalTextBoxStrain23.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain23.SmartIncrement = true;
-            this.numericalTextBoxStrain23.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain23.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain23.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain23.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain23.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain23.Value = 0D;
-            this.numericalTextBoxStrain23.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain23, "numericBoxStrain23");
+            this.numericBoxStrain23.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain23.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain23.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain23.Name = "numericBoxStrain23";
+            this.numericBoxStrain23.RestrictLimitValue = false;
+            this.numericBoxStrain23.SkipEventDuringInput = false;
+            this.numericBoxStrain23.SmartIncrement = true;
+            this.numericBoxStrain23.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // numericalTextBoxStrain13
+            // numericBoxStrain13
             // 
-            this.numericalTextBoxStrain13.AllowMouseControl = false;
-            resources.ApplyResources(this.numericalTextBoxStrain13, "numericalTextBoxStrain13");
-            this.numericalTextBoxStrain13.BackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain13.DecimalPlaces = -1;
-            this.numericalTextBoxStrain13.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain13.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain13.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericalTextBoxStrain13.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericalTextBoxStrain13.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericalTextBoxStrain13.Maximum = double.PositiveInfinity;
-            this.numericalTextBoxStrain13.Minimum = double.NegativeInfinity;
-            this.numericalTextBoxStrain13.MouseDirection = Crystallography.VH_DirectionEnum.Vertical;
-            this.numericalTextBoxStrain13.MouseSpeed = 1D;
-            this.numericalTextBoxStrain13.Multiline = false;
-            this.numericalTextBoxStrain13.Name = "numericalTextBoxStrain13";
-            this.numericalTextBoxStrain13.RadianValue = 0D;
-            this.numericalTextBoxStrain13.ReadOnly = false;
-            this.numericalTextBoxStrain13.RestrictLimitValue = false;
-            this.numericalTextBoxStrain13.ShowFraction = false;
-            this.numericalTextBoxStrain13.ShowPositiveSign = false;
-            this.numericalTextBoxStrain13.SkipEventDuringInput = false;
-            this.numericalTextBoxStrain13.SmartIncrement = true;
-            this.numericalTextBoxStrain13.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericalTextBoxStrain13.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericalTextBoxStrain13.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericalTextBoxStrain13.ThonsandsSeparator = false;
-            this.numericalTextBoxStrain13.UpDown_Increment = 1D;
-            this.numericalTextBoxStrain13.Value = 0D;
-            this.numericalTextBoxStrain13.WordWrap = true;
+            resources.ApplyResources(this.numericBoxStrain13, "numericBoxStrain13");
+            this.numericBoxStrain13.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain13.FooterBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain13.HeaderBackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxStrain13.Name = "numericBoxStrain13";
+            this.numericBoxStrain13.RestrictLimitValue = false;
+            this.numericBoxStrain13.SkipEventDuringInput = false;
+            this.numericBoxStrain13.SmartIncrement = true;
+            this.numericBoxStrain13.TextFont = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // tabPagePolycrystalline
             // 
@@ -2125,17 +1568,6 @@
             resources.ApplyResources(this.strainControlToolStripMenuItem, "strainControlToolStripMenuItem");
             this.strainControlToolStripMenuItem.Click += new System.EventHandler(this.strainControlToolStripMenuItem_Click);
             // 
-            // textBoxFormula
-            // 
-            resources.ApplyResources(this.textBoxFormula, "textBoxFormula");
-            this.textBoxFormula.Name = "textBoxFormula";
-            this.textBoxFormula.ReadOnly = true;
-            // 
-            // label90
-            // 
-            resources.ApplyResources(this.label90, "label90");
-            this.label90.Name = "label90";
-            // 
             // textBoxName
             // 
             resources.ApplyResources(this.textBoxName, "textBoxName");
@@ -2167,8 +1599,6 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.textBoxFormula);
-            this.panel4.Controls.Add(this.label90);
             this.panel4.Controls.Add(this.textBoxName);
             this.panel4.Controls.Add(this.label22);
             this.panel4.Controls.Add(this.buttonReset);
@@ -2193,8 +1623,11 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageBasicInfo.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.tabPageAtom.ResumeLayout(false);
             this.tabPageAtom.PerformLayout();
             this.panelAtom.ResumeLayout(false);
@@ -2301,9 +1734,9 @@
         private System.Windows.Forms.CheckBox checkBoxUseEOS;
         private System.Windows.Forms.Label label75;
         private NumericBox numericBoxPressure;
-        private NumericBox numericalTextBoxTemperature;
+        private NumericBox numericBoxTemperature;
         private NumericBox numericBoxVolume;
-        private NumericBox numericalTextBoxEOS_V0perMol;
+        private NumericBox numericBoxEOS_V0perMol;
         private System.Windows.Forms.Label label81;
         private System.Windows.Forms.Label label80;
         private System.Windows.Forms.Label label83;
@@ -2337,32 +1770,32 @@
         private System.Windows.Forms.NumericUpDown numericUpDownCrystallineSize;
         private System.Windows.Forms.Label label101;
         private System.Windows.Forms.Label label102;
-        private NumericBox numericalTextBoxStrain33;
-        private NumericBox numericalTextBoxStrain11;
-        private NumericBox numericalTextBoxStrain22;
-        private NumericBox numericalTextBoxStrain12;
+        private NumericBox numericBoxStrain33;
+        private NumericBox numericBoxStrain11;
+        private NumericBox numericBoxStrain22;
+        private NumericBox numericBoxStrain12;
         private System.Windows.Forms.Label label103;
-        private NumericBox numericalTextBoxStrain23;
+        private NumericBox numericBoxStrain23;
         private System.Windows.Forms.Label label104;
-        private NumericBox numericalTextBoxStrain13;
+        private NumericBox numericBoxStrain13;
         private System.Windows.Forms.Label label105;
         private System.Windows.Forms.Label label106;
         private System.Windows.Forms.Label label107;
         private System.Windows.Forms.Label label108;
-        private NumericBox numericalTextBoxStress33;
+        private NumericBox numericBoxStress33;
         private System.Windows.Forms.Label label109;
-        private NumericBox numericalTextBoxStress22;
-        private NumericBox numericalTextBoxStress11;
-        private NumericBox numericalTextBoxStress23;
-        private NumericBox numericalTextBoxStress13;
+        private NumericBox numericBoxStress22;
+        private NumericBox numericBoxStress11;
+        private NumericBox numericBoxStress23;
+        private NumericBox numericBoxStress13;
         private System.Windows.Forms.Label label110;
         private System.Windows.Forms.Label label111;
-        private NumericBox numericalTextBoxStress12;
+        private NumericBox numericBoxStress12;
         private System.Windows.Forms.Label label112;
         private System.Windows.Forms.Label label113;
         private System.Windows.Forms.Label label114;
         private System.Windows.Forms.Label label115;
-        private NumericBox numericalTextBoxHill;
+        private NumericBox numericBoxHill;
         private System.Windows.Forms.Label label116;
         private System.Windows.Forms.Label label117;
         private System.Windows.Forms.Button buttonGenerateRandomOrientations;
@@ -2399,5 +1832,6 @@
         private NumericBox numericBoxZnumber;
         private NumericBox numericBoxDensity;
         public SymmetryControl symmetryControl;
+        private System.Windows.Forms.Panel panel1;
     }
 }

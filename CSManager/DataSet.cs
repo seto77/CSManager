@@ -5,6 +5,7 @@ using System.Data;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace CSManager
 {
@@ -12,15 +13,11 @@ namespace CSManager
 
     partial class DataSet
     {
-        static readonly object lockObj = new object();
-        public static void ReplaceBase(DataRowCollection rows, DataRow r, int i)
-        {
-            for (int j = 0; j < rows[i].ItemArray.Length; j++)
-                rows[i][j] = r[j];
-        }
 
         partial class DataTableDataTable
         {
+            readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
+
             readonly MessagePackSerializerOptions msgOptions = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
             byte[] serialize<T>(T c) => MessagePackSerializer.Serialize(c, msgOptions);
             T deserialize<T>(object obj) => MessagePackSerializer.Deserialize<T>((byte[])obj, msgOptions);
@@ -53,7 +50,6 @@ namespace CSManager
                     for (int j = 0; j < drv.Row.ItemArray.Length; j++)
                         src[j] = target[j];
                 }
-
             }
             public DataTableRow CreateRow(Crystal2 c)
             {
@@ -61,24 +57,31 @@ namespace CSManager
                 foreach (var n in c.atoms.Select(a => a.AtomNo).Distinct())
                     elementList.Append($"{n:000} ");
 
-                var d = new double[8];
-                Array.Copy(c.d, d, c.d.Length);
+                var d = new float[8];
+                if (c.d != null)
+                    Array.Copy(c.d, d, c.d.Length);
 
                 DataTableRow dr;
-                lock (lockObj)
+                try
+                {
+                    rwlock.EnterWriteLock();
                     dr = NewDataTableRow();
+                }
+                finally { rwlock.ExitWriteLock(); }
+
+                var (cellValues, _) = c.Cell;
 
                 dr.SerializedCrystal2 = serialize(c);
                 dr.Visible = true;
                 dr.Name = c.name;
                 dr.Formula = c.formula;
                 dr.Density = c.density;
-                dr.A = c.a * 10;
-                dr.B = c.b * 10;
-                dr.C = c.c * 10;
-                dr.Alpha = c.alpha * 180 / Math.PI;
-                dr.Beta = c.beta * 180 / Math.PI;
-                dr.Gamma = c.gamma * 180 / Math.PI;
+                dr.A = cellValues.A;
+                dr.B = cellValues.B;
+                dr.C = cellValues.C;
+                dr.Alpha = cellValues.Alpha;
+                dr.Beta = cellValues.Beta;
+                dr.Gamma = cellValues.Gamma;
                 dr.CrystalSystem = SymmetryStatic.StrArray[c.sym][16];//s.CrystalSystemStr;
                 dr.PointGroup = SymmetryStatic.StrArray[c.sym][13];
                 dr.SpaceGroup = SymmetryStatic.StrArray[c.sym][4];

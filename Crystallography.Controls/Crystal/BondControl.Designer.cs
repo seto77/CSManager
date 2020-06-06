@@ -46,22 +46,15 @@
             this.checkBoxShowVertexAtoms = new System.Windows.Forms.CheckBox();
             this.checkBoxShowCenterAtom = new System.Windows.Forms.CheckBox();
             this.groupBoxBonds = new System.Windows.Forms.GroupBox();
-            this.checkBoxShowBonds = new System.Windows.Forms.CheckBox();
             this.numericBoxBondAlpha = new Crystallography.Controls.NumericBox();
             this.numericBoxBondRadius = new Crystallography.Controls.NumericBox();
             this.numericBoxBondMaxLength = new Crystallography.Controls.NumericBox();
             this.numericBoxBondMinLength = new Crystallography.Controls.NumericBox();
+            this.checkBoxShowBonds = new System.Windows.Forms.CheckBox();
             this.buttonAddBond = new System.Windows.Forms.Button();
             this.buttonChangeBond = new System.Windows.Forms.Button();
             this.buttonDeleteBond = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.enabledDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.centerDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vertexDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxLenDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.minLenDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.showBondsDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.showPolyhedronDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet = new Crystallography.Controls.DataSet();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -91,6 +84,13 @@
             this.Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Center = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Vertex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.enabledDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.centerDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vertexDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.minLenDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maxLenDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.showBondsDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.showPolyhedronDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBoxPolyhedron.SuspendLayout();
             this.groupBoxEdge.SuspendLayout();
             this.groupBoxBonds.SuspendLayout();
@@ -158,37 +158,22 @@
             // 
             // numericBoxPolyhedronAlpha
             // 
-            this.numericBoxPolyhedronAlpha.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxPolyhedronAlpha, "numericBoxPolyhedronAlpha");
             this.numericBoxPolyhedronAlpha.BackColor = System.Drawing.SystemColors.Control;
             this.numericBoxPolyhedronAlpha.DecimalPlaces = 1;
-            this.numericBoxPolyhedronAlpha.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxPolyhedronAlpha.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxPolyhedronAlpha.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxPolyhedronAlpha.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxPolyhedronAlpha.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxPolyhedronAlpha.Maximum = 1D;
+                       this.numericBoxPolyhedronAlpha.Maximum = 1D;
             this.numericBoxPolyhedronAlpha.Minimum = 0D;
-            this.numericBoxPolyhedronAlpha.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxPolyhedronAlpha.MouseSpeed = 1D;
-            this.numericBoxPolyhedronAlpha.Multiline = false;
             this.numericBoxPolyhedronAlpha.Name = "numericBoxPolyhedronAlpha";
             this.numericBoxPolyhedronAlpha.RadianValue = 0.012217304763960307D;
-            this.numericBoxPolyhedronAlpha.ReadOnly = false;
             this.numericBoxPolyhedronAlpha.RestrictLimitValue = true;
-            this.numericBoxPolyhedronAlpha.ShowFraction = false;
-            this.numericBoxPolyhedronAlpha.ShowPositiveSign = false;
             this.numericBoxPolyhedronAlpha.ShowUpDown = true;
             this.numericBoxPolyhedronAlpha.SkipEventDuringInput = false;
             this.numericBoxPolyhedronAlpha.SmartIncrement = true;
-            this.numericBoxPolyhedronAlpha.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxPolyhedronAlpha.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxPolyhedronAlpha.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
             this.numericBoxPolyhedronAlpha.ThonsandsSeparator = true;
             this.numericBoxPolyhedronAlpha.UpDown_Increment = 0.1D;
             this.numericBoxPolyhedronAlpha.Value = 0.7D;
-            this.numericBoxPolyhedronAlpha.WordWrap = true;
-            // 
+                        // 
             // checkBoxShowEdges
             // 
             resources.ApplyResources(this.checkBoxShowEdges, "checkBoxShowEdges");
@@ -207,37 +192,22 @@
             // 
             // numericBoxEdgeWidth
             // 
-            this.numericBoxEdgeWidth.AllowMouseControl = false;
             resources.ApplyResources(this.numericBoxEdgeWidth, "numericBoxEdgeWidth");
             this.numericBoxEdgeWidth.BackColor = System.Drawing.SystemColors.Control;
             this.numericBoxEdgeWidth.DecimalPlaces = 1;
-            this.numericBoxEdgeWidth.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEdgeWidth.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEdgeWidth.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxEdgeWidth.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxEdgeWidth.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxEdgeWidth.Maximum = 1D;
+                       this.numericBoxEdgeWidth.Maximum = 1D;
             this.numericBoxEdgeWidth.Minimum = 0D;
-            this.numericBoxEdgeWidth.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxEdgeWidth.MouseSpeed = 1D;
-            this.numericBoxEdgeWidth.Multiline = false;
             this.numericBoxEdgeWidth.Name = "numericBoxEdgeWidth";
             this.numericBoxEdgeWidth.RadianValue = 0.012217304763960307D;
-            this.numericBoxEdgeWidth.ReadOnly = false;
             this.numericBoxEdgeWidth.RestrictLimitValue = true;
-            this.numericBoxEdgeWidth.ShowFraction = false;
-            this.numericBoxEdgeWidth.ShowPositiveSign = false;
             this.numericBoxEdgeWidth.ShowUpDown = true;
             this.numericBoxEdgeWidth.SkipEventDuringInput = false;
             this.numericBoxEdgeWidth.SmartIncrement = true;
-            this.numericBoxEdgeWidth.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxEdgeWidth.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
             this.numericBoxEdgeWidth.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
             this.numericBoxEdgeWidth.ThonsandsSeparator = true;
             this.numericBoxEdgeWidth.UpDown_Increment = 0.1D;
             this.numericBoxEdgeWidth.Value = 0.7D;
-            this.numericBoxEdgeWidth.WordWrap = true;
-            // 
+                        // 
             // checkBoxShowInnerBonds
             // 
             resources.ApplyResources(this.checkBoxShowInnerBonds, "checkBoxShowInnerBonds");
@@ -265,7 +235,6 @@
             // groupBoxBonds
             // 
             this.groupBoxBonds.Controls.Add(this.comboBoxBondingAtom1);
-            this.groupBoxBonds.Controls.Add(this.checkBoxShowBonds);
             this.groupBoxBonds.Controls.Add(this.numericBoxBondAlpha);
             this.groupBoxBonds.Controls.Add(this.numericBoxBondRadius);
             this.groupBoxBonds.Controls.Add(this.label39);
@@ -279,6 +248,78 @@
             this.groupBoxBonds.Name = "groupBoxBonds";
             this.groupBoxBonds.TabStop = false;
             // 
+            // numericBoxBondAlpha
+            // 
+            resources.ApplyResources(this.numericBoxBondAlpha, "numericBoxBondAlpha");
+            this.numericBoxBondAlpha.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxBondAlpha.DecimalPlaces = 1;
+                       this.numericBoxBondAlpha.Maximum = 1D;
+            this.numericBoxBondAlpha.Minimum = 0D;
+            this.numericBoxBondAlpha.Name = "numericBoxBondAlpha";
+            this.numericBoxBondAlpha.RadianValue = 0.012217304763960307D;
+            this.numericBoxBondAlpha.RestrictLimitValue = true;
+            this.numericBoxBondAlpha.ShowUpDown = true;
+            this.numericBoxBondAlpha.SkipEventDuringInput = false;
+            this.numericBoxBondAlpha.SmartIncrement = true;
+            this.numericBoxBondAlpha.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
+            this.numericBoxBondAlpha.ThonsandsSeparator = true;
+            this.numericBoxBondAlpha.UpDown_Increment = 0.1D;
+            this.numericBoxBondAlpha.Value = 0.7D;
+                        // 
+            // numericBoxBondRadius
+            // 
+            resources.ApplyResources(this.numericBoxBondRadius, "numericBoxBondRadius");
+            this.numericBoxBondRadius.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxBondRadius.DecimalPlaces = 3;
+                       this.numericBoxBondRadius.Maximum = 9.9D;
+            this.numericBoxBondRadius.Minimum = 0.1D;
+            this.numericBoxBondRadius.Name = "numericBoxBondRadius";
+            this.numericBoxBondRadius.RadianValue = 0.0017453292519943296D;
+            this.numericBoxBondRadius.RestrictLimitValue = true;
+            this.numericBoxBondRadius.ShowUpDown = true;
+            this.numericBoxBondRadius.SkipEventDuringInput = false;
+            this.numericBoxBondRadius.SmartIncrement = true;
+            this.numericBoxBondRadius.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
+            this.numericBoxBondRadius.ThonsandsSeparator = true;
+            this.numericBoxBondRadius.UpDown_Increment = 0.02D;
+            this.numericBoxBondRadius.Value = 0.1D;
+                        // 
+            // numericBoxBondMaxLength
+            // 
+            resources.ApplyResources(this.numericBoxBondMaxLength, "numericBoxBondMaxLength");
+            this.numericBoxBondMaxLength.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxBondMaxLength.DecimalPlaces = 3;
+                       this.numericBoxBondMaxLength.Maximum = 9.9D;
+            this.numericBoxBondMaxLength.Minimum = 0.1D;
+            this.numericBoxBondMaxLength.Name = "numericBoxBondMaxLength";
+            this.numericBoxBondMaxLength.RadianValue = 0.027925268031909273D;
+            this.numericBoxBondMaxLength.RestrictLimitValue = true;
+            this.numericBoxBondMaxLength.ShowUpDown = true;
+            this.numericBoxBondMaxLength.SkipEventDuringInput = false;
+            this.numericBoxBondMaxLength.SmartIncrement = true;
+            this.numericBoxBondMaxLength.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
+            this.numericBoxBondMaxLength.ThonsandsSeparator = true;
+            this.numericBoxBondMaxLength.UpDown_Increment = 0.1D;
+            this.numericBoxBondMaxLength.Value = 1.6D;
+                        // 
+            // numericBoxBondMinLength
+            // 
+            resources.ApplyResources(this.numericBoxBondMinLength, "numericBoxBondMinLength");
+            this.numericBoxBondMinLength.BackColor = System.Drawing.SystemColors.Control;
+            this.numericBoxBondMinLength.DecimalPlaces = 3;
+                       this.numericBoxBondMinLength.Maximum = 9.9D;
+            this.numericBoxBondMinLength.Minimum = 0D;
+            this.numericBoxBondMinLength.Name = "numericBoxBondMinLength";
+            this.numericBoxBondMinLength.RadianValue = 0.0017453292519943296D;
+            this.numericBoxBondMinLength.RestrictLimitValue = true;
+            this.numericBoxBondMinLength.ShowUpDown = true;
+            this.numericBoxBondMinLength.SkipEventDuringInput = false;
+            this.numericBoxBondMinLength.SmartIncrement = true;
+            this.numericBoxBondMinLength.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
+            this.numericBoxBondMinLength.ThonsandsSeparator = true;
+            this.numericBoxBondMinLength.UpDown_Increment = 0.1D;
+            this.numericBoxBondMinLength.Value = 0.1D;
+                        // 
             // checkBoxShowBonds
             // 
             resources.ApplyResources(this.checkBoxShowBonds, "checkBoxShowBonds");
@@ -287,138 +328,6 @@
             this.checkBoxShowBonds.Name = "checkBoxShowBonds";
             this.checkBoxShowBonds.UseVisualStyleBackColor = true;
             this.checkBoxShowBonds.CheckedChanged += new System.EventHandler(this.checkBoxShowBonds_CheckedChanged);
-            // 
-            // numericBoxBondAlpha
-            // 
-            this.numericBoxBondAlpha.AllowMouseControl = false;
-            resources.ApplyResources(this.numericBoxBondAlpha, "numericBoxBondAlpha");
-            this.numericBoxBondAlpha.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondAlpha.DecimalPlaces = 1;
-            this.numericBoxBondAlpha.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondAlpha.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondAlpha.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondAlpha.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondAlpha.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxBondAlpha.Maximum = 1D;
-            this.numericBoxBondAlpha.Minimum = 0D;
-            this.numericBoxBondAlpha.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxBondAlpha.MouseSpeed = 1D;
-            this.numericBoxBondAlpha.Multiline = false;
-            this.numericBoxBondAlpha.Name = "numericBoxBondAlpha";
-            this.numericBoxBondAlpha.RadianValue = 0.012217304763960307D;
-            this.numericBoxBondAlpha.ReadOnly = false;
-            this.numericBoxBondAlpha.RestrictLimitValue = true;
-            this.numericBoxBondAlpha.ShowFraction = false;
-            this.numericBoxBondAlpha.ShowPositiveSign = false;
-            this.numericBoxBondAlpha.ShowUpDown = true;
-            this.numericBoxBondAlpha.SkipEventDuringInput = false;
-            this.numericBoxBondAlpha.SmartIncrement = true;
-            this.numericBoxBondAlpha.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxBondAlpha.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxBondAlpha.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
-            this.numericBoxBondAlpha.ThonsandsSeparator = true;
-            this.numericBoxBondAlpha.UpDown_Increment = 0.1D;
-            this.numericBoxBondAlpha.Value = 0.7D;
-            this.numericBoxBondAlpha.WordWrap = true;
-            // 
-            // numericBoxBondRadius
-            // 
-            this.numericBoxBondRadius.AllowMouseControl = false;
-            resources.ApplyResources(this.numericBoxBondRadius, "numericBoxBondRadius");
-            this.numericBoxBondRadius.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondRadius.DecimalPlaces = 3;
-            this.numericBoxBondRadius.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondRadius.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondRadius.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondRadius.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondRadius.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxBondRadius.Maximum = 9.9D;
-            this.numericBoxBondRadius.Minimum = 0.1D;
-            this.numericBoxBondRadius.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxBondRadius.MouseSpeed = 1D;
-            this.numericBoxBondRadius.Multiline = false;
-            this.numericBoxBondRadius.Name = "numericBoxBondRadius";
-            this.numericBoxBondRadius.RadianValue = 0.0017453292519943296D;
-            this.numericBoxBondRadius.ReadOnly = false;
-            this.numericBoxBondRadius.RestrictLimitValue = true;
-            this.numericBoxBondRadius.ShowFraction = false;
-            this.numericBoxBondRadius.ShowPositiveSign = false;
-            this.numericBoxBondRadius.ShowUpDown = true;
-            this.numericBoxBondRadius.SkipEventDuringInput = false;
-            this.numericBoxBondRadius.SmartIncrement = true;
-            this.numericBoxBondRadius.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxBondRadius.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxBondRadius.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
-            this.numericBoxBondRadius.ThonsandsSeparator = true;
-            this.numericBoxBondRadius.UpDown_Increment = 0.02D;
-            this.numericBoxBondRadius.Value = 0.1D;
-            this.numericBoxBondRadius.WordWrap = true;
-            // 
-            // numericBoxBondMaxLength
-            // 
-            this.numericBoxBondMaxLength.AllowMouseControl = false;
-            resources.ApplyResources(this.numericBoxBondMaxLength, "numericBoxBondMaxLength");
-            this.numericBoxBondMaxLength.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMaxLength.DecimalPlaces = 3;
-            this.numericBoxBondMaxLength.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMaxLength.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondMaxLength.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMaxLength.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondMaxLength.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxBondMaxLength.Maximum = 9.9D;
-            this.numericBoxBondMaxLength.Minimum = 0.1D;
-            this.numericBoxBondMaxLength.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxBondMaxLength.MouseSpeed = 1D;
-            this.numericBoxBondMaxLength.Multiline = false;
-            this.numericBoxBondMaxLength.Name = "numericBoxBondMaxLength";
-            this.numericBoxBondMaxLength.RadianValue = 0.027925268031909273D;
-            this.numericBoxBondMaxLength.ReadOnly = false;
-            this.numericBoxBondMaxLength.RestrictLimitValue = true;
-            this.numericBoxBondMaxLength.ShowFraction = false;
-            this.numericBoxBondMaxLength.ShowPositiveSign = false;
-            this.numericBoxBondMaxLength.ShowUpDown = true;
-            this.numericBoxBondMaxLength.SkipEventDuringInput = false;
-            this.numericBoxBondMaxLength.SmartIncrement = true;
-            this.numericBoxBondMaxLength.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxBondMaxLength.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxBondMaxLength.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
-            this.numericBoxBondMaxLength.ThonsandsSeparator = true;
-            this.numericBoxBondMaxLength.UpDown_Increment = 0.1D;
-            this.numericBoxBondMaxLength.Value = 1.6D;
-            this.numericBoxBondMaxLength.WordWrap = true;
-            // 
-            // numericBoxBondMinLength
-            // 
-            this.numericBoxBondMinLength.AllowMouseControl = false;
-            resources.ApplyResources(this.numericBoxBondMinLength, "numericBoxBondMinLength");
-            this.numericBoxBondMinLength.BackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMinLength.DecimalPlaces = 3;
-            this.numericBoxBondMinLength.FooterBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMinLength.FooterForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondMinLength.HeaderBackColor = System.Drawing.SystemColors.Control;
-            this.numericBoxBondMinLength.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.numericBoxBondMinLength.HeaderMargin = new System.Windows.Forms.Padding(0);
-            this.numericBoxBondMinLength.Maximum = 9.9D;
-            this.numericBoxBondMinLength.Minimum = 0D;
-            this.numericBoxBondMinLength.MouseDirection = Crystallography.VH_DirectionEnum.Horizontal;
-            this.numericBoxBondMinLength.MouseSpeed = 1D;
-            this.numericBoxBondMinLength.Multiline = false;
-            this.numericBoxBondMinLength.Name = "numericBoxBondMinLength";
-            this.numericBoxBondMinLength.RadianValue = 0.0017453292519943296D;
-            this.numericBoxBondMinLength.ReadOnly = false;
-            this.numericBoxBondMinLength.RestrictLimitValue = true;
-            this.numericBoxBondMinLength.ShowFraction = false;
-            this.numericBoxBondMinLength.ShowPositiveSign = false;
-            this.numericBoxBondMinLength.ShowUpDown = true;
-            this.numericBoxBondMinLength.SkipEventDuringInput = false;
-            this.numericBoxBondMinLength.SmartIncrement = true;
-            this.numericBoxBondMinLength.TextBoxBackColor = System.Drawing.SystemColors.Window;
-            this.numericBoxBondMinLength.TextBoxForeColor = System.Drawing.SystemColors.WindowText;
-            this.numericBoxBondMinLength.TextFont = new System.Drawing.Font("Segoe UI Symbol", 9F);
-            this.numericBoxBondMinLength.ThonsandsSeparator = true;
-            this.numericBoxBondMinLength.UpDown_Increment = 0.1D;
-            this.numericBoxBondMinLength.Value = 0.1D;
-            this.numericBoxBondMinLength.WordWrap = true;
             // 
             // buttonAddBond
             // 
@@ -459,8 +368,8 @@
             this.enabledDataGridViewCheckBoxColumn1,
             this.centerDataGridViewTextBoxColumn1,
             this.vertexDataGridViewTextBoxColumn1,
-            this.maxLenDataGridViewTextBoxColumn1,
             this.minLenDataGridViewTextBoxColumn1,
+            this.maxLenDataGridViewTextBoxColumn1,
             this.showBondsDataGridViewCheckBoxColumn,
             this.showPolyhedronDataGridViewCheckBoxColumn});
             this.dataGridView.DataSource = this.bindingSource;
@@ -472,52 +381,6 @@
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
-            // 
-            // enabledDataGridViewCheckBoxColumn1
-            // 
-            this.enabledDataGridViewCheckBoxColumn1.DataPropertyName = "Enabled";
-            resources.ApplyResources(this.enabledDataGridViewCheckBoxColumn1, "enabledDataGridViewCheckBoxColumn1");
-            this.enabledDataGridViewCheckBoxColumn1.Name = "enabledDataGridViewCheckBoxColumn1";
-            // 
-            // centerDataGridViewTextBoxColumn1
-            // 
-            this.centerDataGridViewTextBoxColumn1.DataPropertyName = "Center";
-            resources.ApplyResources(this.centerDataGridViewTextBoxColumn1, "centerDataGridViewTextBoxColumn1");
-            this.centerDataGridViewTextBoxColumn1.Name = "centerDataGridViewTextBoxColumn1";
-            this.centerDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // vertexDataGridViewTextBoxColumn1
-            // 
-            this.vertexDataGridViewTextBoxColumn1.DataPropertyName = "Vertex";
-            resources.ApplyResources(this.vertexDataGridViewTextBoxColumn1, "vertexDataGridViewTextBoxColumn1");
-            this.vertexDataGridViewTextBoxColumn1.Name = "vertexDataGridViewTextBoxColumn1";
-            this.vertexDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // maxLenDataGridViewTextBoxColumn1
-            // 
-            this.maxLenDataGridViewTextBoxColumn1.DataPropertyName = "Max len.";
-            resources.ApplyResources(this.maxLenDataGridViewTextBoxColumn1, "maxLenDataGridViewTextBoxColumn1");
-            this.maxLenDataGridViewTextBoxColumn1.Name = "maxLenDataGridViewTextBoxColumn1";
-            this.maxLenDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // minLenDataGridViewTextBoxColumn1
-            // 
-            this.minLenDataGridViewTextBoxColumn1.DataPropertyName = "Min len.";
-            resources.ApplyResources(this.minLenDataGridViewTextBoxColumn1, "minLenDataGridViewTextBoxColumn1");
-            this.minLenDataGridViewTextBoxColumn1.Name = "minLenDataGridViewTextBoxColumn1";
-            this.minLenDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // showBondsDataGridViewCheckBoxColumn
-            // 
-            this.showBondsDataGridViewCheckBoxColumn.DataPropertyName = "Show bonds";
-            resources.ApplyResources(this.showBondsDataGridViewCheckBoxColumn, "showBondsDataGridViewCheckBoxColumn");
-            this.showBondsDataGridViewCheckBoxColumn.Name = "showBondsDataGridViewCheckBoxColumn";
-            // 
-            // showPolyhedronDataGridViewCheckBoxColumn
-            // 
-            this.showPolyhedronDataGridViewCheckBoxColumn.DataPropertyName = "Show Polyhedron";
-            resources.ApplyResources(this.showPolyhedronDataGridViewCheckBoxColumn, "showPolyhedronDataGridViewCheckBoxColumn");
-            this.showPolyhedronDataGridViewCheckBoxColumn.Name = "showPolyhedronDataGridViewCheckBoxColumn";
             // 
             // bindingSource
             // 
@@ -589,6 +452,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.checkBoxShowBonds);
             this.panel2.Controls.Add(this.groupBoxBonds);
             this.panel2.Controls.Add(this.checkBoxShowPolyhedron);
             this.panel2.Controls.Add(this.groupBoxPolyhedron);
@@ -751,6 +615,56 @@
             this.Vertex.Name = "Vertex";
             this.Vertex.ReadOnly = true;
             // 
+            // enabledDataGridViewCheckBoxColumn1
+            // 
+            this.enabledDataGridViewCheckBoxColumn1.DataPropertyName = "Enabled";
+            resources.ApplyResources(this.enabledDataGridViewCheckBoxColumn1, "enabledDataGridViewCheckBoxColumn1");
+            this.enabledDataGridViewCheckBoxColumn1.Name = "enabledDataGridViewCheckBoxColumn1";
+            // 
+            // centerDataGridViewTextBoxColumn1
+            // 
+            this.centerDataGridViewTextBoxColumn1.DataPropertyName = "Center";
+            resources.ApplyResources(this.centerDataGridViewTextBoxColumn1, "centerDataGridViewTextBoxColumn1");
+            this.centerDataGridViewTextBoxColumn1.Name = "centerDataGridViewTextBoxColumn1";
+            this.centerDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.centerDataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // vertexDataGridViewTextBoxColumn1
+            // 
+            this.vertexDataGridViewTextBoxColumn1.DataPropertyName = "Vertex";
+            resources.ApplyResources(this.vertexDataGridViewTextBoxColumn1, "vertexDataGridViewTextBoxColumn1");
+            this.vertexDataGridViewTextBoxColumn1.Name = "vertexDataGridViewTextBoxColumn1";
+            this.vertexDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.vertexDataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // minLenDataGridViewTextBoxColumn1
+            // 
+            this.minLenDataGridViewTextBoxColumn1.DataPropertyName = "Min len.";
+            resources.ApplyResources(this.minLenDataGridViewTextBoxColumn1, "minLenDataGridViewTextBoxColumn1");
+            this.minLenDataGridViewTextBoxColumn1.Name = "minLenDataGridViewTextBoxColumn1";
+            this.minLenDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.minLenDataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // maxLenDataGridViewTextBoxColumn1
+            // 
+            this.maxLenDataGridViewTextBoxColumn1.DataPropertyName = "Max len.";
+            resources.ApplyResources(this.maxLenDataGridViewTextBoxColumn1, "maxLenDataGridViewTextBoxColumn1");
+            this.maxLenDataGridViewTextBoxColumn1.Name = "maxLenDataGridViewTextBoxColumn1";
+            this.maxLenDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.maxLenDataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // showBondsDataGridViewCheckBoxColumn
+            // 
+            this.showBondsDataGridViewCheckBoxColumn.DataPropertyName = "Show bonds";
+            resources.ApplyResources(this.showBondsDataGridViewCheckBoxColumn, "showBondsDataGridViewCheckBoxColumn");
+            this.showBondsDataGridViewCheckBoxColumn.Name = "showBondsDataGridViewCheckBoxColumn";
+            // 
+            // showPolyhedronDataGridViewCheckBoxColumn
+            // 
+            this.showPolyhedronDataGridViewCheckBoxColumn.DataPropertyName = "Show Polyhedron";
+            resources.ApplyResources(this.showPolyhedronDataGridViewCheckBoxColumn, "showPolyhedronDataGridViewCheckBoxColumn");
+            this.showPolyhedronDataGridViewCheckBoxColumn.Name = "showPolyhedronDataGridViewCheckBoxColumn";
+            // 
             // BondInputControl
             // 
             resources.ApplyResources(this, "$this");
@@ -828,14 +742,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn vertexDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn minLenDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn maxLenDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Enabled;
+        new private System.Windows.Forms.DataGridViewCheckBoxColumn Enabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn Center;
         private System.Windows.Forms.DataGridViewTextBoxColumn Vertex;
         private System.Windows.Forms.DataGridViewCheckBoxColumn enabledDataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn centerDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn vertexDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn maxLenDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn minLenDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maxLenDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn showBondsDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn showPolyhedronDataGridViewCheckBoxColumn;
     }

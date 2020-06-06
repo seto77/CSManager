@@ -20,6 +20,8 @@ using System.ServiceModel.Channels;
 using System.Reflection;
 using Microsoft.Scripting.Utils;
 
+using System.ComponentModel;
+
 namespace CSManager
 {
     public partial class FormMain : Form
@@ -73,11 +75,14 @@ namespace CSManager
 
         Crystallography.Controls.CommonDialog initialDialog;
 
-        readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
-
-        readonly MessagePackSerializerOptions msgOptions = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
 
         IProgress<(long, long, long, string)> ip;//IReport
+        readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
+
+
+        #region MessagePack関連のフィールド、メソッド
+
+        readonly MessagePackSerializerOptions msgOptions = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
 
         byte[] serialize<T>(T c) => MessagePackSerializer.Serialize(c, msgOptions);
 
@@ -85,12 +90,18 @@ namespace CSManager
         T deserialize<T>(Stream stream) => MessagePackSerializer.Deserialize<T>(stream, msgOptions);
         T deserialize<T>(object obj) => MessagePackSerializer.Deserialize<T>((byte[])obj, msgOptions);
 
+        #endregion
 
 
         #region 起動、終了
 
         public FormMain()
         {
+
+            var b1 = Crystal2.Compose( 2900,512);
+
+            var d1 = Crystal2.Decompose("0.525(3)");
+
             ip = new Progress<(long, long, long, string)>(o => reportProgress(o));//IReport
             var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             try
@@ -125,6 +136,8 @@ namespace CSManager
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+
+
             //#if !DEBUG
             //           Ngen.Compile(new string[] { "Crystallography.dll", "Crystallography.Control.dll", "CSManager.exe" });
             //#endif
@@ -157,8 +170,7 @@ namespace CSManager
             Application.DoEvents();
             initialDialog.progressBar.Value = (int)(initialDialog.progressBar.Maximum * 0.1);
 
-            formPeriodicTable = new FormPeriodicTable();
-            formPeriodicTable.Owner = this;
+            formPeriodicTable = new FormPeriodicTable            {                Owner = this            };
 
             initialDialog.progressBar.Value = (int)(initialDialog.progressBar.Maximum * 0.4);
 
@@ -382,7 +394,7 @@ namespace CSManager
         }
      
         private void reportProgress((long current, long total, long elapsedMilliseconds, string message) o)
-        => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
+            => reportProgress(o.current, o.total, o.elapsedMilliseconds, o.message);
 
         /// <summary>
         /// 進捗状況を更新
@@ -402,12 +414,15 @@ namespace CSManager
         {
             if (skipProgressEvent || current > total)
                 return;
-            skipProgressEvent = true;
+            //if(InvokeRequired)
+            //    return;
+            
             try
             {
-                toolStripProgressBar.Maximum = int.MaxValue;
+                skipProgressEvent = true;
+                toolStripProgressBar.Maximum = 1000000;
                 var ratio = (double)current / total;
-                toolStripProgressBar.Value = (int)(ratio * toolStripProgressBar.Maximum);
+                toolStripProgressBar.Value = (int)(ratio * 1000000);
                 var ellapsedSec = elapsedMilliseconds / 1E3;
                 var format = $"f{digit}";
 
@@ -421,10 +436,13 @@ namespace CSManager
 
                 if (sleep != 0) Thread.Sleep(sleep);
             }
-            catch (Exception e){ 
-            
+            catch (Exception e)
+            {
+                #if DEBUG
+                MessageBox.Show(e.ToString());
+                #endif
             }
-            skipProgressEvent = false;
+            finally { skipProgressEvent = false; }
         }
 
         /// <summary>
@@ -466,8 +484,7 @@ namespace CSManager
                                     try
                                     {
                                         rwlock.EnterWriteLock();
-                                        foreach (var r in rows)
-                                            dataSet.DataTable.Add(r);
+                                        rows.ForEach(r => dataSet.DataTable.Add(r));
                                     }
                                     finally { rwlock.ExitWriteLock(); }
                                     ip.Report((dataSet.DataTable.Rows.Count, total, stopwatch.ElapsedMilliseconds, "Loading database..."));
@@ -536,6 +553,8 @@ namespace CSManager
                         for (int j = i; j < total && j < i + division; j++)
                         {
                             var c2 = deserialize<Crystal2>(((DataRowView)bindingSourceMain[j]).Row[0]);
+                            c2.jour = Crystal2.GetShortJournal(c2.jour);
+                            c2.sect = Crystal2.GetShortTitle(c2.sect);
                             crystal2List.Add(c2);
                         }
                         byteList.AddRange(serialize(crystal2List.ToArray()));
@@ -555,7 +574,7 @@ namespace CSManager
 
                             filecounter++;
                         }
-                        reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Saving database...");
+                        ip.Report((i, total, stopwatch.ElapsedMilliseconds, "Saving database..."));
                     }
 
                     if (filecounter > 0)//分割ファイルになった場合
@@ -767,24 +786,33 @@ namespace CSManager
             for (int i = 0; i < fn.Count; i += division)
             {
                 var crystalList = new List<Crystal2>();
-                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
+                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count,/* new ParallelOptions() { MaxDegreeOfParallelism = 1 }, */j =>
                 {
                     var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
+                    if (crystal2 != null)
+                    {
+                        //var crystal = crystal2.ToCrystal();
+                        //crystal2.d = crystal.GetDspacingList(0.1, 0.1).Select(d => (float)d).ToArray();
+                        //crystal2.formula = crystal.ChemicalFormulaSum;
+                        //crystal2.density = (float)crystal.Density;
+                        crystal2.jour = Crystal2.GetShortJournal(crystal2.jour);
+                        crystal2.sect = Crystal2.GetShortTitle(crystal2.sect);
+                    }
                     try
                     {
                         rwlock.EnterWriteLock();//書き込みロック
-                                if (crystal2 != null)
+                        if (crystal2 != null)
                             crystalList.Add(crystal2);
                         else
                             failedFile.Add(fn[j]);
                     }
                     finally { rwlock.ExitWriteLock(); }//書き込み解放
-                        });
+                });
                 //進捗状況報告
-                reportProgress(i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting...");
+                ip.Report((i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting..."));
 
                 foreach (var r in crystalList)
-                    dataSet.DataTable.Add( r);
+                    dataSet.DataTable.Add(r);
 
             }
 
@@ -794,7 +822,7 @@ namespace CSManager
                     writer.WriteLine(Path.GetFileNameWithoutExtension(s));
         }
 
-        #endregion
+#endregion
 
         private void bindingSourceMain_CurrentChanged(object sender, EventArgs e)
         {
@@ -814,12 +842,12 @@ namespace CSManager
              catch { return; }
         }
 
-        #region 
+#region 
 
         //重複ファイルを削除
         private void checkDuplicatedFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //重複があるかどうかチェック
+          /*  //重複があるかどうかチェック
             List<Crystal2> list = new List<Crystal2>();
             for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
                 list.Add((Crystal2)((DataRowView)(bindingSourceMain.List[i])).Row[0]);
@@ -838,7 +866,7 @@ namespace CSManager
                             flag = false;
                         else
                             for (int l = 0; l < src.atoms.Count; l++)
-                                if (src.atoms[l].X[0] != target.atoms[l].X[0] || src.atoms[l].X[1] != target.atoms[l].X[1] || src.atoms[l].X[2] != target.atoms[l].X[2])
+                                if (src.atoms[l].Position[0] != target.atoms[l].Position[0] || src.atoms[l].Position[1] != target.atoms[l].Position[1] || src.atoms[l].Position[2] != target.atoms[l].Position[2])
                                     flag = false;
                     }
                     if (flag)
@@ -860,10 +888,11 @@ namespace CSManager
                 Application.DoEvents();
             }
             bindingNavigator1.Visible = dataGridViewMain.Visible = true;
+          */
         }
 
 
-        #endregion
+#endregion
 
         private void buttonAddCrystal_Click(object sender, EventArgs e)
         {
@@ -913,8 +942,7 @@ namespace CSManager
 
         private void toolStripMenuItemImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "*.cif, *.amc file | *.amc;*.cif";
+            OpenFileDialog dlg = new OpenFileDialog { Filter = "*.cif, *.amc file | *.amc;*.cif" };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -929,8 +957,7 @@ namespace CSManager
 
         private void toolStripMenuItemImportPDI_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "PDIndexer Crystal data *.xml | *.xml";
+            OpenFileDialog dlg = new OpenFileDialog { Filter = "PDIndexer Crystal data *.xml | *.xml" }; 
             if (dlg.ShowDialog() == DialogResult.OK)
                 readXml(dlg.FileName);
         }
@@ -1042,8 +1069,6 @@ namespace CSManager
 
 
 
-
-
         private void languageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             englishToolStripMenuItem.Checked = ((ToolStripMenuItem)sender).Name.Contains("english");
@@ -1077,7 +1102,60 @@ namespace CSManager
             catch { }
         }
 
+        private void recalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var total = dataSet.Tables[0].Rows.Count;
+            var result = new Crystal2[total];
 
-       
+            var worker = new BackgroundWorker { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
+            worker.ProgressChanged += Worker_ProgressChanged;
+            worker.DoWork += worker_DoWork;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+
+            stopwatch.Restart();
+
+            for (int i = 0; i < total; i++)
+            {
+                result[i] = deserialize<Crystal2>(dataSet.DataTable.Rows[i][0]);
+                if (i % 500 == 0) reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Loading from database...");
+            }
+
+            worker.RunWorkerAsync();
+            void worker_DoWork(object sender, DoWorkEventArgs e)
+            {
+                var n = 0;
+                result.AsParallel().ForAll(c2 =>
+                {
+                    c2.jour = Crystal2.GetShortJournal(c2.jour);
+                    c2.sect = Crystal2.GetShortTitle(c2.sect);
+                    var crystal = c2.ToCrystal();
+                    c2.d = crystal.GetDspacingList(0.1, 0.1).Select(d => (float)d).ToArray();
+                    c2.formula = crystal.ChemicalFormulaSum;
+                    c2.density = (float)crystal.Density;
+                    Interlocked.Increment(ref n);
+                    if (n != 0 && n % 500 == 0)
+                        worker.ReportProgress(0, new object[] { n, total, stopwatch.ElapsedMilliseconds, "Calculating density, formula, d-values..." }); ;
+                });
+            }
+            
+            void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+            {
+                dataSet.Clear();
+                for (int i = 0; i < total; i++)
+                {
+                    dataSet.DataTable.Add(result[i]);
+                    if (i % 500 == 0) reportProgress(i, total, stopwatch.ElapsedMilliseconds, "Adding to database...");
+                }
+            };
+
+            void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e) 
+            {
+                var o = e.UserState as object[];
+                reportProgress((int)o[0],(int) o[1],(long) o[2], (string)o[3]);
+            }
+
+        }
+
+        
     }
 }
