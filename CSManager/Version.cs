@@ -24,7 +24,7 @@ namespace CSManager
         }
 
         static public int AMCSD = 20698;
-        static public int COD = 45700;
+        static public int COD = 457000;
 
         static public string History = 
             "History" +
