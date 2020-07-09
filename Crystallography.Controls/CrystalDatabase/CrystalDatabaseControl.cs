@@ -215,7 +215,8 @@ namespace Crystallography.Controls
                 //最後まで来ている時で、かつ閾値以下の容量で、かつこれまで一度も分割もしていない場合
                 if (i + division >= total && byteList.Count <= thresholdBytes && filecounter == 0)
                     fs.Write(byteList.ToArray(), 0, byteList.Count);//最初のファイルに書き込んで終了
-                                                                    //最後まで来ている時か、閾値以上の容量の場合
+                
+                //最後まで来ている時か、閾値以上の容量の場合
                 else if (i + division >= total || byteList.Count > thresholdBytes)
                 {
                     if (filecounter == 0)
@@ -372,6 +373,7 @@ namespace Crystallography.Controls
         #region 結晶の追加、削除、変更
         public void AddCrystal(Crystal2 crystal2)
         {
+
             dataTable.Add(crystal2);
         }
 
