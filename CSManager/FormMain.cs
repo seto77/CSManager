@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Reflection;
-
+using System.ComponentModel;
 
 namespace CSManager
 {
@@ -392,7 +392,7 @@ namespace CSManager
         /// <summary>
         /// フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
         /// </summary>
-        private async void GetAllImport()
+        private void GetAllImport()
         {
             var dlg = new FolderBrowserDialog() { SelectedPath = "D:\\Users\\seto\\Documents\\研究\\CrystallographyData" };
             if (dlg.ShowDialog() != DialogResult.OK) return;
@@ -402,12 +402,9 @@ namespace CSManager
             var dr = MessageBox.Show("Also search subdirectory?", "Serch option", MessageBoxButtons.YesNoCancel);
             if (dr == DialogResult.Cancel)
                 return;
-            await Task.Run(() =>
-            {
-                foreach (var file in current.GetFiles("*", dr == DialogResult.Yes ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))  // ファイルの一覧表示
-                    if (file.FullName.EndsWith("amc") || file.FullName.EndsWith("cif"))
-                        fn.Add(file.FullName);
-            });
+            foreach (var file in current.GetFiles("*", dr == DialogResult.Yes ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))  // ファイルの一覧表示
+                if (file.FullName.EndsWith("amc") || file.FullName.EndsWith("cif"))
+                    fn.Add(file.FullName);
 
             var failedFile = new List<string>();
             stopwatch.Restart();
@@ -416,41 +413,57 @@ namespace CSManager
             for (int i = 0; i < fn.Count; i += division)
             {
                 var crystalList = new List<Crystal2>();
-                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count,/* new ParallelOptions() { MaxDegreeOfParallelism = 1 }, */j =>
+                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
+                //for (int j = i; i < (i + division < fn.Count ? i + division : fn.Count); j++)
                 {
+
+
                     var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
                     if (crystal2 != null)
                     {
-                        var crystal = crystal2.ToCrystal();
-                        crystal2.d = crystal.GetDspacingList(0.1, 0.1).Select(d => (float)d).ToArray();
-                        crystal2.formula = crystal.ChemicalFormulaSum;
-                        crystal2.density = (float)crystal.Density;
-                        crystal2.jour = Crystal2.GetShortJournal(crystal2.jour);
-                        crystal2.sect = Crystal2.GetShortTitle(crystal2.sect);
+                        try
+                        {
+                            var crystal = crystal2.ToCrystal();
+                            if (crystal != null)
+                            {
+                                crystal2.d = crystal.GetDspacingList(0.1, 0.1).Select(d => (float)d).ToArray();
+                                crystal2.formula = crystal.ChemicalFormulaSum;
+                                crystal2.density = (float)crystal.Density;
+                            }
+                            crystal2.jour = Crystal2.GetShortJournal(crystal2.jour);
+                            crystal2.sect = Crystal2.GetShortTitle(crystal2.sect);
+                        }
+                        catch { crystal2 = null; }
                     }
-                    try
+
+                    if (crystal2 != null)
                     {
-                        rwlock.EnterWriteLock();//書き込みロック
-                        if (crystal2 != null)
-                            crystalList.Add(crystal2);
-                        else
-                            failedFile.Add(fn[j]);
+                        try
+                        {
+                            rwlock.EnterWriteLock();//書き込みロック
+                            if (crystal2 != null)
+                                crystalList.Add(crystal2);
+                            else
+                                failedFile.Add(fn[j]);
+                        }
+                        finally { rwlock.ExitWriteLock(); }//書き込み解放
                     }
-                    finally { rwlock.ExitWriteLock(); }//書き込み解放
                 });
                 //進捗状況報告
                 ip.Report((i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting..."));
-
+                Application.DoEvents();
                 foreach (var r in crystalList)
                     crystalDatabaseControl.AddCrystal(r);
+
 
             }
 
             //失敗ファイルを書き込む
-            using (var writer = new StreamWriter(dlg.SelectedPath + "_failed.txt"))
-                foreach (var s in failedFile)
-                    writer.WriteLine(Path.GetFileNameWithoutExtension(s));
+            using var writer = new StreamWriter(dlg.SelectedPath + "_failed.txt");
+            foreach (var s in failedFile)
+                writer.WriteLine(Path.GetFileNameWithoutExtension(s));
         }
+
         #endregion
 
         #region その他のインポート系

@@ -261,7 +261,7 @@ namespace Crystallography
 			catch (Exception e)
 			{
 				#if DEBUG
-					System.Windows.Forms.MessageBox.Show(e.Message);
+					System.Windows.Forms.MessageBox.Show(fileName +" " + e.Message);
 				#endif
 				return null;
 			}
@@ -993,7 +993,7 @@ namespace Crystallography
 				{
 					try
 					{
-						sExpr = sExpr.Replace(",+", ",").TrimStart(new[] { '+' });
+						sExpr = sExpr.Replace(" ", "").Replace(",+", ",").TrimStart(new[] { '+' });
 						sExpr = "new [] {" + sExpr.Replace("/", ".0/").Replace(".0.0", ".0") + "}";//ï™éqÇ…è¨êîì_Çâ¡Ç¶ÇÈ
 					   
 						var f =  DynamicExpressionParser.ParseLambda(prms, typeof(double[]), sExpr).Compile() as Func<double, double, double, double[]>;
@@ -1002,7 +1002,7 @@ namespace Crystallography
 					catch (Exception e)
 					{
 						#if DEBUG
-						MessageBox.Show(e.Message);
+                        System.Windows.Forms.MessageBox.Show( e.Message);
 						#endif
 						return null;
 					}
@@ -1796,6 +1796,5 @@ namespace Crystallography
 			#endregion
 		}
 		#endregion
-
 	}
 }
