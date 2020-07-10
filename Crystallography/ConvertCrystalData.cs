@@ -1059,8 +1059,8 @@ namespace Crystallography
 				//原子の情報
 				string atomLabel="", atomSymbol="", thermalDisplaceType="";
 				string x = "", y = "", z = "", occ="1";
-				string uIso = "0", u11 = "", u22 = "", u33 = "", u12 = "", u13 = "", u23 = "";
-				string bIso = "0", b11 = "", b22 = "", b33 = "", b12 = "", b13 = "", b23 = "";
+				string uIso = "", u11 = "", u22 = "", u33 = "", u12 = "", u13 = "", u23 = "";
+				string bIso = "", b11 = "", b22 = "", b33 = "", b12 = "", b13 = "", b23 = "";
 
 				//まず基本的な原子位置や占有率などの情報を探す
 				occ = "1";
@@ -1146,6 +1146,10 @@ namespace Crystallography
 					b11 == "" && b12 == "" && b13 == "" && b22 == "" && b23 == "" && b33 == "";
 
 				var iso = isU ? uIso : bIso;
+
+				if (iso == "")
+					iso = "0";
+
 				var aniso = isU ? //11, 22, 33, 12, 23, 31の順番
 					new[] { u11,u22,u33,u12,u23,u13}:
 					new[] { b11, b22, b33, b12, b23, b13 };

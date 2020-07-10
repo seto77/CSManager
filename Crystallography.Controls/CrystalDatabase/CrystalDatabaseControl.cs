@@ -91,26 +91,26 @@ namespace Crystallography.Controls
         private void ReadDatabaseWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var filename = (string)e.Argument;
-
             try
             {
                 sw.Restart();
-                var progressStep = 500;
-                if (filename.ToLower().EndsWith("cdb2"))
-                {
-                    using var fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                    var formatter = new BinaryFormatter();
-                    var total = (int)formatter.Deserialize(fs);
-                    for (int i = 0; i < total; i++)
-                    {
-                        var c = (Crystal2)formatter.Deserialize(fs);
-                        dataTable.Add(c);
+                //if (filename.ToLower().EndsWith("cdb2"))
+                //{
+                //    var progressStep = 500;
+                //    using var fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                //    var formatter = new BinaryFormatter();
+                //    var total = (int)formatter.Deserialize(fs);
+                //    for (int i = 0; i < total; i++)
+                //    {
+                //        var c = (Crystal2)formatter.Deserialize(fs);
+                //        dataTable.Add(c);
 
-                        if (i > progressStep * 2 && i % progressStep == 0)
-                            report(i, total, sw.ElapsedMilliseconds, "Loading database...");
-                    }
-                }
-                else if (filename.ToLower().EndsWith("cdb3"))
+                //        if (i > progressStep * 2 && i % progressStep == 0)
+                //            report(i, total, sw.ElapsedMilliseconds, "Loading database...");
+                //    }
+                //}
+                //else 
+                if (filename.ToLower().EndsWith("cdb3"))
                 {
                     using var fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
                     int flag = readByte(fs), total = readInt(fs);
@@ -148,8 +148,6 @@ namespace Crystallography.Controls
                 }
                 else
                     return;
-
-                GC.Collect();
             }
             catch
             {
