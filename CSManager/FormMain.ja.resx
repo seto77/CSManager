@@ -117,52 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="columnNameDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="columnFormulaDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>化学組成</value>
-  </data>
-  <data name="columnDensityDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>密度</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="columnDensityDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>70</value>
-  </data>
-  <data name="columnAlphaDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
-  <data name="columnBetaDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
-  <data name="columnGammaDataGridViewTextBoxColumn.Width" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
-  <data name="columnCrystalSystemDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>結晶系</value>
-  </data>
-  <data name="columnPointGroupDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>点群</value>
-  </data>
-  <data name="columnSpaceGroupDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>空間群</value>
-  </data>
-  <data name="columnAuthorDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>著者</value>
-  </data>
-  <data name="columnTitleDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>文献タイトル</value>
-  </data>
-  <data name="columnJournalDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
-    <value>雑誌</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="dataGridViewMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 371</value>
+  <data name="crystalDatabaseControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>984, 359</value>
+  </data>
+  <data name="crystalDatabaseControl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="crystalControl.Crystal" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAExDcnlzdGFsbG9ncmFwaHksIFZlcnNpb249MjAyMC43LjI4Ljkx
+        OCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsBQEAAAAXQ3J5c3RhbGxvZ3JhcGh5
+        LkNyeXN0YWwsAAAACFJlc2lkdWFsBkJvdW5kcw1MYXR0aWNlUGxhbmVzAUEBQgFDBUFscGhhBEJldGEF
+        R2FtbWEFQV9lcnIFQl9lcnIFQ19lcnIJQWxwaGFfZXJyCEJldGFfZXJyCUdhbW1hX2Vycg5Sb3RhdGlv
+        bk1hdHJpeARBcmdiCFJlc2VydmVkBE5hbWUETm90ZQ5QdWJsQXV0aG9yTmFtZRBQdWJsU2VjdGlvblRp
+        dGxlFFN5bW1ldHJ5U2VyaWVzTnVtYmVyB0pvdXJuYWwLSm91cm5hbE5hbWUNSm91cm5hbFZvbHVtZQxK
+        b3VybmFsSXNzdWULSm91cm5hbFllYXIQSm91cm5hbFBhZ2VGaXJzdA9Kb3VybmFsUGFnZUxhc3QIU3lt
+        bWV0cnkFQXRvbXMFQm9uZHMGU3RyYWluBlN0cmVzcw9IaWxsQ29lZmZpY2llbnQVRWxhc3RpY1N0aWZm
+        bmVzc0FycmF5DEVPU0NvbmRpdGlvbgpEb2VzVXNlRU9TDENyeXN0YWxsaXRlcw9BbmdsZVJlc29sdXRp
+        b24LU3ViRGl2aXNpb24JR3JhaW5TaXplAmlkAAQEAAAAAAAAAAAAAAAABAAAAQEBAQABAQEBAQEBBAQE
+        BAQABwQABAAAAAAGF0NyeXN0YWxsb2dyYXBoeS5Cb3VuZFtdAgAAAB5DcnlzdGFsbG9ncmFwaHkuTGF0
+        dGljZVBsYW5lW10CAAAABgYGBgYGBgYGBgYGGENyeXN0YWxsb2dyYXBoeS5NYXRyaXgzRAIAAAAIAQgY
+        Q3J5c3RhbGxvZ3JhcGh5LlN5bW1ldHJ5AgAAABdDcnlzdGFsbG9ncmFwaHkuQXRvbXNbXQIAAAAXQ3J5
+        c3RhbGxvZ3JhcGh5LkJvbmRzW10CAAAAGENyeXN0YWxsb2dyYXBoeS5NYXRyaXgzRAIAAAAYQ3J5c3Rh
+        bGxvZ3JhcGh5Lk1hdHJpeDNEAgAAAAYGE0NyeXN0YWxsb2dyYXBoeS5FT1MCAAAAARtDcnlzdGFsbG9n
+        cmFwaHkuQ3J5c3RhbGxpdGUCAAAABggGCAIAAAAAAAAAAAAAAAkDAAAACQQAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJBQAAAPDw8P8ABgYAAAAACQYAAAAJBgAAAAkGAAAAAAAAAAkG
+        AAAACQYAAAAJBgAAAAkGAAAACQYAAAAJBgAAAAkGAAAACQcAAAAJCAAAAAkJAAAACQoAAAAJCwAAAAAA
+        AAAAAAAACQwAAAAJDQAAAAAKAAAAAAAAAEAEAAAAAAAAAAAAWUAAAAAABwMAAAAAAQAAAAAAAAAEFUNy
+        eXN0YWxsb2dyYXBoeS5Cb3VuZAIAAAAHBAAAAAABAAAAAAAAAAQcQ3J5c3RhbGxvZ3JhcGh5LkxhdHRp
+        Y2VQbGFuZQIAAAAFBQAAABhDcnlzdGFsbG9ncmFwaHkuTWF0cml4M0QJAAAAA0UxMQNFMTIDRTEzA0Uy
+        MQNFMjIDRTIzA0UzMQNFMzIDRTMzAAAAAAAAAAAABgYGBgYGBgYGAgAAAAAAAAAAAPA/AAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAA8D8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwPwwOAAAA
+        /gNtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2Vu
+        PWI3N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAs
+        IEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5J
+        bnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlU
+        b2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4w
+        LjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0sIG1z
+        Y29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3
+        YTVjNTYxOTM0ZTA4OV1dLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWws
+        IFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFBwAAABhDcnlzdGFsbG9ncmFwaHkuU3ltbWV0
+        cnkZAAAAElNwYWNlR3JvdXBITXN1YlN0cg9TcGFjZUdyb3VwU0ZTdHIRU3BhY2VHcm91cEhhbGxTdHIP
+        U3BhY2VHcm91cEhNU3RyE1NwYWNlR3JvdXBITWZ1bGxTdHIITWFpbkF4aXMOTGF0dGljZVR5cGVTdHIH
+        U3RyU0UxcAdTdHJTRTF2B1N0clNFMnAHU3RyU0UydgdTdHJTRTNwB1N0clNFM3YPUG9pbnRHcm91cEhN
+        U3RyD1BvaW50R3JvdXBTRlN0cgxMYXVlR3JvdXBTdHIQQ3J5c3RhbFN5c3RlbVN0cgxTZXJpZXNOdW1i
+        ZXIQU3BhY2VHcm91cE51bWJlchNTcGFjZUdyb3VwU3ViTnVtYmVyEFBvaW50R3JvdXBOdW1iZXIPTGF1
+        ZUdyb3VwTnVtYmVyE0NyeXN0YWxTeXN0ZW1OdW1iZXIRRXh0aW5jdGlvblJ1bGVTdHITQ2hlY2tFeHRp
+        bmN0aW9uRnVuYwEBAQEBAQEBAQEBAQEBAQEBAAAAAAAABgQICAgICAg+U3lzdGVtLkNvbGxlY3Rpb25z
+        LkdlbmVyaWMuTGlzdGAxW1tTeXN0ZW0uRnVuY2A0W1tTeXN0ZW0uSW50MzIOAAAAAgAAAAkGAAAABhAA
+        AAAHVW5rbm93bgkQAAAACRAAAAAJEAAAAAkGAAAACRAAAAAJEAAAAAkQAAAACRAAAAAJEAAAAAkQAAAA
+        CRAAAAAJEAAAAAkQAAAACRAAAAAJEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkTAAAACRQAAAAH
+        CAAAAAABAAAAAAAAAAQVQ3J5c3RhbGxvZ3JhcGh5LkF0b21zAgAAAAcJAAAAAAEAAAAAAAAABBVDcnlz
+        dGFsbG9ncmFwaHkuQm9uZHMCAAAAAQoAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQsAAAAFAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAADwwAAAAVAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAUNAAAAE0NyeXN0YWxsb2dyYXBoeS5FT1MRAAAAC0NlbGxWb2x1bWUwAlQwAkswB0twcmltZTAGR2Ft
+        bWEwBlRoZXRhMAFRBUtwZXJUAUEBQgFDF1RoZXJtYWxQcmVzc3VyZUFwcHJvYWNoGklzb3RoZXJtYWxQ
+        cmVzc3VyZUFwcHJvYWNoAVoBTgROb3RlC1RlbXBlcmF0dXJlAAAAAAAAAAAAAAAEBAAAAQAGBgYGBgYG
+        BgYGBh9DcnlzdGFsbG9ncmFwaHkuVGhlcm1hbFByZXNzdXJlAgAAACJDcnlzdGFsbG9ncmFwaHkuSXNv
+        dGhlcm1hbFByZXNzdXJlAgAAAAYIBgIAAAAAAAAAAMByQAAAAAAAwHJAAAAAAAAAAAAAAAAAAAAQQAAA
+        AAAAAAAAAAAAAADAckAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABev///8f
+        Q3J5c3RhbGxvZ3JhcGh5LlRoZXJtYWxQcmVzc3VyZQEAAAAHdmFsdWVfXwAIAgAAAAAAAAAF6v///yJD
+        cnlzdGFsbG9ncmFwaHkuSXNvdGhlcm1hbFByZXNzdXJlAQAAAAd2YWx1ZV9fAAgCAAAAAAAAAAAAAAAA
+        AAAAAAAAAAkGAAAAAAAAAADAckAREwAAAAAAAAAFFAAAAD5TeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJp
+        Yy5MaXN0YDFbW1N5c3RlbS5GdW5jYDRbW1N5c3RlbS5JbnQzMgMAAAAGX2l0ZW1zBV9zaXplCF92ZXJz
+        aW9uAwAAgQNTeXN0ZW0uRnVuY2A0W1tTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4w
+        LjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3Rl
+        bS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNL
+        ZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLkludDMyLCBtc2NvcmxpYiwgVmVyc2lvbj00
+        LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldLFtT
+        eXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1
+        YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXVtdCAgOAAAACRgAAAAAAAAAAAAAAAwZAAAArwNt
+        c2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3
+        N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uSW50MzIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1
+        bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5JbnQz
+        MiwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tl
+        bj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAu
+        MCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0sIG1zY29y
+        bGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVj
+        NTYxOTM0ZTA4OQcYAAAAAAEAAAAAAAAABBtTeXN0ZW0uRnVuY2A0W1tTeXN0ZW0uSW50MzIZAAAACw==
+</value>
   </data>
   <data name="crystalControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>526, 338</value>
+    <value>777, 314</value>
+  </data>
+  <data name="crystalControl.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="buttonChange.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
@@ -173,6 +221,9 @@
   <data name="buttonChange.Text" xml:space="preserve">
     <value>↑ 入れ替え ↑</value>
   </data>
+  <data name="buttonChange.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="buttonAdd.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
@@ -182,399 +233,129 @@
   <data name="buttonAdd.Text" xml:space="preserve">
     <value>↑ 追加 ↑</value>
   </data>
-  <data name="checkBoxSearchName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
+  <data name="buttonAdd.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="checkBoxSearchName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 22</value>
+  <data name="splitContainer2.Panel1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="checkBoxSearchName.Text" xml:space="preserve">
-    <value>名前</value>
+  <data name="searchCrystalControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 315</value>
   </data>
-  <data name="textBoxSearchName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 22</value>
-  </data>
-  <data name="checkBoxSearchElements.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxSearchElements.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 53</value>
-  </data>
-  <data name="checkBoxSearchElements.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 22</value>
-  </data>
-  <data name="checkBoxSearchElements.Text" xml:space="preserve">
-    <value>元素</value>
-  </data>
-  <data name="buttonPeriodicTable.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="buttonPeriodicTable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 75</value>
-  </data>
-  <data name="buttonPeriodicTable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 30</value>
-  </data>
-  <data name="buttonPeriodicTable.Text" xml:space="preserve">
-    <value>周期表</value>
-  </data>
-  <data name="checkBoxSearchRefference.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 111</value>
-  </data>
-  <data name="checkBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 22</value>
-  </data>
-  <data name="checkBoxSearchRefference.Text" xml:space="preserve">
-    <value>引用</value>
-  </data>
-  <data name="textBoxSearchRefference.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 133</value>
-  </data>
-  <data name="textBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 25</value>
-  </data>
-  <data name="checkBoxSearchCrystalSystem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 164</value>
-  </data>
-  <data name="checkBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 22</value>
-  </data>
-  <data name="checkBoxSearchCrystalSystem.Text" xml:space="preserve">
-    <value>結晶系</value>
-  </data>
-  <data name="comboBoxSearchCrystalSystem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="comboBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 186</value>
-  </data>
-  <data name="comboBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 26</value>
-  </data>
-  <data name="checkBoxSearchCellParameter.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxSearchCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 218</value>
-  </data>
-  <data name="checkBoxSearchCellParameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
-  </data>
-  <data name="checkBoxSearchCellParameter.Text" xml:space="preserve">
-    <value>格子定数</value>
-  </data>
-  <data name="textBoxSearchCellA.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchCellBeta.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchCellAlpha.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericUpDownSearchCellLengthError.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericUpDownSearchCellAngleError.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label34.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchCellC.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchCellGamma.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label35.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label36.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label37.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label38.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label42.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label41.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label43.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label40.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label39.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxSearchCellB.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="groupBoxCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 240</value>
-  </data>
-  <data name="checkBoxDspacing.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 368</value>
-  </data>
-  <data name="checkBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 22</value>
-  </data>
-  <data name="checkBoxDspacing.Text" xml:space="preserve">
-    <value>d値</value>
-  </data>
-  <data name="numericUpDownD3err.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxD3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxD2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxD1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericUpDownD2err.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericUpDownD1err.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label9.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxD3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label11.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxD1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="textBoxD2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="groupBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 390</value>
-  </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 40</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 327</value>
+  <data name="searchCrystalControl.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="buttonSearch.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
-  <data name="buttonSearch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 2</value>
-  </data>
   <data name="buttonSearch.Text" xml:space="preserve">
     <value>検索</value>
   </data>
-  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 370</value>
+  <data name="splitContainer2.Panel2.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>529</value>
+  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>984, 346</value>
+  </data>
+  <data name="splitContainer2.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 346</value>
   </data>
-  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 24</value>
+  <data name="statusStrip.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 745</value>
+  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
+    <value />
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>371</value>
+    <value>359</value>
   </data>
-  <data name="bindingNavigatorCountItem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="bindingNavigatorCountItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 18</value>
-  </data>
-  <data name="bindingNavigatorDeleteItem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="bindingNavigatorDeleteItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABb0lEQVQ4T7WQTSjDYRzHd1XeSu3iglo5
-        IJO8hGQypLHIhMjMJAcOi4R2cXAg5UIOuEgOJCXlROI0b/Pamlp/LVLaBf+4PB9jqLW/seJ7eep5vt/P
-        7/v8VH8iXCfQbQTHDh9XkYmVeURnFcKsh631sBC8HliaCfawtgC9JkS7HtFRAXMTipC3hsJcBiM9oe+c
-        OgKQumxEYwHYmoJMYsiKMOXCpD1sQxWL04jK1HcQw1Zwn8FYfwDqPz9s4YXHBc3FgS8ZsxD1edDX8rvw
-        p9jf9VfOQxjSoUYbYfhGgsZCyElA1sbzoI2F2uxf1r+5BlM+FCXisxjg4uh9uXdpfsjy7A8LvL+DVh2P
-        JUm4S9Px7W1/BRi14dTEIJ8cKEN4eYZBC+iSOU5T49tYDTHelmcgtVUje69DIexuIueqcaZEIXU1gPyk
-        OGlHE4fsdCgApkaQUqNx6zNBulKu6Zds74bzQwXApRPGB+Bw79vwP0ilegWKIwMchCbSyQAAAABJRU5E
-        rkJggg==
-</value>
-  </data>
-  <data name="bindingNavigatorDeleteItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 22</value>
-  </data>
-  <data name="bindingNavigatorDeleteItem.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="bindingNavigator1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 8.25pt</value>
-  </data>
-  <data name="bindingNavigatorMovePreviousItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAtklEQVQ4T2MYOiC8/cF/KJN0EN/94H9w
-        wzXyDIjvefh/6f7///2rL5BuQET7fbDmzFn//3uVniDNgNDWe2DNreuAtnf+/e+Sf4B4A4Jb7v5ftPf/
-        /w6g5ow5P//b1f38b5+xnTQX2BXf/p8+5/d//65v/3UK3/23SFhPehjop5z/b1L04r9K1qf/xpHLSDcA
-        BAySTvyXTfv6Xzd4HnkGgIB+6uX/Gr7TyDcABFQ8JlBmwGAFDAwA0BRgmAS6UFUAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="bindingNavigatorPositionItem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="bindingNavigatorMoveNextItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAo0lEQVQ4T2MYfKBw1vP/UCZ5IHfms/8J
-        3ffINyRjytP/8/b//p/QdYc8QxJ6nvyfve/X/86tf/+7lV4m3ZDIrkf/p2z79b9k6d//CdP//rfJPUua
-        IYHND/+3rn0P1mxc8uW/dPS1/8aRy4g3xKPq/v+Sue/gmhVdekhzgX3p3f+BLc/I0wwCFnl3/tsUXCFP
-        MwgYZt0mXzMI6KTdIF/zUAQMDACgfl+gBzRCOAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="bindingNavigator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 25</value>
+  <data name="splitContainer1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="menuStrip.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9.75pt</value>
   </data>
-  <data name="readDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
-  </data>
-  <data name="readDatabaseToolStripMenuItem.Text" xml:space="preserve">
-    <value>データベースを読込</value>
-  </data>
-  <data name="saveDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
-  </data>
-  <data name="saveDatabaseToolStripMenuItem.Text" xml:space="preserve">
-    <value>データベースを保存</value>
-  </data>
-  <data name="clearDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
-  </data>
-  <data name="clearDatabaseToolStripMenuItem.Text" xml:space="preserve">
-    <value>データベースをクリア</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>415, 6</value>
-  </data>
   <data name="toolStripMenuItemReadDefault1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+    <value>410, 24</value>
   </data>
   <data name="toolStripMenuItemReadDefault1.Text" xml:space="preserve">
     <value>AMCSD データベースを読込 (データ数: ###)</value>
   </data>
   <data name="toolStripMenuItemReadDefault2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+    <value>410, 24</value>
   </data>
   <data name="toolStripMenuItemReadDefault2.Text" xml:space="preserve">
     <value>CODデータベースを読込 (データ数: ###)</value>
   </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>407, 6</value>
+  </data>
+  <data name="readDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 24</value>
+  </data>
+  <data name="readDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>データベースを読込</value>
+  </data>
+  <data name="saveDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 24</value>
+  </data>
+  <data name="saveDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>データベースを保存</value>
+  </data>
+  <data name="clearDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 24</value>
+  </data>
+  <data name="clearDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>データベースをクリア</value>
+  </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>415, 6</value>
+    <value>407, 6</value>
   </data>
   <data name="toolStripMenuItemImport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+    <value>410, 24</value>
   </data>
   <data name="toolStripMenuItemImport.Text" xml:space="preserve">
     <value>インポート (単一ファイル) (CIF, AMC)</value>
   </data>
-  <data name="developperToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
-  </data>
-  <data name="developperToolStripMenuItem.Text" xml:space="preserve">
-    <value>インポート (フォルダ内のすべてのファイル) (CIF, AMC) </value>
-  </data>
   <data name="toolStripMenuItemImportPDI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+    <value>410, 24</value>
   </data>
   <data name="toolStripMenuItemImportPDI.Text" xml:space="preserve">
     <value>インポート (PDIndexer, ReciProの結晶リスト) (*.xml)</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>415, 6</value>
+    <value>407, 6</value>
   </data>
   <data name="closeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+    <value>410, 24</value>
   </data>
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="checkDuplicatedFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 24</value>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>407, 6</value>
+  </data>
+  <data name="compressAndSplitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 24</value>
+  </data>
+  <data name="showIndexToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 24</value>
+  </data>
+  <data name="checkDuplicatedFileToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 24</value>
+  </data>
+  <data name="importAllFileCIFOrAMCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 24</value>
+  </data>
+  <data name="recalculaeDensityFormulaAndDvaluesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>354, 24</value>
+  </data>
+  <data name="debugFunctionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 24</value>
   </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 24</value>
@@ -600,29 +381,41 @@
   <data name="incrementalSearchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>359, 24</value>
   </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 6</value>
+  </data>
+  <data name="increaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 24</value>
+  </data>
+  <data name="decreaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 24</value>
+  </data>
+  <data name="increaseFontSizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>359, 24</value>
+  </data>
   <data name="optionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>86, 24</value>
   </data>
   <data name="optionToolStripMenuItem.Text" xml:space="preserve">
     <value>オプション</value>
   </data>
-  <data name="aboutMeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 24</value>
-  </data>
-  <data name="aboutMeToolStripMenuItem.Text" xml:space="preserve">
-    <value>CSManagerについて</value>
-  </data>
   <data name="programUpdatesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 24</value>
+    <value>188, 24</value>
   </data>
   <data name="hintToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 24</value>
+    <value>188, 24</value>
   </data>
   <data name="hintToolStripMenuItem.Text" xml:space="preserve">
     <value>ヒント</value>
   </data>
+  <data name="versionHistoryToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 24</value>
+  </data>
+  <data name="licenseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 24</value>
+  </data>
   <data name="helpwebToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 24</value>
+    <value>188, 24</value>
   </data>
   <data name="helpwebToolStripMenuItem.Text" xml:space="preserve">
     <value>WEBマニュアル</value>
@@ -646,7 +439,7 @@
 </value>
   </data>
   <data name="englishToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 24</value>
+    <value>214, 24</value>
   </data>
   <data name="japaneseToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -657,7 +450,7 @@
 </value>
   </data>
   <data name="japaneseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 24</value>
+    <value>214, 24</value>
   </data>
   <data name="japaneseToolStripMenuItem.Text" xml:space="preserve">
     <value>日本語</value>
@@ -665,11 +458,8 @@
   <data name="languageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 24</value>
   </data>
-  <data name="menuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 28</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>746, 773</value>
+  <data name="menuStrip.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 10pt</value>
@@ -747,5 +537,8 @@
         AAAAAAAA+B8AAPAfAADwDwAA4A8AAMAHAADgBwAA4AcAAMAPAADADwAAAAAAAAAAAAAAAAAAAAAAAIAB
         AADAAwAA+A8AAA==
 </value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>
