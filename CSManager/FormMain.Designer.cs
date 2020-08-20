@@ -31,12 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.crystalDatabaseControl = new Crystallography.Controls.CrystalDatabaseControl();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.crystalControl = new Crystallography.Controls.CrystalControl();
             this.buttonChange = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
-            this.searchCrystalControl = new Crystallography.Controls.SearchCrystalControl();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -81,6 +78,9 @@
             this.japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.crystalDatabaseControl = new Crystallography.Controls.CrystalDatabaseControl();
+            this.crystalControl = new Crystallography.Controls.CrystalControl();
+            this.searchCrystalControl = new Crystallography.Controls.SearchCrystalControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -101,27 +101,12 @@
             // 
             // splitContainer1.Panel1
             // 
-            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.crystalDatabaseControl);
-            this.toolTip.SetToolTip(this.splitContainer1.Panel1, resources.GetString("splitContainer1.Panel1.ToolTip"));
             // 
             // splitContainer1.Panel2
             // 
-            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip);
-            this.toolTip.SetToolTip(this.splitContainer1.Panel2, resources.GetString("splitContainer1.Panel2.ToolTip"));
-            this.toolTip.SetToolTip(this.splitContainer1, resources.GetString("splitContainer1.ToolTip"));
-            // 
-            // crystalDatabaseControl
-            // 
-            resources.ApplyResources(this.crystalDatabaseControl, "crystalDatabaseControl");
-            this.crystalDatabaseControl.Filter = null;
-            this.crystalDatabaseControl.FontSize = 9.75F;
-            this.crystalDatabaseControl.Name = "crystalDatabaseControl";
-            this.toolTip.SetToolTip(this.crystalDatabaseControl, resources.GetString("crystalDatabaseControl.ToolTip"));
-            this.crystalDatabaseControl.CrystalChanged += new System.EventHandler(this.crystalDatabaseControl_CrystalChanged);
-            this.crystalDatabaseControl.ProgressChanged += new Crystallography.Controls.CrystalDatabaseControl.ProgressChangedEventHandler(this.crystalDatabaseControl_ProgressChanged);
             // 
             // splitContainer2
             // 
@@ -131,74 +116,37 @@
             // 
             // splitContainer2.Panel1
             // 
-            resources.ApplyResources(this.splitContainer2.Panel1, "splitContainer2.Panel1");
             this.splitContainer2.Panel1.Controls.Add(this.crystalControl);
             this.splitContainer2.Panel1.Controls.Add(this.buttonChange);
             this.splitContainer2.Panel1.Controls.Add(this.buttonAdd);
-            this.toolTip.SetToolTip(this.splitContainer2.Panel1, resources.GetString("splitContainer2.Panel1.ToolTip"));
             // 
             // splitContainer2.Panel2
             // 
-            resources.ApplyResources(this.splitContainer2.Panel2, "splitContainer2.Panel2");
             this.splitContainer2.Panel2.Controls.Add(this.searchCrystalControl);
             this.splitContainer2.Panel2.Controls.Add(this.buttonSearch);
-            this.toolTip.SetToolTip(this.splitContainer2.Panel2, resources.GetString("splitContainer2.Panel2.ToolTip"));
-            this.toolTip.SetToolTip(this.splitContainer2, resources.GetString("splitContainer2.ToolTip"));
-            // 
-            // crystalControl
-            // 
-            resources.ApplyResources(this.crystalControl, "crystalControl");
-            this.crystalControl.AllowDrop = true;
-            this.crystalControl.CellConstants = ((System.ValueTuple<double, double, double, double, double, double>)(resources.GetObject("crystalControl.CellConstants")));
-            this.crystalControl.Crystal = ((Crystallography.Crystal)(resources.GetObject("crystalControl.Crystal")));
-            this.crystalControl.DefaultTabNumber = 0;
-            this.crystalControl.Name = "crystalControl";
-            this.crystalControl.ScatteringFactorVisible = false;
-            this.crystalControl.SkipEvent = false;
-            this.crystalControl.SymmetryInformationVisible = false;
-            this.crystalControl.SymmetrySeriesNumber = 0;
-            this.toolTip.SetToolTip(this.crystalControl, resources.GetString("crystalControl.ToolTip"));
-            this.crystalControl.VisibleAtomTab = true;
-            this.crystalControl.VisibleBasicInfoTab = true;
-            this.crystalControl.VisibleBondsPolyhedraTab = true;
-            this.crystalControl.VisibleBoundTab = false;
-            this.crystalControl.VisibleElasticityTab = true;
-            this.crystalControl.VisibleEOSTab = true;
-            this.crystalControl.VisibleLatticePlaneTab = false;
-            this.crystalControl.VisiblePolycrystallineTab = false;
-            this.crystalControl.VisibleReferenceTab = true;
-            this.crystalControl.VisibleStressStrainTab = false;
             // 
             // buttonChange
             // 
-            resources.ApplyResources(this.buttonChange, "buttonChange");
             this.buttonChange.BackColor = System.Drawing.Color.SteelBlue;
+            resources.ApplyResources(this.buttonChange, "buttonChange");
             this.buttonChange.ForeColor = System.Drawing.Color.White;
             this.buttonChange.Name = "buttonChange";
-            this.toolTip.SetToolTip(this.buttonChange, resources.GetString("buttonChange.ToolTip"));
             this.buttonChange.UseVisualStyleBackColor = false;
             this.buttonChange.Click += new System.EventHandler(this.buttonChangeCrystal_Click);
             // 
             // buttonAdd
             // 
-            resources.ApplyResources(this.buttonAdd, "buttonAdd");
             this.buttonAdd.BackColor = System.Drawing.Color.SteelBlue;
+            resources.ApplyResources(this.buttonAdd, "buttonAdd");
             this.buttonAdd.ForeColor = System.Drawing.Color.White;
             this.buttonAdd.Name = "buttonAdd";
-            this.toolTip.SetToolTip(this.buttonAdd, resources.GetString("buttonAdd.ToolTip"));
             this.buttonAdd.UseVisualStyleBackColor = false;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAddCrystal_Click);
             // 
-            // searchCrystalControl
-            // 
-            resources.ApplyResources(this.searchCrystalControl, "searchCrystalControl");
-            this.searchCrystalControl.Name = "searchCrystalControl";
-            this.toolTip.SetToolTip(this.searchCrystalControl, resources.GetString("searchCrystalControl.ToolTip"));
-            // 
             // buttonSearch
             // 
-            resources.ApplyResources(this.buttonSearch, "buttonSearch");
             this.buttonSearch.BackColor = System.Drawing.Color.Chocolate;
+            resources.ApplyResources(this.buttonSearch, "buttonSearch");
             this.buttonSearch.ForeColor = System.Drawing.Color.White;
             this.buttonSearch.Name = "buttonSearch";
             this.toolTip.SetToolTip(this.buttonSearch, resources.GetString("buttonSearch.ToolTip"));
@@ -207,22 +155,21 @@
             // 
             // statusStrip
             // 
-            resources.ApplyResources(this.statusStrip, "statusStrip");
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
             this.toolStripStatusLabel});
+            resources.ApplyResources(this.statusStrip, "statusStrip");
             this.statusStrip.Name = "statusStrip";
-            this.toolTip.SetToolTip(this.statusStrip, resources.GetString("statusStrip.ToolTip"));
             // 
             // toolStripProgressBar
             // 
-            resources.ApplyResources(this.toolStripProgressBar, "toolStripProgressBar");
             this.toolStripProgressBar.Name = "toolStripProgressBar";
+            resources.ApplyResources(this.toolStripProgressBar, "toolStripProgressBar");
             // 
             // toolStripStatusLabel
             // 
-            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel");
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel");
             // 
             // menuStrip
             // 
@@ -234,11 +181,9 @@
             this.languageToolStripMenuItem});
             this.menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStrip.Name = "menuStrip";
-            this.toolTip.SetToolTip(this.menuStrip, resources.GetString("menuStrip.ToolTip"));
             // 
             // fileToolStripMenuItem
             // 
-            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemReadDefault1,
             this.toolStripMenuItemReadDefault2,
@@ -254,78 +199,78 @@
             this.toolStripSeparator6,
             this.debugFunctionsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
             // toolStripMenuItemReadDefault1
             // 
-            resources.ApplyResources(this.toolStripMenuItemReadDefault1, "toolStripMenuItemReadDefault1");
             this.toolStripMenuItemReadDefault1.Name = "toolStripMenuItemReadDefault1";
+            resources.ApplyResources(this.toolStripMenuItemReadDefault1, "toolStripMenuItemReadDefault1");
             this.toolStripMenuItemReadDefault1.Click += new System.EventHandler(this.toolStripMenuItemReadDefault1_Click);
             // 
             // toolStripMenuItemReadDefault2
             // 
-            resources.ApplyResources(this.toolStripMenuItemReadDefault2, "toolStripMenuItemReadDefault2");
             this.toolStripMenuItemReadDefault2.Name = "toolStripMenuItemReadDefault2";
+            resources.ApplyResources(this.toolStripMenuItemReadDefault2, "toolStripMenuItemReadDefault2");
             this.toolStripMenuItemReadDefault2.Click += new System.EventHandler(this.toolStripMenuItemReadDefault2_Click);
             // 
             // toolStripSeparator4
             // 
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             // 
             // readDatabaseToolStripMenuItem
             // 
-            resources.ApplyResources(this.readDatabaseToolStripMenuItem, "readDatabaseToolStripMenuItem");
             this.readDatabaseToolStripMenuItem.Name = "readDatabaseToolStripMenuItem";
+            resources.ApplyResources(this.readDatabaseToolStripMenuItem, "readDatabaseToolStripMenuItem");
             this.readDatabaseToolStripMenuItem.Click += new System.EventHandler(this.readDatabaseToolStripMenuItem_Click);
             // 
             // saveDatabaseToolStripMenuItem
             // 
-            resources.ApplyResources(this.saveDatabaseToolStripMenuItem, "saveDatabaseToolStripMenuItem");
             this.saveDatabaseToolStripMenuItem.Name = "saveDatabaseToolStripMenuItem";
+            resources.ApplyResources(this.saveDatabaseToolStripMenuItem, "saveDatabaseToolStripMenuItem");
             this.saveDatabaseToolStripMenuItem.Click += new System.EventHandler(this.saveDatabaseToolStripMenuItem_Click);
             // 
             // clearDatabaseToolStripMenuItem
             // 
-            resources.ApplyResources(this.clearDatabaseToolStripMenuItem, "clearDatabaseToolStripMenuItem");
             this.clearDatabaseToolStripMenuItem.Name = "clearDatabaseToolStripMenuItem";
+            resources.ApplyResources(this.clearDatabaseToolStripMenuItem, "clearDatabaseToolStripMenuItem");
             this.clearDatabaseToolStripMenuItem.Click += new System.EventHandler(this.clearDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
-            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
             // toolStripMenuItemImport
             // 
-            resources.ApplyResources(this.toolStripMenuItemImport, "toolStripMenuItemImport");
             this.toolStripMenuItemImport.Name = "toolStripMenuItemImport";
+            resources.ApplyResources(this.toolStripMenuItemImport, "toolStripMenuItemImport");
             this.toolStripMenuItemImport.Click += new System.EventHandler(this.toolStripMenuItemImport_Click);
             // 
             // toolStripMenuItemImportPDI
             // 
-            resources.ApplyResources(this.toolStripMenuItemImportPDI, "toolStripMenuItemImportPDI");
             this.toolStripMenuItemImportPDI.Name = "toolStripMenuItemImportPDI";
+            resources.ApplyResources(this.toolStripMenuItemImportPDI, "toolStripMenuItemImportPDI");
             this.toolStripMenuItemImportPDI.Click += new System.EventHandler(this.toolStripMenuItemImportPDI_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // closeToolStripMenuItem
             // 
-            resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
-            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             this.toolStripSeparator6.Name = "toolStripSeparator6";
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             // 
             // debugFunctionsToolStripMenuItem
             // 
-            resources.ApplyResources(this.debugFunctionsToolStripMenuItem, "debugFunctionsToolStripMenuItem");
             this.debugFunctionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.compressAndSplitToolStripMenuItem,
             this.showIndexToolStripMenuItem,
@@ -333,38 +278,38 @@
             this.importAllFileCIFOrAMCToolStripMenuItem,
             this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem});
             this.debugFunctionsToolStripMenuItem.Name = "debugFunctionsToolStripMenuItem";
+            resources.ApplyResources(this.debugFunctionsToolStripMenuItem, "debugFunctionsToolStripMenuItem");
             // 
             // compressAndSplitToolStripMenuItem
             // 
-            resources.ApplyResources(this.compressAndSplitToolStripMenuItem, "compressAndSplitToolStripMenuItem");
             this.compressAndSplitToolStripMenuItem.Name = "compressAndSplitToolStripMenuItem";
+            resources.ApplyResources(this.compressAndSplitToolStripMenuItem, "compressAndSplitToolStripMenuItem");
             // 
             // showIndexToolStripMenuItem
             // 
-            resources.ApplyResources(this.showIndexToolStripMenuItem, "showIndexToolStripMenuItem");
             this.showIndexToolStripMenuItem.Name = "showIndexToolStripMenuItem";
+            resources.ApplyResources(this.showIndexToolStripMenuItem, "showIndexToolStripMenuItem");
             this.showIndexToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemShowFileName_Click);
             // 
             // checkDuplicatedFileToolStripMenuItem1
             // 
-            resources.ApplyResources(this.checkDuplicatedFileToolStripMenuItem1, "checkDuplicatedFileToolStripMenuItem1");
             this.checkDuplicatedFileToolStripMenuItem1.Name = "checkDuplicatedFileToolStripMenuItem1";
+            resources.ApplyResources(this.checkDuplicatedFileToolStripMenuItem1, "checkDuplicatedFileToolStripMenuItem1");
             this.checkDuplicatedFileToolStripMenuItem1.Click += new System.EventHandler(this.checkDuplicatedFileToolStripMenuItem_Click);
             // 
             // importAllFileCIFOrAMCToolStripMenuItem
             // 
-            resources.ApplyResources(this.importAllFileCIFOrAMCToolStripMenuItem, "importAllFileCIFOrAMCToolStripMenuItem");
             this.importAllFileCIFOrAMCToolStripMenuItem.Name = "importAllFileCIFOrAMCToolStripMenuItem";
+            resources.ApplyResources(this.importAllFileCIFOrAMCToolStripMenuItem, "importAllFileCIFOrAMCToolStripMenuItem");
             this.importAllFileCIFOrAMCToolStripMenuItem.Click += new System.EventHandler(this.importAllCrystalsMenuItem_Click);
             // 
             // recalculaeDensityFormulaAndDvaluesToolStripMenuItem
             // 
-            resources.ApplyResources(this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem, "recalculaeDensityFormulaAndDvaluesToolStripMenuItem");
             this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem.Name = "recalculaeDensityFormulaAndDvaluesToolStripMenuItem";
+            resources.ApplyResources(this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem, "recalculaeDensityFormulaAndDvaluesToolStripMenuItem");
             // 
             // optionToolStripMenuItem
             // 
-            resources.ApplyResources(this.optionToolStripMenuItem, "optionToolStripMenuItem");
             this.optionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolTipToolStripMenuItem,
             this.toolStripSeparator2,
@@ -373,63 +318,63 @@
             this.toolStripSeparator5,
             this.increaseFontSizeToolStripMenuItem});
             this.optionToolStripMenuItem.Name = "optionToolStripMenuItem";
+            resources.ApplyResources(this.optionToolStripMenuItem, "optionToolStripMenuItem");
             // 
             // toolTipToolStripMenuItem
             // 
-            resources.ApplyResources(this.toolTipToolStripMenuItem, "toolTipToolStripMenuItem");
             this.toolTipToolStripMenuItem.Checked = true;
             this.toolTipToolStripMenuItem.CheckOnClick = true;
             this.toolTipToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolTipToolStripMenuItem.Name = "toolTipToolStripMenuItem";
+            resources.ApplyResources(this.toolTipToolStripMenuItem, "toolTipToolStripMenuItem");
             this.toolTipToolStripMenuItem.Click += new System.EventHandler(this.toolTipToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // readDefaultDatabaseOnNextBootToolStripMenuItem
             // 
-            resources.ApplyResources(this.readDefaultDatabaseOnNextBootToolStripMenuItem, "readDefaultDatabaseOnNextBootToolStripMenuItem");
             this.readDefaultDatabaseOnNextBootToolStripMenuItem.Checked = true;
             this.readDefaultDatabaseOnNextBootToolStripMenuItem.CheckOnClick = true;
             this.readDefaultDatabaseOnNextBootToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.readDefaultDatabaseOnNextBootToolStripMenuItem.Name = "readDefaultDatabaseOnNextBootToolStripMenuItem";
+            resources.ApplyResources(this.readDefaultDatabaseOnNextBootToolStripMenuItem, "readDefaultDatabaseOnNextBootToolStripMenuItem");
             // 
             // incrementalSearchToolStripMenuItem
             // 
-            resources.ApplyResources(this.incrementalSearchToolStripMenuItem, "incrementalSearchToolStripMenuItem");
             this.incrementalSearchToolStripMenuItem.CheckOnClick = true;
             this.incrementalSearchToolStripMenuItem.Name = "incrementalSearchToolStripMenuItem";
+            resources.ApplyResources(this.incrementalSearchToolStripMenuItem, "incrementalSearchToolStripMenuItem");
             // 
             // toolStripSeparator5
             // 
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // increaseFontSizeToolStripMenuItem
             // 
-            resources.ApplyResources(this.increaseFontSizeToolStripMenuItem, "increaseFontSizeToolStripMenuItem");
             this.increaseFontSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.increaseToolStripMenuItem,
             this.decreaseToolStripMenuItem});
             this.increaseFontSizeToolStripMenuItem.Name = "increaseFontSizeToolStripMenuItem";
+            resources.ApplyResources(this.increaseFontSizeToolStripMenuItem, "increaseFontSizeToolStripMenuItem");
             // 
             // increaseToolStripMenuItem
             // 
-            resources.ApplyResources(this.increaseToolStripMenuItem, "increaseToolStripMenuItem");
             this.increaseToolStripMenuItem.Name = "increaseToolStripMenuItem";
+            resources.ApplyResources(this.increaseToolStripMenuItem, "increaseToolStripMenuItem");
             this.increaseToolStripMenuItem.Click += new System.EventHandler(this.increaseToolStripMenuItem_Click);
             // 
             // decreaseToolStripMenuItem
             // 
-            resources.ApplyResources(this.decreaseToolStripMenuItem, "decreaseToolStripMenuItem");
             this.decreaseToolStripMenuItem.Name = "decreaseToolStripMenuItem";
+            resources.ApplyResources(this.decreaseToolStripMenuItem, "decreaseToolStripMenuItem");
             this.decreaseToolStripMenuItem.Click += new System.EventHandler(this.decreaseToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programUpdatesToolStripMenuItem,
             this.hintToolStripMenuItem,
@@ -437,51 +382,52 @@
             this.licenseToolStripMenuItem,
             this.helpwebToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
             // programUpdatesToolStripMenuItem
             // 
-            resources.ApplyResources(this.programUpdatesToolStripMenuItem, "programUpdatesToolStripMenuItem");
             this.programUpdatesToolStripMenuItem.Name = "programUpdatesToolStripMenuItem";
+            resources.ApplyResources(this.programUpdatesToolStripMenuItem, "programUpdatesToolStripMenuItem");
             this.programUpdatesToolStripMenuItem.Click += new System.EventHandler(this.programUpdatesToolStripMenuItem_Click);
             // 
             // hintToolStripMenuItem
             // 
-            resources.ApplyResources(this.hintToolStripMenuItem, "hintToolStripMenuItem");
             this.hintToolStripMenuItem.Name = "hintToolStripMenuItem";
+            resources.ApplyResources(this.hintToolStripMenuItem, "hintToolStripMenuItem");
             this.hintToolStripMenuItem.Click += new System.EventHandler(this.hintToolStripMenuItem_Click);
             // 
             // versionHistoryToolStripMenuItem
             // 
-            resources.ApplyResources(this.versionHistoryToolStripMenuItem, "versionHistoryToolStripMenuItem");
             this.versionHistoryToolStripMenuItem.Name = "versionHistoryToolStripMenuItem";
+            resources.ApplyResources(this.versionHistoryToolStripMenuItem, "versionHistoryToolStripMenuItem");
             this.versionHistoryToolStripMenuItem.Click += new System.EventHandler(this.versionHistoryToolStripMenuItem_Click);
             // 
             // licenseToolStripMenuItem
             // 
-            resources.ApplyResources(this.licenseToolStripMenuItem, "licenseToolStripMenuItem");
             this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
+            resources.ApplyResources(this.licenseToolStripMenuItem, "licenseToolStripMenuItem");
             this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // helpwebToolStripMenuItem
             // 
-            resources.ApplyResources(this.helpwebToolStripMenuItem, "helpwebToolStripMenuItem");
             this.helpwebToolStripMenuItem.Name = "helpwebToolStripMenuItem";
+            resources.ApplyResources(this.helpwebToolStripMenuItem, "helpwebToolStripMenuItem");
             this.helpwebToolStripMenuItem.Click += new System.EventHandler(this.helpwebToolStripMenuItem_Click);
             // 
             // languageToolStripMenuItem
             // 
-            resources.ApplyResources(this.languageToolStripMenuItem, "languageToolStripMenuItem");
             this.languageToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem,
             this.japaneseToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            resources.ApplyResources(this.languageToolStripMenuItem, "languageToolStripMenuItem");
             // 
             // englishToolStripMenuItem
             // 
-            resources.ApplyResources(this.englishToolStripMenuItem, "englishToolStripMenuItem");
             this.englishToolStripMenuItem.Checked = true;
             this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            resources.ApplyResources(this.englishToolStripMenuItem, "englishToolStripMenuItem");
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.languageToolStripMenuItem_Click);
             // 
@@ -495,6 +441,43 @@
             // 
             this.toolTip.IsBalloon = true;
             // 
+            // crystalDatabaseControl
+            // 
+            resources.ApplyResources(this.crystalDatabaseControl, "crystalDatabaseControl");
+            this.crystalDatabaseControl.Filter = null;
+            this.crystalDatabaseControl.FontSize = 9.75F;
+            this.crystalDatabaseControl.Name = "crystalDatabaseControl";
+            this.crystalDatabaseControl.CrystalChanged += new System.EventHandler(this.crystalDatabaseControl_CrystalChanged);
+            this.crystalDatabaseControl.ProgressChanged += new Crystallography.Controls.CrystalDatabaseControl.ProgressChangedEventHandler(this.crystalDatabaseControl_ProgressChanged);
+            // 
+            // crystalControl
+            // 
+            this.crystalControl.AllowDrop = true;
+            resources.ApplyResources(this.crystalControl, "crystalControl");
+            this.crystalControl.CellConstants = ((System.ValueTuple<double, double, double, double, double, double>)(resources.GetObject("crystalControl.CellConstants")));
+            this.crystalControl.Crystal = ((Crystallography.Crystal)(resources.GetObject("crystalControl.Crystal")));
+            this.crystalControl.DefaultTabNumber = 0;
+            this.crystalControl.Name = "crystalControl";
+            this.crystalControl.ScatteringFactorVisible = false;
+            this.crystalControl.SkipEvent = false;
+            this.crystalControl.SymmetryInformationVisible = false;
+            this.crystalControl.SymmetrySeriesNumber = 0;
+            this.crystalControl.VisibleAtomTab = true;
+            this.crystalControl.VisibleBasicInfoTab = true;
+            this.crystalControl.VisibleBondsPolyhedraTab = true;
+            this.crystalControl.VisibleBoundTab = false;
+            this.crystalControl.VisibleElasticityTab = true;
+            this.crystalControl.VisibleEOSTab = true;
+            this.crystalControl.VisibleLatticePlaneTab = false;
+            this.crystalControl.VisiblePolycrystallineTab = false;
+            this.crystalControl.VisibleReferenceTab = true;
+            this.crystalControl.VisibleStressStrainTab = false;
+            // 
+            // searchCrystalControl
+            // 
+            resources.ApplyResources(this.searchCrystalControl, "searchCrystalControl");
+            this.searchCrystalControl.Name = "searchCrystalControl";
+            // 
             // FormMain
             // 
             this.AcceptButton = this.buttonSearch;
@@ -502,12 +485,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip);
+            this.DoubleBuffered = true;
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMain";
-            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.ResizeBegin += new System.EventHandler(this.FormMain_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.FormMain_ResizeEnd);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.splitContainer1.Panel1.ResumeLayout(false);
