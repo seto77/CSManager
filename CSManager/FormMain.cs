@@ -697,6 +697,15 @@ namespace CSManager
           MessageBox.Show(    crystalDatabaseControl.Crystal2.fileName);
         }
         #endregion
-      
+
+        private void FormMain_ResizeBegin(object sender, EventArgs e)
+        {
+            //SuspendLayout();
+        }
+
+        private void FormMain_ResizeEnd(object sender, EventArgs e)
+        {
+           // ResumeLayout();
+        }
     }
 }
