@@ -6,7 +6,10 @@ using System.Linq;
 using System.IO;
 using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
+using System.Threading;
 using V3 = OpenTK.Vector3d;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Crystallography
 {
@@ -31,60 +34,62 @@ namespace Crystallography
 		//CrystalListを読み込むとき
 		public static Crystal[] ConvertToCrystalList(string filename)
         {
-            Crystal[] cry = new Crystal[0];
+            var cry = new Crystal[0];
             if (filename.ToLower().EndsWith("xml"))//XML形式のリストを読み込んだとき
             {
-                #region old code
-                //プロパティ文字列が変更にたいする対処
-                /*    try
+				if (new FileInfo(filename).Length > 10000000)//なぜかファイルが3GBとかになったことが有ったので、それに対する対処. 10MB以上だったらスキップすることにした.
+					return cry;
+
+				#region old code
+				//プロパティ文字列が変更にたいする対処
+				try
+				{
+					var reader = new StreamReader(filename, Encoding.GetEncoding("Shift_JIS"));
+					var strList = new List<string>();
+					string tempstr;
+					while ((tempstr = reader.ReadLine()) != null)
 					{
-						StreamReader reader = new StreamReader(filename, Encoding.GetEncoding("Shift_JIS"));
-						List<string> strList = new List<string>();
-						string tempstr;
-						while ((tempstr = reader.ReadLine()) != null)
-						{
-							// "<" あるいは "</" の直後を大文字に変換
-							int index = 0;
-
-							index = tempstr.IndexOf("<");
-							if (index >= 0 && tempstr.Length > index + 1)
-							{
-								string targetString = tempstr.Substring(index + 1, 1);
-								tempstr = tempstr.Replace("<" + targetString, "<" + targetString.ToUpper());
-							}
-
-							index = tempstr.IndexOf("</");
-							if (index >= 0 && tempstr.Length > index + 2)
-							{
-								string targetString = tempstr.Substring(index + 2, 1);
-								tempstr = tempstr.Replace("</" + targetString, "</" + targetString.ToUpper());
-							}
-
-							tempstr = tempstr.Replace("Alfa", "Alpha");
-
-							//if(tempstr.IndexOf("")>0)
-
-							strList.Add(tempstr);
-						}
-
-						reader.Close();
-
-						//filename = filename + "_";//検証のためファイルネーム変更
-
-						StreamWriter writer = new StreamWriter(filename, false, Encoding.GetEncoding("Shift_JIS"));
-						for (int i = 0; i < strList.Count; i++)
-							writer.WriteLine(strList[i]);
-						writer.Flush();
-						writer.Close();
+						tempstr = tempstr.Replace("Kprime0", "Kp0");
+						tempstr = tempstr.Replace("Birch_Murnaghan", "BM3");
+						strList.Add(tempstr);
 					}
-					catch { return null; };*/
+
+					reader.Close();
+
+					//filename = filename + "_";//検証のためファイルネーム変更
+
+					StreamWriter writer = new StreamWriter(filename, false, Encoding.GetEncoding("Shift_JIS"));
+					for (int i = 0; i < strList.Count; i++)
+						writer.WriteLine(strList[i]);
+					writer.Flush();
+					writer.Close();
+				}
+				catch { return null; };
                 //プロパティ文字列が変更にたいする対処　ここまで
                 #endregion old code
                 try
                 {
                     using var fs = new FileStream(filename, FileMode.Open);
                     System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Crystal[]));
-                    cry = (Crystal[])serializer.Deserialize(fs);
+
+
+					var worker = new BackgroundWorker();
+					worker.DoWork += (sender, e) => cry = (Crystal[])serializer.Deserialize(fs);
+					worker.RunWorkerAsync();
+
+					var timeout = 10000;
+					var sw = new Stopwatch();
+					for(int i=0; i< timeout; i++)
+                    {
+						if (cry.Length != 0)
+							break;
+						if (i == timeout - 1) { 
+							throw new Exception();
+						}
+						Thread.Sleep(1);
+                    }
+
+
                     #region //Bondクラスの単位を オングストロームからnmに変更したための対処
                     foreach (var c in cry)
                     {
@@ -119,7 +124,8 @@ namespace Crystallography
             }
 
             return cry;
-        } 
+        }
+
         #endregion
 
         #region SMAPの出力ファイル(*.out)読込
@@ -260,9 +266,8 @@ namespace Crystallography
 			}
 			catch (Exception e)
 			{
-				#if DEBUG
+				if(AssemblyState.IsDebug)
 					System.Windows.Forms.MessageBox.Show(fileName +" " + e.Message);
-				#endif
 				return null;
 			}
 		}
@@ -280,9 +285,8 @@ namespace Crystallography
 			}
 			catch (Exception e)
 			{
-				#if DEBUG
-				System.Windows.Forms.MessageBox.Show(e.Message);
-				#endif
+				if (Crystallography.AssemblyState.IsDebug)
+					System.Windows.Forms.MessageBox.Show(e.Message);
 				return null;
 			}
 
@@ -1001,9 +1005,8 @@ namespace Crystallography
 					}
 					catch (Exception e)
 					{
-						#if DEBUG
-                        System.Windows.Forms.MessageBox.Show( e.Message);
-						#endif
+						if (AssemblyState.IsDebug)
+							System.Windows.Forms.MessageBox.Show( e.Message);
 						return null;
 					}
 				}
@@ -1638,14 +1641,10 @@ namespace Crystallography
 			sb.AppendLine("_atom_site_occupancy");
 			sb.AppendLine("_atom_site_U_iso_or_equiv");
 
-			var aStar = crystal.A_Star.Length / 10;
-			var bStar = crystal.B_Star.Length / 10;
-			var cStar = crystal.C_Star.Length / 10;
-			var pi2 = Math.PI * Math.PI;
-
 			foreach (var a in crystal.Atoms)
 			{
-				sb.AppendLine($"{a.Label} {AtomConstants.AtomicName(a.AtomicNumber)} {a.X:f5} {a.Y:f5} {a.Z:f5} {a.Occ:f5} {a.Dsf.Biso / 8.0 / pi2:f5}");
+				var u = double.IsNaN(a.Dsf.Uiso) ? 0 : a.Dsf.Uiso;
+				sb.AppendLine($"{a.Label} {AtomConstants.AtomicName(a.AtomicNumber)} {a.X:f5} {a.Y:f5} {a.Z:f5} {a.Occ:f5} {u:f5}");
 			}
 
 			sb.AppendLine("loop_");
@@ -1659,8 +1658,15 @@ namespace Crystallography
 			foreach (var a in crystal.Atoms)
 			{
 				if (!a.Dsf.UseIso)
-					sb.AppendLine($"{a.Label} {a.Dsf.U11:f5} {a.Dsf.U22:f5} {a.Dsf.U33:f5} {a.Dsf.U23:f5} {a.Dsf.U31:f5} {a.Dsf.U12:f5}"
-                        );
+				{
+					var u11 = double.IsNaN(a.Dsf.U11) ? 0 : a.Dsf.U11;
+					var u22 = double.IsNaN(a.Dsf.U22) ? 0 : a.Dsf.U22;
+					var u33 = double.IsNaN(a.Dsf.U33) ? 0 : a.Dsf.U33;
+					var u23 = double.IsNaN(a.Dsf.U23) ? 0 : a.Dsf.U23;
+					var u31 = double.IsNaN(a.Dsf.U31) ? 0 : a.Dsf.U31;
+					var u12 = double.IsNaN(a.Dsf.U12) ? 0 : a.Dsf.U12;
+					sb.AppendLine($"{a.Label} {u11:f5} {u22:f5} {u33:f5} {u23:f5} {u31:f5} {u12:f5}");
+				}
 			}
 			#endregion
 
