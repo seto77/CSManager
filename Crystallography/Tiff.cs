@@ -293,7 +293,7 @@ namespace Crystallography
             /// <summary>
             /// 格納しているイメージの数
             /// </summary>
-            public int NumberOfFrames { get { return Images.Count; } }
+            public int NumberOfFrames => Images.Count;
 
             public TiffByteOrder ByteOrder { get => byteOrder; set => byteOrder = value; }
 
@@ -387,8 +387,8 @@ namespace Crystallography
             public byte[] read(BinaryReader br, long position, int length, TiffByteOrder byteOrder)
             {
                 br.BaseStream.Position = position;
-                byte[] buffer = new byte[length];
-                int i = br.Read(buffer, 0, buffer.Length);
+                var buffer = new byte[length];
+                _ = br.Read(buffer, 0, buffer.Length);
                 if (byteOrder == TiffByteOrder.Intel) buffer = buffer.Reverse().ToArray();
                 return buffer;
             }
@@ -399,10 +399,10 @@ namespace Crystallography
                 //MDScaleFactor = 1;
                 bool originalEndian = BitConverter.IsLittleEndian;
 
-                BinaryReader br = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read));
+                var br = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read));
 
                 //まず最初の2Byteを読み込んでバイトオーダーを決める
-                byte[] temp = new byte[2];
+                var temp = new byte[2];
                 br.Read(temp, 0, 2);
                 if (temp[0] == 0x49 && temp[1] == 0x49)
                     ByteOrder = TiffByteOrder.Motorola;
@@ -414,11 +414,16 @@ namespace Crystallography
                 //次に2Byteよんでバージョン
                 Version = BitConverter.ToInt16(read(br, 2, 2, ByteOrder), 0);
 
-                long ifdPointa = long.MaxValue;
+                var ifdPointa = long.MaxValue;
+
+
+                
+                
+
                 while (ifdPointa != 0)
                 {
                     var image = new imageProperty();
-                    //ifdPointaが-1の時(何も読み込んでいないとき) 4Byte読んでIFDのポインタ
+                    //ifdPointaがlong.MaxValueの時(何も読み込んでいないとき) 4Byte読んでIFDのポインタ
                     if (ifdPointa == long.MaxValue)
                         ifdPointa = BitConverter.ToUInt32(read(br, 4, 4, ByteOrder), 0);
 
@@ -430,21 +435,20 @@ namespace Crystallography
                     IFD[] iFD = new IFD[totalIFD];
                     for (int i = 0; i < totalIFD; i++)
                     {
-                        try
-                        {
-                            iFD[i] = ReadIFD(br, (int)ifdPointa, ByteOrder);
-                        }
+                        try { iFD[i] = ReadIFD(br, (int)ifdPointa, ByteOrder); }
                         catch { }
                         ifdPointa += 12;
                     }
                     //ここまででIFDデータを読み込み完了
 
                     //次のifdPointaを読み込む
+
                     ifdPointa = BitConverter.ToUInt32(read(br, ifdPointa, 4, ByteOrder), 0);
 
                     int bitsPerSampleLength = 1;
 
-                    //ここからIFDのデータ解析
+                    #region  IFDのデータ解析
+
                     for (int i = 0; i < totalIFD; i++)
                         switch (iFD[i].Tag)
                         {
@@ -473,6 +477,8 @@ namespace Crystallography
                                 image.Compression = (int)iFD[i].Data[0]; break;
                             case 262:
                                 image.PhotometricInterpretation = (int)iFD[i].Data[0]; break;
+                            case 270:
+                                break;
                             case 273:
                                 image.StripOffsets = new int[iFD[i].Data.Length];
                                 for (int j = 0; j < image.StripOffsets.Length; j++)
@@ -514,7 +520,7 @@ namespace Crystallography
 
                             case 33449:
                                 {
-                                    StringBuilder sb = new StringBuilder();
+                                    var sb = new StringBuilder();
                                     for (int j = 0; j < iFD[i].Data.Length; j++)
                                         //if ((char)iFD[i].Data[j] != '\r\n')
                                         sb.Append((char)iFD[i].Data[j]);
@@ -538,6 +544,7 @@ namespace Crystallography
                             case 60002:
                                 image.PulsePower = (double)iFD[i].Data[0]; break;
                         }
+                    #endregion
 
                     //画像のサイズやカラーモードが違ったら、読み込み停止
                     if (Images.Count == 0 || (ImageLength == image.ImageLength && ImageWidth == image.ImageWidth && image.IsGray == IsGray && BitsPerSampleGray == image.BitsPerSampleGray))
@@ -564,21 +571,63 @@ namespace Crystallography
                         image.ValueBlue = new uint[image.ImageLength * image.ImageWidth];
                     }
 
-                    int n = 0;
+                    #region お蔵入り?
+                    //int latitude = 0;
+                    //if (image.ImageDescription.Contains("Latitude"))
+                    //{
+                    //    string[] tempStr = image.ImageDescription.Split('\n');
+                    //    for (int j = 0; j < tempStr.Length; j++)
+                    //        if (tempStr[j].Contains("Latitude"))
+                    //            latitude = Convert.ToInt32(tempStr[j].Split('=')[1]);
+                    //}
+                    #endregion
 
-                    int latitude = 0;
-                    if (image.ImageDescription.Contains("Latitude"))
-                    {
-                        string[] tempStr = image.ImageDescription.Split('\n');
-                        for (int j = 0; j < tempStr.Length; j++)
-                            if (tempStr[j].Contains("Latitude"))
-                                latitude = Convert.ToInt32(tempStr[j].Split('=')[1]);
-                    }
                     //ここからデータを読み込む
+
+                    #region PFで導入された新フォーマットへの対処
+                    if (iFD.Any(i => i.Tag == 270) && image.StripByteCounts==null)
+                    {
+                        var ifd = iFD.First(i => i.Tag == 270);
+                        var comment = new string( ifd.Data.Cast<char>().ToArray());
+
+                        //software
+                        var software = comment.Substring(0, 16);
+                        //Sensor
+                        var sensor = comment.Substring(16, 20);
+                        //Image Info
+                        var correction = comment[38];
+                        var type = comment[39];
+                        var binning_x = comment[40];
+                        var binning_y = comment[41];
+                        var direction = comment[42];
+                        var bitLength = comment[43];
+
+                        //Accumulation number　画像取得時の積算回数	
+                        var accumulation_number = comment.Substring(44, 4).ToInt();
+
+                        //ExposureTime
+                        var exposure_time = comment.Substring(48, 8).ToInt();
+
+                        var frame = comment.Substring(56, 4).ToInt();
+                        
+                        //Number of stored images
+                        var num_of_stored_images = comment.Substring(60, 4).ToInt();
+
+                        var total = image.ImageWidth * image.ImageLength;
+                        image.StripByteCounts = new[] { image.ImageWidth * image.ImageLength * bytePerPixel };
+                    }
+                    #endregion
+
+                    int n = 0;
                     for (int i = 0; i < image.StripByteCounts.Length; i++)
                     {
                         br.BaseStream.Position = image.StripOffsets[i];
-                        if (image.SampleFormat == 1 || image.SampleFormat ==2)//整数データの時 1の時は符号なし。1の時は符号アリ
+                        if (image.SampleFormat == 3)//浮動小数点データの時
+                        {
+                            for (int j = 0; j < image.StripByteCounts[i] / bytePerPixel; j++)
+                                image.Value[n++] = toFloat(br, bytePerPixel, ByteOrder);
+                        }
+                        else//整数データの時 1の時は符号なし。2の時は符号アリ
                         {
                             var sign = image.SampleFormat == 2;
                             if (image.IsGray)
@@ -604,11 +653,6 @@ namespace Crystallography
                                 }
                             }
                         }
-                        else if (image.SampleFormat == 3)//浮動小数点データの時
-                        {
-                            for (int j = 0; j < image.StripByteCounts[i] / bytePerPixel; j++)
-                                image.Value[n++] = toFloat(br, bytePerPixel, ByteOrder);
-                        }
                     }
                     Images.Add(image);
                 }
@@ -627,14 +671,14 @@ namespace Crystallography
             {
                 if (byteCount == 1)
                 {
-                    byte[] temp = new byte[1];
+                    var temp = new byte[1];
                     br.Read(temp, 0, 1);
 
                     return (double)temp[0];
                 }
                 else if (byteCount == 2)
                 {
-                    byte[] temp = new byte[2];
+                    var temp = new byte[2];
                     br.Read(temp, 0, 2);
                     if (byteOrder == TiffByteOrder.Intel) temp = temp.Reverse().ToArray();
 
@@ -642,7 +686,7 @@ namespace Crystallography
                 }
                 else if (byteCount == 4)
                 {
-                    byte[] temp = new byte[4];
+                    var temp = new byte[4];
                     br.Read(temp, 0, 4);
                     if (byteOrder == TiffByteOrder.Intel) temp = temp.Reverse().ToArray();
 
@@ -657,7 +701,7 @@ namespace Crystallography
             private float toFloat(BinaryReader br, int byteCount, TiffByteOrder byteOrder)
             {
                 float intensity = 0;
-                byte[] temp = new byte[4];
+                var temp = new byte[4];
                 br.Read(temp, 0, 4);
                 intensity = BitConverter.ToSingle(temp, 0);
 

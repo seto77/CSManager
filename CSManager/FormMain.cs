@@ -252,9 +252,11 @@ namespace CSManager
         /// <param name="e"></param>
         private void readDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dialog = new OpenFileDialog();
-            dialog.Filter = "Database File[*.cdb;*.cdb2;*.cdb2]|*.cdb;*.cdb2;*.cdb3";
-            dialog.Multiselect = true;
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Database File[*.cdb;*.cdb2;*.cdb2]|*.cdb;*.cdb2;*.cdb3",
+                Multiselect = true
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
                 for (int i = 0; i < dialog.FileNames.Length; i++)
                     crystalDatabaseControl.ReadDatabase(dialog.FileNames[i]);

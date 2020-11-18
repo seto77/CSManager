@@ -155,10 +155,8 @@ namespace Crystallography
             uDictionary = new Dictionary<int, (Complex, Complex)>();
             var factorMatrix = getPotentialMatrix(Beams);
             //有効なRotationだけを選択
-            var beamRotationsValid = new List<Matrix3D>();
-            for (int i = 0; i < BeamRotations.Length; i++)
-                if (BeamRotations[i] != null)
-                    beamRotationsValid.Add(BeamRotations[i]);
+            var beamRotationsValid = BeamRotations.Where(rot => rot != null).ToList();
+            
             RotationArrayValidLength = beamRotationsValid.Count;
             //rotationsValidに対応するdiskValidを定義
             var diskValid = new List<Complex[][]>();
@@ -303,7 +301,7 @@ namespace Crystallography
                 //計算対象のg-Vectorsを決める。
                 Beams = Find_gVectors(BaseRotation, vecK0);
 
-                if (Beams.Length == 0) return new Beam[0];
+                if (Beams == null || Beams.Length == 0) return new Beam[0];
 
                 var potentialMatrix = getEigenProblemMatrix(Beams);
 
@@ -345,7 +343,7 @@ namespace Crystallography
         #endregion
 
         #region Image Simulation
-        public double[][] GetPotentialImage(Beam[] beams, Size size, double res, bool phase = true)
+        public double[][] GetPotentialImage(IEnumerable<Beam> beams, Size size, double res, bool phase = true)
         {
             int width = size.Width, height = size.Height;
             //gList[gNUm]を全て計算
@@ -635,13 +633,14 @@ namespace Crystallography
                 // 等方散乱因子の時 あるいは非等方でg=0の時
                 if (atoms.Dsf.UseIso || (index == (0, 0, 0)))
                 {
-                    var m = atoms.Dsf.Biso;//Bisoの単位はnm^2
-                    var t = Math.Exp(-m * s2);
-                    if (!atoms.Dsf.UseIso && index == (0, 0, 0))// 非等方でg = 0の時 Acta Cryst. (1959). 12, 609 , Hamilton の式に従って、Bisoを計算
+                    var m =  atoms.Dsf.Biso;//Bisoの単位はnm^2
+                    if (!atoms.Dsf.UseIso && double.IsNaN(m) && index == (0, 0, 0))// 非等方でg = 0、かつmがNaNの時 Acta Cryst. (1959). 12, 609 , Hamilton の式に従って、Bisoを計算
                     {
                         double a = Crystal.A, b = Crystal.B, c = Crystal.C;
                         m = (atoms.Dsf.B11 * a * a + atoms.Dsf.B22 * b * b + atoms.Dsf.B33 * c * c + 2 * atoms.Dsf.B12 * a * b + 2 * atoms.Dsf.B23 * b * c + 2 * atoms.Dsf.B31 * c * a) * 4.0 / 3.0;
                     }
+
+                    var t = double.IsNaN(m) ? 1 : Math.Exp(-m * s2);
                     //var imag = AtomConstants.ElectronScatteringEightGaussian[atoms.AtomicNumber].FactorImaginary(s2, m);//答えは無次元
                     var imag = AtomConstants.ElectronScattering[atoms.AtomicNumber][atoms.SubNumberElectron].FactorImaginary(s2, m);//答えは無次元
                     foreach (var atom in atoms.Atom)
@@ -659,6 +658,8 @@ namespace Crystallography
                         var (H, K, L) = atom.Operation.ConvertPlaneIndex(index);
                         var m = atoms.Dsf.B11 * H * H + atoms.Dsf.B22 * K * K + atoms.Dsf.B33 * L * L + 2 * atoms.Dsf.B12 * H * K + 2 * atoms.Dsf.B23 * K * L + 2 * atoms.Dsf.B31 * L * H;
                         //var imag = AtomConstants.ElectronScatteringEightGaussian[atoms.AtomicNumber].FactorImaginary(s2, m / s2);//答えは無次元
+
+                        if (double.IsNaN(m)) m = 0;
                         var imag = AtomConstants.ElectronScattering[atoms.AtomicNumber][atoms.SubNumberElectron].FactorImaginary(s2, m / s2);//答えは無次元
                         var d = Math.Exp(-m) * Exp(TwoPiI * (atom * index)) * atoms.Occ;
                         fReal += real * d;
@@ -695,6 +696,13 @@ namespace Crystallography
                 u = (fReal * coeff1 * gamma, fImag * coeff1 * coeff2 * gamma);
                 uDictionary.Add(key, u);
             }
+            if(double.IsNaN(u.real.Real))
+            {
+
+
+            }
+
+
             return u;
         }
         private (Complex Real, Complex Imag) getU((int H, int K, int L) index, double s2) => getU(AccVoltage, index, s2);
@@ -756,6 +764,9 @@ namespace Crystallography
         /// <returns></returns>
         public Beam[] Find_gVectors(Matrix3D baseRotation, Vector3DBase vecK0, int maxNumOfBloch = -1)
         {
+            //if (double.IsNaN(vecK0.X))
+            //    return null;
+
             if (maxNumOfBloch > 0)
                 MaxNumOfBloch = maxNumOfBloch;
 
@@ -1026,7 +1037,7 @@ namespace Crystallography
             {
                 Vector3D g = new Vector3D(Vec.X, Vec.Y, Vec.Z);
                 g.d = 1 / g.Length;
-                g.Index = H.ToString() + " " + K.ToString() + " " + L.ToString();
+                g.Text = $"{H} {K} {L}";
                 g.F = Psi;
                 g.RawIntensity = Psi.Magnitude2();
                 g.Tag = S;
