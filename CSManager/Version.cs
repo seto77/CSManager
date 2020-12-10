@@ -28,6 +28,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
+                "\r\n ver1.885(2020/12/10) Fixed an initializing bug." +
                 "\r\n ver1.884(2020/11/18) Renewed COD database (463,756)." +
                 "\r\n ver1.883(2020/07/28) Fixed minor GUI bugs." +
                 "\r\n ver1.882(2020/07/14) Renewed AMCSD database (20,718)." +
