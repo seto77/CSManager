@@ -19,16 +19,16 @@ namespace CSManager
     public partial class FormMain : Form
     {
         #region フィールド、プロパティ
-        public string UserAppDataPath => new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
+        public static string UserAppDataPath => new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
 
-        Stopwatch stopwatch { get; set; } = new Stopwatch();
+        private Stopwatch stopwatch { get; set; } = new Stopwatch();
         bool skipProgressEvent { get; set; } = false;
 
         private Crystallography.Controls.CommonDialog initialDialog;
 
         readonly IProgress<(long, long, long, string)> ip;//IReport
 
-        readonly ReaderWriterLockSlim rwlock = new ReaderWriterLockSlim();
+        readonly ReaderWriterLockSlim rwlock = new();
 
         #endregion
 
@@ -36,8 +36,7 @@ namespace CSManager
 
         public FormMain()
         {
-            CrystalDatabaseControl crystalDatabaseControl = new CrystalDatabaseControl();
-
+            var crystalDatabaseControl = new CrystalDatabaseControl();
 
             ip = new Progress<(long, long, long, string)>(o => reportProgress(o));//IReport
             var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
@@ -96,7 +95,7 @@ namespace CSManager
             };
 
             englishToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name != "ja";
-            japaneseToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name == "ja";
+            japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
 
             initialDialog.Show();
             Application.DoEvents();
@@ -113,7 +112,7 @@ namespace CSManager
 
             initialDialog.progressBar.Value = (int)(initialDialog.progressBar.Maximum * 1.0);
 
-            if (initialDialog.AutomaricallyClose)
+            if (initialDialog.AutomaticallyClose)
                 initialDialog.Visible = false;
 
             readRegistry();
@@ -131,7 +130,6 @@ namespace CSManager
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             saveRegistry();
-            //formPeriodicTable.Close();
             e.Cancel = false;
         }
         private void readRegistry()
@@ -148,7 +146,7 @@ namespace CSManager
             if (initialDialog != null)
             {
                 initialDialog.Location = new Point(Location.X + Width / 2 - initialDialog.Width / 2, Location.Y + Height / 2 - initialDialog.Height / 2);
-                initialDialog.AutomaricallyClose = (string)regKey.GetValue("initialDialog.AutomaricallyClose", "False") == "True";
+                initialDialog.AutomaticallyClose = (string)regKey.GetValue("initialDialog.AutomaricallyClose", "False") == "True";
             }
             readDefaultDatabaseOnNextBootToolStripMenuItem.Checked = (string)regKey.GetValue("readDefaultDatabaseOnNextBootToolStripMenuItem.Checked", "False") == "True";
             regKey.Close();
@@ -159,13 +157,12 @@ namespace CSManager
             if (regKey == null) return;
 
             regKey.SetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
-
             regKey.SetValue("MainWidth", this.Width);
             regKey.SetValue("MainHeight", this.Height);
             regKey.SetValue("MainLocationX", this.Location.X);
             regKey.SetValue("MainLocationY", this.Location.Y);
             regKey.SetValue("readDefaultDatabaseOnNextBootToolStripMenuItem.Checked", readDefaultDatabaseOnNextBootToolStripMenuItem.Checked);
-            regKey.SetValue("initialDialog.AutomaricallyClose", initialDialog.AutomaricallyClose);
+            regKey.SetValue("initialDialog.AutomaricallyClose", initialDialog.AutomaticallyClose);
             regKey.Close();
         }
 
@@ -471,7 +468,7 @@ namespace CSManager
         #region その他のインポート系
         private void toolStripMenuItemImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog { Filter = "*.cif, *.amc file | *.amc;*.cif" };
+            var dlg = new OpenFileDialog { Filter = "*.cif, *.amc file | *.amc;*.cif" };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -486,7 +483,7 @@ namespace CSManager
 
         private void toolStripMenuItemImportPDI_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog { Filter = "PDIndexer Crystal data *.xml | *.xml" };
+            var dlg = new OpenFileDialog { Filter = "PDIndexer Crystal data *.xml | *.xml" };
             if (dlg.ShowDialog() == DialogResult.OK)
                 readXml(dlg.FileName);
         }
