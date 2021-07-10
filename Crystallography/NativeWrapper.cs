@@ -10,7 +10,13 @@ namespace Crystallography
 {
     public static class NativeWrapper
     {
-        public enum Library { None, Eigen, Cuda}
+        #region DllImport
+        public enum Library { None, Eigen, Cuda }
+
+
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
+        public static extern IntPtr Memcpy(IntPtr dest, IntPtr src, UIntPtr count);
+
 
         [DllImport("Crystallography.Native.dll")]
         private static extern void _Inverse(int dim,
@@ -99,113 +105,76 @@ namespace Crystallography
             double[] r2, int r2len,
             double[] profile, double[] pixels
         );
+        #endregion 
+
+        #region Nativeライブラリが有効かどうか
+        static NativeWrapper()
+        {
+            Enabled = enabled();
+        }
+
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
+        static bool enabled()
+        {
+            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace(".dll", ".Native.dll");
+            if (!System.IO.File.Exists(appPath))
+                return false;
+            else if (System.IO.File.GetCreationTime(appPath).Ticks < new DateTime(2019, 08, 06, 19, 45, 00).Ticks)
+                return false;
+            try
+            {
+                var result = Inverse(new[,] { { new Complex(1, 0), new Complex(0, 0) }, { new Complex(0, 0), new Complex(1, 0) } });
+                return result[0, 0].Real + result[1, 1].Real > 1;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Native ライブラリが有効かどうか
         /// </summary>
-        static public bool Enabled
-        {
-            get
-            {
-                string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace(".dll", ".Native.dll");
-                if (!System.IO.File.Exists(appPath))
-                    return false;
-                else if (System.IO.File.GetCreationTime(appPath).Ticks < new DateTime(2019, 08, 06, 19, 45, 00).Ticks)
-                    return false;
 
-                var values = new double[4];
-                try
-                {
-                    _EigenSolver(2, new[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 }, values, new double[8]);
-                }
-                catch
-                {
-                    return false;
-                }
-                return values.Sum() > 1;
-            }
+        public  static bool Enabled { get; }
+
+        #endregion
+
+        #region 変換関数
+        unsafe readonly static int sizeOfComplex = sizeof(Complex);
+
+        unsafe private static void toDoubleArray(int dim, Complex[,] mat, out double[] dest)
+        {
+            fixed (Complex* pSrc = mat)
+            fixed (double* pDest = dest)
+                Memcpy((IntPtr)pDest, (IntPtr)pSrc, (UIntPtr)(dim * dim * sizeOfComplex));
+        }
+        
+        unsafe private static void toDoubleArray(int dim, Complex[] vec, out double[] dest)
+        {
+            fixed (Complex* pSrc = vec)
+            fixed (double* pDest = dest)
+                Memcpy((IntPtr)pDest, (IntPtr)pSrc, (UIntPtr)(dim * sizeOfComplex));
         }
 
-        unsafe private static (int Dim, double[] Mat) toDoubleArray(DenseMatrix mat)
+        unsafe private static DenseMatrix toDenseMatrix(int dim, in double[] src)
         {
-            var dim = mat.Row(0).Count;
-            var matArray = new double[dim * dim * 2];
-            fixed (double* pin = matArray)
-            {
-                var matArrayP = pin;
-                for (int c = 0; c < dim; c++)
-                    for (int r = 0; r < dim; r++)
-                    {
-                        *matArrayP++ = mat[c, r].Real;
-                        *matArrayP++ = mat[c, r].Imaginary;
-                    }
-
-                return (dim, matArray);
-            }
+            var dest = new Complex[dim * dim];
+            fixed (double* pSrc = src)
+            fixed (Complex* pDest = dest)
+                Memcpy((IntPtr)pDest, (IntPtr)pSrc, (UIntPtr)(dim * dim * sizeOfComplex));
+            return new DenseMatrix(dim, dim, dest);
         }
 
-
-        unsafe private static (int Dim, double[] Mat) toDoubleArray(Complex[,] mat)
+        unsafe private static DenseVector toDenseVector(int dim, in double[] src)
         {
-            var dim = mat.GetLength(0);
-            var matArray = new double[dim * dim * 2];
-            fixed (double* pin = matArray)
-            {
-                var matArrayP = pin;
-                for (int c = 0; c < dim; c++)
-                    for (int r = 0; r < dim; r++)
-                    {
-                        *matArrayP++ = mat[c, r].Real;
-                        *matArrayP++ = mat[c, r].Imaginary;
-                    }
-
-                return (dim, matArray);
-            }
+            var dest = new Complex[dim];
+            fixed (double* pSrc = src)
+            fixed (Complex* pDest = dest)
+                Memcpy((IntPtr)pDest, (IntPtr)pSrc, (UIntPtr)(dim * sizeOfComplex));
+            return new DenseVector(dest);
         }
-
-        unsafe private static (int Dim, double[] Mat) toDoubleArray(Complex[] vec)
-        {
-            var dim = vec.Length;
-            var vecArray = new double[dim * 2];
-            fixed (double* pin = vecArray)
-            {
-                var vecArrayP = pin;
-                for (int c = 0; c < dim; c++)
-                {
-                    *vecArrayP++ = vec[c].Real;
-                    *vecArrayP++ = vec[c].Imaginary;
-                }
-                return (dim, vecArray);
-            }
-        }
-
-        unsafe private static DenseMatrix toDenseMatrix(Span<double> mat)
-        {
-            fixed (double* pin = mat)
-            {
-                var matP = pin;
-                var dim = (int)Math.Sqrt(mat.Length / 2);
-                var complex = new DenseMatrix(dim, dim);
-                for (int c = 0; c < dim; c++)
-                    for (int r = 0; r < dim; r++, matP += 2)
-                        complex[c, r] = new Complex(*matP, *(matP+1));
-                return complex;
-            }
-        }
-
-        unsafe private static DenseVector toDenseVector(Span<double> vec)
-        {
-            fixed (double* pin = vec)
-            {
-                var vecP = pin;
-                var dim = vec.Length / 2;
-                var complex = new DenseVector(dim);
-                for (int c = 0; c < dim; c++, vecP += 2)
-                    complex[c] = new Complex(*vecP, *(vecP + 1));
-                return complex;
-            }
-        }
-
+        #endregion
 
         #region 逆行列
         /// <summary>
@@ -213,11 +182,7 @@ namespace Crystallography
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
-        static public DenseMatrix Inverse(DenseMatrix mat)
-        {
-            var (_dim, _mat) = toDoubleArray(mat);
-            return Inverse(_dim, _mat);
-        }
+        static public DenseMatrix Inverse(DenseMatrix mat) => Inverse(mat.Storage.ToArray());
 
         /// <summary>
         /// Eigenライブラリーを利用して、非対称複素行列の逆行列を求める
@@ -226,24 +191,45 @@ namespace Crystallography
         /// <returns></returns>
         static public DenseMatrix Inverse(Complex[,] mat)
         {
-            var (dim, inputValues) = toDoubleArray(mat);
-            return Inverse(dim, inputValues);
+            var dim = mat.GetLength(0);
+            var _mat = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var _inv = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            try
+            {
+                toDoubleArray(dim, mat, out _mat);
+                _Inverse(dim, _mat, _inv);
+                return toDenseMatrix(dim, in _inv);
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_mat);
+                ArrayPool<double>.Shared.Return(_inv);
+            }
         }
 
         /// <summary>
         /// Eigenライブラリーを利用して、非対称複素行列の逆行列を求める
         /// </summary>
-        /// <param name="dim"></param>
-        /// <param name="_mat"></param>
+        /// <param name="mat"></param>
         /// <returns></returns>
-        static public DenseMatrix Inverse(int dim, double[] _mat)
+        static public DenseMatrix Inverse(int dim, Complex[] mat)
         {
-            var _inv = new double[dim * dim * 2];
-            _Inverse(dim, _mat, _inv);
-            return toDenseMatrix(_inv);
+            var _mat = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var _inv = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            try
+            {
+                toDoubleArray(dim * dim, mat, out _mat);
+                _Inverse(dim, _mat, _inv);
+                return toDenseMatrix(dim, in _inv);
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_mat);
+                ArrayPool<double>.Shared.Return(_inv);
+            }
         }
-        #endregion 逆行列
 
+        #endregion 逆行列
 
         #region 固有値
         /// <summary>
@@ -253,16 +239,41 @@ namespace Crystallography
         /// <returns></returns>
         static public (DenseVector eigenvalues, DenseMatrix eigenvectors) EigenSolver(Complex[,] mat)
         {
-            //matをdouble[]に変換
-            var (dim, inputValues) = toDoubleArray(mat);
+            var dim = mat.GetLength(0);
+            var _mat = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var values = ArrayPool<double>.Shared.Rent(dim * 2);
+            var vectors = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            try
+            {
+                toDoubleArray(dim, mat, out _mat);//matをdouble[]に変換
+                _EigenSolver(dim, _mat, values, vectors);
+                return (toDenseVector(dim, in values), toDenseMatrix(dim, in vectors));
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_mat);
+                ArrayPool<double>.Shared.Return(values);
+                ArrayPool<double>.Shared.Return(vectors);
+            }
+        }
 
-            var values = new double[dim * 2];
-            var vectors = new double[dim * dim * 2];
-
-            _EigenSolver(dim, inputValues, values, vectors);
-            var result = (toDenseVector(values), toDenseMatrix(vectors));
-
-            return result; ;
+        static public (DenseVector eigenvalues, DenseMatrix eigenvectors) EigenSolver(int dim, Complex[] mat)
+        {
+            var _mat = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var values = ArrayPool<double>.Shared.Rent(dim * 2);
+            var vectors = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            try
+            {
+                toDoubleArray(dim * dim, mat, out _mat);//matをdouble[]に変換
+                _EigenSolver(dim, _mat, values, vectors);
+                return (toDenseVector(dim, in values), toDenseMatrix(dim, in vectors));
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_mat);
+                ArrayPool<double>.Shared.Return(values);
+                ArrayPool<double>.Shared.Return(vectors);
+            }
         }
 
         #endregion 固有値
@@ -270,32 +281,25 @@ namespace Crystallography
         #region 行列指数関数
         static public DenseMatrix MatrixExponential(DenseMatrix mat)
         {
-            //matをdouble[]に変換
-            var (dim, inputValues) = toDoubleArray(mat);
-
-            var vectors = new double[dim * dim * 2];
-
-            _MatrixExponential(dim, inputValues, vectors);
-            var result = toDenseMatrix(vectors);
-
-            return result; ;
-        }
-
-        static public DenseMatrix MatrixExponential_Cuda(DenseMatrix mat)
-        {
-            //matをdouble[]に変換
-            var (dim, inputValues) = toDoubleArray(mat);
-
-            var vectors = new double[dim * dim * 2];
-
-            MatrixExponential_Cuda(dim, inputValues, vectors);
-            var result = toDenseMatrix(vectors);
-
-            return result; ;
+            var dim = mat.RowCount;
+            var _mat = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var vectors = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            try
+            {
+                toDoubleArray(dim, mat.ToArray(), out _mat);//matをdouble[]に変換
+                _MatrixExponential(dim, _mat, vectors);
+                return toDenseMatrix(dim, in vectors);
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_mat);
+                ArrayPool<double>.Shared.Return(vectors);
+            }
         }
 
         #endregion
 
+        #region CBED
         /// <summary>
         /// Eigenライブラリーを利用して固有値解を求めて、CBEDの解を求める
         /// </summary>
@@ -304,30 +308,8 @@ namespace Crystallography
         /// <param name="thickness"></param>
         /// <param name="coeff"></param>
         /// <returns></returns>
-        unsafe static public Complex[][] CBEDSolver_Eigen(Complex[,] potential, Complex[] psi0, double[] thickness, double coeff)
-        {
-            (int dim, double[] _potential) = toDoubleArray(potential);
-
-            (_, double[] _psi0) = toDoubleArray(psi0);
-
-            var tempResult = new double[dim * thickness.Length * 2];
-            _CBEDSolver_Eigen(dim, _potential, _psi0, thickness.Length, thickness, coeff, tempResult);
-
-            var result = new Complex[thickness.Length][];
-
-            fixed (double* pin = tempResult)
-            {
-                var tempResultP = pin;
-                for (int t = 0; t < thickness.Length; t++)
-                {
-                    result[t] = new Complex[dim];
-                    for (int g = 0; g < dim; g++, tempResultP += 2)
-                        result[t][g] = new Complex(*tempResultP, *(tempResultP + 1));
-                }
-            }
-
-            return result;
-        }
+        unsafe static public Complex[][] CBEDSolver_Eigen(Complex[] potential, Complex[] psi0, double[] thickness, double coeff)
+        => CBEDSolver(potential, psi0, thickness, coeff, true);
 
         /// <summary>
         /// Eigenライブラリーを利用してMatrix exponentialを解いて、CBEDの解を求める. 
@@ -337,33 +319,48 @@ namespace Crystallography
         /// <param name="thickness"></param>
         /// <param name="coeff"></param>
         /// <returns></returns>
-        unsafe static public Complex[][] CBEDSolver_MatExp(Complex[,] potential, Complex[] psi0, double[] thickness, double coeff)
+        unsafe static public Complex[][] CBEDSolver_MatExp(Complex[] potential, Complex[] psi0, double[] thickness, double coeff)
+            => CBEDSolver(potential, psi0, thickness, coeff, false);
+
+        unsafe static private Complex[][] CBEDSolver(Complex[] potential, Complex[] psi0, double[] thickness, double coeff, bool eigen)
         {
-            (int dim, double[] _potential) = toDoubleArray(potential);
-
-            (_, double[] _psi0) = toDoubleArray(psi0);
-
-            var tempResult = new double[dim * thickness.Length * 2];
-            var tStep = thickness.Length > 1 ? thickness[1] - thickness[0] : 0.0;
-
-            _CBEDSolver_MtxExp(dim, _potential, _psi0, thickness.Length, thickness[0], tStep, coeff, tempResult);
-
-            var result = new Complex[thickness.Length][];
-
-            fixed (double* pin = tempResult)
+            var dim = psi0.Length;
+            var _potential = ArrayPool<double>.Shared.Rent(dim * dim * 2);
+            var _psi0 = ArrayPool<double>.Shared.Rent(dim * 2);
+            var tempResult = ArrayPool<double>.Shared.Rent(dim * thickness.Length * 2);
+            try
             {
-                var tempResultP = pin;
-                for (int t = 0; t < thickness.Length; t++)
-                {
-                    result[t] = new Complex[dim];
-                    for (int g = 0; g < dim; g++, tempResultP += 2)
-                        result[t][g] = new Complex(*tempResultP, *(tempResultP + 1));
-                }
-            }
+                toDoubleArray(dim * dim, potential, out _potential);
+                toDoubleArray(dim, psi0, out _psi0);
 
-            return result;
+                if (eigen)
+                    _CBEDSolver_Eigen(dim, _potential, _psi0, thickness.Length, thickness, coeff, tempResult);
+                else
+                {
+                    var tStep = thickness.Length > 1 ? thickness[1] - thickness[0] : 0.0;
+                    _CBEDSolver_MtxExp(dim, _potential, _psi0, thickness.Length, thickness[0], tStep, coeff, tempResult);
+                }
+
+                var result = new Complex[thickness.Length][];
+                fixed (double* pSrc = tempResult)
+                    for (int t = 0; t < thickness.Length; t++)
+                    {
+                        result[t] = new Complex[dim];
+                        fixed (Complex* pDest = result[t])
+                            Memcpy((IntPtr)pDest, (IntPtr)(pSrc + t * dim * 2), (UIntPtr)(dim * sizeOfComplex));
+                    }
+             
+                return result;
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(_potential);
+                ArrayPool<double>.Shared.Return(_psi0);
+                ArrayPool<double>.Shared.Return(tempResult);
+            }
         }
 
+        #endregion 
 
         #region HRTEM simulation
         static public double[] HRTEM_Solver(double[] gPsi, double[] gVec, double[] gLenz, double[] rVec, bool quasiMode)
@@ -393,7 +390,7 @@ namespace Crystallography
         }
         #endregion
 
-
+        #region Histogram
         static public (double[] profile, double[] pixels) Histogram(
             int width, int height,
             double centerX, double centerY,
@@ -419,10 +416,11 @@ namespace Crystallography
                 Intensity, IsValid,
                 yMin, yMax,
                 startAngle, stepAngle,
-                r2,r2.Length,
+                r2, r2.Length,
                 profile, pixels);
 
             return (profile, pixels);
         }
+        #endregion 
     }
 }

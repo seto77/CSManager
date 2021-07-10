@@ -1,18 +1,16 @@
-﻿using MathNet.Numerics;
-using MathNet.Numerics.LinearAlgebra;
+﻿using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Providers.Common.Mkl;
 using System;
 using System.Numerics;
+using System.Drawing;
 
 using DMat = MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix;
-using DVec = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;
-
 using MC = Crystallography.MathematicalConstants;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Crystallography
 {
-
     #region MathNet の拡張
     public static class MathnetEx
     {
@@ -90,94 +88,96 @@ namespace Crystallography
             return matInv != null;
         }
 
-        #region オリジナルコード 
-        /*public static Matrix<double> Exponential(this Matrix<double> m)
+    
+        public static Matrix<Complex> Exponential(this Matrix<Complex> m)
         {
-            if (m.RowCount != m.ColumnCount)
-                throw new ArgumentException("Matrix should be square");
-
-            Matrix<double> exp_m = null;
-
-            // if m is diagonal, then matrix exponential is equal to pointwise exponential
-            if (m.IsDiagonal())
-                exp_m = DenseMatrix.OfDiagonalVector(m.Diagonal().PointwiseExp());
-            else
+            #region オリジナルコード 
+            /*public static Matrix<double> Exponential(this Matrix<double> m)
             {
-                // unfortunately m is not diagonal
-                // so let's try to diagonalize it
-                bool diagonalization_failed = !m.IsSymmetric();
-                if (!diagonalization_failed)
+                if (m.RowCount != m.ColumnCount)
+                    throw new ArgumentException("Matrix should be square");
+
+                Matrix<double> exp_m = null;
+
+                // if m is diagonal, then matrix exponential is equal to pointwise exponential
+                if (m.IsDiagonal())
+                    exp_m = DenseMatrix.OfDiagonalVector(m.Diagonal().PointwiseExp());
+                else
                 {
-                    try
+                    // unfortunately m is not diagonal
+                    // so let's try to diagonalize it
+                    bool diagonalization_failed = !m.IsSymmetric();
+                    if (!diagonalization_failed)
                     {
-                        var evd = m.Evd();
-                        Matrix expD = DenseMatrix.OfDiagonalVector(evd.D.Diagonal().PointwiseExp());
-                        exp_m = evd.EigenVectors * expD * (evd.EigenVectors.Inverse());
-                    }
-                    catch
-                    {
-                        diagonalization_failed = true;
-                    }
-                }
-
-                if (diagonalization_failed)
-                {
-                    // last hope: Padé approximation method
-                    // details could be found in 
-                    // M.Arioli, B.Codenotti, C.Fassino The Padé method for computing the matrix exponential // Linear Algebra and its Applications, 1996, V. 240, P. 111-130
-                    // https://www.sciencedirect.com/science/article/pii/0024379594001901
-
-                    int p = 5; // order of Padé 
-
-                    // high matrix norm may result in high roundoff erroros, 
-                    // so first we have to find normalizing coefficient such that || m / norm_coeff || < 0.5
-                    // to reduce the following computations we set it norm_coeff = 2^k
-
-                    double k = 0;
-                    double mNorm = m.L1Norm();
-                    if (mNorm > 0.5)
-                    {
-                        k = Math.Ceiling(Math.Log(mNorm) / Math.Log(2.0));
-                        m = m / Math.Pow(2.0, k);
-                    }
-
-                    Matrix<double> N = DenseMatrix.CreateIdentity(m.RowCount);
-                    Matrix<double> D = DenseMatrix.CreateIdentity(m.RowCount);
-                    Matrix<double> m_pow_j = m;
-
-                    int q = p; // here we use simmetric approximation, but in general p may not be equal to q.
-                    for (int j = 1; j <= Math.Max(p, q); j++)
-                    {
-                        if (j > 1)
-                            m_pow_j = m_pow_j * m;
-                        if (j <= p)
-                            N = N + SpecialFunctions.Factorial(p + q - j) * SpecialFunctions.Factorial(p) / SpecialFunctions.Factorial(p + q) / SpecialFunctions.Factorial(j) / SpecialFunctions.Factorial(p - j) * m_pow_j;
-                        if (j <= q)
-                            D = D + SpecialFunctions.Factorial(p + q - j) * SpecialFunctions.Factorial(q) / SpecialFunctions.Factorial(p + q) / SpecialFunctions.Factorial(j) / SpecialFunctions.Factorial(q - j) * Math.Pow(-1.0, j) * m_pow_j;
-                    }
-
-                    // calculate inv(D)*N with LU decomposition
-                    exp_m = D.LU().Solve(N);
-
-                    // denormalize if need
-                    if (k > 0)
-                    {
-                        for (int i = 0; i < k; i++)
+                        try
                         {
-                            exp_m = exp_m * exp_m;
+                            var evd = m.Evd();
+                            Matrix expD = DenseMatrix.OfDiagonalVector(evd.D.Diagonal().PointwiseExp());
+                            exp_m = evd.EigenVectors * expD * (evd.EigenVectors.Inverse());
+                        }
+                        catch
+                        {
+                            diagonalization_failed = true;
+                        }
+                    }
+
+                    if (diagonalization_failed)
+                    {
+                        // last hope: Padé approximation method
+                        // details could be found in 
+                        // M.Arioli, B.Codenotti, C.Fassino The Padé method for computing the matrix exponential // Linear Algebra and its Applications, 1996, V. 240, P. 111-130
+                        // https://www.sciencedirect.com/science/article/pii/0024379594001901
+
+                        int p = 5; // order of Padé 
+
+                        // high matrix norm may result in high roundoff erroros, 
+                        // so first we have to find normalizing coefficient such that || m / norm_coeff || < 0.5
+                        // to reduce the following computations we set it norm_coeff = 2^k
+
+                        double k = 0;
+                        double mNorm = m.L1Norm();
+                        if (mNorm > 0.5)
+                        {
+                            k = Math.Ceiling(Math.Log(mNorm) / Math.Log(2.0));
+                            m = m / Math.Pow(2.0, k);
+                        }
+
+                        Matrix<double> N = DenseMatrix.CreateIdentity(m.RowCount);
+                        Matrix<double> D = DenseMatrix.CreateIdentity(m.RowCount);
+                        Matrix<double> m_pow_j = m;
+
+                        int q = p; // here we use simmetric approximation, but in general p may not be equal to q.
+                        for (int j = 1; j <= Math.Max(p, q); j++)
+                        {
+                            if (j > 1)
+                                m_pow_j = m_pow_j * m;
+                            if (j <= p)
+                                N = N + SpecialFunctions.Factorial(p + q - j) * SpecialFunctions.Factorial(p) / SpecialFunctions.Factorial(p + q) / SpecialFunctions.Factorial(j) / SpecialFunctions.Factorial(p - j) * m_pow_j;
+                            if (j <= q)
+                                D = D + SpecialFunctions.Factorial(p + q - j) * SpecialFunctions.Factorial(q) / SpecialFunctions.Factorial(p + q) / SpecialFunctions.Factorial(j) / SpecialFunctions.Factorial(q - j) * Math.Pow(-1.0, j) * m_pow_j;
+                        }
+
+                        // calculate inv(D)*N with LU decomposition
+                        exp_m = D.LU().Solve(N);
+
+                        // denormalize if need
+                        if (k > 0)
+                        {
+                            for (int i = 0; i < k; i++)
+                            {
+                                exp_m = exp_m * exp_m;
+                            }
                         }
                     }
                 }
-            }
-            return exp_m;
-        }*/
-        #endregion
-        public static Matrix<Complex> Exponential(this Matrix<Complex> m)
-        {
+                return exp_m;
+            }*/
+            #endregion
+          
             if (m.RowCount != m.ColumnCount)
                 throw new ArgumentException("Matrix should be square");
 
-            int p = 7; // order of Padé 
+            int p = 9; // order of Padé 
 
             double k = 0;
             double mNorm = m.L1Norm();
@@ -219,24 +219,23 @@ namespace Crystallography
     #endregion
 
     #region Complexの拡張
-    public static class ComplexEx
-    {
-        /// <summary>
-        /// 拡張メソッド.  Real^2 + Imaginary^2を返す
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static double Magnitude2(this Complex c) => c.Real * c.Real + c.Imaginary * c.Imaginary;
+    //public static class ComplexEx
+    //{
+    //    /// <summary>
+    //    /// 拡張メソッド.  Real^2 + Imaginary^2を返す
+    //    /// </summary>
+    //    /// <param name="c"></param>
+    //    /// <returns></returns>
+    //    public static double Magnitude2(ref this Complex c) => c.Real * c.Real + c.Imaginary * c.Imaginary;
 
-        /// <summary>
-        /// 拡張メソッド. 自己共役を返す
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static Complex Conjugate(this Complex c) => Complex.Conjugate(c);
-    }
+    //    /// <summary>
+    //    /// 拡張メソッド. 自己共役を返す
+    //    /// </summary>
+    //    /// <param name="c"></param>
+    //    /// <returns></returns>
+    //    public static Complex Conjugate(ref this Complex c) => Complex.Conjugate(c);
+    //}
     #endregion
-
 
     #region Stringの拡張
     public static class StringEx
@@ -273,7 +272,7 @@ namespace Crystallography
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static double ToDouble(this string s) => !s.Contains("/") ? Convert.ToDouble(s) : s.Split("/")[0].ToDouble() / s.Split("/")[1].ToDouble();
+        public static double ToDouble(this string s) => !s.Contains("/") ? Convert.ToDouble(s) : s.Split("/", true)[0].ToDouble() / s.Split("/", true)[1].ToDouble();
 
         /// <summary>
         /// 拡張メソッド.  ConvertToInt32を拡張メソッドとして呼び出す. 変換できない場合は例外発生
@@ -285,4 +284,70 @@ namespace Crystallography
 
     }
     #endregion
+
+    #region doubleの拡張
+    public static class DoubleEx
+    {
+        const double rad = 0.01745329251994329576923690768489;
+        const double deg = 57.295779513082320876798154814105;
+        
+        /// <summary>
+        /// 拡張メソッド. 数値をRadianに変換.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static double ToRadians(in this double d) => d* rad;
+
+        /// <summary>
+        /// 拡張メソッド. 数値をRadianに変換.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static double ToDegrees(in this double d) => d * deg;
+    }
+    #endregion
+
+    #region Graphicsクラス
+    /// <summary>
+    /// Graphics クラスの描画関数にdoubleを受けられるにようにした拡張メソッド
+    /// </summary>
+    public static class GraphicsAlpha
+    {
+        public static void DrawArc(this Graphics g, Pen pen, double x, double y, double width, double height, double startAngle, double sweepAngle)
+            => g.DrawArc(pen, (float)x, (float)y, (float)width, (float)height, (float)startAngle, (float)sweepAngle);
+
+        public static void DrawLines(this Graphics g, Pen pen, PointD[] points)
+            => g.DrawLines(pen, points.Select(p => p.ToPointF()).ToArray());
+
+        public static void DrawLine(this Graphics g, Pen pen, double x1, double y1, double x2, double y2)
+            => g.DrawLine(pen, (float)x1, (float)y1, (float)x2, (float)y2);
+
+        public static void FillPolygon(this Graphics g, Brush brush, PointD[] points, System.Drawing.Drawing2D.FillMode fillMode)
+            => g.FillPolygon(brush, points.Select(p => p.ToPointF()).ToArray(), fillMode);
+
+        public static void FillRectangle(this Graphics g, Brush brush, double x, double y, double width, double height)
+            => g.FillRectangle(brush, (float)x, (float)y, (float)width, (float)height);
+
+        public static void FillPie(this Graphics g, Brush brush, double x, double y, double width, double height, double startAngle, double sweepAngle)
+            => g.FillPie(brush, (float)x, (float)y, (float)width, (float)height, (float)startAngle, (float)sweepAngle);
+    }
+    #endregion
+
+    #region LINQのDistinct関数の引数にラムダ式を使えるようにする拡張メソッド https://baba-s.hatenablog.com/entry/2016/10/17/100000
+    public static class IEnumerableExtensions
+    {
+        private sealed class CommonSelector<T, TKey> : IEqualityComparer<T>
+        {
+            private readonly Func<T, TKey> m_selector;
+            public CommonSelector(Func<T, TKey> selector) => m_selector = selector;
+            public bool Equals(T x, T y) => m_selector(x).Equals(m_selector(y));
+            public int GetHashCode(T obj) => m_selector(obj).GetHashCode();
+        }
+        
+        public static IEnumerable<T> Distinct<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
+            => source.Distinct(new CommonSelector<T, TKey>(selector));
+    }
+
+    #endregion
+
 }

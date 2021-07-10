@@ -399,8 +399,7 @@ namespace Crystallography
             return new PointD(x, temp);
         }
 
-        public delegate void FitPeakDelegate(PointD[] pt, bool BackgroundFitting, double RemoveBadSN, ref PeakFunction p);
-
+  
         public static void FitPeakThread(PointD[] pt, bool BackgroundFitting, double RemoveBadSN, ref PeakFunction p)
         {
             PeakFunction[] param = new PeakFunction[1];
@@ -409,8 +408,7 @@ namespace Crystallography
             p = param[0];
         }
 
-        public delegate bool FitMultiPeaksDelegate(PointD[] pt, bool BackgroundFitting, double RemoveBadSN, ref PeakFunction[] p);
-
+      
         /// <summary>
         /// 複数ピークをフィッティングする. 戻り値は、R値
         /// </summary>
@@ -428,15 +426,15 @@ namespace Crystallography
                 return double.PositiveInfinity;
 
             //まずここからプロファイルをとる領域や強度ななどの情報を集める
-            List<double> PtX = new List<double>();
-            List<double> PtY = new List<double>();
+            var PtX = new List<double>();
+            var PtY = new List<double>();
             double sum = 0;
             double temp = double.NegativeInfinity;
             double tempMin = double.PositiveInfinity;
 
             //指定された範囲内のプロファイルをPtX,PtYに格納
             for (int i = 0; i < pt.Length; i++)
-                if (pt[i].X >= Math.Min(p[0].X - p[0].range, p[p.Length - 1].X - p[p.Length - 1].range) && pt[i].X <= Math.Max(p[0].X + p[0].range, p[p.Length - 1].X + p[p.Length - 1].range))
+                if (pt[i].X >= Math.Min(p[0].X - p[0].range, p[^1].X - p[^1].range) && pt[i].X <= Math.Max(p[0].X + p[0].range, p[^1].X + p[^1].range))
                 {
                     PtX.Add(pt[i].X);
                     PtY.Add(pt[i].Y / 1000);
@@ -463,13 +461,13 @@ namespace Crystallography
 
             //最も小さい強度を探す
             for (int i = 0; i < pt.Length; i++)
-                if (pt[i].X >= Math.Min(p[0].X - p[0].range, p[p.Length - 1].X - p[p.Length - 1].range) && pt[i].X <= Math.Max(p[0].X + p[0].range, p[p.Length - 1].X + p[p.Length - 1].range))
+                if (pt[i].X >= Math.Min(p[0].X - p[0].range, p[^1].X - p[^1].range) && pt[i].X <= Math.Max(p[0].X + p[0].range, p[^1].X + p[^1].range))
                 {
                     if (tempMin > pt[i].Y / 1000)
                         tempMin = pt[i].Y / 1000;
                 }
 
-            if (PtY.Count < 3 || /*temp <= 0 ||*/ (PtY[PtY.Count - 1] == 0 && PtY[PtY.Count - 2] == 0 && PtY[PtY.Count - 3] == 0))
+            if (PtY.Count < 3 || /*temp <= 0 ||*/ (PtY[^1] == 0 && PtY[^2] == 0 && PtY[^3] == 0))
             {
                 for (int i = 0; i < p.Length; i++)
                 {
@@ -533,7 +531,7 @@ namespace Crystallography
             double ResidualSquareCurrent;
             double ResidualSquareNew = 0;
             double residual;
-            double centerX = (x[0] + x[x.Length - 1]) / 2;
+            double centerX = (x[0] + x[^1]) / 2;
             double B1, B2, B1_New, B2_New;
             B1 = B2 = 0;
 
@@ -879,7 +877,7 @@ namespace Crystallography
                     p[0].X = double.NaN;
 
                 //中心位置が外れて過ぎても失格
-                if (p[0].X < x[0] || x[x.Length - 1] < p[0].X)
+                if (p[0].X < x[0] || x[^1] < p[0].X)
                 {
                     p[0].X = double.NaN;
                 }
