@@ -4,8 +4,13 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2021.7.10.0953</AssemblyVersion>
-    <FileVersion>2021.7.10.0953</FileVersion>
+    <AssemblyVersion>2021.7.11.0603</AssemblyVersion>
+    <FileVersion>2021.7.11.0603</FileVersion>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
