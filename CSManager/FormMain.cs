@@ -393,7 +393,7 @@ namespace CSManager
         /// </summary>
         private void GetAllImport()
         {
-            var dlg = new FolderBrowserDialog() { SelectedPath = "D:\\Users\\seto\\Documents\\研究\\CrystallographyData" };
+            var dlg = new FolderBrowserDialog() { SelectedPath = "Y:" };//"D:\\Users\\seto\\Documents\\研究\\CrystallographyData" };
             if (dlg.ShowDialog() != DialogResult.OK) return;
 
             var current = new DirectoryInfo(dlg.SelectedPath);
@@ -405,18 +405,22 @@ namespace CSManager
                 if (file.FullName.EndsWith("amc") || file.FullName.EndsWith("cif"))
                     fn.Add(file.FullName);
 
+            fn.Reverse();
+
             var failedFile = new List<string>();
             stopwatch.Restart();
-
-            var division = 1000;//分割単位
+            
+            var division = 2000;//分割単位
             for (int i = 0; i < fn.Count; i += division)
             {
                 var crystalList = new List<Crystal2>();
-                Parallel.For(i, i + division < fn.Count ? i + division : fn.Count, j =>
-                //for (int j = i; i < (i + division < fn.Count ? i + division : fn.Count); j++)
+                Parallel.For(i, Math.Min(i + division, fn.Count), j =>
+                //for (int j = i; j < Math.Min(i + division, fn.Count); j++)
                 {
-
-
+                    //if (j % 10 != 0)
+                    //    return;
+                    //var sw = new Stopwatch();
+                    //sw.Restart();
                     var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
                     if (crystal2 != null)
                     {
@@ -425,36 +429,41 @@ namespace CSManager
                             var crystal = crystal2.ToCrystal();
                             if (crystal != null)
                             {
-                                crystal2.d = crystal.GetDspacingList(0.1, 0.1).Select(d => (float)d).ToArray();
+                                var dMin = Math.Max(Math.Min(crystal.A, Math.Min(crystal.B, crystal.C)) / 15, 0.1);//最大で15までの指数を考えることにする
+
+                                var max = Math.Max(Math.Max(crystal.A, crystal.B), crystal.C);
+                                if (crystal.A + crystal.B + crystal.C > 5)//もしa+b+cが5nmを超えるような巨大な単位格子の場合
+                                    dMin = Math.Max((crystal.A + crystal.B + crystal.C) / 40, dMin);
+
+                                crystal2.d = crystal.GetDspacingList(0.154, dMin);
                                 crystal2.formula = crystal.ChemicalFormulaSum;
                                 crystal2.density = (float)crystal.Density;
                             }
                             crystal2.jour = Crystal2.GetShortJournal(crystal2.jour);
                             crystal2.sect = Crystal2.GetShortTitle(crystal2.sect);
+
+                            //crystal2.density = sw.ElapsedMilliseconds / 1000f;
                         }
                         catch { crystal2 = null; }
                     }
 
-                    if (crystal2 != null)
+                    try
                     {
-                        try
-                        {
-                            rwlock.EnterWriteLock();//書き込みロック
-                            if (crystal2 != null)
-                                crystalList.Add(crystal2);
-                            else
-                                failedFile.Add(fn[j]);
-                        }
-                        finally { rwlock.ExitWriteLock(); }//書き込み解放
+                        rwlock.EnterWriteLock();//書き込みロック
+                        if (crystal2 != null)
+                            crystalList.Add(crystal2);
+                        else
+                            failedFile.Add(fn[j]);
                     }
-                });
+                    finally { rwlock.ExitWriteLock(); }//書き込み解放
+                }
+                );
                 //進捗状況報告
                 ip.Report((i, fn.Count, stopwatch.ElapsedMilliseconds, "Converting..."));
+
+                crystalDatabaseControl.AddCrystals(crystalList);
+
                 Application.DoEvents();
-                foreach (var r in crystalList)
-                    crystalDatabaseControl.AddCrystal(r);
-
-
             }
 
             //失敗ファイルを書き込む

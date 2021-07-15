@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crystallography", "Crystall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crystallography.Controls", "Crystallography.Controls\Crystallography.Controls.csproj", "{A9FD463F-E518-421B-B7B5-65415D8C74D7}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CSManagerSetup", "CSManagerSetup\CSManagerSetup.vdproj", "{C121C466-A7EA-4779-9C2E-A296C7C74652}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CSManagerSetup", "CSManagerSetup\CSManagerSetup.vdproj", "{C599A8FE-A7F6-4972-8062-4EBE14A2F8A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +29,10 @@ Global
 		{A9FD463F-E518-421B-B7B5-65415D8C74D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FD463F-E518-421B-B7B5-65415D8C74D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9FD463F-E518-421B-B7B5-65415D8C74D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C121C466-A7EA-4779-9C2E-A296C7C74652}.Debug|Any CPU.ActiveCfg = Debug
-		{C121C466-A7EA-4779-9C2E-A296C7C74652}.Release|Any CPU.ActiveCfg = Release
+		{C599A8FE-A7F6-4972-8062-4EBE14A2F8A7}.Debug|Any CPU.ActiveCfg = Debug
+		{C599A8FE-A7F6-4972-8062-4EBE14A2F8A7}.Debug|Any CPU.Build.0 = Debug
+		{C599A8FE-A7F6-4972-8062-4EBE14A2F8A7}.Release|Any CPU.ActiveCfg = Release
+		{C599A8FE-A7F6-4972-8062-4EBE14A2F8A7}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
