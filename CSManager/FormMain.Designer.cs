@@ -57,7 +57,7 @@
             this.showIndexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkDuplicatedFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.importAllFileCIFOrAMCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recalculateDensityFormulaAndDvaluesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -276,7 +276,7 @@
             this.showIndexToolStripMenuItem,
             this.checkDuplicatedFileToolStripMenuItem1,
             this.importAllFileCIFOrAMCToolStripMenuItem,
-            this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem});
+            this.recalculateDensityFormulaAndDvaluesToolStripMenuItem});
             this.debugFunctionsToolStripMenuItem.Name = "debugFunctionsToolStripMenuItem";
             resources.ApplyResources(this.debugFunctionsToolStripMenuItem, "debugFunctionsToolStripMenuItem");
             // 
@@ -305,8 +305,8 @@
             // 
             // recalculaeDensityFormulaAndDvaluesToolStripMenuItem
             // 
-            this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem.Name = "recalculaeDensityFormulaAndDvaluesToolStripMenuItem";
-            resources.ApplyResources(this.recalculaeDensityFormulaAndDvaluesToolStripMenuItem, "recalculaeDensityFormulaAndDvaluesToolStripMenuItem");
+            this.recalculateDensityFormulaAndDvaluesToolStripMenuItem.Name = "recalculaeDensityFormulaAndDvaluesToolStripMenuItem";
+            resources.ApplyResources(this.recalculateDensityFormulaAndDvaluesToolStripMenuItem, "recalculaeDensityFormulaAndDvaluesToolStripMenuItem");
             // 
             // optionToolStripMenuItem
             // 
@@ -563,7 +563,7 @@
         private System.Windows.Forms.ToolStripMenuItem importAllFileCIFOrAMCToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem versionHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem recalculaeDensityFormulaAndDvaluesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recalculateDensityFormulaAndDvaluesToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Crystallography.Controls.SearchCrystalControl searchCrystalControl;
         private Crystallography.Controls.CrystalDatabaseControl crystalDatabaseControl;

@@ -52,6 +52,8 @@ namespace CSManager
 
             InitializeComponent();
 
+            recalculateDensityFormulaAndDvaluesToolStripMenuItem.Click += RecalculaeDensityFormulaAndDvaluesToolStripMenuItem_Click;
+
             ReadMeGenerator.WriteReadMeFile(
              "CSManager   " + Version.VersionAndDate,
              Version.Introduction,
@@ -63,6 +65,9 @@ namespace CSManager
              Version.Acknowledge,
              Version.History);
         }
+
+      
+
         ~FormMain()
         {
             rwlock.Dispose();
@@ -662,7 +667,11 @@ namespace CSManager
         #endregion
 
         #region その他ファイルメニュー
+        private void RecalculaeDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+            crystalDatabaseControl.RecalculateDensityAndFormula();
+        }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
         private void toolTipToolStripMenuItem_Click(object sender, EventArgs e)
                 => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;

@@ -23,11 +23,12 @@ namespace CSManager
             }
         }
 
-        static public int AMCSD = 20797;
+        static public int AMCSD = 20819;
         static public int COD = 476346;
 
         static public string History = 
             "History" +
+                "\r\n ver1.888(2021/07/16) Renewed AMCSD database (contains 20,819)" +
                 "\r\n ver1.887(2021/07/12) Changed the target framework to .Net 5.0. Improved loading speed of database. Renewed COD database (463,756)" +
                 "\r\n ver1.886(2021/03/23) Renewed AMCSD database (contains 20,797). Fixed minor bugs." +
                 "\r\n ver1.885(2020/12/10) Fixed an initializing bug." +
