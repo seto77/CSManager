@@ -190,7 +190,7 @@ namespace Crystallography
 							int atomicNumber = 0;
 							for (int q = label.Length; q > 0; q--)
 							{
-								temp = label.Substring(0, q);
+								temp = label[..q];
 								for (int k = 0; k <= 96; k++)
 								{
 									if (AtomStatic.AtomicName(k) == temp)
@@ -302,7 +302,7 @@ namespace Crystallography
 		private static Crystal2 ConvertFromAmc(string[] str)
 		{
 			var n = 0;
-			if (str[n] == "")
+			if (str[n].Length == 0)
 				n++;
 
 			var Name = str[n];//Œ‹»‚Ì–¼‘O
@@ -431,7 +431,7 @@ namespace Crystallography
 				if (IsOcc)
 				{
 					occ = item[j++];
-					if (occ == "") occ = "1";
+					if (occ.Length == 0) occ = "1";
 				}
 
 				var iso = "";
@@ -467,7 +467,7 @@ namespace Crystallography
 						atomicNumber = -2;
 				}
 
-				var IsIso = aniso == null || aniso.All(e => e == "");
+				var IsIso = aniso == null || aniso.All(e => e.Length == 0);
 
 				if (atomicNumber > 0)
 				{
@@ -517,8 +517,8 @@ namespace Crystallography
 			string SgName = s[6];
 
 			SgName = SgName.Replace("_", "sub");
-			bool isAsterisk = SgName.Contains("*");
-			SgName = SgName.Replace("*", "");
+			bool isAsterisk = SgName.Contains('*');
+            SgName = SgName.Replace("*", "");
 
 			#region ‹óŠÔŒQ‚Ìê‡•ª‚¯
 
@@ -770,8 +770,8 @@ namespace Crystallography
 				var strTemp = reader.ReadToEnd();
 				if(strTemp.Contains("\r\n"))
 					strTemp = strTemp.Replace("\r\n", "\n");
-				if (strTemp.Contains("\r")) 
-					strTemp = strTemp.Replace("\r", "\n");
+                if (strTemp.Contains('\r'))
+                    strTemp = strTemp.Replace("\r", "\n");
 
 				stringList = strTemp.Split('\n', true).ToList();
             }
@@ -867,7 +867,7 @@ namespace Crystallography
 						substring = substring.Replace(" ", "åK");
 						substring = substring.Replace("'", "");
 
-						tempStr[n] = tempStr[n].Substring(0, firstIndex) + substring + tempStr[n][(next + 1)..];
+						tempStr[n] = tempStr[n][..firstIndex] + substring + tempStr[n][(next + 1)..];
 					}
 				}
 
@@ -987,7 +987,7 @@ namespace Crystallography
 					else if (label == "_symmetry_equiv_pos_as_xyz") operations.Add(data);
 				}
 
-			if (name == "" || name == "?" || name == "? ?" || name.Trim() == "")
+			if (name.Length == 0 || name == "?" || name == "? ?" || name.Trim().Length == 0)
 				name = chemical_formula_sum;
 
 			#region ‹óŠÔŒQ‚ğ’²‚×‚é•”•ª
@@ -1151,7 +1151,7 @@ namespace Crystallography
 				}
 				//ƒ‰ƒxƒ‹–¼‚©‚çŒ³‘f‚ğ’T‚·
 				int atomicNumber = 0;
-				var atomName = atomSymbol == "" ? atomLabel : atomSymbol;
+				var atomName = atomSymbol.Length == 0 ? atomLabel : atomSymbol;
 
 				for (int q = atomName.Length; q > 0 && atomicNumber == 0; q--)
 				{
@@ -1170,15 +1170,15 @@ namespace Crystallography
 				}
 
 				//Bƒ^ƒCƒv‚ª‘S‚Ä hh ‚¾‚Á‚½‚çAUƒ^ƒCƒv‚Æ”»’è
-				var isU = bIso == "" && b11 == "" && b12 == "" && b13 == "" && b22 == "" && b23 == "" && b33 == "";
+				var isU = bIso.Length == 0 && b11.Length == 0 && b12.Length == 0 && b13.Length == 0 && b22.Length == 0 && b23.Length == 0 && b33.Length == 0;
 				//”ñ“™•û«‚ª‘S‚Ä hh ‚¾‚Á‚½‚çA“™•û«‚Æ”»’f
 				var isIso = isU ?
-					u11 == "" && u12 == "" && u13 == "" && u22 == "" && u23 == "" && u33 == "" :
-					b11 == "" && b12 == "" && b13 == "" && b22 == "" && b23 == "" && b33 == "";
+					u11.Length == 0 && u12.Length == 0 && u13.Length == 0 && u22.Length == 0 && u23.Length == 0 && u33.Length == 0 :
+					b11.Length == 0 && b12.Length == 0 && b13.Length == 0 && b22.Length == 0 && b23.Length == 0 && b33.Length == 0;
 
 				var iso = isU ? uIso : bIso;
 
-				if (iso == "")
+				if (iso.Length == 0)
 					iso = "0";
 
 				var aniso = isU ? //11, 22, 33, 12, 23, 31‚Ì‡”Ô
@@ -1526,7 +1526,7 @@ namespace Crystallography
 			}
 
 			//Rhombohedoral‚Ì‚Æ‚«‚Ìˆ’u
-			if (isRhomboShape && SymmetryStatic.Symmetries[symmetrySeriesNumber].SpaceGroupHMStr.IndexOf("Hex") >= 0)
+			if (isRhomboShape && SymmetryStatic.Symmetries[symmetrySeriesNumber].SpaceGroupHMStr.Contains("Hex", StringComparison.Ordinal))
 				symmetrySeriesNumber++;
 
 			//originChoice‚ª2‚Ì‚Æ‚«‚Ì‘Îˆ

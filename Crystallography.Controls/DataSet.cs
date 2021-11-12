@@ -35,9 +35,7 @@ namespace Crystallography.Controls
             if (srcIndex < rows.Count && destIndex < rows.Count)
                 for (int j = 0; j < rows[srcIndex].ItemArray.Length; j++)
                 {
-                    var obj = rows[srcIndex][j];
-                    rows[srcIndex][j] = rows[destIndex][j];
-                    rows[destIndex][j] = obj;
+                    (rows[destIndex][j], rows[srcIndex][j]) = (rows[srcIndex][j], rows[destIndex][j]);
                 }
         }
 
@@ -164,7 +162,7 @@ namespace Crystallography.Controls
                 {
                     int j = (int)Math.Ceiling(d - 1);
                     foreach (var denom in new[] { 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 16, 24 })
-                        for (int i = 1; i < denom && text == ""; i++)
+                        for (int i = 1; i < denom && text.Length == 0; i++)
                             if ((i == 1 || denom % i != 0) && Math.Abs(d - j - i / (double)denom) < threshold)
                                 text = $"{i + (denom * j)}/{denom}";
                 }

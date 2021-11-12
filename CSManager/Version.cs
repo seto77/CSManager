@@ -28,6 +28,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
+                "\r\n ver1.890(2021/11/12) Target framework is changed to .Net 6.0." +
                 "\r\n ver1.888(2021/07/16) Renewed AMCSD database (contains 20,819)" +
                 "\r\n ver1.887(2021/07/12) Changed the target framework to .Net 5.0. Improved loading speed of database. Renewed COD database (463,756)" +
                 "\r\n ver1.886(2021/03/23) Renewed AMCSD database (contains 20,797). Fixed minor bugs." +
