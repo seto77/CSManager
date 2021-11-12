@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms; 
@@ -19,9 +20,9 @@ namespace Crystallography.Controls
 
         public bool SkipEvent { get; set; } = false;
 
-        public bool SymmetryInformationVisible { set => formSymmetryInformation.Visible = value; get => formSymmetryInformation.Visible; }
+        public bool SymmetryInformationVisible { set => FormSymmetryInformation.Visible = value; get => FormSymmetryInformation.Visible; }
 
-        public bool ScatteringFactorVisible { set { formScatteringFactor.Visible = value; } get => formScatteringFactor.Visible; }
+        public bool ScatteringFactorVisible { set { FormScatteringFactor.Visible = value; } get => FormScatteringFactor.Visible; }
 
         public bool StrainControlVisible { get => formStrain.Visible; }
 
@@ -118,8 +119,8 @@ namespace Crystallography.Controls
 
         public event EventHandler CrystalChanged;
 
-        public FormScatteringFactor formScatteringFactor;
-        public FormSymmetryInformation formSymmetryInformation;
+        public FormScatteringFactor FormScatteringFactor;
+        public FormSymmetryInformation FormSymmetryInformation;
         //private FormAtomDetailedInfo formAtomDetailedInfo;
 
         public FormStrain formStrain;
@@ -136,16 +137,19 @@ namespace Crystallography.Controls
         {
             InitializeComponent();
 
-            formScatteringFactor = new FormScatteringFactor { CrystalControl = this, Visible = false };
-            formSymmetryInformation = new FormSymmetryInformation { CrystalControl = this, Visible = false };
+            FormScatteringFactor = new FormScatteringFactor { CrystalControl = this, Visible = false };
+            FormSymmetryInformation = new FormSymmetryInformation { CrystalControl = this, Visible = false };
             formStrain = new FormStrain { CrystalControl = this, Visible = false };
         }
         
         private void CrystalForm_Load(object sender, System.EventArgs e)
         {
             textBoxTitle.Size = new Size(tabPageReference.Width - textBoxTitle.Location.X - 2, tabPageReference.Height - textBoxTitle.Location.Y - 2);
-            formScatteringFactor.VisibleChanged += new EventHandler(formScatteringFactor_VisibleChanged);
-            formSymmetryInformation.VisibleChanged += new EventHandler(formSymmetryInformation_VisibleChanged);
+            FormScatteringFactor.VisibleChanged += new EventHandler(formScatteringFactor_VisibleChanged);
+            FormSymmetryInformation.VisibleChanged += new EventHandler(formSymmetryInformation_VisibleChanged);
+
+            typeof(UserControl).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(this, true, null);
+
         }
 
 
@@ -197,6 +201,13 @@ namespace Crystallography.Controls
             crystal.GrainSize = (double)numericUpDownCrystallineSize.Value;
             if (poleFigureControl.Crystal != null)
                 crystal.Crystallites = poleFigureControl.Crystal.Crystallites;
+
+            crystal.Strain = new Matrix3D(
+                numericBoxStrain11.Value, numericBoxStrain12.Value, numericBoxStrain13.Value,
+                numericBoxStrain12.Value, numericBoxStrain22.Value, numericBoxStrain23.Value,
+                numericBoxStrain13.Value, numericBoxStrain23.Value, numericBoxStrain33.Value);
+            crystal.HillCoefficient = numericBoxHill.Value;
+
             #endregion
 
             SkipEvent = false;
@@ -327,10 +338,10 @@ namespace Crystallography.Controls
         }
 
         private void scatteringFactorToolStripMenuItem_Click(object sender, EventArgs e) 
-            => formScatteringFactor.Visible = !formScatteringFactor.Visible;
+            => FormScatteringFactor.Visible = !FormScatteringFactor.Visible;
 
         private void symmetryInformationToolStripMenuItem_Click(object sender, EventArgs e) 
-            => formSymmetryInformation.Visible = !formSymmetryInformation.Visible;
+            => FormSymmetryInformation.Visible = !FormSymmetryInformation.Visible;
 
         private void sendThisCrystalToOtherSoftwareToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -622,10 +633,10 @@ namespace Crystallography.Controls
 
         #region Symmetry Information と Scatetring Factorの立ち上げ、イベント
 
-        private void buttonSymmetryInfo_Click(object sender, EventArgs e) => formSymmetryInformation.Visible = !formSymmetryInformation.Visible;
+        private void buttonSymmetryInfo_Click(object sender, EventArgs e) => FormSymmetryInformation.Visible = !FormSymmetryInformation.Visible;
         private void formSymmetryInformation_VisibleChanged(object sender, EventArgs e) => SymmetryInformation_VisibleChanged?.Invoke(sender, e);
 
-        private void buttonScatteringFactor_Click(object sender, EventArgs e) => formScatteringFactor.Visible = !formScatteringFactor.Visible;
+        private void buttonScatteringFactor_Click(object sender, EventArgs e) => FormScatteringFactor.Visible = !FormScatteringFactor.Visible;
 
         private void formScatteringFactor_VisibleChanged(object sender, EventArgs e) => ScatteringFactor_VisibleChanged?.Invoke(sender, e);
 
@@ -650,5 +661,9 @@ namespace Crystallography.Controls
         }
         #endregion
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GenerateFromInterface();
+        }
     }
 }

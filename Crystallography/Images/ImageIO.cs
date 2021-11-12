@@ -154,13 +154,13 @@ namespace Crystallography
             {
                 if (File.Exists(str.Remove(str.Length - 3, 3) + "inf"))
                 {//Fujiのとき
-                    System.IO.StreamReader reader = new StreamReader(str.Remove(str.Length - 3, 3) + "inf");
-                    List<string> strList = new List<string>();
+                    var reader = new StreamReader(str.Remove(str.Length - 3, 3) + "inf");
+                    var strList = new List<string>();
                     string tempstr;
                     while ((tempstr = reader.ReadLine()) != null)
                         strList.Add(tempstr);
 
-                    if (strList != null && strList.Any() && strList[0].IndexOf("BAS_IMAGE_FILE") >= 0)//BAS2000
+                    if (strList != null && strList.Any() && strList[0].Contains("BAS_IMAGE_FILE", StringComparison.Ordinal))//BAS2000
                         result = ImageIO.BAS2000or2500(str, strList.ToArray());
                     else
                         return false;
@@ -173,6 +173,8 @@ namespace Crystallography
                     result = ImageIO.ITEX(str);
                 else if (ImageIO.IsADSCImage(str))
                     result = ImageIO.ADSC(str);
+                else if (ImageIO.IsTiffImage(str))
+                    result = ImageIO.Tiff(str);
                 else
                     return false;
             }
@@ -538,7 +540,7 @@ namespace Crystallography
         {
             try
             {
-                var img = new uint[0];
+                var img = Array.Empty<uint>();
                 var br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
                 int n = 0;
                 int ver = 0;
@@ -872,7 +874,7 @@ namespace Crystallography
         {
             try
             {
-                uint[] img = new uint[0];
+                var img = Array.Empty<uint>();
                 BinaryReader br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
 
                 int ID = br.ReadUInt16();
@@ -1106,7 +1108,7 @@ namespace Crystallography
         {
             try
             {
-                BinaryReader br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
+                var br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
 
                 //ヘッダ部分読み込み
                 Ring.Comments = "";
@@ -1210,53 +1212,53 @@ namespace Crystallography
                 BinaryReader br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
                 Ring.Comments = "";
                 //ヘッダ部分読み込み
-                br.ReadBytes(8); string format = new string(br.ReadChars(72));
-                br.ReadBytes(8); string version = new string(br.ReadChars(72));
-                br.ReadBytes(8); string hdrblks = new string(br.ReadChars(72));
-                br.ReadBytes(8); string type = new string(br.ReadChars(72));
-                br.ReadBytes(8); string site = new string(br.ReadChars(72));
-                br.ReadBytes(8); string model = new string(br.ReadChars(72));
-                br.ReadBytes(8); string user = new string(br.ReadChars(72));
-                br.ReadBytes(8); string sample = new string(br.ReadChars(72));
-                br.ReadBytes(8); string setname = new string(br.ReadChars(72));
-                br.ReadBytes(8); string run = new string(br.ReadChars(72));
-                br.ReadBytes(8); string sampnum = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title1 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title2 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title3 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title4 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title5 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title6 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title7 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string title8 = new string(br.ReadChars(72));
-                br.ReadBytes(8); string ncounts = new string(br.ReadChars(72));
-                br.ReadBytes(8); string noverfl = new string(br.ReadChars(72));
-                br.ReadBytes(8); string minimum = new string(br.ReadChars(72));
-                br.ReadBytes(8); string maximum = new string(br.ReadChars(72));
-                br.ReadBytes(8); string nontime = new string(br.ReadChars(72));
-                br.ReadBytes(8); string nlate = new string(br.ReadChars(72));
-                br.ReadBytes(8); string filename = new string(br.ReadChars(72));
-                br.ReadBytes(8); string created = new string(br.ReadChars(72));
-                br.ReadBytes(8); string cumulat = new string(br.ReadChars(72));
-                br.ReadBytes(8); string elapsdr = new string(br.ReadChars(72));
-                br.ReadBytes(8); string elapsda = new string(br.ReadChars(72));
-                br.ReadBytes(8); string oscilla = new string(br.ReadChars(72));
-                br.ReadBytes(8); string nsteps = new string(br.ReadChars(72));
-                br.ReadBytes(8); string range = new string(br.ReadChars(72));
-                br.ReadBytes(8); string start = new string(br.ReadChars(72));
-                br.ReadBytes(8); string increme = new string(br.ReadChars(72));
-                br.ReadBytes(8); string number = new string(br.ReadChars(72));
-                br.ReadBytes(8); string nframes = new string(br.ReadChars(72));
-                br.ReadBytes(8); string angle = new string(br.ReadChars(72));
-                br.ReadBytes(8); string nover64 = new string(br.ReadChars(72));
-                br.ReadBytes(8); int npixelb = Convert.ToInt32(new string(br.ReadChars(72)));
-                br.ReadBytes(8); int nrows = Convert.ToInt32(new string(br.ReadChars(72)));
-                br.ReadBytes(8); int ncols = Convert.ToInt32(new string(br.ReadChars(72)));
+                br.ReadBytes(8); var format = new string(br.ReadChars(72));
+                br.ReadBytes(8); var version = new string(br.ReadChars(72));
+                br.ReadBytes(8); var hdrblks = new string(br.ReadChars(72));
+                br.ReadBytes(8); var type = new string(br.ReadChars(72));
+                br.ReadBytes(8); var site = new string(br.ReadChars(72));
+                br.ReadBytes(8); var model = new string(br.ReadChars(72));
+                br.ReadBytes(8); var user = new string(br.ReadChars(72));
+                br.ReadBytes(8); var sample = new string(br.ReadChars(72));
+                br.ReadBytes(8); var setname = new string(br.ReadChars(72));
+                br.ReadBytes(8); var run = new string(br.ReadChars(72));
+                br.ReadBytes(8); var sampnum = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title1 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title2 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title3 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title4 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title5 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title6 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title7 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var title8 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var ncounts = new string(br.ReadChars(72));
+                br.ReadBytes(8); var noverfl = new string(br.ReadChars(72));
+                br.ReadBytes(8); var minimum = new string(br.ReadChars(72));
+                br.ReadBytes(8); var maximum = new string(br.ReadChars(72));
+                br.ReadBytes(8); var nontime = new string(br.ReadChars(72));
+                br.ReadBytes(8); var nlate = new string(br.ReadChars(72));
+                br.ReadBytes(8); var filename = new string(br.ReadChars(72));
+                br.ReadBytes(8); var created = new string(br.ReadChars(72));
+                br.ReadBytes(8); var cumulat = new string(br.ReadChars(72));
+                br.ReadBytes(8); var elapsdr = new string(br.ReadChars(72));
+                br.ReadBytes(8); var elapsda = new string(br.ReadChars(72));
+                br.ReadBytes(8); var oscilla = new string(br.ReadChars(72));
+                br.ReadBytes(8); var nsteps = new string(br.ReadChars(72));
+                br.ReadBytes(8); var range = new string(br.ReadChars(72));
+                br.ReadBytes(8); var start = new string(br.ReadChars(72));
+                br.ReadBytes(8); var increme = new string(br.ReadChars(72));
+                br.ReadBytes(8); var number = new string(br.ReadChars(72));
+                br.ReadBytes(8); var nframes = new string(br.ReadChars(72));
+                br.ReadBytes(8); var angle = new string(br.ReadChars(72));
+                br.ReadBytes(8); var nover64 = new string(br.ReadChars(72));
+                br.ReadBytes(8); var npixelb = Convert.ToInt32(new string(br.ReadChars(72)));
+                br.ReadBytes(8); var nrows = Convert.ToInt32(new string(br.ReadChars(72)));
+                br.ReadBytes(8); var ncols = Convert.ToInt32(new string(br.ReadChars(72)));
                 br.ReadBytes(7680 - 42 * 80);
 
                 Ring.SrcImgSize = new Size(ncols, nrows);
 
-                uint[] convertTable = new uint[65536];
+                var convertTable = new uint[65536];
                 for (uint i = 0; i < 65536; i++)
                     convertTable[i] = i;
 
@@ -1549,7 +1551,7 @@ namespace Crystallography
                     if (!double.IsNaN(t.Images[j].PulsePower))
                         Ring.SequentialImagePulsePower.Add(t.Images[j].PulsePower);
 
-                    if (t.Images[j].Name == "")
+                    if (t.Images[j].Name.Length == 0)
                         Ring.SequentialImageNames.Add(j.ToString("000"));
                     else
                         Ring.SequentialImageNames.Add(t.Images[j].Name);
