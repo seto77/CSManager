@@ -25,9 +25,14 @@ namespace Crystallography
 		public WaveProperty WaveProperty;
 
 		/// <summary>
-		/// カメラ長 (サンプルからダイレクトスポットまでの距離)
+		/// カメラ長1 (サンプルからダイレクトスポットまでの距離)
 		/// </summary>
 		public double FilmDistance;//カメラ長
+
+		/// <summary>
+		/// カメラ長1 (サンプルからダイレクトスポットまでの距離)
+		/// </summary>
+		public double CameraLength1 => FilmDistance;//カメラ長
 
 		public enum CameraEnum { FlatPanel, Gandolfi }
 
@@ -46,12 +51,12 @@ namespace Crystallography
 		public int SrcHeight;
 
 		/// <summary>
-		/// センターのx位置
+		/// センター(Direct Spot)のx位置
 		/// </summary>
 		public double CenterX;
 
 		/// <summary>
-		/// センターのy位置
+		/// センター(Direct Spot)のy位置
 		/// </summary>
 		public double CenterY;
 
@@ -608,9 +613,9 @@ namespace Crystallography
 			//20190906追記
 			//補正式は、Icorr = I / (sin(kai)^2 + cos(kai)^2 * cos(2th)^2 ) / cos(2th)
 			
-			var coeff1 = rotate == 0 || rotate == 2 ?
-				new Func<double, double, double>((x2, y2) => 2 * (y2 + fd2) / (x2 + y2 + 2 * fd2)) :
-				new Func<double, double, double>((x2, y2) => 2 * (x2 + fd2) / (x2 + y2 + 2 * fd2));
+			Func<double,double,double> coeff1 = rotate == 0 || rotate == 2 ?
+				(x2, y2) => 2 * (y2 + fd2) / (x2 + y2 + 2 * fd2) :
+				(x2, y2) => 2 * (x2 + fd2) / (x2 + y2 + 2 * fd2);
 
 			//var coeff2 = new Func<double, double, double>((x2, y2) => Math.Sqrt( fd2 / (x2 + y2 + fd2)));
 
@@ -740,10 +745,8 @@ namespace Crystallography
 								for (int j = 0; j < Height; j++)
 								{
 									cx = j / tan + MinusCenterYPerTanPlusCenterX;
-									startI = (int)(cx - wx + 0.5);
-									if (startI < 0) startI = 0;
-									endI = (int)(cx + wx + 1.5);
-									if (endI > Width) endI = Width;
+									startI = Math.Max(0, (int)(cx - wx + 0.5));
+									endI = Math.Min(Width, (int)(cx + wx + 1.5));
 									jWidth = j * Width;
 									for (int i = startI; i < endI; i++)//バンドの内側のとき
 										IsOutsideOfIntegralRegion[i + jWidth] = false;
@@ -754,15 +757,13 @@ namespace Crystallography
 								double CenterXPerTanPlusCenterY = CenterX / tan + CenterY;
 								if (sin > 0)//下に伸びた半直線のときは
 								{
-									startJ = (int)(CenterY - Band * Math.Abs(cos) + 0.5);//スタート地点
+									startJ = Math.Max(0, (int)(CenterY - Band * Math.Abs(cos) + 0.5));//スタート地点
 									midJ = (int)(CenterY + Band * Math.Abs(cos) + 0.5);//中間地点
 									for (int j = startJ; j < Height; j++)
 									{
 										cx = j / tan + MinusCenterYPerTanPlusCenterX;
-										startI = (int)(cx - wx + 0.5);
-										if (startI < 0) startI = 0;
-										endI = (int)(cx + wx + 1.5);
-										if (endI > Width) endI = Width;
+										startI = Math.Max(0, (int)(cx - wx + 0.5));
+										endI = Math.Min(Width, (int)(cx + wx + 1.5));
 										jWidth = j * Width;
 										if (j > midJ)
 											for (int i = startI; i < endI; i++)//バンドの内側のとき
@@ -776,14 +777,12 @@ namespace Crystallography
 								else//上に伸びた半直線のときは
 								{
 									midJ = (int)(CenterY - Band * Math.Abs(cos) + 0.5);
-									endJ = (int)(CenterY + Band * Math.Abs(cos) + 0.5);
+									endJ = Math.Min(Height, (int)(CenterY + Band * Math.Abs(cos) + 0.5));
 									for (int j = 0; j < endJ; j++)
 									{
 										cx = j / tan + MinusCenterYPerTanPlusCenterX;
-										startI = (int)(cx - wx + 0.5);
-										if (startI < 0) startI = 0;
-										endI = (int)(cx + wx + 1.5);
-										if (endI > Width) endI = Width;
+										startI = Math.Max(0, (int)(cx - wx + 0.5));
+										endI = Math.Min(Width, (int)(cx + wx + 1.5));
 										jWidth = j * Width;
 										if (j < midJ)
 											for (int i = startI; i < endI; i++)//バンドの内側のとき
@@ -804,10 +803,8 @@ namespace Crystallography
 								for (int i = 0; i < Width; i++)
 								{
 									cy = tan * i + CenterYMinusTanCenterX;
-									startJ = (int)(cy - wy + 0.5);
-									if (startJ < 0) startJ = 0;
-									endJ = (int)(cy + wy + 1.5);
-									if (endJ > Height) endJ = Height;
+									startJ = Math.Max(0, (int)(cy - wy + 0.5));
+									endJ = Math.Min(Height, (int)(cy + wy + 1.5));
 									for (int j = startJ; j < endJ; j++)//バンドの内側のとき
 										IsOutsideOfIntegralRegion[i + j * Width] = false;
 								}
@@ -818,15 +815,13 @@ namespace Crystallography
 
 								if (cos > 0)//右に伸びた半直線のときは
 								{
-									startI = (int)(CenterX - Band * Math.Abs(sin) + 0.5);
+									startI = Math.Max(0, (int)(CenterX - Band * Math.Abs(sin) + 0.5));
 									midI = (int)(CenterX + Band * Math.Abs(sin) + 0.5);
 									for (int i = startI; i < Width; i++)
 									{
 										cy = tan * i + CenterYMinusTanCenterX;
-										startJ = (int)(cy - wy + 0.5);
-										if (startJ < 0) startJ = 0;
-										endJ = (int)(cy + wy + 1.5);
-										if (endJ > Height) endJ = Height;
+										startJ = Math.Max(0, (int)(cy - wy + 0.5));
+										endJ = Math.Min(Height, (int)(cy + wy + 1.5));
 										if (i > midI)
 											for (int j = startJ; j < endJ; j++)//バンドの内側のとき
 												IsOutsideOfIntegralRegion[i + j * Width] = false;
@@ -839,15 +834,12 @@ namespace Crystallography
 								else//左に伸びた半直線のときは
 								{
 									midI = (int)(CenterX - Band * Math.Abs(sin) + 0.5);
-									endI = (int)(CenterX + Band * Math.Abs(sin) + 0.5);
+									endI = Math.Max(Width, (int)(CenterX + Band * Math.Abs(sin) + 0.5));
 									for (int i = 0; i < endI; i++)
 									{
 										cy = tan * i + CenterYMinusTanCenterX;
-										startJ = (int)(cy - wy + 0.5);
-										if (startJ < 0) startJ = 0;
-										endJ = (int)(cy + wy + 1.5);
-										if (endJ > Height) endJ = Height;
-
+										startJ = Math.Max(0, (int)(cy - wy + 0.5));
+										endJ = Math.Min(Height, (int)(cy + wy + 1.5));
 										if (i < midI)
 											for (int j = startJ; j < endJ; j++)//バンドの内側のとき
 												IsOutsideOfIntegralRegion[i + j * Width] = false;

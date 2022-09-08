@@ -13,6 +13,8 @@ namespace Crystallography.Controls
     [Serializable]
     public partial class ScalablePictureBoxAdvanced : UserControl
     {
+        public bool SkipDrawing { get => scalablePictureBox.SkipDrawing;set=> scalablePictureBox.SkipDrawing = value; }
+
         public ScalablePictureBoxAdvanced()
         {
            
@@ -158,7 +160,7 @@ namespace Crystallography.Controls
                 scalablePictureBox.PseudoBitmap = value;
                 Initialize();
             }
-            get { return scalablePictureBox.PseudoBitmap; }
+            get => scalablePictureBox.PseudoBitmap;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -250,10 +252,10 @@ namespace Crystallography.Controls
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ScalablePictureBox ScalablePictureBox { get { return scalablePictureBox; } }
+        public ScalablePictureBox ScalablePictureBox => scalablePictureBox;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public List<ScalablePictureBox.Symbol> Symbols { get { return scalablePictureBox.Symbols; } set { scalablePictureBox.Symbols = value; } }
+        public List<ScalablePictureBox.Symbol> Symbols { get => scalablePictureBox.Symbols; set => scalablePictureBox.Symbols = value; }
 
         private double progress = 0;
 
@@ -423,9 +425,9 @@ namespace Crystallography.Controls
             comboBoxGradient.SelectedIndex = PseudoBitmap.IsNegative ? 1 : 0;
             comboBoxScale2.SelectedIndex = PseudoBitmap.GrayScale ? 0 : 1;
             if (PseudoBitmap.GrayScale)
-                comboBoxScale1.SelectedIndex = PseudoBitmap.ScaleB == PseudoBitmap.BrightnessScaleLog ? 0 : 1;
+                comboBoxScale1.SelectedIndex = PseudoBitmap.ColorScale == PseudoBitmap.ColorScaleGrayLog ? 0 : 1;
             else
-                comboBoxScale1.SelectedIndex = PseudoBitmap.ScaleB == PseudoBitmap.BrightnessScaleLogColorB ? 0 : 1;
+                comboBoxScale1.SelectedIndex = PseudoBitmap.ColorScale == PseudoBitmap.ColorScaleColdWarmLog ? 0 : 1;
 
             //Blurの判定
             //checkBoxGaussianBlur.Checked = PseudoBitmap.BlurMode == Crystallography.PseudoBitmap.BlurModeEnum.Gaussian;
@@ -496,37 +498,26 @@ namespace Crystallography.Controls
 
         public void DrawPictureBox()
         {
-            scalablePictureBox.drawPictureBox();
+            if(!SkipDrawing)
+                scalablePictureBox.drawPictureBox();
         }
 
         private void comboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (skipEvent) return;
             PseudoBitmap.IsNegative = comboBoxGradient.SelectedIndex == 1;
-            if (comboBoxScale1.SelectedIndex == 0 && comboBoxScale2.SelectedIndex == 0)//Log & Gray
-            {
-                PseudoBitmap.ScaleR = PseudoBitmap.ScaleG = PseudoBitmap.ScaleB = PseudoBitmap.BrightnessScaleLog;
-                PseudoBitmap.GrayScale = true;
-            }
-            else if (comboBoxScale1.SelectedIndex == 1 && comboBoxScale2.SelectedIndex == 0)//Liner & Gray
-            {
-                PseudoBitmap.ScaleR = PseudoBitmap.ScaleG = PseudoBitmap.ScaleB = PseudoBitmap.BrightnessScaleLiner;
-                PseudoBitmap.GrayScale = true;
-            }
-            else if (comboBoxScale1.SelectedIndex == 0 && comboBoxScale2.SelectedIndex == 1)//log & Color
-            {
-                PseudoBitmap.ScaleR = PseudoBitmap.BrightnessScaleLogColorR;
-                PseudoBitmap.ScaleG = PseudoBitmap.BrightnessScaleLogColorG;
-                PseudoBitmap.ScaleB = PseudoBitmap.BrightnessScaleLogColorB;
-                PseudoBitmap.GrayScale = false;
-            }
-            else if (comboBoxScale1.SelectedIndex == 1 && comboBoxScale2.SelectedIndex == 1)//Liner & Color
-            {
-                PseudoBitmap.ScaleR = PseudoBitmap.BrightnessScaleLinerColorR;
-                PseudoBitmap.ScaleG = PseudoBitmap.BrightnessScaleLinerColorG;
-                PseudoBitmap.ScaleB = PseudoBitmap.BrightnessScaleLinerColorB;
-                PseudoBitmap.GrayScale = false;
-            }
+
+            var linear = comboBoxScale1.SelectedIndex == 1;
+
+            if (comboBoxScale2.SelectedIndex == 0)//Gray
+                PseudoBitmap.SetScaleGray(linear);
+            else if (comboBoxScale2.SelectedIndex == 1)//Cold-Warm
+                PseudoBitmap.SetScaleColdWarm(linear);
+            else if (comboBoxScale2.SelectedIndex == 2)//Spectrum
+                PseudoBitmap.SetScaleSpectrum(linear);
+            else if (comboBoxScale2.SelectedIndex == 3)//Fire
+                PseudoBitmap.SetScaleFire(linear);
+
             scalablePictureBox.drawPictureBox();
             BrightnessAndColorChanged?.Invoke(sender, e);
         }
@@ -546,7 +537,7 @@ namespace Crystallography.Controls
             FilterChanged?.Invoke(sender, e);
         }
 
-        private void ProcessImageFilter()
+        public void ProcessImageFilter()
         {
             Stopwatch sw = new Stopwatch();
 
