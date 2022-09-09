@@ -972,13 +972,29 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
     /// <returns></returns>
     public Vector3D InnerLattice()
     {
-        double[] d = new double[] { X, Y, Z };
-        for (int j = 0; j < 3; j++)
-        {
-            while (d[j] < 0) { d[j] += 1; }
-            while (d[j] >= 1) { d[j] -= 1; }
-        }
-        return new Vector3D(d[0], d[1], d[2], false);
+        double x = X, y = Y, z = Z;
+        while (x < 0) x += 1;
+        while (x >= 1) x -= 1;
+        while (y < 0) y += 1;
+        while (y >= 1) y -= 1;
+        while (z < 0) z += 1;
+        while (z >= 1) z -= 1;
+        return new Vector3D(x, y, z, false);
+    }
+
+    /// <summary>
+    /// À•Wˆê‚¸‚Â‚ğ‰ÁŒ¸Z‚µA0‚©‚ç1‚Ì”ÍˆÍ“à‚Éû‚ß‚é
+    /// </summary>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    public void InnerLatticeThis()
+    {
+        while (X < 0) X += 1;
+        while (X >= 1) X -= 1;
+        while (Y < 0) Y += 1;
+        while (Y >= 1) Y -= 1;
+        while (Z < 0) Z += 1;
+        while (Z >= 1) Z -= 1;
     }
 
     public override string ToString() => Text != "" ? Text : $"{X}, {Y}, {Z}";
