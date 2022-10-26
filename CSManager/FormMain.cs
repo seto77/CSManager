@@ -419,13 +419,8 @@ namespace CSManager
             for (int i = 0; i < fn.Count; i += division)
             {
                 var crystalList = new List<Crystal2>();
-                Parallel.For(i, Math.Min(i + division, fn.Count), j =>
-                //for (int j = i; j < Math.Min(i + division, fn.Count); j++)
+                Parallel.For(i, Math.Min(i + division, fn.Count), new ParallelOptions() { MaxDegreeOfParallelism = 1 }, j =>
                 {
-                    //if (j % 10 != 0)
-                    //    return;
-                    //var sw = new Stopwatch();
-                    //sw.Restart();
                     var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
                     if (crystal2 != null)
                     {
@@ -440,8 +435,10 @@ namespace CSManager
                                 if (crystal.A + crystal.B + crystal.C > 5)//‚à‚µa+b+c‚ª5nm‚ğ’´‚¦‚é‚æ‚¤‚È‹‘å‚È’PˆÊŠiq‚Ìê‡
                                     dMin = Math.Max((crystal.A + crystal.B + crystal.C) / 40, dMin);
 
-                                crystal2.d = crystal.GetDspacingList(0.154, dMin);
+                                crystal2.d = crystal2.atoms.Count == 0 ? null : crystal.GetDspacingList(0.154, dMin);
+                         
                                 crystal2.formula = crystal.ChemicalFormulaSum;
+                                
                                 crystal2.density = (float)crystal.Density;
                             }
                             crystal2.jour = Crystal2.GetShortJournal(crystal2.jour);
