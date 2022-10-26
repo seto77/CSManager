@@ -274,9 +274,12 @@ namespace Crystallography.Controls
                 var d = ArrayPool<float>.Shared.Rent(8);
                 if (c.d != null)
                     Array.Copy(c.d, d, c.d.Length);
-                if (c.d == null || c.d.Length < 8)
-                    for (int i = c.d == null ? 0 : c.d.Length; i < 8; i++)
+
+                if (c.atoms.Count == 0 || c.d == null || c.d.Length < 8)
+                {
+                    for (int i = c.atoms.Count == 0 || c.d == null ? 0 : c.d.Length; i < 8; i++)
                         d[i] = float.MinValue;
+                }
 
                 dr.D1 = d[0] * 10;
                 dr.D2 = d[1] * 10;

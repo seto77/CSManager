@@ -419,7 +419,7 @@ namespace CSManager
             for (int i = 0; i < fn.Count; i += division)
             {
                 var crystalList = new List<Crystal2>();
-                Parallel.For(i, Math.Min(i + division, fn.Count), new ParallelOptions() { MaxDegreeOfParallelism = 1 }, j =>
+                Parallel.For(i, Math.Min(i + division, fn.Count)/*, new ParallelOptions() { MaxDegreeOfParallelism = 1 }*/, j =>
                 {
                     var crystal2 = ConvertCrystalData.ConvertToCrystal2(fn[j]);
                     if (crystal2 != null)
