@@ -35,12 +35,16 @@ namespace Crystallography.Controls
                     filter.Add($" CrystalSystem = '{comboBoxSearchCrystalSystem.Text}'");
 
                 //元素のためのフィルター文字列
-                if (checkBoxSearchElements.Checked && formPeriodicTable.IncludesStr.Length != 0)
-                    filter.Add(string.Join(" AND ", formPeriodicTable.IncludesStr.Select(s => $"Elements Like '*{s}*'")));
+                if (checkBoxSearchElements.Checked)
+                {
+                    filter.Add("NOT(Elements Like '*000*')");//000は、元素が含まれていないときの番号
 
-                if (checkBoxSearchElements.Checked && formPeriodicTable.ExcludesStr.Length != 0)
-                    filter.Add("NOT(" + string.Join(" OR ", formPeriodicTable.ExcludesStr.Select(s => $"Elements Like '*{s}*'")) + ")");//NOT句をつける
+                    if (formPeriodicTable.IncludesStr.Length != 0)
+                        filter.Add(string.Join(" AND ", formPeriodicTable.IncludesStr.Select(s => $"Elements Like '*{s}*'")));
 
+                    if (formPeriodicTable.ExcludesStr.Length != 0)
+                        filter.Add("NOT(" + string.Join(" OR ", formPeriodicTable.ExcludesStr.Select(s => $"Elements Like '*{s}*'")) + ")");//NOT句をつける
+                }
                 //格子定数のフィルター
                 if (checkBoxSearchCellParameter.Checked)
                 {
