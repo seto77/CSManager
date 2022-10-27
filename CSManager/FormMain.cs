@@ -2,7 +2,6 @@ using Crystallography;
 using Crystallography.Controls;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -12,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Reflection;
-using System.ComponentModel;
 
 namespace CSManager
 {
@@ -36,8 +34,6 @@ namespace CSManager
 
         public FormMain()
         {
-            var crystalDatabaseControl = new CrystalDatabaseControl();
-
             ip = new Progress<(long, long, long, string)>(o => reportProgress(o));//IReport
             var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
             try
@@ -52,7 +48,7 @@ namespace CSManager
 
             InitializeComponent();
 
-            recalculateDensityFormulaAndDvaluesToolStripMenuItem.Click += RecalculaeDensityFormulaAndDvaluesToolStripMenuItem_Click;
+            recalculateDensityFormulaAndDvaluesToolStripMenuItem.Click += RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click;
 
             ReadMeGenerator.WriteReadMeFile(
              "CSManager   " + Version.VersionAndDate,
@@ -64,6 +60,8 @@ namespace CSManager
              Version.Adress,
              Version.Acknowledge,
              Version.History);
+
+            searchCrystalControl.CrystalDatabaseControl = crystalDatabaseControl;
         }
 
       
@@ -232,15 +230,29 @@ namespace CSManager
         /// <param name="message"></param>
         private void crystalDatabaseControl_ProgressChanged(object sender, double progress, string message)
         {
+            if (skipProgressEvent) return;
+            skipProgressEvent = true;
             toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
             toolStripStatusLabel.Text = message;
+            Application.DoEvents();
+            skipProgressEvent = false;
+        }
+
+        private void SearchCrystalControl_ProgressChanged(object sender, double progress, string message)
+        {
+            toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
+            toolStripStatusLabel.Text = message;
+            Application.DoEvents();
         }
 
         #endregion
 
         #region 検索ボタン (フォーム全体のAcceptボタンにも割り当てられている)
 
-        private void buttonSearch_Click(object sender, EventArgs e) => crystalDatabaseControl.Filter = searchCrystalControl.Filter;
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            crystalDatabaseControl.Filter = searchCrystalControl.Filter;
+        }
 
 
         #endregion
@@ -664,7 +676,7 @@ namespace CSManager
         #endregion
 
         #region その他ファイルメニュー
-        private void RecalculaeDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             crystalDatabaseControl.RecalculateDensityAndFormula();
