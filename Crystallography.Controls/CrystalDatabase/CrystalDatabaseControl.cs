@@ -22,9 +22,6 @@ namespace Crystallography.Controls;
 public partial class CrystalDatabaseControl : UserControl
 {
     #region フィールド、メソッド、イベント
-
-    public List<Crystal2> Crystals = new List<Crystal2>();
-
     public void Supend() => bindingSource.DataMember = "";
     public void Resume() => bindingSource.DataMember = "DataTableCrystalDatabase";
 
@@ -148,10 +145,6 @@ public partial class CrystalDatabaseControl : UserControl
         {
             MessageBox.Show($"{ex}\r\nFailed to load database. Sorry.");
         }
-
-        Crystals.Clear();
-        for (int i = 0; i < Table.Rows.Count; i++)
-            Crystals.Add(Table.Get(i));
 
         bindingSource.Position = 0;
     }

@@ -232,18 +232,29 @@ namespace CSManager
         private void crystalDatabaseControl_ProgressChanged(object sender, double progress, string message)
         {
             if (skipProgressEvent) return;
-            skipProgressEvent = true;
-            toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
-            toolStripStatusLabel.Text = message;
-            Application.DoEvents();
-            skipProgressEvent = false;
+            try
+            {
+                skipProgressEvent = true;
+                toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
+                toolStripStatusLabel.Text = message;
+                Application.DoEvents();
+            }
+            catch  { }
+            finally { skipProgressEvent = false; }
         }
 
         private void SearchCrystalControl_ProgressChanged(object sender, double progress, string message)
         {
-            toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
-            toolStripStatusLabel.Text = message;
-            Application.DoEvents();
+            if (skipProgressEvent) return;
+            try
+            {
+                skipProgressEvent = true;
+                toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
+                toolStripStatusLabel.Text = message;
+                Application.DoEvents();
+            }
+            catch { }
+            finally { skipProgressEvent = false; }
         }
 
         #endregion

@@ -148,6 +148,54 @@
   <data name="checkBoxSearchCellParameter.Text" xml:space="preserve">
     <value>格子定数</value>
   </data>
+  <data name="groupBoxCellParameter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 239</value>
+  </data>
+  <data name="groupBoxCellParameter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 125</value>
+  </data>
+  <data name="checkBoxDspacing.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="checkBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 370</value>
+  </data>
+  <data name="checkBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 22</value>
+  </data>
+  <data name="checkBoxDspacing.Text" xml:space="preserve">
+    <value>d値</value>
+  </data>
+  <data name="groupBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 392</value>
+  </data>
+  <data name="groupBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 128</value>
+  </data>
+  <data name="checkBoxDensity.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="checkBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 524</value>
+  </data>
+  <data name="checkBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 22</value>
+  </data>
+  <data name="checkBoxDensity.Text" xml:space="preserve">
+    <value>密度</value>
+  </data>
+  <data name="groupBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 546</value>
+  </data>
+  <data name="groupBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 44</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 33</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 608</value>
+  </data>
   <data name="numericBoxCellGamma.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 63</value>
   </data>
@@ -183,24 +231,6 @@
   </data>
   <data name="numericBoxCellA.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 25</value>
-  </data>
-  <data name="groupBoxCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 239</value>
-  </data>
-  <data name="groupBoxCellParameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 125</value>
-  </data>
-  <data name="checkBoxDspacing.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 370</value>
-  </data>
-  <data name="checkBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 22</value>
-  </data>
-  <data name="checkBoxDspacing.Text" xml:space="preserve">
-    <value>d値</value>
   </data>
   <data name="numericBoxD3Err.Location" type="System.Drawing.Point, System.Drawing">
     <value>84, 69</value>
@@ -238,41 +268,11 @@
   <data name="checkBoxIgnoreScatteringFactor.Text" xml:space="preserve">
     <value>散乱因子を無視</value>
   </data>
-  <data name="groupBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 392</value>
-  </data>
-  <data name="groupBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 128</value>
-  </data>
-  <data name="checkBoxDensity.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 524</value>
-  </data>
-  <data name="checkBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 22</value>
-  </data>
-  <data name="checkBoxDensity.Text" xml:space="preserve">
-    <value>密度</value>
-  </data>
   <data name="numericBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="numericBoxDensityErr.Location" type="System.Drawing.Point, System.Drawing">
     <value>82, 13</value>
-  </data>
-  <data name="groupBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 546</value>
-  </data>
-  <data name="groupBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 44</value>
-  </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 33</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 608</value>
   </data>
   <data name="buttonSearch.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 33</value>
