@@ -34,7 +34,6 @@ partial class FormMain
         this.splitContainer2 = new System.Windows.Forms.SplitContainer();
         this.buttonChange = new System.Windows.Forms.Button();
         this.buttonAdd = new System.Windows.Forms.Button();
-        this.buttonSearch = new System.Windows.Forms.Button();
         this.statusStrip = new System.Windows.Forms.StatusStrip();
         this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
         this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -123,7 +122,6 @@ partial class FormMain
         // splitContainer2.Panel2
         // 
         this.splitContainer2.Panel2.Controls.Add(this.searchCrystalControl);
-        this.splitContainer2.Panel2.Controls.Add(this.buttonSearch);
         // 
         // buttonChange
         // 
@@ -142,16 +140,7 @@ partial class FormMain
         this.buttonAdd.Name = "buttonAdd";
         this.buttonAdd.UseVisualStyleBackColor = false;
         this.buttonAdd.Click += new System.EventHandler(this.buttonAddCrystal_Click);
-        // 
-        // buttonSearch
-        // 
-        this.buttonSearch.BackColor = System.Drawing.Color.Chocolate;
-        resources.ApplyResources(this.buttonSearch, "buttonSearch");
-        this.buttonSearch.ForeColor = System.Drawing.Color.White;
-        this.buttonSearch.Name = "buttonSearch";
-        this.toolTip.SetToolTip(this.buttonSearch, resources.GetString("buttonSearch.ToolTip"));
-        this.buttonSearch.UseVisualStyleBackColor = false;
-        this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+        
         // 
         // statusStrip
         // 
@@ -481,7 +470,6 @@ partial class FormMain
         // 
         // FormMain
         // 
-        this.AcceptButton = this.buttonSearch;
         resources.ApplyResources(this, "$this");
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
         this.Controls.Add(this.splitContainer1);
@@ -524,7 +512,6 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem readDatabaseToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem saveDatabaseToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-    private System.Windows.Forms.Button buttonSearch;
     private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem optionToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem toolTipToolStripMenuItem;

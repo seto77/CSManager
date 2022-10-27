@@ -57,12 +57,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="buttonSearch.Text" xml:space="preserve">
-    <value>検索</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBoxSearchName.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
+  </data>
+  <data name="checkBoxSearchName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="checkBoxSearchName.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -71,7 +71,7 @@
     <value>名前</value>
   </data>
   <data name="textBoxSearchName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 55</value>
+    <value>10, 22</value>
   </data>
   <data name="textBoxSearchName.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 25</value>
@@ -80,7 +80,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchElements.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 86</value>
+    <value>0, 53</value>
   </data>
   <data name="checkBoxSearchElements.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -92,7 +92,7 @@
     <value>Segoe UI Symbol, 9pt</value>
   </data>
   <data name="buttonPeriodicTable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 108</value>
+    <value>10, 75</value>
   </data>
   <data name="buttonPeriodicTable.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 30</value>
@@ -104,7 +104,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 144</value>
+    <value>0, 111</value>
   </data>
   <data name="checkBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -113,7 +113,7 @@
     <value>文献</value>
   </data>
   <data name="textBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 166</value>
+    <value>10, 133</value>
   </data>
   <data name="textBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 25</value>
@@ -122,7 +122,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 197</value>
+    <value>0, 164</value>
   </data>
   <data name="checkBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 22</value>
@@ -131,7 +131,7 @@
     <value>結晶系</value>
   </data>
   <data name="comboBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 219</value>
+    <value>10, 186</value>
   </data>
   <data name="comboBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 25</value>
@@ -140,7 +140,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 250</value>
+    <value>0, 217</value>
   </data>
   <data name="checkBoxSearchCellParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -185,7 +185,7 @@
     <value>83, 25</value>
   </data>
   <data name="groupBoxCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 272</value>
+    <value>10, 239</value>
   </data>
   <data name="groupBoxCellParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 125</value>
@@ -194,7 +194,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 403</value>
+    <value>0, 370</value>
   </data>
   <data name="checkBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 22</value>
@@ -239,7 +239,7 @@
     <value>散乱因子を無視</value>
   </data>
   <data name="groupBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 425</value>
+    <value>10, 392</value>
   </data>
   <data name="groupBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 128</value>
@@ -248,7 +248,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 557</value>
+    <value>0, 524</value>
   </data>
   <data name="checkBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -263,13 +263,22 @@
     <value>82, 13</value>
   </data>
   <data name="groupBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 579</value>
+    <value>10, 546</value>
   </data>
   <data name="groupBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 44</value>
   </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 33</value>
+  </data>
   <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 641</value>
+    <value>200, 608</value>
+  </data>
+  <data name="buttonSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 33</value>
+  </data>
+  <data name="buttonSearch.Text" xml:space="preserve">
+    <value>検索</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 641</value>

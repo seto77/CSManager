@@ -62,6 +62,7 @@ namespace CSManager
              Version.History);
 
             searchCrystalControl.CrystalDatabaseControl = crystalDatabaseControl;
+            this.AcceptButton = searchCrystalControl.buttonSearch;
         }
 
       
