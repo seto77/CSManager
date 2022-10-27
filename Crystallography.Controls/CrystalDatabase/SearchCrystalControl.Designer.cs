@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchCrystalControl));
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonSearch = new System.Windows.Forms.Button();
             this.checkBoxSearchName = new System.Windows.Forms.CheckBox();
             this.textBoxSearchName = new System.Windows.Forms.TextBox();
             this.checkBoxSearchElements = new System.Windows.Forms.CheckBox();
@@ -66,6 +65,7 @@
             this.numericBoxDensity = new Crystallography.Controls.NumericBox();
             this.numericBoxDensityErr = new Crystallography.Controls.NumericBox();
             this.backgroundWorkerSearch = new System.ComponentModel.BackgroundWorker();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBoxCellParameter.SuspendLayout();
             this.groupBoxDspacing.SuspendLayout();
@@ -75,7 +75,6 @@
             // flowLayoutPanel1
             // 
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
-            this.flowLayoutPanel1.Controls.Add(this.buttonSearch);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxSearchName);
             this.flowLayoutPanel1.Controls.Add(this.textBoxSearchName);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxSearchElements);
@@ -91,15 +90,6 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxDensity);
             this.flowLayoutPanel1.Controls.Add(this.groupBoxDensity);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            // 
-            // buttonSearch
-            // 
-            resources.ApplyResources(this.buttonSearch, "buttonSearch");
-            this.buttonSearch.BackColor = System.Drawing.Color.Chocolate;
-            this.buttonSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.UseVisualStyleBackColor = false;
-            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // checkBoxSearchName
             // 
@@ -478,11 +468,21 @@
             this.backgroundWorkerSearch.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerSearch_ProgressChanged);
             this.backgroundWorkerSearch.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSearch_RunWorkerCompleted);
             // 
+            // buttonSearch
+            // 
+            resources.ApplyResources(this.buttonSearch, "buttonSearch");
+            this.buttonSearch.BackColor = System.Drawing.Color.Chocolate;
+            this.buttonSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.UseVisualStyleBackColor = false;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            // 
             // SearchCrystalControl
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.buttonSearch);
             this.Name = "SearchCrystalControl";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -491,6 +491,7 @@
             this.groupBoxDspacing.PerformLayout();
             this.groupBoxDensity.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -530,8 +531,8 @@
         private System.Windows.Forms.GroupBox groupBoxDensity;
         private NumericBox numericBoxDensity;
         private NumericBox numericBoxDensityErr;
-        private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.CheckBox checkBoxIgnoreScatteringFactor;
         private System.ComponentModel.BackgroundWorker backgroundWorkerSearch;
+        public System.Windows.Forms.Button buttonSearch;
     }
 }

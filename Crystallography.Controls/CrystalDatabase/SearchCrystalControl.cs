@@ -195,9 +195,14 @@ namespace Crystallography.Controls
             double d3 = checkBoxD3.Checked ? numericBoxD3.Value / 10 : 0;
             double d1Err = numericBoxD1Err.Value / 100, d2Err = numericBoxD2Err.Value / 100, d3Err = numericBoxD3Err.Value / 100;
 
+            var dMin = double.MaxValue;
+            if (d1 != 0) dMin = Math.Min(dMin, d1 * (1 - 2 * d1Err));
+            if (d2 != 0) dMin = Math.Min(dMin, d2 * (1 - 2 * d3Err));
+            if (d3 != 0) dMin = Math.Min(dMin, d3 * (1 - 2 * d3Err));
+
             int count = 0;
-            //Parallel.For(0, table.Count, i =>
-            for(int i=0; i< table.Count; i++)
+            Parallel.For(0, table.Count, i =>
+            //for(int i=0; i< table.Count; i++)
             {
                 var cry = table.Get(i);
 
@@ -223,10 +228,12 @@ namespace Crystallography.Controls
                         flag = false;
                     if (flag == true && includes.Length != 0 && !includes.All(e => elements.Contains(e)))
                         flag = false;
+                    if (cry.atoms.Count == 0)
+                        flag = false;
                 }
 
                 //格子定数
-                if (flag == true && checkBoxSearchCellParameter.Checked)
+                if (flag && checkBoxSearchCellParameter.Checked)
                 {
                     var (Values, Errors) = cry.Cell;
 
@@ -254,14 +261,9 @@ namespace Crystallography.Controls
                     var dArray = cry.d;
                     if (checkBoxIgnoreScatteringFactor.Checked)
                     {
-                        var dMin = double.MaxValue;
-                        if (d1 != 0) dMin = Math.Min(dMin, d1 * (1 - 2 * d1Err));
-                        if (d2 != 0) dMin = Math.Min(dMin, d2 * (1 - 2 * d3Err));
-                        if (d3 != 0) dMin = Math.Min(dMin, d3 * (1 - 2 * d3Err));
-                        //crystal.SetPlanes(double.MaxValue, dMin, true, true, true, false, 0, 0, 0);
-                        //dArray = crystal.Plane.Select(p => (float)p.d).ToArray();
                         var (Values, Errors) = cry.Cell_nm_radian;
-                        dArray = calcDlist(Values.A, Values.B, Values.C, Values.Alpha, Values.Beta, Values.Gamma, dMin);
+                        if(!double.IsNaN( Values.A))
+                            dArray = calcDlist(Values.A, Values.B, Values.C, Values.Alpha, Values.Beta, Values.Gamma, dMin);
                     }
 
                     if (flag && d1 != 0 && !dArray.Any(d => d1 * (1 - d1Err) < d && d1 * (1 + d1Err) > d))
@@ -274,16 +276,16 @@ namespace Crystallography.Controls
 
                 flags[i] = flag;
 
-                if (Interlocked.Increment(ref count) % 5000 == 0)
-                    backgroundWorkerSearch.ReportProgress(count);
+                Interlocked.Increment(ref count);
+                if (count % 1000 == 0) backgroundWorkerSearch.ReportProgress(count);
             }
-            //);
+            );
         }
 
 
         static int composeKey(in int h, in int k, in int l) => ((h > 0) || (h == 0 && k > 0) || (h == 0 && k == 0 && l > 0)) ? ((h + 255) << 20) + ((k + 255) << 10) + l + 255 : -1;
         static (int h, int k, int l) decomposeKey(in int key) => (((key << 2) >> 22) - 255, ((key << 12) >> 22) - 255, ((key << 22) >> 22) - 255);
-        private float[] calcDlist(double a, double b, double c, double alpha, double beta, double gamma, double dMin)
+        static float[] calcDlist(double a, double b, double c, double alpha, double beta, double gamma, double dMin)
         {
             double SinAlfa = Math.Sin(alpha), CosAlfa = Math.Cos(alpha), CosBeta = Math.Cos(beta), CosGamma = Math.Cos(gamma);
             Vector3DBase C_Axis = new(0, 0, c);
@@ -337,16 +339,10 @@ namespace Crystallography.Controls
             return gList.Select(g=> (float)(1/g)).ToArray();
         }
 
-
-
         private void backgroundWorkerSearch_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            if (e.ProgressPercentage == 400000)
-            {
-
-            }
-
-            ProgressChanged?.Invoke(sender, (double)e.ProgressPercentage / CrystalDatabaseControl.Table.Count, "Searching... " + (sw.ElapsedMilliseconds / 1000.0).ToString("f2") + " msec.");
+            ProgressChanged?.Invoke(sender, (double)e.ProgressPercentage / CrystalDatabaseControl.Table.Count, $"Searching... {sw.ElapsedMilliseconds / 1000.0:f2} msec.");
+            Application.DoEvents();
         }
 
         private void backgroundWorkerSearch_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -367,7 +363,11 @@ namespace Crystallography.Controls
 
             if (flagCount > 0)
                 CrystalDatabaseControl.Resume();//バインディングを繋げる
-            ProgressChanged?.Invoke(sender, 1.0, "Completion of search. " + (sw.ElapsedMilliseconds / 1000.0).ToString("f2") + " msec.");
+
+            Application.DoEvents();
+            ProgressChanged?.Invoke(sender, 1.0, $"Completion of search. {sw.ElapsedMilliseconds / 1000.0:f2} msec.");
+            Application.DoEvents();
+
         }
     }
 }

@@ -258,30 +258,6 @@ public partial class DataSet
             dr.Authors = c.auth;
             dr.Title = Crystal2.GetFullTitle(c.sect);
             dr.Journal = Crystal2.GetFullJournal(c.jour);
-            dr.Elements = string.Join(' ', c.atoms.Select(a => a.AtomNo).Distinct().Select(b => b.ToString("000")));
-
-            if (dr.Elements == "")
-                dr.Elements = "000";
-
-            var d = ArrayPool<float>.Shared.Rent(8);
-            if (c.d != null)
-                Array.Copy(c.d, d, c.d.Length);
-
-            if (c.atoms.Count == 0 || c.d == null || c.d.Length < 8)
-            {
-                for (int i = c.atoms.Count == 0 || c.d == null ? 0 : c.d.Length; i < 8; i++)
-                    d[i] = float.MinValue;
-            }
-
-            dr.D1 = d[0] * 10;
-            dr.D2 = d[1] * 10;
-            dr.D3 = d[2] * 10;
-            dr.D4 = d[3] * 10;
-            dr.D5 = d[4] * 10;
-            dr.D6 = d[5] * 10;
-            dr.D7 = d[6] * 10;
-            dr.D8 = d[7] * 10;
-            ArrayPool<float>.Shared.Return(d);
 
             dr.Flag = true;
 
