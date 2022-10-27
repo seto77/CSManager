@@ -259,16 +259,6 @@ namespace CSManager
 
         #endregion
 
-        #region 検索ボタン (フォーム全体のAcceptボタンにも割り当てられている)
-
-        private void buttonSearch_Click(object sender, EventArgs e)
-        {
-            crystalDatabaseControl.Filter = searchCrystalControl.Filter;
-        }
-
-
-        #endregion
-
         #region データベース読み込み/書き込み関連
 
         /// <summary>
