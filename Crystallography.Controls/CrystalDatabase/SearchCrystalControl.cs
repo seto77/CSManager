@@ -161,13 +161,14 @@ namespace Crystallography.Controls
                 FilterChanged?.Invoke(this, new EventArgs());
         }
 
-        Stopwatch sw = new Stopwatch();
-        bool[] flags = new bool[0];
+        Stopwatch sw = new();
+        bool[] flags = Array.Empty<bool>();
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (CrystalDatabaseControl == null || CrystalDatabaseControl.Crystals.Count == 0 || backgroundWorkerSearch.IsBusy)
+            if (CrystalDatabaseControl == null || backgroundWorkerSearch.IsBusy || CrystalDatabaseControl.Table.Count == 0)
                 return;
             sw.Restart();
+            this.Enabled = false;
             flags = new bool[CrystalDatabaseControl.Table.Count];
             CrystalDatabaseControl.Supend();//バインディングを切る
             backgroundWorkerSearch.RunWorkerAsync();
@@ -199,6 +200,8 @@ namespace Crystallography.Controls
             if (d1 != 0) dMin = Math.Min(dMin, d1 * (1 - 2 * d1Err));
             if (d2 != 0) dMin = Math.Min(dMin, d2 * (1 - 2 * d3Err));
             if (d3 != 0) dMin = Math.Min(dMin, d3 * (1 - 2 * d3Err));
+
+            long time = 0;
 
             int count = 0;
             Parallel.For(0, table.Count, i =>
@@ -277,7 +280,11 @@ namespace Crystallography.Controls
                 flags[i] = flag;
 
                 Interlocked.Increment(ref count);
-                if (count % 1000 == 0) backgroundWorkerSearch.ReportProgress(count);
+                if (count % 1000 == 0 && sw.ElapsedMilliseconds-time >200)
+                {
+                    time = sw.ElapsedMilliseconds;
+                    backgroundWorkerSearch.ReportProgress(count);
+                }
             }
             );
         }
@@ -339,10 +346,18 @@ namespace Crystallography.Controls
             return gList.Select(g=> (float)(1/g)).ToArray();
         }
 
+
+        bool skipProgressEvent = false;
         private void backgroundWorkerSearch_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            ProgressChanged?.Invoke(sender, (double)e.ProgressPercentage / CrystalDatabaseControl.Table.Count, $"Searching... {sw.ElapsedMilliseconds / 1000.0:f2} msec.");
-            Application.DoEvents();
+            if (skipProgressEvent) return;
+            try
+            {
+                skipProgressEvent = true;
+                ProgressChanged?.Invoke(sender, (double)e.ProgressPercentage / CrystalDatabaseControl.Table.Count, $"Searching... {sw.ElapsedMilliseconds / 1000.0:f2} msec.");
+            }
+            catch { }
+            finally { skipProgressEvent = false; }
         }
 
         private void backgroundWorkerSearch_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -364,9 +379,13 @@ namespace Crystallography.Controls
             if (flagCount > 0)
                 CrystalDatabaseControl.Resume();//バインディングを繋げる
 
-            Application.DoEvents();
+ 
+            this.Enabled = true;
+
+            Thread.Sleep(500);
             ProgressChanged?.Invoke(sender, 1.0, $"Completion of search. {sw.ElapsedMilliseconds / 1000.0:f2} msec.");
             Application.DoEvents();
+
 
         }
     }
