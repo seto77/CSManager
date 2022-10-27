@@ -1,64 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+﻿<root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -117,6 +57,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="buttonSearch.Text" xml:space="preserve">
+    <value>検索</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBoxSearchName.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
@@ -128,7 +71,7 @@
     <value>名前</value>
   </data>
   <data name="textBoxSearchName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 22</value>
+    <value>10, 55</value>
   </data>
   <data name="textBoxSearchName.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 25</value>
@@ -137,7 +80,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchElements.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 53</value>
+    <value>0, 86</value>
   </data>
   <data name="checkBoxSearchElements.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -149,7 +92,7 @@
     <value>Segoe UI Symbol, 9pt</value>
   </data>
   <data name="buttonPeriodicTable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 75</value>
+    <value>10, 108</value>
   </data>
   <data name="buttonPeriodicTable.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 30</value>
@@ -161,7 +104,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 111</value>
+    <value>0, 144</value>
   </data>
   <data name="checkBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -170,7 +113,7 @@
     <value>文献</value>
   </data>
   <data name="textBoxSearchRefference.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 133</value>
+    <value>10, 166</value>
   </data>
   <data name="textBoxSearchRefference.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 25</value>
@@ -179,7 +122,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 164</value>
+    <value>0, 197</value>
   </data>
   <data name="checkBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 22</value>
@@ -188,7 +131,7 @@
     <value>結晶系</value>
   </data>
   <data name="comboBoxSearchCrystalSystem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 186</value>
+    <value>10, 219</value>
   </data>
   <data name="comboBoxSearchCrystalSystem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 25</value>
@@ -197,7 +140,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxSearchCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 217</value>
+    <value>0, 250</value>
   </data>
   <data name="checkBoxSearchCellParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -242,7 +185,7 @@
     <value>83, 25</value>
   </data>
   <data name="groupBoxCellParameter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 239</value>
+    <value>10, 272</value>
   </data>
   <data name="groupBoxCellParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 125</value>
@@ -251,7 +194,7 @@
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 370</value>
+    <value>0, 403</value>
   </data>
   <data name="checkBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 22</value>
@@ -286,17 +229,26 @@
   <data name="numericBoxD1.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 25</value>
   </data>
+  <data name="checkBoxIgnoreScatteringFactor.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="checkBoxIgnoreScatteringFactor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 22</value>
+  </data>
+  <data name="checkBoxIgnoreScatteringFactor.Text" xml:space="preserve">
+    <value>散乱因子を無視</value>
+  </data>
   <data name="groupBoxDspacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 392</value>
+    <value>10, 425</value>
   </data>
   <data name="groupBoxDspacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 100</value>
+    <value>167, 128</value>
   </data>
   <data name="checkBoxDensity.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
   <data name="checkBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 496</value>
+    <value>0, 557</value>
   </data>
   <data name="checkBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
@@ -311,15 +263,15 @@
     <value>82, 13</value>
   </data>
   <data name="groupBoxDensity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 518</value>
+    <value>10, 579</value>
   </data>
   <data name="groupBoxDensity.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 44</value>
   </data>
   <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 566</value>
+    <value>200, 641</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 566</value>
+    <value>200, 641</value>
   </data>
 </root>
