@@ -236,8 +236,8 @@ namespace Crystallography.Controls
             var shift = directions.Select(dir => (MatrixInverse * dir).Length).Max();
             var maxGnum = 8000;
             var outer = new List<(int key, double len)>() { (zeroKey, 0) };
-            var gHash = new HashSet<int>(maxGnum) { zeroKey };
-            var gList = new List<double>(maxGnum) { 0 };
+            var gKeys = new HashSet<int>() { zeroKey };
+            var gList = new HashSet<double>() { 0 };
             var minG = 0.0;
 
             while (gList.Count < maxGnum && (minG = outer.Min(o => o.len)) < gMax)
@@ -249,11 +249,11 @@ namespace Crystallography.Controls
                     foreach ((int h2, int k2, int l2) in directions)
                     {
                         int h = h1 + h2, k = k1 + k2, l = l1 + l2, key2 = composeKey(h, k, l);
-                        if (key2 > 0 && !gHash.Contains(key2))
+                        if (key2 > 0 && !gKeys.Contains(key2))
                         {
                             double x = h * aX + k * bX + l * cX, y = h * aY + k * bY + l * cY, z = h * aZ + k * bZ + l * cZ;
                             var len = Math.Sqrt(x * x + y * y + z * z);
-                            gHash.Add(key2);
+                            gKeys.Add(key2);
                             gList.Add(len);
                             outer.Add((key2, len));
                         }
@@ -262,8 +262,8 @@ namespace Crystallography.Controls
                 outer.RemoveRange(0, end + 1);
                 outer.Sort((e1, e2) => e1.len.CompareTo(e2.len));
             }
-            gList.RemoveAt(0);
-            return gList.Select(g=> (float)(1/g)).ToArray();
+            gList.Remove(0);
+            return gList.Select(g => (float)(1 / g)).ToArray();
         }
 
 
