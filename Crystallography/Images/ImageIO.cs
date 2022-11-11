@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Crystallography;
 
@@ -104,6 +106,15 @@ public static class ImageIO
         return temp == "{\nHEADER_BYTES= ";
     }
 
+    public static bool IsADXVImage(string fileName)
+    {
+        var br = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read));
+        br.BaseStream.Position = 0;
+        var temp = new string(br.ReadChars(46));
+        br.Close();
+        return temp == "{\nHEADER_BYTES=  512;\nCOMMENT=Written by adxv;";
+    }
+
     public static bool IsTiffImage(string fileName)
     {
         var br = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read));
@@ -167,6 +178,8 @@ public static class ImageIO
                 result = ImageIO.FujiFDL(str);
             else if (ImageIO.IsRAxisImage(str))//R-Axis5
                 result = ImageIO.Raxis4(str);
+            else if (ImageIO.IsADXVImage(str))
+                result = ImageIO.ADXV(str);
             else if (ImageIO.IsITEXImage(str))
                 result = ImageIO.ITEX(str);
             else if (ImageIO.IsADSCImage(str))
@@ -943,8 +956,56 @@ public static class ImageIO
     }
     #endregion
 
-    #region ITEX
+    #region ADXV (20221107丹羽さんからの依頼, PILATUSのcbfファイルを、adxvというソフトを介してimgファイルに変換したもの)
+    public static bool ADXV(string str)
+    {
+        try
+        {
+            var br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
+            var headers = new string( br.ReadChars(512)).Split('\n');
+            
+            int imageWidth = Convert.ToInt32( headers[4].Split(new char[] { '=', ';' })[1]);
+            int imageHeight = Convert.ToInt32(headers[5].Split(new char[] { '=', ';' })[1]);
+            Ring.SrcImgSize = new Size(imageWidth, imageHeight);
 
+            Ring.Comments = "";
+            for (int i = 2; i < 13; i++)
+                Ring.Comments += headers[i] + "\r\n";
+
+            br.BaseStream.Position = 512;
+            int length = imageWidth * imageHeight;
+
+            if (Ring.Intensity.Count != length)//前回と同じサイズではないとき
+            {
+                Ring.Intensity.Clear();
+                for (int y = 0; y < imageHeight; y++)
+                    for (int x = 0; x < imageWidth; x++)
+                        Ring.Intensity.Add((uint)(br.ReadByte() + br.ReadByte() * 256));
+            }
+            else
+            {
+                int n = 0;
+                for (int y = 0; y < imageHeight; y++)
+                    for (int x = 0; x < imageWidth; x++)
+                        Ring.Intensity[n++] = ((uint)(br.ReadByte() + br.ReadByte() * 256));
+            }
+
+            Ring.BitsPerPixels = 16;
+
+            Ring.ImageType = Ring.ImageTypeEnum.ADXV;
+
+            br.Close();
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+            return false;
+        }
+        return true;
+    }
+    #endregion
+
+    #region ITEX
     public static bool ITEX(string str)
     {
         try
@@ -1018,7 +1079,7 @@ public static class ImageIO
 
     public static bool ADSC(string str)
     {
-        StringBuilder sb = new StringBuilder { Capacity = 100000 };
+        StringBuilder sb = new() { Capacity = 100000 };
         try
         {
             BinaryReader br = new BinaryReader(new FileStream(str, FileMode.Open, FileAccess.Read));
@@ -1605,9 +1666,9 @@ public static class ImageIO
     public static void IPAImageWriter(string fileName, double[] data, double resolution, Size size, PointD center, double cameralength, WaveProperty waveProperty)
     {
         var ipa = IPAImageGenerator(data, size.Width, size.Height, center, resolution, cameralength, waveProperty);
-        var bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        var serializer = new XmlSerializer(typeof(IPAImage));
         using var fs = new FileStream(fileName, FileMode.Create);
-        bf.Serialize(fs, ipa);//シリアル化し、バイナリファイルに保存する
+        serializer.Serialize(fs, ipa);//シリアル化し、バイナリファイルに保存する
         fs.Close();//閉じる
     }
 
@@ -1664,9 +1725,9 @@ public static class ImageIO
 
     public static IPAImage GetIPA_Object(string fileName)
     {
-        var bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        var serializer = new XmlSerializer(typeof(IPAImage));
         var fs = new FileStream(fileName, FileMode.Open);//ファイルを開く
-        var ipa = (IPAImage)bf.Deserialize(fs);
+        var ipa = (IPAImage)serializer.Deserialize(fs);
         fs.Close();//閉じる
         return ipa;
     }

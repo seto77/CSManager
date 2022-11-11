@@ -176,7 +176,7 @@ namespace Crystallography.Controls
                         flag = false;
                 }
 
-                //格子定数のフィルター
+                //密度のフィルター
                 if (flag && density != 0 && (density * (1 - densErr) > cry.density || density * (1 + densErr) < cry.density))
                     flag = false;
 
@@ -201,8 +201,7 @@ namespace Crystallography.Controls
 
                 flags[i] = flag;
 
-                Interlocked.Increment(ref count);
-                if (count % 1000 == 0 && sw.ElapsedMilliseconds-time >200)
+                if (Interlocked.Increment(ref count) % 1000 == 0 && sw.ElapsedMilliseconds - time > 100)
                 {
                     time = sw.ElapsedMilliseconds;
                     backgroundWorkerSearch.ReportProgress(count);
