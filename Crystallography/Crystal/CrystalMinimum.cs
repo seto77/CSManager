@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using MessagePack;
+using MemoryPack;
 
 
 namespace Crystallography;
@@ -13,35 +13,23 @@ namespace Crystallography;
 //必要最小限の情報だけを保存するクラス
 //[ProtoContract]
 [Serializable()]
-[MessagePackObject]
-public class Crystal2
+[MemoryPackable]
+public partial class Crystal2
 {
     #region フィールド シリアル化対象 [Key(#)]が必須
-    [Key(0)]
+    [MemoryPackInclude]
     private byte[][] cellBytes;
-    [Key(6)]
     public int argb;
-    [Key(7)]
     public float density;
-    [Key(8)]
     public string name;
-    [Key(9)]
     public string note;
-    [Key(10)]
     public string jour;
-    [Key(11)]
     public string auth;
-    [Key(12)]
     public string sect;
-    [Key(13)]
     public string formula;//計算可能な場合は。
-    [Key(14)]
     public short sym;
-    [Key(15)]
     public List<Atoms2> atoms;
-    [Key(17)]
     public float[] d;//強度8位までのd値
-    [Key(18)]
     public string fileName;
 
     #endregion
@@ -50,7 +38,7 @@ public class Crystal2
     /// <summary>
     /// a,b,c,alpha,beta,gammaの順番. 単位はAと度. エラーは 「9.726|5|」のような形式で表現
     /// </summary>
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string[] CellTexts
     {
         get => cellBytes == null ? null : Array.ConvertAll(cellBytes, ToString);
@@ -65,7 +53,7 @@ public class Crystal2
     /// <summary>
     /// a,b,c,α,β,γ の順番. Getのみ. 長さはA, 角度は度単位.
     /// </summary>
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public ((double A, double B, double C, double Alpha, double Beta, double Gamma) Values, (double A, double B, double C, double Alpha, double Beta, double Gamma) Errors) Cell
     {
         get
@@ -79,7 +67,7 @@ public class Crystal2
     /// <summary>
     /// a,b,c,α,β,γ の順番. Getのみ. 長さはnm, 角度はradian.
     /// </summary>
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public ((double A, double B, double C, double Alpha, double Beta, double Gamma) Values, (double A, double B, double C, double Alpha, double Beta, double Gamma) Errors) Cell_nm_radian
     {
         get
@@ -93,6 +81,17 @@ public class Crystal2
 
     public Crystal2()
     {
+        if (toStringDic.Count == 0)
+        {
+            for (int i = 0; i < 16; i++)
+                for (int j = 0; j < 16; j++)
+                {
+                    var s1 = i == 15 ? "" : new string(new[] { toCharDic[i] });
+                    var s2 = j == 15 ? "" : new string(new[] { toCharDic[j] });
+
+                    toStringDic.Add((byte)(i + j * 16), s1 + s2);
+                }
+        }
         atoms = new List<Atoms2>();
     }
 
@@ -160,14 +159,13 @@ public class Crystal2
             sect = GetShortTitle(c.PublSectionTitle),
             jour = GetShortJournal(c.Journal),
             formula = c.ChemicalFormulaSum,
-            density = (float)c.Density
+            density = (float)c.Density,
+            CellTexts = new[] {
+                Compose(c.A * 10, c.A_err * 10), Compose(c.B * 10, c.B_err * 10), Compose(c.C * 10, c.C_err * 10),
+                Compose(c.Alpha /Math.PI*180, c.Alpha_err/Math.PI*180), Compose(c.Beta /Math.PI*180, c.Beta_err/Math.PI*180), Compose(c.Gamma /Math.PI*180, c.Gamma_err/Math.PI*180) },
+            atoms = new List<Atoms2>()
         };
 
-        c2.CellTexts = new[] {
-                Compose(c.A * 10, c.A_err * 10), Compose(c.B * 10, c.B_err * 10), Compose(c.C * 10, c.C_err * 10),
-                Compose(c.Alpha /Math.PI*180, c.Alpha_err/Math.PI*180), Compose(c.Beta /Math.PI*180, c.Beta_err/Math.PI*180), Compose(c.Gamma /Math.PI*180, c.Gamma_err/Math.PI*180) };
-
-        c2.atoms = new List<Atoms2>();
         foreach (Atoms a in c.Atoms)
         {
             var atom2 = new Atoms2
@@ -451,23 +449,23 @@ public class Crystal2
     }
 
     //静的コンストラクタ
-    static Crystal2()
-    {
-        for (int i = 0; i < 16; i++)
-            for (int j = 0; j < 16; j++)
-            {
-                var s1 = i == 15 ? "" : new string(new[] { toCharDic[i] });
-                var s2 = j == 15 ? "" : new string(new[] { toCharDic[j] });
+    //static Crystal2()
+    //{
+    //    for (int i = 0; i < 16; i++)
+    //        for (int j = 0; j < 16; j++)
+    //        {
+    //            var s1 = i == 15 ? "" : new string(new[] { toCharDic[i] });
+    //            var s2 = j == 15 ? "" : new string(new[] { toCharDic[j] });
 
-                toStringDic.Add((byte)(i + j * 16), s1 + s2);
-            }
-    }
+    //            toStringDic.Add((byte)(i + j * 16), s1 + s2);
+    //        }
+    //}
 
     private static (double Value, double Error) Decompose2(string str) => Decompose(str, false);
     public static (double Value, double Error) Decompose(string str, int sgnum) => Decompose(str, sgnum >= 430 && sgnum <= 488);
 
-    private static CultureInfo culture = CultureInfo.InvariantCulture;
-    private static NumberStyles style = NumberStyles.Number;
+    private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
+    private static readonly NumberStyles style = NumberStyles.Number;
 
     /// <summary>
     /// 9.726|5|, 1.234|12|E-6 のような文字列を、ValueとErrorに分解してタプルで返す. 
