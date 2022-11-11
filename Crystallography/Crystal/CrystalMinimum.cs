@@ -16,7 +16,7 @@ namespace Crystallography;
 [MemoryPackable]
 public partial class Crystal2
 {
-    #region フィールド シリアル化対象 [Key(#)]が必須
+    #region フィールド プライベートメンバーの場合[MemoryPackInclude]が必要
     [MemoryPackInclude]
     private byte[][] cellBytes;
     public int argb;
