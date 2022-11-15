@@ -9,25 +9,14 @@ using System.Security.Cryptography;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
-//using MessagePack;
-//using MessagePack.Resolvers;
 using System.Buffers;
 using System.Reflection;
 using Microsoft.Scripting.Utils;
-
 using MemoryPack;
 using MemoryPack.Compression;
-using System.IO.Compression;
-using IronPython.Runtime;
-using OpenTK.Graphics.ES20;
-using System.Numerics;
-
-
-
 #endregion
 
 namespace Crystallography.Controls;
-
 
 public partial class CrystalDatabaseControl : UserControl
 {
@@ -45,50 +34,38 @@ public partial class CrystalDatabaseControl : UserControl
 
     readonly Stopwatch sw = new();
 
-    //readonly MessagePackSerializerOptions msgOptions = StandardResolverAllowPrivate.Options.WithCompression(MessagePackCompression.Lz4BlockArray);
-
-    //byte[] serialize<T>(T c) => MessagePackSerializer.Serialize(c, msgOptions);
-
-
     byte[] serialize<T>(T c)
     {
-        using var compressor = new BrotliCompressor();
+        using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
         MemoryPackSerializer.Serialize(compressor, c);
-        
-        //先頭の4バイトは、データの長さ
+
+        //先頭の4バイトは、データの長さを格納する。
         var data = compressor.ToArray();
         var length = BitConverter.GetBytes(data.Length);
         var buffer = new byte[data.Length + 4];
-        System.Buffer.BlockCopy(length, 0, buffer, 0, 4);
-        System.Buffer.BlockCopy(data, 0, buffer, 4, data.Length);
+        Buffer.BlockCopy(length, 0, buffer, 0, 4);
+        Buffer.BlockCopy(data, 0, buffer, 4, data.Length);
         return buffer;
     }
 
-    //T deserialize<T>(ReadOnlyMemory<byte> buffer, out int byteRead) =>
-    //    MessagePackSerializer.Deserialize<T>(buffer, msgOptions, out byteRead);
-
-    //Crystal2[] deserialize(ReadOnlyMemory<byte> buffer, out int byteRead) => MessagePackSerializer.Deserialize<Crystal2[]>(buffer, msgOptions, out byteRead);
-
-    //Crystal2[] deserialize(Stream buffer) =>  MessagePackSerializer.Deserialize<Crystal2[]>(buffer, msgOptions);
-
     Crystal2[] deserialize(Stream stream)
     {
-        // Decompression(require using)
-        using var decompressor = new BrotliDecompressor();
-        
         var buffer1 = new byte[4];
         stream.Read(buffer1);
-
-        var buffer2 = GC.AllocateUninitializedArray<byte>(BitConverter.ToInt32(buffer1));
-        stream.Read(buffer2);
-
-        // Get decompressed ReadOnlySequence<byte> from ReadOnlySpan<byte> or ReadOnlySequence<byte>
-        return MemoryPackSerializer.Deserialize<Crystal2[]>(decompressor.Decompress(buffer2));
-    }
-
-
-    //T deserialize<T>(object obj) => MessagePackSerializer.Deserialize<T>((byte[])obj, msgOptions);
-    
+        var length = BitConverter.ToInt32(buffer1);
+        
+        var buffer2 = ArrayPool<byte>.Shared.Rent(length);
+        try
+        {
+            stream.Read(buffer2, 0, length);
+            using var decompressor = new BrotliDecompressor();// Decompression(require using)
+            return MemoryPackSerializer.Deserialize<Crystal2[]>(decompressor.Decompress(buffer2.AsSpan()[0..length]));
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer2);
+        }
+    } 
     
     public Crystal Crystal => Crystal2.GetCrystal(Crystal2);
   
@@ -243,12 +220,8 @@ public partial class CrystalDatabaseControl : UserControl
         {
             var crystal2List = new List<Crystal2>();
             for (int j = i; j < total && j < i + division; j++)
-            {
-                var c2 = (Crystal2)(((DataRowView)bindingSource[j]).Row[0]);
-                c2.jour = Crystal2.GetShortJournal(c2.jour);
-                c2.sect = Crystal2.GetShortTitle(c2.sect);
-                crystal2List.Add(c2);
-            }
+                crystal2List.Add((Crystal2)(((DataRowView)bindingSource[j]).Row[0]));
+            
             byteList.AddRange(serialize(crystal2List.ToArray()));
 
             //最後まで来ている時で、かつ閾値以下の容量で、かつこれまで一度も分割もしていない場合
@@ -415,7 +388,7 @@ public partial class CrystalDatabaseControl : UserControl
         Table.Add(crystal2);
     }
 
-    public void AddCrystals(IEnumerable< Crystal2> crystal2)
+    public void AddCrystals(IEnumerable<Crystal2> crystal2)
     {
         var originalDataMember = dataGridView.DataMember;
         dataGridView.DataMember = "";
@@ -426,7 +399,7 @@ public partial class CrystalDatabaseControl : UserControl
         var originalAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
         dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
-        foreach (var c in crystal2)
+        foreach (var c in crystal2.Where(e => e != null))
             Table.Add(c);
 
         dataGridView.DataMember = originalDataMember;

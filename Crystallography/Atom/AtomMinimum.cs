@@ -29,7 +29,6 @@ public partial class Atoms2
     /// x,y,zの順番. 無次元
     /// </summary>
     [MemoryPackIgnore]
-
     public string[] PositionTexts
     {
         get => positionBytes == null ? null : Array.ConvertAll(positionBytes, Crystal2.ToString);

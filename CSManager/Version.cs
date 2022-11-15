@@ -24,10 +24,11 @@ namespace CSManager
         }
 
         static public int AMCSD = 20997;
-        static public int COD = 490180;
+        static public int COD = 494508;
 
         static public string History = 
             "History" +
+                "\r\n ver1.894(2022/11/16) Updated .Net Desktop Runtime to 7.0. Renewed COD database (494,508). Changed algorithm when saving and loading." +
                 "\r\n ver1.893(2022/10/27) Improved search function." +
                 "\r\n ver1.892(2022/10/26) Fixed minor bugs." +
                 "\r\n ver1.891(2022/09/09) Renewed AMCSD database (contains 20,997) and COD database (490,180)." +
