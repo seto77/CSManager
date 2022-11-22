@@ -1,6 +1,6 @@
 # CSManager
 * *CSManager* is a management software of crystal databaase.
-  * Runs on Windows with .Net Framework 4.8.
+  * Runs on Windows OS with .Net Desktop Runtime 7.0 (not .Net Runtime 7.0), which can be installed from [here](https://dotnet.microsoft.com/download/dotnet/7.0).
   
 ## Install
 * Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerSetup.msi*, and execute it.
