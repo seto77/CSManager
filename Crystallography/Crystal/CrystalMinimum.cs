@@ -58,11 +58,24 @@ public partial class Crystal2
     {
         get
         {
-            var c = CellTexts.Select(t => Decompose2(t)).ToArray();
+            var c = CellTexts.Select(t => Decompose(t)).ToArray();
             return ((c[0].Value, c[1].Value, c[2].Value, c[3].Value, c[4].Value, c[5].Value),
                      (c[0].Error, c[1].Error, c[2].Error, c[3].Error, c[4].Error, c[5].Error));
         }
     }
+
+    /// <summary>
+    /// a,b,c,α,β,γ の順番. Getのみ. 長さはA, 角度は度単位. エラーの値は含まない.
+    /// </summary>
+    [MemoryPackIgnore]
+    public (double A, double B, double C, double Alpha, double Beta, double Gamma) CellWithoutErrors => ((
+                DecomposeWithoutError(CellTexts[0]),
+                DecomposeWithoutError(CellTexts[1]),
+                DecomposeWithoutError(CellTexts[2]),
+                DecomposeWithoutError(CellTexts[3]),
+                DecomposeWithoutError(CellTexts[4]),
+                DecomposeWithoutError(CellTexts[5])));
+
 
     /// <summary>
     /// a,b,c,α,β,γ の順番. Getのみ. 長さはnm, 角度はradian.
@@ -300,7 +313,9 @@ public partial class Crystal2
     //        }
     //}
 
-    private static (double Value, double Error) Decompose2(string str) => Decompose(str, false);
+   
+
+    private static (double Value, double Error) Decompose(string str) => Decompose(str, false);
     public static (double Value, double Error) Decompose(string str, int sgnum) => Decompose(str, sgnum >= 430 && sgnum <= 488);
 
     private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
@@ -326,8 +341,8 @@ public partial class Crystal2
         double err;
         if ((i = str.IndexOf("|", StringComparison.Ordinal)) > 0)
         {
-            valStr = str.AsSpan()[0..i].ToString();
-            if (str.Length - 1 > i && double.TryParse(str.AsSpan()[(i + 1)..^1], style, culture, out err))
+            valStr = str[0..i];
+            if (str.Length - 1 > i && double.TryParse(str[(i + 1)..^1], style, culture, out err))
             {
                 var j = valStr.IndexOf(".", StringComparison.Ordinal);
                 if (j >= 0 && valStr.Length - j - 1 > 0)
@@ -376,6 +391,29 @@ public partial class Crystal2
 
         return double.TryParse(valStr, style, culture, out var val) ? (val * expValue, err * expValue) : (double.NaN, double.NaN);
     }
+
+    /// <summary>
+    /// 9.726|5|, 1.234|12|E-6 のような文字列を、Valueの部分だけ返す. 
+    /// 格子定数を変換するときだけに呼ばれる.
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static double DecomposeWithoutError(string str)
+    {
+        var expValue = 1.0;
+        if (str.Contains('E'))
+        {
+            int i = str.IndexOf("E", StringComparison.Ordinal);
+            _ = double.TryParse("1" + str[i..], style, culture, out expValue);
+            str = str[..i];
+        }
+
+        if (str.Contains('|')) 
+            str = str[0..str.IndexOf("|", StringComparison.Ordinal)];
+
+        return double.TryParse(str, style, culture, out var val) ? val * expValue : double.NaN;
+    }
+
     public static string Compose(double val, double err = double.NaN)
     {
         if (double.IsNaN(val))
