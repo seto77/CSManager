@@ -1,20 +1,20 @@
 ﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Windows.Forms;
-using System.IO;
-using System.Security.Cryptography;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Drawing;
-using System.Buffers;
-using System.Reflection;
-using Microsoft.Scripting.Utils;
 using MemoryPack;
 using MemoryPack.Compression;
-using static Crystallography.Controls.DataSet;
+using Microsoft.Scripting.Utils;
+using System;
+using System.Buffers;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Windows.Forms;
 #endregion
 
 namespace Crystallography.Controls;
@@ -35,7 +35,7 @@ public partial class CrystalDatabaseControl : UserControl
 
     readonly Stopwatch sw = new();
 
-    byte[] serialize<T>(T c)
+    static byte[] serialize<T>(T c)
     {
         using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
         MemoryPackSerializer.Serialize(compressor, c);
@@ -49,7 +49,7 @@ public partial class CrystalDatabaseControl : UserControl
         return buffer;
     }
 
-    Crystal2[] deserialize(Stream stream)
+    static Crystal2[] deserialize(Stream stream)
     {
         var buffer1 = new byte[4];
         stream.Read(buffer1);
@@ -61,6 +61,7 @@ public partial class CrystalDatabaseControl : UserControl
             stream.Read(buffer2, 0, length);
             using var decompressor = new BrotliDecompressor();// Decompression(require using)
             return MemoryPackSerializer.Deserialize<Crystal2[]>(decompressor.Decompress(buffer2.AsSpan()[0..length]));
+        
         }
         finally
         {
@@ -148,17 +149,16 @@ public partial class CrystalDatabaseControl : UserControl
                 {
                     var fileNum = readInt(fs);
                     var fileNames = Enumerable.Range(0, fileNum).Select(i =>
-                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}")
-                        .AsParallel();
+                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").AsParallel();
 
                     fileNames.ForAll(fn =>
                     {
                         using var stream = new FileStream(fn, FileMode.Open);
                         while (stream.Length != stream.Position)
                         {
-                            var rows = deserialize(stream).AsParallel().Select(Table.CreateRow).ToList();
-                            lock (lockObj)
-                                rows.ForEach(Table.Rows.Add);
+                            var rows = deserialize(stream).Select(Table.CreateRow).ToList();
+                            lock(lockObj)
+                                rows.ForEach(Table.AddDataTableCrystalDatabaseRow);
                             
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
@@ -203,10 +203,10 @@ public partial class CrystalDatabaseControl : UserControl
 
         var fn = (string)e.Argument;
 
+        var total = Table.Count;
+
         var thresholdBytes = 30000000;
         var division = 4000;//分割単位 たぶんパフォーマンスに効く
-
-        var total = Table.Count;
 
         using var fs = new FileStream(fn, FileMode.Create, FileAccess.Write);
 
