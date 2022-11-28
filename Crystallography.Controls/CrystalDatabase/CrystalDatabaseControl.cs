@@ -7,13 +7,15 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 #endregion
 
@@ -54,19 +56,15 @@ public partial class CrystalDatabaseControl : UserControl
         var buffer1 = new byte[4];
         stream.Read(buffer1);
         var length = BitConverter.ToInt32(buffer1);
-        
+
         var buffer2 = ArrayPool<byte>.Shared.Rent(length);
         try
         {
             stream.Read(buffer2, 0, length);
             using var decompressor = new BrotliDecompressor();// Decompression(require using)
             return MemoryPackSerializer.Deserialize<Crystal2[]>(decompressor.Decompress(buffer2.AsSpan()[0..length]));
-        
         }
-        finally
-        {
-            ArrayPool<byte>.Shared.Return(buffer2);
-        }
+        finally { ArrayPool<byte>.Shared.Return(buffer2); }
     } 
     
     public Crystal Crystal => Crystal2.GetCrystal(Crystal2);
@@ -151,15 +149,16 @@ public partial class CrystalDatabaseControl : UserControl
                     var fileNames = Enumerable.Range(0, fileNum).Select(i =>
                             $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").AsParallel();
 
+
                     fileNames.ForAll(fn =>
                     {
                         using var stream = new FileStream(fn, FileMode.Open);
                         while (stream.Length != stream.Position)
                         {
                             var rows = deserialize(stream).Select(Table.CreateRow).ToList();
-                            lock(lockObj)
+                            lock (lockObj)
                                 rows.ForEach(Table.AddDataTableCrystalDatabaseRow);
-                            
+
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
                     });
@@ -205,8 +204,8 @@ public partial class CrystalDatabaseControl : UserControl
 
         var total = Table.Count;
 
-        var thresholdBytes = 30000000;
-        var division = 4000;//分割単位 たぶんパフォーマンスに効く
+        var thresholdBytes = 20000000;
+        var division = 6000;//分割単位 たぶんパフォーマンスに効く
 
         using var fs = new FileStream(fn, FileMode.Create, FileAccess.Write);
 
