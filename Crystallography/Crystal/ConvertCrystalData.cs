@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -11,17 +12,18 @@ using System.Text;
 using System.Threading;
 using V3 = OpenTK.Vector3d;
 
-
-
 namespace Crystallography;
 
 public class ConvertCrystalData
 {
-    static System.StringComparison Ord = System.StringComparison.Ordinal;
+    static readonly System.StringComparison Ord = System.StringComparison.Ordinal;
 
     #region CrystalList(xml形式)の読み込み/書き込み
     public static bool SaveCrystalListXml(Crystal[] crystals, string filename)
     {
+        if (crystals != null && crystals.Length != 0 && crystals[0].FlexibleMode)
+            crystals[0].FlexiblePlane = crystals[0].Plane;
+
         try
         {
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(Crystal[]));
@@ -93,7 +95,8 @@ public class ConvertCrystalData
                     Thread.Sleep(1);
                 }
 
-
+                foreach(var c in cry.Where(e=>e.FlexiblePlane!=null && e.FlexiblePlane.Count>0))
+                    c.Plane = c.FlexiblePlane;
             }
             catch { }
         }
@@ -321,7 +324,7 @@ public class ConvertCrystalData
 
         var AuthorName = str[n];//著者の名前
         n++; if (str.Length <= n) return null;
-        while (str[n][^1] < '.' || str[n][^1] > '9')
+        while ((str[n][^1] < '.' || str[n][^1] > '9') && !str[n].Contains("doi.org") && !str[n].Contains("DOI: "))//行の最後の文字が数字ではないとき　(ただし、"doi.org"の文字列が存在するときは除外) 
         {
             AuthorName += ", " + str[n];
             n++; if (str.Length <= n) return null;
@@ -519,6 +522,9 @@ public class ConvertCrystalData
             return null;
         try
         {
+            for (int i = 0; i < 6; i++) if (s[i].EndsWith(',')) s[i] = s[i].TrimEnd(','); //最後に','が入っているときは削除
+
+
             if (Miscellaneous.IsDecimalPointComma)
                 for (int i = 0; i < 6; i++) s[i] = s[i].Replace('.', ',');
             else
@@ -558,7 +564,7 @@ public class ConvertCrystalData
         else if (SgName == "Im3m") SgName = "Im-3m";
         else if (SgName == "Ia3d") SgName = "Ia-3d";
 
-        else if (SgName == "I2sub1/a-3") SgName = "Ia3";
+        else if (SgName == "I2sub1/a-3") SgName = "Ia-3";
 
         else if (SgName == "R-32/c") SgName = "R-3c";
 
@@ -865,6 +871,10 @@ public class ConvertCrystalData
                 }
             }
         }
+
+        if (str[^1].StartsWith("#"))
+            str[^1] = "#End of data";
+
 
         //次に'あるいは"で囲まれている文字列中の空白を偶然出てこないような文字列に変換する
         for (int n = 0; n < str.Count; n++)
@@ -1307,11 +1317,26 @@ public class ConvertCrystalData
             if (symmetrySeriesNumber != -1)
                 return symmetrySeriesNumber;
         }
+        
+        SgNameHM = SgNameHM.TrimStart(' ').TrimEnd(' ');
+
+
+        if (!SgNameHM.Contains(' ') && SgNameHM.Contains('_'))
+            for (int i = 1; i < SgNameHM.Length - 1; i++)
+                if (SgNameHM[i] == '_' && '0' < SgNameHM[i - 1] && '9' > SgNameHM[i - 1] && '0' < SgNameHM[i + 1] && '9' > SgNameHM[i + 1])
+                {
+                    SgNameHM = SgNameHM.Remove(i, 1);
+                    SgNameHM = SgNameHM.Insert(i, "sub");
+                    i += 3;
+                }
+
         SgNameHM = SgNameHM.Replace("_", " ");
+
         SgNameHM = SgNameHM.Replace("{hexagonalal axes}", " ");
         SgNameHM = SgNameHM.Replace("{rhombohedral axes}", " ");
 
         SgNameHM = SgNameHM.TrimStart(' ').TrimEnd(' ');
+
         if (SgNameHM.EndsWith("RS", Ord) || SgNameHM.EndsWith("HR", Ord))
             SgNameHM = SgNameHM.Remove(SgNameHM.Length - 2, 2).TrimEnd(' ');
 
@@ -1609,8 +1634,8 @@ public class ConvertCrystalData
     public static string ConvertToCIF(Crystal crystal)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("# This file is exported from \"" + System.Diagnostics.Process.GetCurrentProcess().ProcessName + "\"");
-        sb.AppendLine("# http://pmsl.planet.sci.kobe-u.ac.jp/~seto");
+        sb.AppendLine("# This file is exported from \"" + Process.GetCurrentProcess().ProcessName + "\"");
+        sb.AppendLine("# https://github.com/seto77/");
 
         sb.AppendLine("data_global");
         sb.AppendLine("_chemical_name '" + crystal.Name + "'");
@@ -1640,6 +1665,7 @@ public class ConvertCrystalData
         sb.AppendLine(";");
         #endregion
 
+        #region 格子定数、対称性
         sb.AppendLine("_chemical_formula_sum '" + crystal.ChemicalFormulaSum + "'");
         sb.AppendLine("_cell_length_a " + (crystal.A * 10).ToString("f6"));
         sb.AppendLine("_cell_length_b " + (crystal.B * 10).ToString("f6"));
@@ -1658,6 +1684,7 @@ public class ConvertCrystalData
         hm = hm.Replace("Rho", "");
         sb.AppendLine("_symmetry_space_group_name_H-M '" + hm + "'");
         sb.AppendLine("_symmetry_space_group_name_Hall '" + sym.SpaceGroupHallStr + "'");
+        #endregion
 
         #region 原子の等価位置
         sb.AppendLine("loop_");
@@ -1723,31 +1750,32 @@ public class ConvertCrystalData
 
         foreach (var a in crystal.Atoms)
         {
-            var u = double.IsNaN(a.Dsf.Uiso) ? 0 : a.Dsf.Uiso;
-            sb.AppendLine($"{a.Label} {AtomStatic.AtomicName(a.AtomicNumber)} {a.X:f5} {a.Y:f5} {a.Z:f5} {a.Occ:f5} {u:f5}");
+            var u = double.IsNaN(a.Dsf.Uiso) ? 0 : a.Dsf.Uiso * 100;
+            sb.AppendLine($"{a.Label} {AtomStatic.AtomicName(a.AtomicNumber)} {a.X:f6} {a.Y:f6} {a.Z:f6} {a.Occ:f6} {u:f6}");
         }
 
-        sb.AppendLine("loop_");
-        sb.AppendLine("_atom_site_aniso_label");
-        sb.AppendLine("_atom_site_aniso_U_11");
-        sb.AppendLine("_atom_site_aniso_U_22");
-        sb.AppendLine("_atom_site_aniso_U_33");
-        sb.AppendLine("_atom_site_aniso_U_23");
-        sb.AppendLine("_atom_site_aniso_U_13");
-        sb.AppendLine("_atom_site_aniso_U_12");
-        foreach (var a in crystal.Atoms)
+
+        if (crystal.Atoms.Any(a => !a.Dsf.UseIso))
         {
-            if (!a.Dsf.UseIso)
+            sb.AppendLine("loop_");
+            sb.AppendLine("_atom_site_aniso_label");
+            sb.AppendLine("_atom_site_aniso_U_11");
+            sb.AppendLine("_atom_site_aniso_U_22");
+            sb.AppendLine("_atom_site_aniso_U_33");
+            sb.AppendLine("_atom_site_aniso_U_23");
+            sb.AppendLine("_atom_site_aniso_U_13");
+            sb.AppendLine("_atom_site_aniso_U_12");
+            foreach (var a in crystal.Atoms.Where(e => !e.Dsf.UseIso))
             {
-                var u11 = double.IsNaN(a.Dsf.U11) ? 0 : a.Dsf.U11;
-                var u22 = double.IsNaN(a.Dsf.U22) ? 0 : a.Dsf.U22;
-                var u33 = double.IsNaN(a.Dsf.U33) ? 0 : a.Dsf.U33;
-                var u23 = double.IsNaN(a.Dsf.U23) ? 0 : a.Dsf.U23;
-                var u31 = double.IsNaN(a.Dsf.U31) ? 0 : a.Dsf.U31;
-                var u12 = double.IsNaN(a.Dsf.U12) ? 0 : a.Dsf.U12;
-                sb.AppendLine($"{a.Label} {u11:f5} {u22:f5} {u33:f5} {u23:f5} {u31:f5} {u12:f5}");
+                var u11 = double.IsNaN(a.Dsf.U11) ? 0 : a.Dsf.U11 * 100;
+                var u22 = double.IsNaN(a.Dsf.U22) ? 0 : a.Dsf.U22 * 100;
+                var u33 = double.IsNaN(a.Dsf.U33) ? 0 : a.Dsf.U33 * 100;
+                var u23 = double.IsNaN(a.Dsf.U23) ? 0 : a.Dsf.U23 * 100;
+                var u31 = double.IsNaN(a.Dsf.U31) ? 0 : a.Dsf.U31 * 100;
+                var u12 = double.IsNaN(a.Dsf.U12) ? 0 : a.Dsf.U12 * 100;
+                sb.AppendLine($"{a.Label} {u11:f6} {u22:f6} {u33:f6} {u23:f6} {u31:f6} {u12:f6}");
             }
-        }
+        } 
         #endregion
 
         return sb.ToString();

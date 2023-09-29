@@ -300,7 +300,7 @@ public class Matrix3D : ICloneable
     /// <param name="v">回転軸</param>
     /// <param name="theta">回転角度</param>
     /// <returns></returns>
-    public static Matrix3D Rot(Vector3DBase v, double theta)
+    public static Matrix3D Rot(Vector3DBase v, in double theta)
     {
         //Vx*Vx*(1-cos) + cos  	    Vx*Vy*(1-cos) - Vz*sin  	Vz*Vx*(1-cos) + Vy*sin
         //Vx*Vy*(1-cos) + Vz*sin 	Vy*Vy*(1-cos) + cos 	    Vy*Vz*(1-cos) - Vx*sin
@@ -338,10 +338,42 @@ public class Matrix3D : ICloneable
     }
     public static Matrix3D Rot(Vector3d v, double theta) => Rot(new Vector3DBase(v.X, v.Y, v.Z), theta);
 
+    /// <summary>
+    /// オイラー角(Z-X-Zセッティング)を指定して回転行列を生成する。
+    /// </summary>
+    /// <param name="phi"></param>
+    /// <param name="theta"></param>
+    /// <param name="psi"></param>
+    /// <returns></returns>
+    public static Matrix3D Rot(double phi, double theta, double psi)
+    {
+        double cosPhi = Math.Cos(phi), sinPhi = Math.Sin(phi);
+        double cosTheta = Math.Cos(theta), sinTheta = Math.Sin(theta);
+        double cosPsi = Math.Cos(psi), sinPsi = Math.Sin(psi);
+
+        return new Matrix3D(
+            cosPhi * cosPsi - cosTheta * sinPhi * sinPsi,
+            sinPhi * cosPsi + cosTheta * cosPhi * sinPsi,
+            sinPsi * sinTheta,
+
+            -cosPhi * sinPsi - cosTheta * sinPhi * cosPsi,
+            -sinPhi * sinPsi + cosTheta * cosPhi * cosPsi,
+            cosPsi * sinTheta,
+
+            sinTheta * sinPhi,
+            -sinTheta * cosPhi,
+            cosTheta
+            );
+    }
+
+    /// <summary>
+    /// X軸の回りにtheta回転する行列を生成する
+    /// </summary>
+    /// <param name="theta"></param>
+    /// <returns></returns>
     public static Matrix3D RotX(double theta)
     {
-        double cos = Math.Cos(theta);
-        double sin = Math.Sin(theta);
+        double cos = Math.Cos(theta),sin = Math.Sin(theta);
         return new Matrix3D()
         {
             E22 = cos,
@@ -350,10 +382,15 @@ public class Matrix3D : ICloneable
             E33 = cos
         };
     }
+
+    /// <summary>
+    /// Y軸の回りにtheta回転する行列を生成する
+    /// </summary>
+    /// <param name="theta"></param>
+    /// <returns></returns>
     public static Matrix3D RotY(double theta)
     {
-        var cos = Math.Cos(theta);
-        var sin = Math.Sin(theta);
+        double cos = Math.Cos(theta),sin = Math.Sin(theta);
         return new Matrix3D()
         {
             E11 = cos,
@@ -362,10 +399,15 @@ public class Matrix3D : ICloneable
             E33 = cos
         };
     }
+
+    /// <summary>
+    /// Z軸の回りにtheta回転する行列を生成する
+    /// </summary>
+    /// <param name="theta"></param>
+    /// <returns></returns>
     public static Matrix3D RotZ(double theta)
     {
-        var cos = Math.Cos(theta);
-        var sin = Math.Sin(theta);
+        double cos = Math.Cos(theta), sin = Math.Sin(theta);
         return new Matrix3D()
         {
             E11 = cos,
@@ -394,9 +436,7 @@ public class Matrix3D : ICloneable
         return GenerateRamdomRotationMatrix(rn1, rn2, rn3);
     }
 
-
-
-    public static Matrix3D GenerateRamdomRotationMatrix(double rn1, double rn2, double rn3)
+    public static Matrix3D GenerateRamdomRotationMatrix(in double rn1,in  double rn2, in double rn3)
     {
         double phi = rn1 * 2 * Math.PI;
         double cosPhi = Math.Cos(phi), sinPhi = Math.Sin(phi);
@@ -427,7 +467,7 @@ public class Matrix3D : ICloneable
     /// <param name="theta"></param>
     /// <param name="ksi"></param>
     /// <returns></returns>
-    public static Matrix3D GenerateEquiareaMatrix(double phi, double theta, double ksi)
+    public static Matrix3D GenerateEquiareaMatrix(in double phi,in double theta, in double ksi)
     {
         double cosPhi = Math.Cos(phi * 2 * Math.PI), sinPhi = Math.Sin(phi * 2 * Math.PI);
         double cosTheta = theta * 2 - 1, sinTheta = Math.Sqrt(1 - cosTheta * cosTheta);
@@ -481,7 +521,6 @@ public class Matrix3D : ICloneable
     /// <param name="m"></param>
     /// <returns></returns>
     public static double SumOfDiagonalCompenent(Matrix3D m) => m.E11 + m.E22 + m.E33;
-
 
     /// <summary>
     /// ゼロ行列 (定数)
