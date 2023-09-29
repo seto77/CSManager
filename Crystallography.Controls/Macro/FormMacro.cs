@@ -102,8 +102,11 @@ namespace Crystallography.Controls
 
             while (stepByStepMode && nextStepFlag == false)
             {
-                _cancelSource.Token.ThrowIfCancellationRequested();
-                try { Application.DoEvents(); }
+                try
+                {
+                    _cancelSource.Token.ThrowIfCancellationRequested();
+                    Application.DoEvents();
+                }
                 catch { }
                 Thread.Sleep(50);
             }
@@ -178,7 +181,7 @@ namespace Crystallography.Controls
         {
             stepByStepMode = false;
 
-            buttonCancelStep.Visible = true;
+            //buttonCancelStep.Visible = true;
             buttonStepByStep.Visible = buttonRunMacro.Visible = false;
             RunMacro(exRichTextBox.Text);
             buttonCancelStep.Visible = false;
@@ -189,7 +192,8 @@ namespace Crystallography.Controls
         {
             stepByStepMode = true;
 
-            buttonCancelStep.Visible = buttonNextStep.Visible = true;
+            //buttonCancelStep.Visible = true;
+            buttonNextStep.Visible = true;
             buttonStepByStep.Visible = buttonRunMacro.Visible = false;
             try { RunMacro(exRichTextBox.Text); }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -229,18 +233,13 @@ namespace Crystallography.Controls
                 dataGridViewDebug.Rows.Clear();
 
                 if (stepByStepMode)
-                    splitContainer2.SplitterDistance = splitContainer2.Width - 220;
-                IronPython.Hosting.Python.SetTrace(Engine, this.OnTraceback);
-
-                void thread()
                 {
-                    try { Engine.CreateScriptSourceFromString(srcCode).Execute(Scope); }
-                    catch { }
+                    splitContainer2.SplitterDistance = splitContainer2.Width - 220;
+                    IronPython.Hosting.Python.SetTrace(Engine, this.OnTraceback);
                 }
 
                 _cancelSource = new CancellationTokenSource();
-                task = new Task(thread, _cancelSource.Token);
-
+                task = new Task(()=> Engine.CreateScriptSourceFromString(srcCode).Execute(Scope), _cancelSource.Token);
                 task.RunSynchronously();
             }
             catch (Microsoft.Scripting.ArgumentTypeException ex) { MessageBox.Show(ex.Message); }
@@ -256,7 +255,7 @@ namespace Crystallography.Controls
         {
             string[] fileName = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (fileName.Length == 1 && fileName[0].EndsWith(".mcr"))
-                readMacroFile(fileName[0]);
+                ReadMacroFile(fileName[0]);
         }
 
         private void FormMacro_DragEnter(object sender, DragEventArgs e)
@@ -272,10 +271,10 @@ namespace Crystallography.Controls
         {
             var dlg = new OpenFileDialog { Filter = "*.mcr|*.mcr" };
             if (dlg.ShowDialog() == DialogResult.OK)
-                readMacroFile(dlg.FileName);
+                ReadMacroFile(dlg.FileName);
         }
 
-        private void readMacroFile(string filename)
+        public void ReadMacroFile(string filename)
         {
             exRichTextBox.Text = "";
             var reader = new StreamReader(filename, Encoding.GetEncoding("UTF-8"));
@@ -285,7 +284,6 @@ namespace Crystallography.Controls
             textBoxMacroName.Text = Path.GetFileNameWithoutExtension(filename);
             reader.Close();
             buttonAddMacro_Click(new object(), new EventArgs());
-
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

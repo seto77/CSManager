@@ -17,17 +17,29 @@ public partial class Crystal2
     #region フィールド プライベートメンバーの場合[MemoryPackInclude]が必要
     [MemoryPackInclude]
     private byte[][] cellBytes;
+
     public int argb;
+
     public float density;
+    
     public string name;
+    
     public string note;
+    
     public string jour;
+    
     public string auth;
+    
     public string sect;
+    
     public string formula;//計算可能な場合は。
+    
     public short sym;
+    
     public List<Atoms2> atoms;
+    
     public float[] d;//強度8位までのd値
+    
     public string fileName;
 
     #endregion
@@ -147,12 +159,8 @@ public partial class Crystal2
 
         var bonds = Bonds.GetVestaBonds(atom.Select(a => a.AtomicNumber));
 
-        var crystal = new Crystal(cell.Values, cell.Errors,
-            c.sym, c.name, System.Drawing.Color.FromArgb(c.argb), new Matrix3D(),
-            atom.ToArray(), (c.note, c.auth, c.jour, c.sect), bonds);
-
-        return crystal;
-    }
+        return new Crystal(cell.Values, cell.Errors, c.sym, c.name, System.Drawing.Color.FromArgb(c.argb), new Matrix3D(), atom.ToArray(), (c.note, c.auth, c.jour, c.sect), bonds);
+    } 
 
     public static Crystal2 FromCrystal(Crystal c)
     {
@@ -209,7 +217,11 @@ public partial class Crystal2
     }
 
     [MemoryPackIgnore]
-    static readonly char[] toCharDic = new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '-', '|', 'E' };
+    private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
+    [MemoryPackIgnore]
+    private static readonly NumberStyles style = NumberStyles.Number;
+    [MemoryPackIgnore]
+    private static readonly StringComparison Ord = StringComparison.Ordinal;
     [MemoryPackIgnore]
     static readonly string[] toStringDic = new string[]
         {
@@ -520,14 +532,14 @@ public partial class Crystal2
             return new[] { (byte)(240 + 0) };
         else
         {
-            if (s.StartsWith("0.", StringComparison.Ordinal))
+            if (s.StartsWith("0.", Ord))
             {
                 if (s == "0.")
                     s = "0";
                 else
                     s = s[1..];
             }
-            else if (s.StartsWith("-0.", StringComparison.Ordinal))
+            else if (s.StartsWith("-0.", Ord))
                 s = s.Replace("-0.", "-.");
             try
             {
@@ -564,18 +576,9 @@ public partial class Crystal2
         return sb.ToString();
     }
 
-
-
-
-
     private static (double Value, double Error) Decompose(string str) => Decompose(str, false);
     public static (double Value, double Error) Decompose(string str, int sgnum) => Decompose(str, sgnum >= 430 && sgnum <= 488);
-    [MemoryPackIgnore]
-    private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
-    [MemoryPackIgnore]
-    private static readonly NumberStyles style = NumberStyles.Number;
-    [MemoryPackIgnore]
-    private static readonly StringComparison Ord = StringComparison.Ordinal;
+
 
     /// <summary>
     /// 9.726|5|, 1.234|12|E-6 のような文字列を、ValueとErrorに分解してタプルで返す. 

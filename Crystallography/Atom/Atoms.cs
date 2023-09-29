@@ -27,6 +27,16 @@ public class Atoms : System.IEquatable<Atoms>, ICloneable
         Atoms atoms = obj;
         return atoms.Label == Label && atoms.X == X && atoms.Y == Y && atoms.Z == Z && atoms.Occ == Occ;
     }
+
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as Atoms);
+    }
+
+    public override int GetHashCode()
+    {
+        return new { X,Y,Z,Occ,Label,WyckoffNumber,SymmetrySeriesNumber,Dsf,Atom,Texture }.GetHashCode();
+    }
     #endregion
 
     #region フィールド、プロパティ
@@ -81,10 +91,7 @@ public class Atoms : System.IEquatable<Atoms>, ICloneable
     public Vector3DBase PositionError => new(X_err, Y_err, Z_err);
     [XmlIgnore]
     public Vector3DBase Position => new(X, Y, Z);
-
-
-
-
+    
     [XmlIgnore]
     public (float Ambient, float Diffusion, float Specular, float Shininess, float Emission) Texture
     {
@@ -519,6 +526,10 @@ public class Atoms : System.IEquatable<Atoms>, ICloneable
             try { return Convert.ToDouble(s); }
             catch { System.Windows.Forms.MessageBox.Show("数値を入力してください"); return 0; }
     }
+
+
+
+
     #endregion
 }
 
@@ -536,6 +547,17 @@ public class DiffuseScatteringFactor
     /// unit: nm^2
     /// </summary>
     public double Biso => OriginalType == Type.B ? Iso : Iso * PI2 * 8;
+
+    /// <summary>
+    /// unit: nm^2. g=000の時のBiso. Acta Cryst. (1959). 12, 609 , Hamilton の式に従って、Bisoを計算
+    /// </summary>
+    public double Biso000 => (B11 * a2 + B22 * b2 + B33 * c2 + 2 * B12 * ab + 2 * B23 * bc + 2 * B31 * ca) * 4.0 / 3.0;
+
+    /// <summary>
+    /// 温度因子がゼロの場合はtrue
+    /// </summary>
+    public bool IsZero => UseIso ? Biso == 0 : B11 == 0 && B22 == 0 && B33 == 0 && B12 == 0 && B23 == 0 && B31 == 0;
+
     /// <summary>
     /// unit: nm^2
     /// </summary>
@@ -592,23 +614,65 @@ public class DiffuseScatteringFactor
     #endregion
 
     #region U type. Getのみ
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double Uiso => OriginalType == Type.U ? Iso : Iso / PI2 / 8;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double Uiso_err => OriginalType == Type.U ? Iso_err : Iso_err / PI2 / 8;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U11 => OriginalType == Type.U ? Aniso11 : Aniso11 / coeff11;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U22 => OriginalType == Type.U ? Aniso22 : Aniso22 / coeff22;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U33 => OriginalType == Type.U ? Aniso33 : Aniso33 / coeff33;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U12 => OriginalType == Type.U ? Aniso12 : Aniso12 / coeff12;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U23 => OriginalType == Type.U ? Aniso23 : Aniso23 / coeff23;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U31 => OriginalType == Type.U ? Aniso31 : Aniso31 / coeff31;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U11_err => OriginalType == Type.U ? Aniso11_err : Aniso11_err / coeff11;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U22_err => OriginalType == Type.U ? Aniso22_err : Aniso22_err / coeff22;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U33_err => OriginalType == Type.U ? Aniso33_err : Aniso33_err / coeff33;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U12_err => OriginalType == Type.U ? Aniso12_err : Aniso12_err / coeff12;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U23_err => OriginalType == Type.U ? Aniso23_err : Aniso23_err / coeff23;
+    /// <summary>
+    /// 単位は nm^2
+    /// </summary>
     public double U31_err => OriginalType == Type.U ? Aniso31_err : Aniso31_err / coeff31;
     #endregion
 
-    #region オリジナルの値
+    #region オリジナルの値 
     /// <summary>
     /// 単位は nm^2
     /// </summary>
@@ -679,6 +743,12 @@ public class DiffuseScatteringFactor
         set
         {
             cell = value;
+            a2 = cell.A * cell.A;
+            b2 = cell.B * cell.B;
+            c2 = cell.C * cell.C;
+            ab = cell.A * cell.B;
+            bc = cell.B * cell.C;
+            ca = cell.C * cell.A;
             var cosAlpha = Math.Cos(cell.Alpha);
             var sinAlpha = Math.Sin(cell.Alpha);
             var cosBeta = Math.Cos(cell.Beta);
@@ -686,9 +756,9 @@ public class DiffuseScatteringFactor
             var cosGamma = Math.Cos(cell.Gamma);
             var sinGamma = Math.Sin(cell.Gamma);
             var v = cell.A * cell.B * cell.C * Math.Sqrt(1 - cosAlpha * cosAlpha - cosBeta * cosBeta - cosGamma * cosGamma + 2 * cosAlpha * cosBeta * cosGamma);
-            var aStar = cell.B * cell.C * sinAlpha / v;
-            var bStar = cell.C * cell.A * sinBeta / v;
-            var cStar = cell.A * cell.B * sinGamma / v;
+            var aStar = bc * sinAlpha / v;
+            var bStar = ca * sinBeta / v;
+            var cStar = ab * sinGamma / v;
             var cosAlphaStar = (cosBeta * cosGamma - cosAlpha) / sinBeta / sinGamma;
             var cosBetaStar = (cosGamma * cosAlpha - cosBeta) / sinGamma / sinAlpha;
             var cosGammaStar = (cosAlpha * cosBeta - cosGamma) / sinAlpha / sinBeta;
@@ -702,7 +772,7 @@ public class DiffuseScatteringFactor
     }
     private (double A, double B, double C, double Alpha, double Beta, double Gamma) cell = (0, 0, 0, 0, 0, 0);
 
-    private double coeff11, coeff22, coeff33, coeff12, coeff23, coeff31;
+    private double a2, b2, c2, ab, bc, ca, coeff11, coeff22, coeff33, coeff12, coeff23, coeff31;
     #endregion
 
     #region コンストラクタ

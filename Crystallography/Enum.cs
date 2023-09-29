@@ -1,36 +1,61 @@
-﻿namespace Crystallography
+﻿namespace Crystallography;
+
+//汎用性の高い列挙体をここで定義
+
+public enum LengthUnitEnum
 {
-    //汎用性の高い列挙体をここで定義
+    None,
+    
+    Meter,
+    CentiMeter,
+    MilliMeter,
+    MicroMeter,
+    NanoMeter,
+    Angstrom,
+    PicoMeter,
 
-    public enum PixelUnitEnum
-    {
-        None,
-        MilliMeter,
-        MicroMeter,
-        NanoMeter,
-        MicroMeterInv,
-        NanoMeterInv
-    }
+    MeterInverse,
+    CentiMeterInverse,
+    MilliMeterInverse,
+    MicroMeterInverse,
+    NanoMeterInverse,
+    AngstromInverse,
+    PicoMeterInverse
+}
 
-    public enum FourierDirectionEnum
-    {
-        Forward,
-        Inverse
-    }
+public enum AngleUnitEnum
+{
+    Degree,
+    Radian
+}
 
-    public enum VH_DirectionEnum
-    {
-        Vertical,
-        Horizontal
-    }
+public enum FourierDirectionEnum
+{
+    Forward,
+    Inverse
+}
 
-    public enum EnergyUnitEnum
-    {
-        eV,
-        KeV
-    }
+public enum VH_DirectionEnum
+{
+    Vertical,
+    Horizontal
+}
 
-    internal class Enum
-    {
-    }
+public enum EnergyUnitEnum
+{
+    eV,
+    KeV,
+    MeV
+}
+
+public enum TimeUnitEnum
+{
+    Seccond,
+    MilliSecond,
+    MicroSecond,
+    NanoSecond
+}
+
+internal class Enum
+{
 }

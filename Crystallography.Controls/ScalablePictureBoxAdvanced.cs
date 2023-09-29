@@ -19,7 +19,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
 
         InitializeComponent();
 
-        graphControl.LineList = new[] { new PointD(0, 0), new PointD(0, 0) };
+        graphControl.VerticalLines = new[] { new PointD(0, 0), new PointD(0, 0) };
         comboBoxGradient.SelectedIndex = 0;
         comboBoxScale1.SelectedIndex = 1;
         comboBoxScale2.SelectedIndex = 0;
@@ -187,8 +187,8 @@ public partial class ScalablePictureBoxAdvanced : UserControl
             upperIntensity = value;
             trackBarAdvancedMaximum.Value = value;
 
-            int n = graphControl.LineList[0].X > graphControl.LineList[1].X ? 0 : 1;
-            graphControl.LineList[n].X = value;
+            int n = graphControl.VerticalLines[0].X > graphControl.VerticalLines[1].X ? 0 : 1;
+            graphControl.VerticalLines[n].X = value;
             graphControl.Draw();
 
             PseudoBitmap.MaxValue = value;
@@ -212,8 +212,8 @@ public partial class ScalablePictureBoxAdvanced : UserControl
             lowerIntensity = value;
             trackBarAdvancedMinimum.Value = value;
 
-            int n = graphControl.LineList[0].X < graphControl.LineList[1].X ? 0 : 1;
-            graphControl.LineList[n].X = value;
+            int n = graphControl.VerticalLines[0].X < graphControl.VerticalLines[1].X ? 0 : 1;
+            graphControl.VerticalLines[n].X = value;
             graphControl.Draw();
 
             PseudoBitmap.MinValue = value;
@@ -288,7 +288,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     public bool StatusVisible { set => statusStrip1.Visible = value; get => statusStrip1.Visible; }
 
 
-    public bool TitleVisible { get=> scalablePictureBox.TitleVisible; set=> scalablePictureBox.TitleVisible=value; }
+    public bool TitleVisible { get => scalablePictureBox.TitleVisible; set => scalablePictureBox.TitleVisible = value; }
     public (string Text, Font Font, Color Color1, Color Color2) Title { get => scalablePictureBox.Title; set => scalablePictureBox.Title = value; }
 
 
@@ -455,7 +455,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         if (lower < min || lower < min || lower > upper)
             lower = min;
 
-        graphControl.LineList = new[] { new PointD(lower, double.NaN), new PointD(upper, double.NaN) };
+        graphControl.VerticalLines = new[] { new PointD(lower, double.NaN), new PointD(upper, double.NaN) };
 
         //書き換えの干渉が起こっているようなので、同じのを繰り返す
         MaximumIntensity = max;
@@ -477,10 +477,10 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     private void graphControl_LinePositionChanged()
     {
         if (skipEvent) return;
-        if (graphControl.LineList[1].X == graphControl.LineList[0].X) return;
+        if (graphControl.VerticalLines[1].X == graphControl.VerticalLines[0].X) return;
         skipEvent = true;
-        LowerIntensity = Math.Min(graphControl.LineList[0].X, graphControl.LineList[1].X);
-        UpperIntensity = Math.Max(graphControl.LineList[0].X, graphControl.LineList[1].X);
+        LowerIntensity = Math.Min(graphControl.VerticalLines[0].X, graphControl.VerticalLines[1].X);
+        UpperIntensity = Math.Max(graphControl.VerticalLines[0].X, graphControl.VerticalLines[1].X);
         skipEvent = false;
     }
 
@@ -666,9 +666,9 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     #endregion 座標変換関連
 
     #region 画像の保存/コピー関連 scalablePictureBoxで定義されているものを呼び出すだけ
-    public void SaveAsPNG()=> scalablePictureBox.SaveAsPNG();
+    public void SaveAsPNG() => scalablePictureBox.SaveAsPNG();
 
-    public void CopyAsBitmap()=> scalablePictureBox.CopyAsBitmap();
+    public void CopyAsBitmap() => scalablePictureBox.CopyAsBitmap();
 
     public void SaveAsMetafile() => scalablePictureBox.SaveAsMetafile();
 
