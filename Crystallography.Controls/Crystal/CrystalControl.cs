@@ -409,7 +409,7 @@ public partial class CrystalControl : UserControl
             MessageBox.Show("No candidate for the space group");
         else
         {
-            var dlg = new FormAnotherSpaceGroup() { Candidates = list.ToArray() };
+            var dlg = new FormAnotherSpaceGroup() { Candidates = [.. list] };
             if (dlg.ShowDialog() == DialogResult.OK)
                 toAnotherSpaceGroup(dlg.SeriesNum);
         }
@@ -464,7 +464,7 @@ public partial class CrystalControl : UserControl
         crystal.A *= _u;
         crystal.B *= _v;
         crystal.C *= _w;
-        crystal.Atoms = temp_atoms.ToArray();
+        crystal.Atoms = [.. temp_atoms];
 
         SetToInterface(true);
         GenerateFromInterface();
@@ -554,7 +554,7 @@ public partial class CrystalControl : UserControl
             cry.SymmetrySeriesNumber = destNum;
             cry.SetAxis();
 
-            Vector3D srcA = cry.A_Axis, srcB = cry.B_Axis, srcC = cry.C_Axis, dstA, dstB, dstC;
+            Vector3DBase srcA = cry.A_Axis, srcB = cry.B_Axis, srcC = cry.C_Axis, dstA, dstB, dstC;
 
             if (srcExtra == "H")
             {//HをRに変換
@@ -637,7 +637,7 @@ public partial class CrystalControl : UserControl
             _ => (x, y, z),
         };
 
-    static (Vector3D A, Vector3D B, Vector3D C) convertAxisMonoclinic(Vector3D a, Vector3D b, Vector3D c, string setting, bool forward = true)
+    static (Vector3DBase A, Vector3DBase B, Vector3DBase C) convertAxisMonoclinic(Vector3DBase a, Vector3DBase b, Vector3DBase c, string setting, bool forward = true)
         => setting switch
         {
             "b2" => forward ? (-c - a, b, a) : (c, b, -c - a),
@@ -666,7 +666,7 @@ public partial class CrystalControl : UserControl
     #region Orthorhombic 用の関数
     static (double X, double Y, double Z) exchangeOrtho(double x, double y, double z, int[] setting, bool inverse = false, bool abs = false)
     {
-        double[] src = new[] { x, y, z }, dst = new double[3];
+        double[] src = [x, y, z], dst = new double[3];
         for (int i = 0; i < 3; i++)
         {
             if (!inverse)
@@ -920,8 +920,8 @@ public partial class CrystalControl : UserControl
             if (sender == asTXTFileallEulerAngleAndDensitySortedToolStripMenuItem)
             {
                 Array.Sort(density, index);
-                density = density.Reverse().ToArray();
-                index = index.Reverse().ToArray();
+                density = [.. density.Reverse()];
+                index = [.. index.Reverse()];
             }
 
             for (int i = 0; i < Crystal.Crystallites.TotalCrystalline; i++)

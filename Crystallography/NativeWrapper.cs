@@ -34,6 +34,7 @@ public static partial class NativeWrapper
 
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _PointwiseMultiply(int dim, double* mat1, double* mat2, double* result);
+    
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _AdjointAndMultiply(int dim, double* mat1, double* mat2, double* result);
     [LibraryImport("Crystallography.Native.dll")]
@@ -71,8 +72,8 @@ public static partial class NativeWrapper
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _Inverse_Real(int dim, double* mat, double* matInv);
 
-    [LibraryImport("Crystallography.Native.dll")]
-    private static unsafe partial void _EigenSolver(int dim, double[] mat, double[] eigenValues, double[] eigenVectors);
+    //[LibraryImport("Crystallography.Native.dll")]
+    //private static unsafe partial void _EigenSolver(int dim, in double[] mat, in double[] eigenValues, double[] eigenVectors);
 
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _EigenSolver(int dim, double* mat, double* eigenValues, double* eigenVectors);
@@ -153,6 +154,10 @@ public static partial class NativeWrapper
 
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _RowVec_SqMat_ColVec(int dim, double* _rowVec, double* _sqMat, double* _colVec, double* _result);
+
+    [LibraryImport("Crystallography.Native.dll")]
+    private static unsafe partial void _SqMat_ColVec(int dim, double* _sqMat, double* _colVec, double* _result);
+
     [LibraryImport("Crystallography.Native.dll")]
     private static unsafe partial void _STEM_INEL1(int dim, double* rowVec, int* n, double* r, double* sqMat, double* colVec, double* _result);
 
@@ -319,6 +324,14 @@ public static partial class NativeWrapper
         fixed (Complex* res = &result)
             _MultiplyVV(dim, (double*)vec1, (double*)vec2, (double*)res);
     }
+
+    unsafe static public Complex MultiplyVxV(int dim, Complex* vec1, Complex* vec2)
+    {
+        var result = new Complex();
+        _MultiplyVV(dim, (double*)vec1, (double*)vec2, (double*)&result);
+        return result;
+    }
+
     unsafe static public Complex MultiplyVxV(int dim, Complex[] vector1, Complex[] vector2)
     {
         var result = new Complex();
@@ -635,12 +648,24 @@ public static partial class NativeWrapper
 
         return result;
     }
-
+    /// <summary>
+    /// 横ベクトル×正方行列×縦ベクトルの掛算. STEMの非弾性散乱を求めるときに使用
+    /// </summary>
+    /// <param name="dim"></param>
+    /// <param name="rowVec"></param>
+    /// <param name="sqMtx"></param>
+    /// <param name="colVec"></param>
+    /// <returns></returns>
     unsafe static public Complex RowVec_SqMat_ColVec(in int dim, Complex* _rowVec, Complex* _sqMtx, Complex* _colVec)
     {
         var result = new Complex();
         _RowVec_SqMat_ColVec(dim, (double*)_rowVec, (double*)_sqMtx, (double*)_colVec, (double*)&result);
         return result;
+    }
+
+    unsafe static public void SqMat_ColVec(in int dim, Complex* _sqMtx, Complex* _colVec, Complex* result)
+    {
+        _SqMat_ColVec(dim, (double*)_sqMtx, (double*)_colVec, (double*)result);
     }
 
     unsafe static public Complex STEM_INEL1(in int dim, Complex* _rowVec, int[] n, double[] r, Complex* _sqMtx, Complex* _colVec)

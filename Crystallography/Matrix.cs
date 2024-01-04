@@ -229,6 +229,7 @@ public class Matrix3D : ICloneable
     public static Vector3DBase operator *(Matrix3D m, Vector3DBase v)
         => new(m.E11 * v.X + m.E12 * v.Y + m.E13 * v.Z, m.E21 * v.X + m.E22 * v.Y + m.E23 * v.Z, m.E31 * v.X + m.E32 * v.Y + m.E33 * v.Z);
 
+
     /// <summary>
     /// Matrix3Dとタプル(x,y,z)の乗算. (x,y,z)を縦方向のベクトルとして計算する。
     /// </summary>
@@ -294,13 +295,22 @@ public class Matrix3D : ICloneable
 
     public static Matrix3D ExchangeZ_X_Y(Matrix3D m) => new(-m.E31, m.E11, -m.E21, -m.E32, m.E12, -m.E22, -m.E33, m.E13, -m.E23);
 
+
     /// <summary>
     /// ベクトルvの方向の周りに,thetaだけ回転させる行列を生成する
     /// </summary>
     /// <param name="v">回転軸</param>
     /// <param name="theta">回転角度</param>
     /// <returns></returns>
-    public static Matrix3D Rot(Vector3DBase v, in double theta)
+    public static Matrix3D Rot(Vector3DBase v, in double theta) => Rot((v.X, v.Y, v.Z), theta);
+
+    /// <summary>
+    /// ベクトルvの方向の周りに,thetaだけ回転させる行列を生成する
+    /// </summary>
+    /// <param name="v">回転軸</param>
+    /// <param name="theta">回転角度</param>
+    /// <returns></returns>
+    public static Matrix3D Rot((double X, double Y, double Z) v, in double theta)
     {
         //Vx*Vx*(1-cos) + cos  	    Vx*Vy*(1-cos) - Vz*sin  	Vz*Vx*(1-cos) + Vy*sin
         //Vx*Vy*(1-cos) + Vz*sin 	Vy*Vy*(1-cos) + cos 	    Vy*Vz*(1-cos) - Vx*sin
@@ -571,6 +581,11 @@ public class Vector3DBase : ICloneable
         X = x; Y = y; Z = z;
     }
 
+    public Vector3DBase((double X, double Y, double Z) v)
+    {
+        X = v.X; Y = v.Y; Z = v.Z;
+    }
+
     public Vector3DBase(double[] v)
     {
         if (v.Length == 3)
@@ -695,6 +710,12 @@ public class Vector3DBase : ICloneable
         return l > 0 ? new Vector3DBase(v.X / l, v.Y / l, v.Z / l) : v;
     }
 
+    internal static (double X, double Y, double Z) Normarize((double X, double Y, double Z) v)
+    {
+        double l = Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+        return l > 0 ? (v.X / l, v.Y / l, v.Z / l) : (v);
+    }
+
     public Vector3DBase Normarize() => Normarize(this);
 
     public void NormarizeThis()
@@ -707,6 +728,8 @@ public class Vector3DBase : ICloneable
             Z /= l;
         }
     }
+
+    public Vector3D ToVector3D() => new(X, Y, Z);
 
 
     /// <summary>
@@ -740,7 +763,8 @@ public class Vector3DBase : ICloneable
         var aCos = Normarize(v1) * Normarize(v2);
         if (aCos > 1)
             return 0;
-        else return aCos < -1 ? Math.PI / 2 : Math.Acos(aCos);
+        else 
+            return aCos < -1 ? Math.PI / 2 : Math.Acos(aCos);
     }
 
     /// <summary>
@@ -768,7 +792,7 @@ public class Vector3DBase : ICloneable
 /// 3次元ベクトルと静的関数を提供
 /// </summary>
 [Serializable()]
-public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
+public class Vector3D : Vector3DBase, IComparable<Vector3D>, ICloneable
 {
     public new object Clone() => (Vector3D)this.MemberwiseClone();
 
@@ -809,10 +833,10 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
         if (d != v.d)
             return -d.CompareTo(v.d);
         else if (X != v.X)
-            return -X.CompareTo(((Vector3D)v).X);
+            return -X.CompareTo(v.X);
         else if (Y != v.Y)
             return -Y.CompareTo(v.Y);
-        else if (Z != ((Vector3D)v).Z)
+        else if (Z != v.Z)
             return -Z.CompareTo(v.Z);
         else
             return 0;
@@ -830,14 +854,18 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
         d = Math.Sqrt(X * X + Y * Y + Z * Z);
     }
 
-    public Vector3D(in double x, in double y, in double z, in bool IsCalcD)
+    public Vector3D(in double x, in double y, in double z, in bool IsCalcD = true)
     {
         X = x; Y = y; Z = z;
         if (IsCalcD)
-        {
-            //d2 = X * X + Y * Y + Z * Z;
             d = Math.Sqrt(X * X + Y * Y + Z * Z);
-        }
+    }
+
+    public Vector3D(Vector3DBase v, in bool IsCalcD = true)
+    {
+        X = v.X; Y = v.Y; Z = v.Z;
+        if (IsCalcD)
+            d = Math.Sqrt(X * X + Y * Y + Z * Z);
     }
 
     public Vector3D(double[] v)
@@ -898,7 +926,7 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
 
     public new void NormarizeThis()
     {
-        Vector3D v = Vector3D.Normarize(this);
+        Vector3D v = Normarize(this);
         X = v.X;
         Y = v.Y;
         Z = v.Z;
@@ -923,7 +951,7 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
     /// <returns></returns>
     public static double LengthSquareBetVectors(Vector3D v1, Vector3D v2)
     {
-        return Math.Sqrt((v1.X - v2.X) * (v1.X - v2.X) + (v1.Y - v2.Y) * (v1.Y - v2.Y) + (v1.Z - v2.Z) * (v1.Z - v2.Z));
+        return (v1.X - v2.X) * (v1.X - v2.X) + (v1.Y - v2.Y) * (v1.Y - v2.Y) + (v1.Z - v2.Z) * (v1.Z - v2.Z);
     }
 
     /// <summary>
@@ -991,10 +1019,8 @@ public class Vector3D : Vector3DBase, System.IComparable<Vector3D>, ICloneable
     }
 
     //2つのベクトルの外積を返す
-    public static Vector3D VectorProduct(Vector3D v1, Vector3D v2)
-    {
-        return new Vector3D(v1.Y * v2.Z - v1.Z * v2.Y, v1.Z * v2.X - v1.X * v2.Z, v1.X * v2.Y - v1.Y * v2.X);
-    }
+    public static Vector3D VectorProduct(Vector3D v1, Vector3D v2) 
+        => new Vector3D(v1.Y * v2.Z - v1.Z * v2.Y, v1.Z * v2.X - v1.X * v2.Z, v1.X * v2.Y - v1.Y * v2.X);
 
     /// <summary>
     /// 座標一ずつを加減算し、0から1の範囲内に収める

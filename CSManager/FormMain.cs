@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Reflection;
 using System.ComponentModel;
+using Crystallography.Controls;
 
 namespace CSManager;
 
@@ -25,6 +26,7 @@ public partial class FormMain : Form
     private Crystallography.Controls.CommonDialog initialDialog;
 
     readonly IProgress<(long, long, long, string)> ip;//IReport
+    public static Languages CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name == "en" ? Languages.English : Languages.Japanese;
 
     #endregion
 
@@ -675,7 +677,6 @@ public partial class FormMain : Form
     #region その他ファイルメニュー
     private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
     {
-
         crystalDatabaseControl.RecalculateDensityAndFormula();
     }
     private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
@@ -683,8 +684,10 @@ public partial class FormMain : Form
             => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
     private void helpwebToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        try { Process.Start("http://pmsl.planet.sci.kobe-u.ac.jp/~seto/software/CSManager/CSManagerHelp.html"); }
-        catch { }
+        var fn = "\\doc\\CSManager(" + (CurrentLanguage == Languages.English ? "en" : "ja") + ").pdf";
+        var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var f = new FormPDF(appPath + fn) { Text = "CSManager manual" };
+        f.Show();
     }
     private void hintToolStripMenuItem_Click(object sender, EventArgs e)
     {
