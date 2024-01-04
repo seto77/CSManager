@@ -233,7 +233,7 @@ public partial class GraphControl : UserControl
         }
         get => verticalLineList.ToArray();
     }
-    private readonly List<PointD> verticalLineList = new List<PointD>();
+    private readonly List<PointD> verticalLineList = [];
 
     /// <summary>
     /// 
@@ -249,7 +249,7 @@ public partial class GraphControl : UserControl
     #region ピーク関数
     [Browsable(false)]
     public PeakFunction[] Peaks { set { peaks.Clear(); peaks.AddRange(value); } get => peaks.ToArray(); }
-    private List<PeakFunction> peaks = new();
+    private List<PeakFunction> peaks = [];
     #endregion
 
     #region プロファイル
@@ -262,7 +262,7 @@ public partial class GraphControl : UserControl
     {
         set
         {
-            srcProfileList = new List<Profile> { value };
+            srcProfileList = [value];
             InitializeAxis();
             resetDrawRange();
             Draw();
@@ -275,7 +275,7 @@ public partial class GraphControl : UserControl
                 return srcProfileList[0];
         }
     }
-    private List<Profile> srcProfileList = new();
+    private List<Profile> srcProfileList = [];
 
 
     [Category(" プロファイル")]
@@ -506,7 +506,7 @@ public partial class GraphControl : UserControl
 
     #endregion プロパティ
 
-    private List<Profile> destProfileList = new List<Profile>();
+    private List<Profile> destProfileList = [];
 
     #region プロファイルの追加、置換、スムージング
     public void AddPoint(int profileNumber, PointD pt)
@@ -577,11 +577,11 @@ public partial class GraphControl : UserControl
     public void InitializeAxis()
     {
         if (srcProfileList == null) return;
-        destProfileList = new List<Profile>();
+        destProfileList = [];
         for (int i = 0; i < srcProfileList.Count; i++)
         {
             var temp = new Profile();
-            if (srcProfileList[i] != null && srcProfileList[i].Pt != null && srcProfileList[i].Pt.Any())
+            if (srcProfileList[i] != null && srcProfileList[i].Pt != null && srcProfileList[i].Pt.Count != 0)
                 temp = convertAxis(srcProfileList[i]);
             destProfileList.Add(temp);
             setDrawRangeLimit();
@@ -830,10 +830,10 @@ public partial class GraphControl : UserControl
                 else if (mode == DrawingMode.Point)
                     DrawProfilePoint();
 
-                if (verticalLineList.Any())
+                if (verticalLineList.Count != 0)
                     DrawLine();
 
-                if (peaks.Any())
+                if (peaks.Count != 0)
                     DrawPeaks();
             }
             pictureBox.Image = Bmp;
@@ -890,7 +890,7 @@ public partial class GraphControl : UserControl
         float maxX = PictureBoxSize.Width, minX = originPosition.X, maxY = PictureBoxSize.Height - originPosition.Y, minY = 0;
         for (int j = 0; j < destProfileList.Count; j++)
         {
-            PointD[] pt = destProfileList[j].Pt.ToArray();
+            PointD[] pt = [.. destProfileList[j].Pt];
             if (pt.Length > 0)
             {
                 Brush brush = new SolidBrush(srcProfileList[j].Color);
@@ -989,7 +989,7 @@ public partial class GraphControl : UserControl
     /// <returns></returns>
     public static SortedList<double, string> GetDivisions(double min, double max, int maxDiv, bool log)
     {
-        if (double.IsInfinity(min) || double.IsInfinity(max)) return new SortedList<double, string>();
+        if (double.IsInfinity(min) || double.IsInfinity(max)) return [];
         var results = new SortedList<double, string>();
         double d = max - min;
         string str;
@@ -1353,7 +1353,7 @@ public partial class GraphControl : UserControl
     {
         if (MouseRangingMode)
         {
-            Pen pen = new Pen(Brushes.Gray) { DashStyle = DashStyle.Dash };
+            Pen pen = new(Brushes.Gray) { DashStyle = DashStyle.Dash };
             e.Graphics.DrawRectangle(pen, Math.Min(MouseRangeStart.X, MouseRangeEnd.X), Math.Min(MouseRangeStart.Y, MouseRangeEnd.Y),
                 Math.Abs(MouseRangeStart.X - MouseRangeEnd.X), Math.Abs(MouseRangeStart.Y - MouseRangeEnd.Y));
         }
