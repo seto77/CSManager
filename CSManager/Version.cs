@@ -9,26 +9,14 @@ namespace CSManager
         static public string Software =
            "CSManager"
            ;
-
         static public string VersionAndDate { get => History.Remove(0, 10).Remove(20); }
-        static public string RecentHistory
-        {
-            get
-            {
-                var list = History.Remove(0, 10).Split(new string[] { "\r\n " }, StringSplitOptions.RemoveEmptyEntries);
-                var str = "";
-                for (int i = 0; i < 5; i++)
-                    str += list[i] + "<br>\r\n";
-                return str;
-            }
-        }
 
         static public int AMCSD = 21004;
         static public int COD = 506047;
 
         static public string History = 
             "History" +
-                "\r\n ver1.895(2024/01/24) Fixed a broken link to manual pages." +
+                "\r\n ver1.896(2024/01/04) Updated .Net Desktop Runtime to 8.0. Fixed a broken link to manual pages." +
                 "\r\n ver1.895(2023/09/29) Renewed AMCSD database (contains 21,004) and COD database (506,047)." +
                 "\r\n ver1.894(2022/11/16) Updated .Net Desktop Runtime to 7.0. Renewed COD database (494,508). Changed algorithm when saving and loading." +
                 "\r\n ver1.893(2022/10/27) Improved search function." +
