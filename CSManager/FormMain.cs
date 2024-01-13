@@ -675,10 +675,8 @@ public partial class FormMain : Form
     #endregion
 
     #region その他ファイルメニュー
-    private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        crystalDatabaseControl.RecalculateDensityAndFormula();
-    }
+    private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e) 
+        => crystalDatabaseControl.RecalculateDensityAndFormula();
     private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
     private void toolTipToolStripMenuItem_Click(object sender, EventArgs e)
             => toolTip.Active = crystalControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
@@ -689,6 +687,13 @@ public partial class FormMain : Form
         var f = new FormPDF(appPath + fn) { Text = "CSManager manual" };
         f.Show();
     }
+
+    private void toolStripMenuItemGithubPage_Click(object sender, EventArgs e)
+    => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager") { UseShellExecute = true });
+
+    private void repportBugsToolStripMenuItem_Click(object sender, EventArgs e)
+        => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager/issues") { UseShellExecute = true });
+
     private void hintToolStripMenuItem_Click(object sender, EventArgs e)
     {
         initialDialog.DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.Hint;
@@ -734,9 +739,5 @@ public partial class FormMain : Form
         // ResumeLayout();
     }
 
-    private void toolStripMenuItemGithubPage_Click(object sender, EventArgs e) 
-        => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager") { UseShellExecute = true });
 
-    private void repportBugsToolStripMenuItem_Click(object sender, EventArgs e) 
-        => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager/issues") { UseShellExecute = true });
 }
