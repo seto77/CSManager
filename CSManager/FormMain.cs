@@ -237,7 +237,7 @@ public partial class FormMain : Form
             toolStripStatusLabel.Text = message;
             Application.DoEvents();
         }
-        catch  { }
+        catch { }
         finally { skipProgressEvent = false; }
     }
 
@@ -352,11 +352,11 @@ public partial class FormMain : Form
         {
             stopwatch.Restart();
             new WebClient().DownloadFile(new Uri(urlHeader + "COD.cdb3"), UserAppDataPath + "COD.cdb3");
-            
+
             Directory.CreateDirectory(UserAppDataPath + "COD");
 
             (_, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
-            
+
             var wc = new MyWebClient[FileNum];
             var total = FileSizes.Sum();
             var current = new long[FileNum];
@@ -366,7 +366,7 @@ public partial class FormMain : Form
             {
                 wc[i] = new MyWebClient();
                 var _i = i;//このインスタンスで作成する必要あり
-                wc[i].DownloadProgressChanged +=  (s, ev) =>
+                wc[i].DownloadProgressChanged += (s, ev) =>
                 {
                     current[_i] = ev.BytesReceived;
                     if (n++ % 100 == 0)
@@ -377,7 +377,7 @@ public partial class FormMain : Form
                 {
                     if (!ev.Cancelled)
                         completedCount++;
-                    if(completedCount==FileNum)
+                    if (completedCount == FileNum)
                         crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");//読み込む
                 };
             }
@@ -433,10 +433,10 @@ public partial class FormMain : Form
     private void WorkerAllImport_DoWork(object sender, DoWorkEventArgs e)
     {
         var failedFile = new List<string>();
-        var (fn, selectedPath) = ((List<string>,string))e.Argument;
+        var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
         Parallel.For(0, fn.Count,
-//new ParallelOptions { MaxDegreeOfParallelism = 1 },
+            //new ParallelOptions { MaxDegreeOfParallelism = 1 },
             j =>
         {
             try
@@ -454,11 +454,11 @@ public partial class FormMain : Form
                 }
             }
             catch { crystal2Array[j] = null; }
-           
+
             if (crystal2Array[j] == null)
                 failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
 
-            if (Interlocked.Increment(ref count) % 200 == 0) 
+            if (Interlocked.Increment(ref count) % 200 == 0)
                 workerAllImport.ReportProgress(0, (count, failedFile.Count, fn.Count));
             if (count % 20000 == 0)
                 GC.Collect();
@@ -473,7 +473,7 @@ public partial class FormMain : Form
 
     private void WorkerAllImport_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-        var (i, fails, total) = ((int,int, int))e.UserState;
+        var (i, fails, total) = ((int, int, int))e.UserState;
         if (i != total)
             ip.Report((i, total, stopwatch.ElapsedMilliseconds, $"Converting ({i}/{total}, {100.0 * fails / i:f2} % failed)..."));
         else
@@ -541,48 +541,48 @@ public partial class FormMain : Form
     //重複ファイルを削除
     private void checkDuplicatedFileToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      /*  //重複があるかどうかチェック
-        List<Crystal2> list = new List<Crystal2>();
-        for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
-            list.Add((Crystal2)((DataRowView)(bindingSourceMain.List[i])).Row[0]);
-        for (int i = 0; i < list.Count; i++)
-        {
-            Crystal2 src = list[i];//(Crystal2)((DataRowView)(bindingSourceMain.List[i])).Row[0];
-            for (int k = i + 1; k < list.Count; k++)
-            {
-                Crystal2 target = list[k];// (Crystal2)((DataRowView)(bindingSourceMain.List[k])).Row[0];
-                bool flag = false;
-                if (src.name == target.name && src.a == target.a && src.atoms.Count == target.atoms.Count)
-                {
-                    flag = true;
-                    if (src.b != target.b || src.c != target.c || src.alpha != target.alpha || src.beta != target.beta || src.gamma != target.gamma ||
-                        src.sym != target.sym || src.atoms.Count != target.atoms.Count)
-                        flag = false;
-                    else
-                        for (int l = 0; l < src.atoms.Count; l++)
-                            if (src.atoms[l].Position[0] != target.atoms[l].Position[0] || src.atoms[l].Position[1] != target.atoms[l].Position[1] || src.atoms[l].Position[2] != target.atoms[l].Position[2])
-                                flag = false;
-                }
-                if (flag)
-                {
-                    list.RemoveAt(k);
-                    //bindingSourceMain.RemoveAt(k);
-                    k--;
-                }
-            }
-        }
+        /*  //重複があるかどうかチェック
+          List<Crystal2> list = new List<Crystal2>();
+          for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+              list.Add((Crystal2)((DataRowView)(bindingSourceMain.List[i])).Row[0]);
+          for (int i = 0; i < list.Count; i++)
+          {
+              Crystal2 src = list[i];//(Crystal2)((DataRowView)(bindingSourceMain.List[i])).Row[0];
+              for (int k = i + 1; k < list.Count; k++)
+              {
+                  Crystal2 target = list[k];// (Crystal2)((DataRowView)(bindingSourceMain.List[k])).Row[0];
+                  bool flag = false;
+                  if (src.name == target.name && src.a == target.a && src.atoms.Count == target.atoms.Count)
+                  {
+                      flag = true;
+                      if (src.b != target.b || src.c != target.c || src.alpha != target.alpha || src.beta != target.beta || src.gamma != target.gamma ||
+                          src.sym != target.sym || src.atoms.Count != target.atoms.Count)
+                          flag = false;
+                      else
+                          for (int l = 0; l < src.atoms.Count; l++)
+                              if (src.atoms[l].Position[0] != target.atoms[l].Position[0] || src.atoms[l].Position[1] != target.atoms[l].Position[1] || src.atoms[l].Position[2] != target.atoms[l].Position[2])
+                                  flag = false;
+                  }
+                  if (flag)
+                  {
+                      list.RemoveAt(k);
+                      //bindingSourceMain.RemoveAt(k);
+                      k--;
+                  }
+              }
+          }
 
-        dataSet.Tables[0].Clear();
-        
+          dataSet.Tables[0].Clear();
 
-        bindingNavigator1.Visible = dataGridViewMain.Visible = false;
-        foreach (Crystal2 crystal in list)
-        {
-            dataSet.DataTable.Add(crystal);
-            Application.DoEvents();
-        }
-        bindingNavigator1.Visible = dataGridViewMain.Visible = true;
-      */
+
+          bindingNavigator1.Visible = dataGridViewMain.Visible = false;
+          foreach (Crystal2 crystal in list)
+          {
+              dataSet.DataTable.Add(crystal);
+              Application.DoEvents();
+          }
+          bindingNavigator1.Visible = dataGridViewMain.Visible = true;
+        */
     }
 
 
@@ -720,7 +720,7 @@ public partial class FormMain : Form
 
     private void toolStripMenuItemShowFileName_Click(object sender, EventArgs e)
     {
-      MessageBox.Show(    crystalDatabaseControl.Crystal2.fileName);
+        MessageBox.Show(crystalDatabaseControl.Crystal2.fileName);
     }
     #endregion
 
@@ -731,6 +731,12 @@ public partial class FormMain : Form
 
     private void FormMain_ResizeEnd(object sender, EventArgs e)
     {
-       // ResumeLayout();
+        // ResumeLayout();
     }
+
+    private void toolStripMenuItemGithubPage_Click(object sender, EventArgs e) 
+        => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager") { UseShellExecute = true });
+
+    private void repportBugsToolStripMenuItem_Click(object sender, EventArgs e) 
+        => Process.Start(new ProcessStartInfo("https://github.com/seto77/CSManager/issues") { UseShellExecute = true });
 }
