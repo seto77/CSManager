@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2024.1.4.0750</AssemblyVersion>
-    <FileVersion>2024.1.4.0750</FileVersion>
+    <AssemblyVersion>2024.1.4.0758</AssemblyVersion>
+    <FileVersion>2024.1.4.0758</FileVersion>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
@@ -15,10 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="doc\CSManager%28en%29.pdf" />
+    <None Remove="doc\CSManager%28ja%29.pdf" />
     <None Remove="StdDb.cdb3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="doc\CSManager(en).pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="doc\CSManager(ja).pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="StdDb.cdb3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -38,9 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="doc\CSManager%28ja%29.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
