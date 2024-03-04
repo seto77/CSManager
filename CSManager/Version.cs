@@ -11,8 +11,8 @@ namespace CSManager
            ;
         static public string VersionAndDate { get => History.Remove(0, 10).Remove(20); }
 
-        static public int AMCSD = 21004;
-        static public int COD = 506047;
+        static public int AMCSD = 21_004;
+        static public int COD = 510_777;
 
         static public string History = 
             "History" +
