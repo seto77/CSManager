@@ -16,7 +16,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
-                "\r\n ver1.896(2024/06/30) Renewed AMCSD database (contains 21,026) and COD database (514,854)." +
+                "\r\n ver1.897(2024/06/30) Renewed AMCSD database (contains 21,026) and COD database (514,854)." +
                 "\r\n ver1.896(2024/01/04) Updated .Net Desktop Runtime to 8.0. Fixed a broken link to manual pages." +
                 "\r\n ver1.895(2023/09/29) Renewed AMCSD database (contains 21,004) and COD database (506,047)." +
                 "\r\n ver1.894(2022/11/16) Updated .Net Desktop Runtime to 7.0. Renewed COD database (494,508). Changed algorithm when saving and loading." +
