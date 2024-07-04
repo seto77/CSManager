@@ -405,8 +405,8 @@ public partial class FormMain : Form
     #region ImportAll フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
     private void importAllCrystalsMenuItem_Click(object sender, EventArgs e) => GetAllImport();
 
-    private BackgroundWorker workerAllImport = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
-    private Crystal2[] crystal2Array = Array.Empty<Crystal2>();
+    private BackgroundWorker workerAllImport = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
+    private Crystal2[] crystal2Array = [];
     /// <summary>
     /// フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
     /// </summary>
