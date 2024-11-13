@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2024.7.4.1116</AssemblyVersion>
-    <FileVersion>2024.7.4.1116</FileVersion>
+    <AssemblyVersion>2024.11.13.0858</AssemblyVersion>
+    <FileVersion>2024.11.13.0858</FileVersion>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
