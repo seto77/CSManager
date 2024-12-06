@@ -531,7 +531,7 @@ public partial class FormMain : Form
         if (c != null)
         {
             crystalControl.Crystal = crystalDatabaseControl.Crystal;
-            Clipboard.SetDataObject(crystalDatabaseControl.Crystal2);
+            Clipboard.SetDataObject(crystalDatabaseControl.Crystal2.Serialize());
         }
     }
     #endregion
