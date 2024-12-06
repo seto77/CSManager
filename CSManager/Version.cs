@@ -16,7 +16,7 @@ namespace CSManager
 
         static public string History = 
             "History" +
-                "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation" +
+                "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation." +
                 "\r\n ver1.898(2024/11/13) Updated .Net Desktop Runtime to 9.0. Renewed AMCSD database (contains 21,044) and COD database (519,205)." +
                 "\r\n ver1.897(2024/06/30) Renewed AMCSD database (contains 21,026) and COD database (514,854)." +
                 "\r\n ver1.896(2024/01/04) Updated .Net Desktop Runtime to 8.0. Fixed a broken link to manual pages." +
