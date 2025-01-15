@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Xml.Serialization;
+using OpenTK.Mathematics;
 
 namespace Crystallography;
 
@@ -138,6 +139,9 @@ public class Matrix3D : ICloneable
     public double[] ToArrayColumnMajorOrder() => [E11, E21, E31, E12, E22, E32, E13, E23, E33];
 
     public Matrix3d ToMatrix() => new(E11, E12, E13, E21, E22, E23, m20: E31, E32, E33);
+
+    public (double E11, double E12, double E13, double E21, double E22, double E23, double E31, double E32, double E33) Tuple
+        =>(E11, E12, E13, E21, E22, E23, E31, E32, E33);
 
     public Vector3DBase Column1 => new(E11, E21, E31);
     public Vector3DBase Column2 => new(E12, E22, E32);
