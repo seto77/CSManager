@@ -1340,11 +1340,11 @@ public class ConvertCrystalData
         {
             CellTexts = [a, b, c, alpha, beta, gamma],
             sym = (short)sgnum,
-            name = name,
+            name = name.Replace("&amp;", "&"),
             atoms = atoms,
-            auth = authours.ToString(),
-            jour = journal.ToString(),
-            sect = sectionTitle,
+            auth = authours.Replace("&amp;", "&").ToString(),
+            jour = journal.Replace("&amp;", "&").ToString(),
+            sect = sectionTitle.Replace("&amp;", "&"),
             argb = Color.FromArgb(r.Next(255), r.Next(255), r.Next(255)).ToArgb()
         };
     }
