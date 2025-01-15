@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
 using static System.Buffers.ArrayPool<System.Numerics.Complex>;
 using static System.Numerics.Complex;
 using DMat = MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix;
@@ -64,7 +63,7 @@ public class BetheMethod
 
     /// <summary>
     /// サンプル表面(から内部への)の法線単位ベクトル. ReciProの座標系は、画面右が+X、上が+Y,手前が+Zなので、初期値は(0,0,-1)
-    /// </summary>
+    /// </summary>==null
     public Vector3D Surface { get; set; } = new Vector3D(0, 0, -1);
     public int MaxNumOfBloch { get; set; }
     public double Thickness { get; set; }
@@ -83,7 +82,7 @@ public class BetheMethod
     public Beam[][] BeamsPED;
     public double SemianglePED { get; set; }
 
-    public bool IsBusy => bwCBED == null || bwCBED.IsBusy;
+    public bool IsBusy => bwCBED is null || bwCBED.IsBusy;
 
     /// <summary>
     /// CBEDのディスク情報 Disks[Z(thickness)_index][G_index], EBSDのときは [Voltage][Z(thickness)_index]
@@ -134,9 +133,9 @@ public class BetheMethod
     static BetheMethod()
     {
         EigenEnabled = NativeWrapper.Enabled;
-        BlasEnabled = Control.TryUseNativeOpenBLAS();
-        MklEnabled = Control.TryUseNativeMKL();
-        CudaEnabled = Control.TryUseNativeCUDA();
+        BlasEnabled = MathNet.Numerics.Control.TryUseNativeOpenBLAS();
+        MklEnabled = MathNet.Numerics.Control.TryUseNativeMKL();
+        CudaEnabled = MathNet.Numerics.Control.TryUseNativeCUDA();
     }
     public BetheMethod(Crystal crystal)
     {
@@ -257,8 +256,6 @@ public class BetheMethod
         int bLen = Beams.Length, tLen = Thicknesses.Length;
         var beamDirectionsP = beamDirectionsValid.AsParallel().WithDegreeOfParallelism(thread);
 
-      
-
         //ここからdiskValid[t*tLen +g]を計算.
         var diskAmplitudeValid = beamDirectionsP.Select(beamDirection =>
         {
@@ -350,7 +347,7 @@ public class BetheMethod
                 Disks[t] = new CBED_Disk[1];
                 var amplitudes = new Complex[BeamDirections.Length];
                 for (int r = 0; r < BeamDirections.Length; r++)
-                    if (diskAmplitude[r] != null)
+                    if (diskAmplitude[r] is not null)
                         amplitudes[r] = diskAmplitude[r][t * bLen];
 
                 Disks[t][0] = new CBED_Disk([Beams[0].H, Beams[0].K, Beams[0].L], Beams[0].Vec, Thicknesses[t], amplitudes) { Amplitudes = amplitudes };
@@ -366,7 +363,7 @@ public class BetheMethod
                 {
                     var amplitudes = new Complex[BeamDirections.Length];
                     for (int r = 0; r < BeamDirections.Length; r++)
-                        if (diskAmplitude[r] != null)
+                        if (diskAmplitude[r] is not null)
                             amplitudes[r] = diskAmplitude[r][t * bLen + g];
 
                     Disks[t][g] = new CBED_Disk([Beams[g].H, Beams[g].K, Beams[g].L], Beams[g].Vec, Thicknesses[t], amplitudes);
@@ -477,10 +474,23 @@ public class BetheMethod
         Disks = new CBED_Disk[voltages.Length][];
         int count = 0;
 
-        var beamDirectionsP = BeamDirections.AsParallel().WithDegreeOfParallelism(thread);
+        var beamDirectionsP = BeamDirections.AsParallel();
         int width = (int)Math.Sqrt(BeamDirections.Length);
         double radius = width / 2.0;
-        bool inside(int i) => (i % width - radius + 0.5) * (i % width - radius + 0.5) + (i / width - radius + 0.5) * (i / width - radius + 0.5) <= radius * radius;
+        //bool inside(int i) => (i % width - radius + 0.5) * (i % width - radius + 0.5) + (i / width - radius + 0.5) * (i / width - radius + 0.5) <= radius * radius;
+        //bool inside(int i) => true;
+
+        //進捗状況報告用の各種定数を初期化
+        #region solver, thread の設定
+        if (solver == Solver.Auto || (!EigenEnabled && (solver == Solver.Eigen_Eigen || solver == Solver.MtxExp_Eigen)))
+        {
+            if (EigenEnabled)
+                (solver, thread) = (Solver.MtxExp_Eigen, ProcessorCount);
+            else
+                (solver, thread) = (Solver.Eigen_MKL, MklEnabled ? Math.Max(1, ProcessorCount / 4) : ProcessorCount);
+        }
+        var reportString = $"{solver}{thread}";
+        #endregion
 
         for (int vIndex = 0; vIndex < voltages.Length; vIndex++)
         {
@@ -489,36 +499,39 @@ public class BetheMethod
             var kvac = UniversalConstants.Convert.EnergyToElectronWaveNumber(AccVoltage);
             //U0を計算
             var u0 = getU(AccVoltage).Real.Real;
-            gDic.Clear();
-            //進捗状況報告用の各種定数を初期化
+            uDictionary.Clear();
 
-            #region solver, thread の設定
-            if (solver == Solver.Auto || (!EigenEnabled && (solver == Solver.Eigen_Eigen || solver == Solver.MtxExp_Eigen)))
-            {
-                if (EigenEnabled)
-                    (solver, thread) = (Solver.MtxExp_Eigen, ProcessorCount);
-                else
-                    (solver, thread) = (Solver.Eigen_MKL, MklEnabled ? Math.Max(1, ProcessorCount / 4) : ProcessorCount);
-            }
-            var reportString = $"{solver}{thread}";
-            #endregion
+            //beamsの計算コストが非常に高いので、4×4のグリッドを作って、中心ピクセルのbeamsで代表する
+            var grid = 4;
+            var beamsPreliminary = beamDirectionsP
+                .Where((e, i) => (i % width) % grid == grid / 2 && (i / width) % grid == grid / 2)
+                .Select(e =>
+                {
+                    var beams = Find_gVectors(BaseRotation, getVecK0(kvac, u0, e), MaxNumOfBloch);
+                    var potentialMatrix = getPotentialMatrix(beams);
+                    return (beams, potentialMatrix);
+                }).ToArray();
+            //ここまで
 
             //diskAmplitude[r][t][g]
-            var diskAmplitude = beamDirectionsP.Select((beamDirection, i) =>
+            var diskAmplitude = beamDirectionsP.WithDegreeOfParallelism(Math.Max(thread/2, 1)).Select((beamDirection, i) =>
             {
-                if (!inside(i)) return (null, null);
-
+                //if (!inside(i)) return (null, null);
                 if (bwEBSD.CancellationPending) return (null, null);
+                
                 var coeff = Math.Abs(1.0 / beamDirection.Z); // = 1/cosTau
-
                 var vecK0 = getVecK0(kvac, u0, beamDirection);
 
-                //var beams = Find_gVectors(BaseRotation, vecK0, MaxNumOfBloch, true);
-                var beams = Find_gVectors(BaseRotation, vecK0, MaxNumOfBloch);
-                var potentialMatrix = getEigenMatrix(beams);
-                var len = beams.Length;
+                //var beams = Find_gVectors(BaseRotation, vecK0, MaxNumOfBloch);
+                var (beamsBase, potentialMatrix) = beamsPreliminary[(i / width) / grid * (width / grid) + (i % width) / grid];
+                var beams = reset_gVectors(beamsBase, BaseRotation, vecK0).Where(e => e.P > 0).ToArray();//BeamsのPやQをリセット
+                
+                var bLen = beams.Length;
+                var eigenMatrix = Shared.Rent(bLen * bLen);
+                getEigenMatrix(bLen, beams, ref eigenMatrix, potentialMatrix);//ポテンシャル行列をセット //コスト高い
+
                 //入射面での波動関数を定義
-                var psi0 = new DVec(Enumerable.Range(0, len).ToList().Select(g => g == 0 ? One : 0).ToArray());
+                var psi0 = new DVec(Enumerable.Range(0, bLen).ToList().Select(g => g == 0 ? One : 0).ToArray());
 
                 Complex[] result;
 
@@ -526,13 +539,13 @@ public class BetheMethod
                 #region 各ソルバーによる計算
                 //Eigen＿Eigenの場合
                 if (solver == Solver.Eigen_Eigen && EigenEnabled)
-                    result = NativeWrapper.CBEDSolver_Eigen(potentialMatrix, [.. psi0], Thicknesses);
+                    result = NativeWrapper.CBEDSolver_Eigen(eigenMatrix, [.. psi0], Thicknesses);
                 //Eigen_MKL あるいは Eigen_Managedの場合    
                 else if (solver == Solver.Eigen_MKL)
                 {
-                    var evd = new DMat(len, len, potentialMatrix).Evd(Symmetricity.Asymmetric);
+                    var evd = new DMat(bLen, bLen, eigenMatrix).Evd(Symmetricity.Asymmetric);
                     var alpha = evd.EigenVectors.LU().Solve(psi0);
-                    var resultMat = new DMat(len, Thicknesses.Length);
+                    var resultMat = new DMat(bLen, Thicknesses.Length);
                     for (int t = 0; t < Thicknesses.Length; t++)
                     {
                         //ガンマの対称行列×アルファを作成
@@ -544,19 +557,19 @@ public class BetheMethod
                 }
                 //MtxExp_Eigenの場合
                 else if (solver == Solver.MtxExp_Eigen && EigenEnabled)
-                    result = NativeWrapper.CBEDSolver_MatExp(potentialMatrix, [.. psi0], Thicknesses);
+                    result = NativeWrapper.CBEDSolver_MatExp(eigenMatrix, [.. psi0], Thicknesses);
                 //MtxExp_MKLの場合 
                 else
                 {
-                    var resultMat = new DMat(len, Thicknesses.Length);
-                    var matExp = (DMat)(TwoPiI * coeff * Thicknesses[0] * new DMat(len, len, potentialMatrix)).Exponential();
+                    var resultMat = new DMat(bLen, Thicknesses.Length);
+                    var matExp = (DMat)(TwoPiI * coeff * Thicknesses[0] * new DMat(bLen, bLen, eigenMatrix)).Exponential();
                     var vec = matExp.Multiply(psi0);
                     resultMat.SetColumn(0, vec);
 
                     if (Thicknesses.Length > 1)
                     {
                         if (Thicknesses[1] - Thicknesses[0] == Thicknesses[0])
-                            matExp = (DMat)(TwoPiI * coeff * (Thicknesses[1] - Thicknesses[0]) * new DMat(len, len, potentialMatrix)).Exponential();
+                            matExp = (DMat)(TwoPiI * coeff * (Thicknesses[1] - Thicknesses[0]) * new DMat(bLen, bLen, eigenMatrix)).Exponential();
                         for (int t = 1; t < Thicknesses.Length; t++)
                         {
                             vec = (DVec)matExp.Multiply(vec);
@@ -567,11 +580,14 @@ public class BetheMethod
                 }
                 //出射面での境界条件を考慮した位相にするため、以下のように変更 (20220803)
                 for (int t = 0; t < Thicknesses.Length; t++)
-                    for (int b = 0; b < beams.Length; b++)
-                        result[t * beams.Length + b] *= Exp(PiI * (beams[b].P - 2 * kvac * Surface.Z) * Thicknesses[t]);
+                    for (int b = 0; b < bLen; b++)
+                        result[t * bLen + b] *= Exp(PiI * (beams[b].P - 2 * kvac * Surface.Z) * Thicknesses[t]);
                 #endregion
 
-                bwEBSD.ReportProgress(Interlocked.Increment(ref count), reportString);//進捗状況を報告
+                Shared.Return(eigenMatrix);//eigenMatrixを返却
+
+                if (Interlocked.Increment(ref count) % 50 == 0)
+                    bwEBSD.ReportProgress(count, reportString);//進捗状況を報告
                 return (result, beams);
             }).ToArray();
 
@@ -583,9 +599,10 @@ public class BetheMethod
             {
                 directDiskIntensities[t] = new double[BeamDirections.Length];
                 for (int r = 0; r < directDiskIntensities[t].Length; r++)
-                    if (diskAmplitude[r].result != null)
+                    if (diskAmplitude[r].result is not null)
                         directDiskIntensities[t][r] = diskAmplitude[r].result[t * diskAmplitude[r].beams.Length + 0].MagnitudeSquared();
             }
+
 
             var directDiskPositions = new PointD[BeamDirections.Length];
             for (int r = 0; r < BeamDirections.Length; r++)
@@ -598,8 +615,9 @@ public class BetheMethod
             double yMax = directDiskPositions.Max(p => p.Y), yMin = directDiskPositions.Min(p => p.Y);
 
             Parallel.For(0, BeamDirections.Length, r1 =>
+            //for(int r1=0; r1< BeamDirections.Length; r1++)
             {
-                if (diskAmplitude[r1].result != null)
+                if (diskAmplitude[r1].result is not null)
                 {
                     for (int g = 1; g < diskAmplitude[r1].beams.Length; g++)
                     {
@@ -632,31 +650,47 @@ public class BetheMethod
     }
 
     //与えられたposに最も近いインデックスを返す
-    static int getIndex(PointD pos, PointD[] posList, int width)
+    static int getIndex(in PointD pos, PointD[] posList, int width)
     {
         var w2 = width * width;
-        int i = w2 / 2, j = i - 1;//中心から、縦横に検索
-        double min = (pos - posList[i]).Length2, temp = min;
-
-        while (i != j)
+        int i = w2 / 2;
+        double min = (pos - posList[i]).Length2, temp;
+        bool flag = true;
+        //中心から、縦横に検索
+        while (flag)
         {
-            j = i;
+            flag=false;
+
             if (i + 1 < w2 && (temp = (pos - posList[i + 1]).Length2) < min)
+            {
                 i++;
+                min = temp;
+                flag = true;
+            }
             else if (i - 1 >= 0 && (temp = (pos - posList[i - 1]).Length2) < min)
+            {
                 i--;
-            min = Math.Min(min, temp);
+                min = temp;
+                flag = true;
+            }
 
             if (i + width < w2 && (temp = (pos - posList[i + width]).Length2) < min)
+            {
                 i += width;
+                min = temp;
+                flag = true;
+            }
             else if (i - width >= 0 && (temp = (pos - posList[i - width]).Length2) < min)
+            {
                 i -= width;
-            min = Math.Min(min, temp);
+                min = temp;
+                flag = true;
+            }
         }
         if (i / width == 0 || i / width == width - 1 || i % width == 0 || i % width == width - 1)
             return -1;
         else
-            return i;
+           return i;
     }
 
     #endregion
@@ -776,7 +810,6 @@ public class BetheMethod
             EigenVectorsInversePED = new DMat[step];
             BeamsPED = new Beam[step][];
 
-            gDic.Clear();
             stepP.ForAll(k =>
             {
                 var rotAngle = 2.0 * Math.PI * k / step;
@@ -784,7 +817,7 @@ public class BetheMethod
                 //計算対象のg-Vectorsを決める。
                 var potentialMatrix = Array.Empty<Complex>();
                 var vecK0 = getVecK0(kvac, u0, beamRotation * new Vector3D(0, 0, -1));
-                BeamsPED[k] = Find_gVectors(BaseRotation, vecK0, MaxNumOfBloch, true);
+                BeamsPED[k] = Find_gVectors(BaseRotation, vecK0, MaxNumOfBloch);
                 var len = BeamsPED[k].Length;
                 potentialMatrix = getEigenMatrix(BeamsPED[k]);
                 var dim = BeamsPED[k].Length;
@@ -808,7 +841,7 @@ public class BetheMethod
         //各方向でのbeamの振幅を求める
         stepP.ForAll(k =>
         {
-            if (EigenValuesPED[k] != null)
+            if (EigenValuesPED[k] is not null)
             {
                 var len = EigenValuesPED[k].Count;
                 var psi0 = new DVec(new Complex[len]) { [0] = 1 };//入射面での波動関数を定義
@@ -824,7 +857,7 @@ public class BetheMethod
 
         //最後に全てのビームをまとめる
         var compiled = new Dictionary<(int h, int k, int l), Beam>();
-        foreach (var beamsEach in BeamsPED.Where(beams => beams != null))
+        foreach (var beamsEach in BeamsPED.Where(beams => beams is not null))
             foreach (var beam in beamsEach)
             {
                 if (!compiled.TryGetValue(beam.Index, out Beam value))
@@ -837,7 +870,7 @@ public class BetheMethod
             }
 
         //基準の方位でP,Q,Sなどを再セット
-        var mat = BaseRotation * Crystal.MatrixInverse.Transpose();
+        var mat = BaseRotation * Crystal.MatrixInverseTransposed;
         var beams = compiled.Values.ToList();
         for (int i = 0; i < beams.Count; i++)
         {
@@ -895,7 +928,6 @@ public class BetheMethod
         var diameterPix = (int)Math.Sqrt(BeamDirections.Length);
         var radiusPix = diameterPix / 2.0;
         bool inside(int i) => (i % diameterPix - radiusPix + 0.5) * (i % diameterPix - radiusPix + 0.5) + (i / diameterPix - radiusPix + 0.5) * (i / diameterPix - radiusPix + 0.5) <= radiusPix * radiusPix;
-        gDic.Clear();
 
         //波数を計算
         var kvac = UniversalConstants.Convert.EnergyToElectronWaveNumber(AccVoltage);
@@ -1008,7 +1040,7 @@ public class BetheMethod
                 }
                 #endregion
 
-                kg_z[i] = beams.Where(e => e != null).Select(e => e.P / 2).ToArray();
+                kg_z[i] = beams.Where(e => e is not null).Select(e => e.P / 2).ToArray();
 
                 //位相を考慮して、return
                 var _tc = thicknesses.Select((thickness, t) => new Complex[bLen]).ToArray();
@@ -1053,7 +1085,7 @@ public class BetheMethod
 
         #region qList, g_q_indexを作成
         //qList　計算対象のQを網羅 
-        var mat = BaseRotation * Crystal.MatrixInverse.Transpose();
+        var mat = BaseRotation * Crystal.MatrixInverseTransposed;
         var qList = Beams.AsParallel().SelectMany(e1 => Beams.Select(e2 => (e1 - e2).Index)).Distinct()
             .Select(e => new Beam(e, mat * e)).Where(e => k_xy.Any(e2 => A(e2) && A(e2 + e.Vec.ToPointD))).OrderBy(e => e.Vec.Length2).ToList();
 
@@ -1096,12 +1128,12 @@ public class BetheMethod
         #endregion
 
         //必要な情報だけを追加してParallelにしたtcP
-        var tcP = tc.AsParallel().Select((e, i) => (index: i, result: e, xy: k_xy[i])).Where(e => e.result != null && A(e.xy)).Select(e => e.index);//.WithDegreeOfParallelism(1);
+        var tcP = tc.AsParallel().Select((e, i) => (index: i, result: e, xy: k_xy[i])).Where(e => e.result is not null && A(e.xy)).Select(e => e.index);//.WithDegreeOfParallelism(1);
 
         #region listを計算
         var list = new List<(int qIndex, int[] N, double[] R, Complex[] Lenz)>[tc.Length];
         //有効なディスクを判定するフラグ
-        var flag = tc.Select(e => e != null).ToArray();
+        var flag = tc.Select(e => e is not null).ToArray();
         //最大のK値(計算したK0ベクトルの中で最もXY成分が大きいもの)を求める。収束角ではないことに注意(5%大きい)。
         var maxK = k_xy.Max(e => e.X);
         double coeff1 = radiusPix - 0.5, coeff2 = (radiusPix - 0.5) / maxK, coeff3 = (uint)(diameterPix - 1);
@@ -1215,7 +1247,7 @@ public class BetheMethod
             #region あらかじめeVecにαを掛けておく。
             Parallel.For(0, tc.Length, kIndex =>
             {
-                if (eVal[kIndex] != null)
+                if (eVal[kIndex] is not null)
                     for (int col = 0; col < bLen; col++)
                         for (int row = 0; row < bLen; row++)
                             eVec[kIndex][col * bLen + row] *= α[kIndex][col];
@@ -1224,7 +1256,7 @@ public class BetheMethod
 
             #region 各種変数の設定
             var tc_k = GC.AllocateUninitializedArray<Complex>(tc.Length * bLen);
-            var validTc = list.Where(e1 => e1 != null).SelectMany(e2 => e2.SelectMany(e3 => e3.N)).Distinct().ToList().AsParallel();
+            var validTc = list.Where(e1 => e1 is not null).SelectMany(e2 => e2.SelectMany(e3 => e3.N)).Distinct().ToList().AsParallel();
             var total = _thick.Sum(e => e.Length) * tcP.Count();
             count = 0;
             #endregion
@@ -1618,14 +1650,14 @@ public class BetheMethod
     /// <returns></returns>
     public (Complex Real, Complex Imag) getU(in double kV, in Beam g, in Beam h = null, double inner = double.NaN, double outer = double.NaN)
     {
-        var index = h != null ? (g.H - h.H, g.K - h.K, g.L - h.L) : g.Index;
         var key1 = compose(g.Index);
-        var key2 = h != null ? compose(h.Index) : int.MaxValue;
-        //if (!uDictionary.TryGetValue((key1, key2), out (Complex real, Complex imag) U))
+        var key2 = h is null ?  int.MaxValue: compose(h.Index);
         if (!uDictionary.TryGetValue((key1, key2), out (Complex real, Complex imag) U))
         {
-            var s2 = h != null ? (g.Vec - h.Vec).Length2 / 4 : g.Vec.Length2 / 4;
-            var k0 = UniversalConstants.Convert.EnergyToElectronWaveNumber(kV);
+            var index = h is null ? g.Index : g.Index.Minus(h.Index);// (g.H - h.H, g.K - h.K, g.L - h.L) ;
+
+            var s2 = h is null ?  g.Vec.Length2 / 4 : (g.Vec - h.Vec).Length2 / 4;
+            //var k0 = UniversalConstants.Convert.EnergyToElectronWaveNumber(kV);
             double a = Crystal.A, b = Crystal.B, c = Crystal.C;
 
             Complex fReal = 0, fImag = 0;
@@ -1656,8 +1688,8 @@ public class BetheMethod
                             if (double.IsNaN(m))
                                 m = 0;
 
-                            imag = m == 0 ? 0 : (double.IsNaN(inner * outer)) ? es.FactorImaginary(kV, s2, m) :
-                                h == null ? es.FactorImaginaryAnnular(kV, g.Vec, m, inner, outer) : es.FactorImaginaryAnnular(kV, g.Vec, h.Vec, m, inner, outer);//非弾性散乱因子 答えは無次元
+                            imag = m == 0 ? 0 : double.IsNaN(inner * outer) ? es.FactorImaginary(kV, s2, m) :
+                                h is null ? es.FactorImaginaryAnnular(kV, g.Vec, m, inner, outer) : es.FactorImaginaryAnnular(kV, g.Vec, h.Vec, m, inner, outer);//非弾性散乱因子 答えは無次元
                         }
                     }
                     var d = Exp(-m * s2 + TwoPiI * (atom * index)) * atoms.Occ; //20240524 位相項 (TwoPiI・・・)の符号をプラスに変更 (これで、対称心の結晶の計算が上手くいくはず 三菱・中村)
@@ -1665,7 +1697,6 @@ public class BetheMethod
                     fImag += imag * d;
                 }
             }
-
             //係数については、 Kirklandの教科書のp120参照
             //相対論補正
             var gamma = 1 + UniversalConstants.e0 * kV * 1E3 / UniversalConstants.m0 / UniversalConstants.c2;
@@ -1732,11 +1763,21 @@ public class BetheMethod
         getEigenMatrix(b.Length, b, ref eigenMatrix, potentialMatrix);
         return eigenMatrix;
     }
+    /// <summary>
+    /// 固有値問題マトリックスを求める. k0の単位はnm^-1. パフォーマンス上の理由から、一次元配列にしている。メモリ節約したい場合はeigenMatrixをShared.Rentして渡すこと。
+    /// </summary>
+    /// <param name="dim"></param>
+    /// <param name="b"></param>
+    /// <param name="eigenMatrix"></param>
+    /// <param name="potentialMatrix"></param>
     private void getEigenMatrix(int dim, Beam[] b, ref Complex[] eigenMatrix, Complex[] potentialMatrix = null)
     {
-        if (potentialMatrix == null || potentialMatrix.Length != dim * dim)
-            potentialMatrix = getPotentialMatrix(b);
-
+        bool isNull = potentialMatrix is null || potentialMatrix.Length != dim * dim;
+        if (isNull)
+        {
+            potentialMatrix = Shared.Rent(dim * dim);//potentialMatrixをレンタル
+            getPotentialMatrix(dim, b, ref potentialMatrix);
+        }
         //A行列を決定
         for (int col = 0; col < dim; col++)
         {
@@ -1744,6 +1785,8 @@ public class BetheMethod
                 eigenMatrix[row + col * dim] = potentialMatrix[row + col * dim] / b[col].P;
             eigenMatrix[col * dim + col] += b[col].Q / b[col].P;
         }
+        if(isNull)
+            Shared.Return(potentialMatrix);//potentialMatrixを返却
     }
 
 
@@ -1758,8 +1801,6 @@ public class BetheMethod
     static readonly FrozenSet<(int h, int k, int l)> directionRH = new[] { (1, 0, 1), (0, -1, 1), (-1, 1, 1), (-1, 0, -1), (0, 1, -1), (1, -1, -1) }.ToFrozenSet();
     static readonly FrozenSet<(int h, int k, int l)> directionHex = new[] { (1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (1, -1, 0), (-1, 1, 0), (0, 0, 1), (0, 0, -1) }.ToFrozenSet();
     static readonly FrozenSet<(int h, int k, int l)> directionP = new[] { (1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1) }.ToFrozenSet();
-
-    readonly Dictionary<(int H, int K, int L), Vector3DBase> gDic = [];
     static int compose(in int h, in int k, in int l) => ((h + 255) << 20) + ((k + 255) << 10) + l + 255;
     static int compose(in (int h, int k, int l) index) => ((index.h + 255) << 20) + ((index.k + 255) << 10) + index.l + 255;
     static (int h, int k, int l) decompose(in int key) => ((key >> 20) - 255, ((key << 12) >> 22) - 255, ((key << 22) >> 22) - 255);
@@ -1772,16 +1813,14 @@ public class BetheMethod
     /// <param name="maxNumOfBloch">指定しない場合は MaxNumOfBloch を使用 </param>
     /// <param name="use_gDictionary">ビーム方位や結晶方位が変化していない場合はtrue</param>
     /// <returns></returns>
-    public Beam[] Find_gVectors(Matrix3D baseRotation, Vector3DBase vecK0, int maxNumOfBloch = -1, bool use_gDictionary = false)
+    public Beam[] Find_gVectors(Matrix3D baseRotation, Vector3DBase vecK0, int maxNumOfBloch = -1)
     {
-        if (!use_gDictionary)
-            gDic.Clear();
-
         if (maxNumOfBloch == -1)
             maxNumOfBloch = MaxNumOfBloch;
-        var mat = baseRotation * Crystal.MatrixInverse.Transpose();
-        FrozenSet<(int h, int k, int l)> direction;
+        var mat = baseRotation * Crystal.MatrixInverseTransposed;
         #region directionを初期化
+        
+        FrozenSet<(int h, int k, int l)> direction;
         if (Crystal.Symmetry.LatticeTypeStr == "F") direction = directionF;
         else if (Crystal.Symmetry.LatticeTypeStr == "A") direction = directionA;
         else if (Crystal.Symmetry.LatticeTypeStr == "B") direction = directionB;
@@ -1792,58 +1831,65 @@ public class BetheMethod
         else direction = directionP;
         #endregion directionを初期化
 
-        var (q0, p0) = getQP(new Vector3DBase(0, 0, 0), vecK0);
-        var beams = new List<Beam>(maxNumOfBloch * 6) { { new Beam((0, 0, 0), new Vector3DBase(0, 0, 0), getU(AccVoltage), (q0, p0)) } };
-        var outer = new List<((int H, int K, int L) key, double gLen)> { ((0, 0, 0), 0) };
-        var whole = new HashSet<(int H, int K, int L)> { (0, 0, 0) };
+        var limit = maxNumOfBloch * 8;
+        var pool = ArrayPool<(int key, double rating)>.Shared.Rent(limit);//beamsTmpをレンタル
+        var beamsSpan = pool.AsSpan(0,limit);
+        int count = 0;
+        pool[count++] = (compose(0, 0, 0), 0);
+        var outer = new List<(int key, double gLen)> { (compose(0, 0, 0), 0) };
+        var whole = new HashSet<int>(limit * 16) { compose(0, 0, 0) };
 
-        var shift = direction.Select(dir => (mat * dir).Length).Max() * 1.01;
+        var shift = direction.Select(dir => (mat * dir).Length).Max() * 0.5;//この数字が妥当かどうか？
 
         double k0_2 = vecK0.Length2, k0 = vecK0.Length;
         var maxQ = Math.Abs(k0_2 - (k0 + shift) * (k0 + shift));
 
-        Vector3DBase g;
-        while (beams.Count < maxNumOfBloch * 20 && whole.Count < 1000000 && outer.Count > 0)
+        var (m11, m12, m13, m21, m22, m23, m31, m32, m33) = mat.Tuple;
+        var (kX, kY, kZ) = vecK0.Tuple;
+        var (sX, sY, sZ) = Surface.Tuple;
+
+        while (count < limit && whole.Count < 1_000_000 && outer.Count > 0)
         {
-            var min = outer[0].gLen + shift;
-            var end = outer.FindLastIndex(o => o.gLen - min < shift * 2);
-
-            foreach (var (key, gLen) in CollectionsMarshal.AsSpan(outer)[..(end + 1)])
-            {
-                (int h1, int k1, int l1) = key;
-                foreach ((int h2, int k2, int l2) in direction)
-                {
-                    var index = (h1 + h2, k1 + k2, l1 + l2);
-                    if (whole.Add(index))
-                    {
-                        if (!use_gDictionary)
-                            g = mat * index;
-                        else if (!gDic.TryGetValue(index, out g)) //ビーム方位や結晶方位が変化していない場合はDictionaryを利用して  g = mat * indexの計算を短縮
-                        {
-                            g = mat * index;
-                            lock (lockObj2)
-                                gDic.TryAdd(index, g);
-                        }
-
-                        var v = g + vecK0;
-                        var vLen2 = v.Length2;
-
-                        var (q, p) = (k0_2 - vLen2, 2 * Surface * v);
-                        if (Math.Abs(q) < maxQ)
-                            beams.Add(new Beam(index, g, getU(AccVoltage, new Beam(index, g)), (q, p)));
-                        outer.Add((index, g.Length));
-                    }
-                }
-            }
-            outer.RemoveRange(0, end + 1);
             outer.Sort((o1, o2) => o1.gLen.CompareTo(o2.gLen));
+            var min = outer[0].gLen + shift;
+            var end = outer.FindLastIndex(o => o.gLen - min < shift * 2) + 1;
+            foreach (var (h1, k1, l1) in outer[..end].Select(e => decompose(e.key)))
+                foreach (var (h2, k2, l2) in direction)
+                    if (count < limit)
+                    {
+                        var (h, k, l) = (h1 + h2, k1 + k2, l1 + l2);
+                        var newKey = compose(h, k, l);
+                        if (whole.Add(newKey))
+                        {
+                            double gX = m11 * h + m12 * k + m13 * l, gY = m21 * h + m22 * k + m23 * l, gZ = m31 * h + m32 * k + m33 * l;
+                            double gLen = Math.Sqrt(gX * gX + gY * gY + gZ * gZ);
+                            double vX = gX + kX, vY = gY + kY, vZ = gZ + kZ;
+                            double q = k0_2 - (vX * vX + vY * vY + vZ * vZ);
+                            if (Math.Abs(q) < maxQ && sX * vX + sY * vY + sZ * vZ > 0) // p(=2*(sX*vX+sY*vY+sZ*vZ)) <=0 の場合は出射面から回折波が出ていかないことを意味する
+                                beamsSpan[count++] = (newKey, gLen * q * q);
+                            outer.Add((newKey, gLen));
+                        }
+                    }
+            outer.RemoveRange(0, end); //outer = outer[end..]; //こちらのほうが遅い。
         }
 
-        //indexが小さく、かつQg(励起誤差)の小さいg-vectorを抽出する
-        beams.Sort((a, b) => a.Rating.CompareTo(b.Rating));
+        count = Math.Min(count, maxNumOfBloch + 1);
+        
+        QuickSelect.Execute(beamsSpan, count, static (a, b) => a.rating.CompareTo(b.rating));//大して速くないが、一応こちらにしておく
+        //beamsSpan.Sort(static (a, b) => a.rating.CompareTo(b.rating));//これが遅い。
 
-        if (beams.Count > maxNumOfBloch + 1)
-            beams.RemoveRange(maxNumOfBloch + 1, beams.Count - maxNumOfBloch - 1);
+        var beams = new List<Beam>(count);
+        for (int i = 0; i < count; i++)
+        {
+            var (h, k, l) = decompose(beamsSpan[i].key);
+            double gX = m11 * h + m12 * k + m13 * l, gY = m21 * h + m22 * k + m23 * l, gZ = m31 * h + m32 * k + m33 * l;
+            double vX = gX + kX, vY = gY + kY, vZ = gZ + kZ;
+            double q = k0_2 - (vX * vX + vY * vY + vZ * vZ), p = 2 * (sX * vX + sY * vY + sZ * vZ);
+            var g = new Vector3DBase(gX, gY, gZ);
+            beams.Add(new Beam((h, k, l), g, getU(AccVoltage, new Beam((h, k, l), g)), (q, p)));
+        }
+
+        ArrayPool<(int key, double rating)>.Shared.Return(pool);//poolを返却
 
         //X,Y座標が同じものを削除
         for (int i = 0; i < beams.Count; i++)
@@ -1904,19 +1950,24 @@ public class BetheMethod
     /// <returns></returns>
     public Beam[] reset_gVectors(Beam[] beams, Matrix3D baseRotation, Vector3DBase vecK0)
     {
-        var newBeams = new Beam[beams.Length];
+        var newBeams = GC.AllocateUninitializedArray<Beam>(beams.Length);
         reset_gVectors(beams.Length, beams, baseRotation, vecK0, ref newBeams);
         return newBeams;
     }
 
     public void reset_gVectors(int dim, Beam[] beams, Matrix3D baseRotation, Vector3DBase vecK0, ref Beam[] newBeams)
     {
-        var mat = baseRotation * Crystal.MatrixInverse.Transpose();
+        var mat = baseRotation * Crystal.MatrixInverseTransposed;
+        //var (m11, m12, m13, m21, m22, m23, m31, m32, m33) = mat.Tuple;
         for (int i = 0; i < dim; i++)
         {
             var g = mat * beams[i].Index;
+            //var (h, k, l) = beams[i].Index;
+            //double gX = m11 * h + m12 * k + m13 * l, gY = m21 * h + m22 * k + m23 * l, gZ = m31 * h + m32 * k + m33 * l;
+
             var prms = getQP(g, vecK0);
-            newBeams[i] = new Beam(prms);
+            //var prms = getQP(beams[i].Vec, vecK0);
+            newBeams[i] = new Beam(beams[i].Index, beams[i].Vec, (beams[i].Ureal, beams[i].Uimag), prms);
         }
     }
 
@@ -2023,12 +2074,12 @@ public class BetheMethod
         /// <param name="hkl">指数</param>
         /// <param name="vec">逆格子ベクトル</param>
         /// <param name="s">励起誤差</param>
-        public Beam(in (int H, int K, int L) index, Vector3DBase vec, in (Complex Real, Complex Imag) f, in (double Q, double P) prms)
+        public Beam(in (int H, int K, int L) index, Vector3DBase vec, in (Complex Real, Complex Imag) u, in (double Q, double P) prms)
         {
             Index = index;
             Vec = vec;
-            Ureal = f.Real;
-            Uimag = f.Imag;
+            Ureal = u.Real;
+            Uimag = u.Imag;
             Q = prms.Q;
             P = prms.P;
         }

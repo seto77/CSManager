@@ -12,9 +12,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
+using static Crystallography.Controls.DataSet;
 #endregion
 
 namespace Crystallography.Controls;
@@ -48,6 +50,7 @@ public partial class CrystalDatabaseControl : UserControl
     static byte[] serialize<T>(T c)
     {
         using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
+        //using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.NoCompression);
         MemoryPackSerializer.Serialize(compressor, c);
 
         //先頭の4バイトは、データの長さを格納する。
@@ -152,21 +155,55 @@ public partial class CrystalDatabaseControl : UserControl
                 {
                     var fileNum = readInt(fs);
                     var fileNames = Enumerable.Range(0, fileNum).Select(i =>
-                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").AsParallel();
+                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").ToList();//.AsParallel();
 
 
-                    fileNames.ForAll(fn =>
+                    fileNames.ForEach(fn =>
                     {
                         using var stream = new FileStream(fn, FileMode.Open);
+
                         while (stream.Length != stream.Position)
                         {
-                            var rows = deserialize(stream).Select(Table.CreateRow).ToList();
-                            lock (lockObj)
-                                rows.ForEach(Table.AddDataTableCrystalDatabaseRow);
+                            deserialize(stream).Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add); 
+                            //foreach (var c in crystals)
+                            //{
+                            //    var row = Table.CreateRow(c);
+                            //    lock (lockObj)
+                            //    {
+                            //        crystals.Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);
+                                    //var (A, B, C, Alpha, Beta, Gamma) = c.CellOnlyValue;
+                                    //Table.Rows.Add(row);
+                                    //row = null;
 
+                                    //Table.AddDataTableCrystalDatabaseRow(
+                                    //    c, c.name, c.formula, c.density,
+                                    //    A, B, C, Alpha, Beta, Gamma,
+                                    //    SymmetryStatic.StrArray[c.sym][16],
+                                    //    SymmetryStatic.StrArray[c.sym][13],
+                                    //    SymmetryStatic.StrArray[c.sym][3],
+                                    //    "", "", "", true);
+
+                                    //Table.AddDataTableCrystalDatabaseRow(
+                                    //  c, c.name, c.formula, c.density,
+                                    //  A, B, C, Alpha, Beta, Gamma,
+                                    //  SymmetryStatic.StrArray[c.sym][16],
+                                    //  SymmetryStatic.StrArray[c.sym][13],
+                                    //  SymmetryStatic.StrArray[c.sym][3],
+                                    //  c.auth, c.sect, c.jour, true);
+                             //   }
+                            //}
+                            //var rows = deserialize(stream).Select(Table.CreateRow).ToList();
+                            //lock (lockObj)
+                            //    rows.ForEach(Table.AddDataTableCrystalDatabaseRow);
+
+                            //for (int i = 0; rows.Count > i; i++)
+                            //    rows[i] = null;
+                            
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
+                        //GC.Collect();
                     });
+                    GC.Collect();
                 }
             }
             else

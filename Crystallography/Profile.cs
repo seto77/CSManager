@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace Crystallography;
@@ -1359,7 +1360,7 @@ public record struct HorizontalAxisProperty
     /// 白色TOF時の 時間単位
     /// </summary>
     public TimeUnitEnum TofTimeUnit { get; set; } = TimeUnitEnum.MicroSecond;
-    public string TofTimeUnitText => TofTimeUnit switch
+    public readonly string TofTimeUnitText => TofTimeUnit switch
     {
         TimeUnitEnum.NanoSecond => "ns",
         TimeUnitEnum.MicroSecond => "µs",

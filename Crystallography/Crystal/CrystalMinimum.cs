@@ -84,6 +84,14 @@ public partial class Crystal2
                 DecomposeOnlyValue(CellTexts[0]), DecomposeOnlyValue(CellTexts[1]), DecomposeOnlyValue(CellTexts[2]),
                 DecomposeOnlyValue(CellTexts[3]), DecomposeOnlyValue(CellTexts[4]), DecomposeOnlyValue(CellTexts[5])));
 
+    /// <summary>
+    /// a,b,c,α,β,γ の順番. Getのみ. 長さはA, 角度は度単位. エラーの値は含まない.
+    /// </summary>
+    [MemoryPackIgnore]
+    public (float A, float B, float C, float Alpha, float Beta, float Gamma) CellOnlyValueFloat => ((
+                (float)DecomposeOnlyValue(CellTexts[0]), (float)DecomposeOnlyValue(CellTexts[1]), (float)DecomposeOnlyValue(CellTexts[2]),
+                (float)DecomposeOnlyValue(CellTexts[3]), (float)DecomposeOnlyValue(CellTexts[4]), (float)DecomposeOnlyValue(CellTexts[5])));
+
 
     /// <summary>
     /// a,b,c,α,β,γ の順番. Getのみ. 長さはnm, 角度はradian.
@@ -136,14 +144,14 @@ public partial class Crystal2
             iso = (iso.Value / 100, double.IsNaN(iso.Error) ? iso.Error : iso.Error / 100);
 
             (double Value, double Error)[] aniso = a.AnisoTexts != null ? a.AnisoTexts.Select(x => Decompose(x)).ToArray() :
-                 new[] { (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN) };
+                 [(0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN), (0.0, double.NaN)];
 
             var anisoValues = a.IsU ? aniso.Select(an => an.Value / 100).ToArray() : aniso.Select(an => an.Value).ToArray();
             var anisoErrors = a.IsU ? aniso.Select(an => an.Error / 100).ToArray() : aniso.Select(an => an.Error).ToArray();
             var _atom = new Atoms(
                     a.Label, a.AtomNo, a.SubXray, a.SubElectron, null, c.sym,
-                    new Vector3D(pos[0].Value, pos[1].Value, pos[2].Value, false),
-                    new Vector3D(pos[0].Error, pos[1].Error, pos[2].Error, false),
+                    new Vector3DBase(pos[0].Value, pos[1].Value, pos[2].Value),
+                    new Vector3DBase(pos[0].Error, pos[1].Error, pos[2].Error),
                     occ.Value, occ.Error,
                     new DiffuseScatteringFactor(a.IsU ? DiffuseScatteringFactor.Type.U : DiffuseScatteringFactor.Type.B, a.IsIso,
                         iso.Value, iso.Error, anisoValues, anisoErrors, cell.Values)
