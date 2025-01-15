@@ -1,4 +1,5 @@
 ﻿#region using
+using IronPython.Runtime.Operations;
 using MemoryPack;
 using MemoryPack.Compression;
 using Microsoft.Scripting.Utils;
@@ -47,10 +48,24 @@ public partial class CrystalDatabaseControl : UserControl
 
     readonly Stopwatch sw = new();
 
+    public Crystal Crystal => Crystal2.GetCrystal(Crystal2);
+
+    public Crystal2 Crystal2 => dataSet.DataTableCrystalDatabase.Get(bindingSource.Current);
+
+    public readonly DataSet.DataTableCrystalDatabaseDataTable Table;
+
+    public event EventHandler CrystalChanged;
+
+    public delegate void ProgressChangedEventHandler(object sender, double progress, string message);
+    public event ProgressChangedEventHandler ProgressChanged;
+
+    #endregion
+
+    #region MemoryPackによるシリアライズ、デシリアライズ
     static byte[] serialize<T>(T c)
     {
-        using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
-        //using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.NoCompression);
+        //using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
+        using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.NoCompression);
         MemoryPackSerializer.Serialize(compressor, c);
 
         //先頭の4バイトは、データの長さを格納する。
@@ -77,18 +92,6 @@ public partial class CrystalDatabaseControl : UserControl
         }
         finally { ArrayPool<byte>.Shared.Return(buffer2); }
     }
-
-    public Crystal Crystal => Crystal2.GetCrystal(Crystal2);
-
-    public Crystal2 Crystal2 => dataSet.DataTableCrystalDatabase.Get(bindingSource.Current);
-
-    public readonly DataSet.DataTableCrystalDatabaseDataTable Table;
-
-    public event EventHandler CrystalChanged;
-
-    public delegate void ProgressChangedEventHandler(object sender, double progress, string message);
-    public event ProgressChangedEventHandler ProgressChanged;
-
     #endregion
 
     #region コンストラクタ
@@ -155,55 +158,34 @@ public partial class CrystalDatabaseControl : UserControl
                 {
                     var fileNum = readInt(fs);
                     var fileNames = Enumerable.Range(0, fileNum).Select(i =>
-                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").ToList();//.AsParallel();
-
+                            $"{filename.Remove(filename.Length - 5, 5)}\\{Path.GetFileNameWithoutExtension(filename)}.{i:000}").ToList();
 
                     fileNames.ForEach(fn =>
                     {
                         using var stream = new FileStream(fn, FileMode.Open);
-
                         while (stream.Length != stream.Position)
                         {
-                            deserialize(stream).Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add); 
-                            //foreach (var c in crystals)
+                            //deserialize(stream).AsParallel().Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);
+                            var rows = deserialize(stream).AsParallel().Select(Table.CreateRow).ToList();
+                            for (int i = 0; i < rows.Count; i++)
+                            {
+                                Table.Rows.Add(rows[i]);
+                                rows[i] = null;
+                            }
+                            rows.Clear();
+
+                            //var crystals = deserialize(stream);
+                            //for(int i = 0;i<crystals.Length;i++)
                             //{
-                            //    var row = Table.CreateRow(c);
-                            //    lock (lockObj)
-                            //    {
-                            //        crystals.Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);
-                                    //var (A, B, C, Alpha, Beta, Gamma) = c.CellOnlyValue;
-                                    //Table.Rows.Add(row);
-                                    //row = null;
-
-                                    //Table.AddDataTableCrystalDatabaseRow(
-                                    //    c, c.name, c.formula, c.density,
-                                    //    A, B, C, Alpha, Beta, Gamma,
-                                    //    SymmetryStatic.StrArray[c.sym][16],
-                                    //    SymmetryStatic.StrArray[c.sym][13],
-                                    //    SymmetryStatic.StrArray[c.sym][3],
-                                    //    "", "", "", true);
-
-                                    //Table.AddDataTableCrystalDatabaseRow(
-                                    //  c, c.name, c.formula, c.density,
-                                    //  A, B, C, Alpha, Beta, Gamma,
-                                    //  SymmetryStatic.StrArray[c.sym][16],
-                                    //  SymmetryStatic.StrArray[c.sym][13],
-                                    //  SymmetryStatic.StrArray[c.sym][3],
-                                    //  c.auth, c.sect, c.jour, true);
-                             //   }
+                            //    var row = Table.CreateRow( crystals[i]);
+                            //    Table.Rows.Add(row);
                             //}
-                            //var rows = deserialize(stream).Select(Table.CreateRow).ToList();
-                            //lock (lockObj)
-                            //    rows.ForEach(Table.AddDataTableCrystalDatabaseRow);
 
-                            //for (int i = 0; rows.Count > i; i++)
-                            //    rows[i] = null;
-                            
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
-                        //GC.Collect();
+                        GC.Collect();
                     });
-                    GC.Collect();
+                    
                 }
             }
             else
@@ -263,8 +245,11 @@ public partial class CrystalDatabaseControl : UserControl
         {
             var crystal2List = new List<Crystal2>();
             for (int j = i; j < total && j < i + division; j++)
-                crystal2List.Add((Crystal2)(((DataRowView)bindingSource[j]).Row[0]));
-
+            {
+                var c = DataTableCrystalDatabaseDataTable.deserialize((byte[]) ((DataRowView)bindingSource[j]).Row[0]);
+                c.jour = c.jour.replace("&amp;", "&");
+                crystal2List.Add(c);
+            }
             byteList.AddRange(serialize(crystal2List.ToArray()));
 
             //最後まで来ている時で、かつ閾値以下の容量で、かつこれまで一度も分割もしていない場合

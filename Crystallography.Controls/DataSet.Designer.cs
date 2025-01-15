@@ -4227,10 +4227,10 @@ namespace Crystallography.Controls {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public object Crystal2 {
+            public byte[] Crystal2 {
                 get {
                     try {
-                        return ((object)(this[this.tableDataTableCrystalDatabase.Crystal2Column]));
+                        return ((byte[])(this[this.tableDataTableCrystalDatabase.Crystal2Column]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("テーブル \'DataTableCrystalDatabase\' にある列 \'SerializedCrystal2\' の値は DBNull です。", e);
