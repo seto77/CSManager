@@ -222,8 +222,7 @@ public partial class DataSet
 
     partial class DataTableCrystalDatabaseDataTable
     {
-
-        public static byte[] serialize<T>(T c)
+        public static byte[] serialize(Crystal2 c)
         {
             using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.Optimal);
             MemoryPackSerializer.Serialize(compressor, c);
@@ -291,12 +290,15 @@ public partial class DataSet
             (dr.A, dr.B, dr.C, dr.Alpha, dr.Beta, dr.Gamma) = c.CellOnlyValueFloat;
             dr.CrystalSystem = SymmetryStatic.StrArray[c.sym][16];//s.CrystalSystemStr;
             dr.PointGroup = SymmetryStatic.StrArray[c.sym][13];
-            dr.SpaceGroup = SymmetryStatic.StrArray[c.sym][3];
+            if(dr.CrystalSystem != "monoclinic")
+                dr.SpaceGroup = SymmetryStatic.StrArray[c.sym][3];
+            else
+                dr.SpaceGroup = SymmetryStatic.StrArray[c.sym][3].Split("=")[0];
+
             dr.Authors = c.auth;
             dr.Title = c.sect;
             dr.Journal = c.jour;
             dr.Flag = true;
-
 
             return dr;
         }

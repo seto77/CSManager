@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrystalDatabaseControl));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,24 +40,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrystalDatabaseControl));
             ReadDatabaseWorker = new System.ComponentModel.BackgroundWorker();
             dataGridView = new System.Windows.Forms.DataGridView();
-            nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            densityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            formulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            aDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            bDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            cDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            alphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            betaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            gammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            crystalSystemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            pointGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            spaceGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            authorsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            journalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             bindingSource = new System.Windows.Forms.BindingSource(components);
             dataSet = new DataSet();
             SaveDatabaseWorker = new System.ComponentModel.BackgroundWorker();
@@ -73,6 +58,21 @@
             bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             textBoxAMCSD = new System.Windows.Forms.TextBox();
             textBoxCOD = new System.Windows.Forms.TextBox();
+            nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            densityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            formulaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            aDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            bDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            cDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            alphaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            betaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            gammaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            crystalSystemDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            pointGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            spaceGroupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            authorsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            journalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataSet).BeginInit();
@@ -134,145 +134,6 @@
             dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dataGridView.Size = new System.Drawing.Size(913, 508);
             dataGridView.TabIndex = 76;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            nameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // densityDataGridViewTextBoxColumn
-            // 
-            densityDataGridViewTextBoxColumn.DataPropertyName = "Density";
-            dataGridViewCellStyle2.Format = "N4";
-            dataGridViewCellStyle2.NullValue = null;
-            densityDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            densityDataGridViewTextBoxColumn.HeaderText = "Density";
-            densityDataGridViewTextBoxColumn.Name = "densityDataGridViewTextBoxColumn";
-            densityDataGridViewTextBoxColumn.ReadOnly = true;
-            densityDataGridViewTextBoxColumn.Width = 65;
-            // 
-            // formulaDataGridViewTextBoxColumn
-            // 
-            formulaDataGridViewTextBoxColumn.DataPropertyName = "Formula";
-            formulaDataGridViewTextBoxColumn.HeaderText = "Formula";
-            formulaDataGridViewTextBoxColumn.Name = "formulaDataGridViewTextBoxColumn";
-            formulaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // aDataGridViewTextBoxColumn
-            // 
-            aDataGridViewTextBoxColumn.DataPropertyName = "A";
-            dataGridViewCellStyle3.Format = "#.######";
-            dataGridViewCellStyle3.NullValue = null;
-            aDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            aDataGridViewTextBoxColumn.HeaderText = "a";
-            aDataGridViewTextBoxColumn.Name = "aDataGridViewTextBoxColumn";
-            aDataGridViewTextBoxColumn.ReadOnly = true;
-            aDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // bDataGridViewTextBoxColumn
-            // 
-            bDataGridViewTextBoxColumn.DataPropertyName = "B";
-            dataGridViewCellStyle4.Format = "#.######";
-            dataGridViewCellStyle4.NullValue = null;
-            bDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
-            bDataGridViewTextBoxColumn.HeaderText = "b";
-            bDataGridViewTextBoxColumn.Name = "bDataGridViewTextBoxColumn";
-            bDataGridViewTextBoxColumn.ReadOnly = true;
-            bDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // cDataGridViewTextBoxColumn
-            // 
-            cDataGridViewTextBoxColumn.DataPropertyName = "C";
-            dataGridViewCellStyle5.Format = "#.######";
-            dataGridViewCellStyle5.NullValue = null;
-            cDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
-            cDataGridViewTextBoxColumn.HeaderText = "c";
-            cDataGridViewTextBoxColumn.Name = "cDataGridViewTextBoxColumn";
-            cDataGridViewTextBoxColumn.ReadOnly = true;
-            cDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // alphaDataGridViewTextBoxColumn
-            // 
-            alphaDataGridViewTextBoxColumn.DataPropertyName = "Alpha";
-            dataGridViewCellStyle6.Format = "#.######";
-            dataGridViewCellStyle6.NullValue = null;
-            alphaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
-            alphaDataGridViewTextBoxColumn.HeaderText = "α";
-            alphaDataGridViewTextBoxColumn.Name = "alphaDataGridViewTextBoxColumn";
-            alphaDataGridViewTextBoxColumn.ReadOnly = true;
-            alphaDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // betaDataGridViewTextBoxColumn
-            // 
-            betaDataGridViewTextBoxColumn.DataPropertyName = "Beta";
-            dataGridViewCellStyle7.Format = "#.######";
-            dataGridViewCellStyle7.NullValue = null;
-            betaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
-            betaDataGridViewTextBoxColumn.HeaderText = "β";
-            betaDataGridViewTextBoxColumn.Name = "betaDataGridViewTextBoxColumn";
-            betaDataGridViewTextBoxColumn.ReadOnly = true;
-            betaDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // gammaDataGridViewTextBoxColumn
-            // 
-            gammaDataGridViewTextBoxColumn.DataPropertyName = "Gamma";
-            dataGridViewCellStyle8.Format = "#.######";
-            dataGridViewCellStyle8.NullValue = null;
-            gammaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
-            gammaDataGridViewTextBoxColumn.HeaderText = "γ";
-            gammaDataGridViewTextBoxColumn.Name = "gammaDataGridViewTextBoxColumn";
-            gammaDataGridViewTextBoxColumn.ReadOnly = true;
-            gammaDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // crystalSystemDataGridViewTextBoxColumn
-            // 
-            crystalSystemDataGridViewTextBoxColumn.DataPropertyName = "CrystalSystem";
-            crystalSystemDataGridViewTextBoxColumn.HeaderText = "Crystal System";
-            crystalSystemDataGridViewTextBoxColumn.Name = "crystalSystemDataGridViewTextBoxColumn";
-            crystalSystemDataGridViewTextBoxColumn.ReadOnly = true;
-            crystalSystemDataGridViewTextBoxColumn.Width = 115;
-            // 
-            // pointGroupDataGridViewTextBoxColumn
-            // 
-            pointGroupDataGridViewTextBoxColumn.DataPropertyName = "PointGroup";
-            pointGroupDataGridViewTextBoxColumn.HeaderText = "Point Group";
-            pointGroupDataGridViewTextBoxColumn.Name = "pointGroupDataGridViewTextBoxColumn";
-            pointGroupDataGridViewTextBoxColumn.ReadOnly = true;
-            pointGroupDataGridViewTextBoxColumn.Width = 105;
-            // 
-            // spaceGroupDataGridViewTextBoxColumn
-            // 
-            spaceGroupDataGridViewTextBoxColumn.DataPropertyName = "SpaceGroup";
-            spaceGroupDataGridViewTextBoxColumn.HeaderText = "Space Group";
-            spaceGroupDataGridViewTextBoxColumn.Name = "spaceGroupDataGridViewTextBoxColumn";
-            spaceGroupDataGridViewTextBoxColumn.ReadOnly = true;
-            spaceGroupDataGridViewTextBoxColumn.Width = 110;
-            // 
-            // authorsDataGridViewTextBoxColumn
-            // 
-            authorsDataGridViewTextBoxColumn.DataPropertyName = "Authors";
-            authorsDataGridViewTextBoxColumn.HeaderText = "Authors";
-            authorsDataGridViewTextBoxColumn.Name = "authorsDataGridViewTextBoxColumn";
-            authorsDataGridViewTextBoxColumn.ReadOnly = true;
-            authorsDataGridViewTextBoxColumn.Width = 85;
-            // 
-            // titleDataGridViewTextBoxColumn
-            // 
-            titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
-            titleDataGridViewTextBoxColumn.HeaderText = "Title";
-            titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
-            titleDataGridViewTextBoxColumn.ReadOnly = true;
-            titleDataGridViewTextBoxColumn.Width = 85;
-            // 
-            // journalDataGridViewTextBoxColumn
-            // 
-            journalDataGridViewTextBoxColumn.DataPropertyName = "Journal";
-            journalDataGridViewTextBoxColumn.HeaderText = "Journal";
-            journalDataGridViewTextBoxColumn.Name = "journalDataGridViewTextBoxColumn";
-            journalDataGridViewTextBoxColumn.ReadOnly = true;
-            journalDataGridViewTextBoxColumn.Width = 85;
             // 
             // bindingSource
             // 
@@ -419,6 +280,145 @@
             textBoxCOD.Text = "The database is based on ”COD”. Please be sure to cite the references in the following cite when publishing the data: https://wiki.crystallography.net/cod/citing/\r\n";
             textBoxCOD.Visible = false;
             // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // densityDataGridViewTextBoxColumn
+            // 
+            densityDataGridViewTextBoxColumn.DataPropertyName = "Density";
+            dataGridViewCellStyle2.Format = "N4";
+            dataGridViewCellStyle2.NullValue = null;
+            densityDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            densityDataGridViewTextBoxColumn.HeaderText = "Density";
+            densityDataGridViewTextBoxColumn.Name = "densityDataGridViewTextBoxColumn";
+            densityDataGridViewTextBoxColumn.ReadOnly = true;
+            densityDataGridViewTextBoxColumn.Width = 65;
+            // 
+            // formulaDataGridViewTextBoxColumn
+            // 
+            formulaDataGridViewTextBoxColumn.DataPropertyName = "Formula";
+            formulaDataGridViewTextBoxColumn.HeaderText = "Formula";
+            formulaDataGridViewTextBoxColumn.Name = "formulaDataGridViewTextBoxColumn";
+            formulaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // aDataGridViewTextBoxColumn
+            // 
+            aDataGridViewTextBoxColumn.DataPropertyName = "A";
+            dataGridViewCellStyle3.Format = "#.#####";
+            dataGridViewCellStyle3.NullValue = null;
+            aDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            aDataGridViewTextBoxColumn.HeaderText = "a";
+            aDataGridViewTextBoxColumn.Name = "aDataGridViewTextBoxColumn";
+            aDataGridViewTextBoxColumn.ReadOnly = true;
+            aDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // bDataGridViewTextBoxColumn
+            // 
+            bDataGridViewTextBoxColumn.DataPropertyName = "B";
+            dataGridViewCellStyle4.Format = "#.#####";
+            dataGridViewCellStyle4.NullValue = null;
+            bDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            bDataGridViewTextBoxColumn.HeaderText = "b";
+            bDataGridViewTextBoxColumn.Name = "bDataGridViewTextBoxColumn";
+            bDataGridViewTextBoxColumn.ReadOnly = true;
+            bDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // cDataGridViewTextBoxColumn
+            // 
+            cDataGridViewTextBoxColumn.DataPropertyName = "C";
+            dataGridViewCellStyle5.Format = "#.#####";
+            dataGridViewCellStyle5.NullValue = null;
+            cDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            cDataGridViewTextBoxColumn.HeaderText = "c";
+            cDataGridViewTextBoxColumn.Name = "cDataGridViewTextBoxColumn";
+            cDataGridViewTextBoxColumn.ReadOnly = true;
+            cDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // alphaDataGridViewTextBoxColumn
+            // 
+            alphaDataGridViewTextBoxColumn.DataPropertyName = "Alpha";
+            dataGridViewCellStyle6.Format = "#.#####";
+            dataGridViewCellStyle6.NullValue = null;
+            alphaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            alphaDataGridViewTextBoxColumn.HeaderText = "α";
+            alphaDataGridViewTextBoxColumn.Name = "alphaDataGridViewTextBoxColumn";
+            alphaDataGridViewTextBoxColumn.ReadOnly = true;
+            alphaDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // betaDataGridViewTextBoxColumn
+            // 
+            betaDataGridViewTextBoxColumn.DataPropertyName = "Beta";
+            dataGridViewCellStyle7.Format = "#.#####";
+            dataGridViewCellStyle7.NullValue = null;
+            betaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            betaDataGridViewTextBoxColumn.HeaderText = "β";
+            betaDataGridViewTextBoxColumn.Name = "betaDataGridViewTextBoxColumn";
+            betaDataGridViewTextBoxColumn.ReadOnly = true;
+            betaDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // gammaDataGridViewTextBoxColumn
+            // 
+            gammaDataGridViewTextBoxColumn.DataPropertyName = "Gamma";
+            dataGridViewCellStyle8.Format = "#.#####";
+            dataGridViewCellStyle8.NullValue = null;
+            gammaDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            gammaDataGridViewTextBoxColumn.HeaderText = "γ";
+            gammaDataGridViewTextBoxColumn.Name = "gammaDataGridViewTextBoxColumn";
+            gammaDataGridViewTextBoxColumn.ReadOnly = true;
+            gammaDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // crystalSystemDataGridViewTextBoxColumn
+            // 
+            crystalSystemDataGridViewTextBoxColumn.DataPropertyName = "CrystalSystem";
+            crystalSystemDataGridViewTextBoxColumn.HeaderText = "Crystal System";
+            crystalSystemDataGridViewTextBoxColumn.Name = "crystalSystemDataGridViewTextBoxColumn";
+            crystalSystemDataGridViewTextBoxColumn.ReadOnly = true;
+            crystalSystemDataGridViewTextBoxColumn.Width = 115;
+            // 
+            // pointGroupDataGridViewTextBoxColumn
+            // 
+            pointGroupDataGridViewTextBoxColumn.DataPropertyName = "PointGroup";
+            pointGroupDataGridViewTextBoxColumn.HeaderText = "Point Group";
+            pointGroupDataGridViewTextBoxColumn.Name = "pointGroupDataGridViewTextBoxColumn";
+            pointGroupDataGridViewTextBoxColumn.ReadOnly = true;
+            pointGroupDataGridViewTextBoxColumn.Width = 105;
+            // 
+            // spaceGroupDataGridViewTextBoxColumn
+            // 
+            spaceGroupDataGridViewTextBoxColumn.DataPropertyName = "SpaceGroup";
+            spaceGroupDataGridViewTextBoxColumn.HeaderText = "Space Group";
+            spaceGroupDataGridViewTextBoxColumn.Name = "spaceGroupDataGridViewTextBoxColumn";
+            spaceGroupDataGridViewTextBoxColumn.ReadOnly = true;
+            spaceGroupDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // authorsDataGridViewTextBoxColumn
+            // 
+            authorsDataGridViewTextBoxColumn.DataPropertyName = "Authors";
+            authorsDataGridViewTextBoxColumn.HeaderText = "Authors";
+            authorsDataGridViewTextBoxColumn.Name = "authorsDataGridViewTextBoxColumn";
+            authorsDataGridViewTextBoxColumn.ReadOnly = true;
+            authorsDataGridViewTextBoxColumn.Width = 85;
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            titleDataGridViewTextBoxColumn.HeaderText = "Title";
+            titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            titleDataGridViewTextBoxColumn.ReadOnly = true;
+            titleDataGridViewTextBoxColumn.Width = 85;
+            // 
+            // journalDataGridViewTextBoxColumn
+            // 
+            journalDataGridViewTextBoxColumn.DataPropertyName = "Journal";
+            journalDataGridViewTextBoxColumn.HeaderText = "Journal";
+            journalDataGridViewTextBoxColumn.Name = "journalDataGridViewTextBoxColumn";
+            journalDataGridViewTextBoxColumn.ReadOnly = true;
+            journalDataGridViewTextBoxColumn.Width = 85;
+            // 
             // CrystalDatabaseControl
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -448,6 +448,19 @@
         private DataSet dataSet;
         public System.ComponentModel.BackgroundWorker SaveDatabaseWorker;
         public System.ComponentModel.BackgroundWorker ReadDatabaseWorker;
+        private System.Windows.Forms.BindingNavigator bindingNavigator;
+        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
+        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
+        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDelete;
+        private System.Windows.Forms.TextBox textBoxAMCSD;
+        private System.Windows.Forms.TextBox textBoxCOD;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn densityDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn formulaDataGridViewTextBoxColumn;
@@ -463,18 +476,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn authorsDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn journalDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingNavigator bindingNavigator;
-        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
-        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButtonDelete;
-        private System.Windows.Forms.TextBox textBoxAMCSD;
-        private System.Windows.Forms.TextBox textBoxCOD;
     }
 }
