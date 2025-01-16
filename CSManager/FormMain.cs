@@ -435,9 +435,8 @@ public partial class FormMain : Form
         var failedFile = new List<string>();
         var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
-        Parallel.For(0, fn.Count,
-            //new ParallelOptions { MaxDegreeOfParallelism = 1 },
-            j =>
+        //for(int j=0; j<fn.Count; j++)
+        Parallel.For(0, fn.Count,new ParallelOptions { MaxDegreeOfParallelism = 8 }, j =>
         {
             try
             {
@@ -460,9 +459,10 @@ public partial class FormMain : Form
 
             if (Interlocked.Increment(ref count) % 200 == 0)
                 workerAllImport.ReportProgress(0, (count, failedFile.Count, fn.Count));
-            if (count % 20000 == 0)
-                GC.Collect();
-        });
+            //if (count % 20000 == 0)
+            //    GC.Collect();
+        }
+        );
         workerAllImport.ReportProgress(0, (fn.Count, failedFile.Count, fn.Count));
 
         //¸”sƒtƒ@ƒCƒ‹‚ğ‘‚«‚Ş
