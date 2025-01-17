@@ -1,5 +1,7 @@
 ﻿#region using
+using IronPython.Runtime;
 using IronPython.Runtime.Operations;
+using MathNet.Numerics.Distributions;
 using MemoryPack;
 using MemoryPack.Compression;
 using Microsoft.Scripting.Utils;
@@ -65,7 +67,7 @@ public partial class CrystalDatabaseControl : UserControl
     #region MemoryPackによるシリアライズ、デシリアライズ
     static byte[] serialize(Crystal2[] c)
     {
-        using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
+        using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize, 24);
         //using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.NoCompression);
         MemoryPackSerializer.Serialize(compressor, c);
 
@@ -114,7 +116,7 @@ public partial class CrystalDatabaseControl : UserControl
 
     private static byte[] readBytes(FileStream s, int length)
     {
-        var bytes = new byte[length];
+        var bytes = GC.AllocateUninitializedArray<byte>(length);
         s.ReadExactly(bytes);
         return bytes;
     }
@@ -155,6 +157,7 @@ public partial class CrystalDatabaseControl : UserControl
                         ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                     }
                 }
+
                 else if (flag == 200)//分割ファイルの時
                 {
                     var fileNum = readInt(fs);
@@ -166,15 +169,13 @@ public partial class CrystalDatabaseControl : UserControl
                         using var stream = new FileStream(fn, FileMode.Open);
                         while (stream.Length != stream.Position)
                         {
-                            //deserialize(stream).AsParallel().Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);
+                            //deserialize(stream).AsParallel().Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);//この書き方だとメモリ使用量が増える
                             var rows = deserialize(stream).AsParallel().Select(Table.CreateRow).ToArray();
-
                             for (int i = 0; i < rows.Length; i++)
                             {
-                                Table.Rows.Add(rows[i]);
+                                Table.Add(rows[i]);
                                 rows[i] = null;
                             }
-
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
                         GC.Collect(10, GCCollectionMode.Forced, true, true);

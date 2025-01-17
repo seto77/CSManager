@@ -224,7 +224,7 @@ public partial class DataSet
     {
         public static byte[] serialize(Crystal2 c)
         {
-            using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.Optimal);
+            using var compressor = new BrotliCompressor(System.IO.Compression.CompressionLevel.Optimal, 24);
             MemoryPackSerializer.Serialize(compressor, c);
             return compressor.ToArray();
         }
@@ -277,6 +277,8 @@ public partial class DataSet
         }
 
         readonly Lock lockObj = new();
+
+        //public DataTableCrystalDatabaseRow CreateRow(Crystal2 c) => CreateRow(c,null);
         public DataTableCrystalDatabaseRow CreateRow(Crystal2 c)
         {
             DataTableCrystalDatabaseRow dr;
@@ -284,6 +286,7 @@ public partial class DataSet
                 dr = NewDataTableCrystalDatabaseRow();
 
             dr.Crystal2 = serialize(c);
+
             dr.Name = c.name;
             dr.Formula = c.formula;
             dr.Density = c.density;
