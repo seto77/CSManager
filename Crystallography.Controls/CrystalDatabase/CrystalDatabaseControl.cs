@@ -153,7 +153,8 @@ public partial class CrystalDatabaseControl : UserControl
                 {
                     while (fs.Length != fs.Position)
                     {
-                        deserialize(fs).AsParallel().Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);
+                        foreach(var r in deserialize(fs).AsParallel().Select(Table.CreateRow))
+                            Table.Rows.Add(r);
                         ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                     }
                 }
@@ -170,12 +171,9 @@ public partial class CrystalDatabaseControl : UserControl
                         while (stream.Length != stream.Position)
                         {
                             //deserialize(stream).AsParallel().Select(Table.CreateRow).ToList().ForEach(Table.Rows.Add);//この書き方だとメモリ使用量が増える
-                            var rows = deserialize(stream).AsParallel().Select(Table.CreateRow).ToArray();
-                            for (int i = 0; i < rows.Length; i++)
-                            {
-                                Table.Add(rows[i]);
-                                rows[i] = null;
-                            }
+                            foreach(var row in deserialize(stream).AsParallel().Select(Table.CreateRow))
+                                Table.Add(row);
+
                             ReadDatabaseWorker.ReportProgress(0, report(Table.Rows.Count, total, sw.ElapsedMilliseconds, "Loading database..."));
                         }
                         GC.Collect(10, GCCollectionMode.Forced, true, true);
