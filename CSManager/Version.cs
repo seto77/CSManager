@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CSManager
+﻿namespace CSManager
 {
     static class Version
     {
