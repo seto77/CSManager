@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using SO = Crystallography.SymmetryOperation;
+using ZLinq;
+using ZLinq.Linq;
 
 namespace Crystallography;
 
@@ -20,6 +22,8 @@ public static class SymmetryStatic
     /// </summary>
     public const double Th = 0.0001;
     #endregion
+
+  
 
     #region　static fields
     public static readonly ushort[][][] PositionsDictionary =
@@ -8152,7 +8156,9 @@ public static class SymmetryStatic
             #endregion CoodStr
         ];
 
-    public static readonly ushort[][] OperationDictionary =
+
+
+    public static readonly ushort[][] OperationDictionary = 
         [
 				#region OperationDictionary
  //0	Unknown
@@ -9239,6 +9245,7 @@ public static class SymmetryStatic
 [0,],
             #endregion
         ];
+
     public static readonly SO[] OperationList =
         [
 				#region OperationList
@@ -10898,7 +10905,8 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
 ".-3m"
             #endregion
         ];
-    public static readonly ushort[][][] BelongingNumberOfSymmetry = [
+    public static readonly ushort[][][] BelongingNumberOfSymmetry = 
+        [
 				#region BelongingNumberOfSymmetry
 					[
                         [0]
@@ -12178,7 +12186,7 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
         }
         #endregion
 
-        SpaceGroupListWithoutSpace = StrArray.Select(s => s[3].Replace(" ", "")).ToArray();
+        SpaceGroupListWithoutSpace = StrArray.AsValueEnumerable().Select(s => s[3].Replace(" ", "")).ToArray();
 
         Symmetries = new Symmetry[TotalSpaceGroupNumber];
         for (int i = 0; i < Symmetries.Length; i++)
@@ -12192,7 +12200,7 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
     /// </summary>
     /// <param name="seriesNumber"></param>
     /// <returns></returns>
-    public static (int CrystalSystem, int PointGroup, int SpaceGroup) GetSytemAndGroupFromSeriesNumber(int seriesNumber)
+    public static (int CrystalSystem, int PointGroup, int SpaceGroup) GetSystemAndGroupFromSeriesNumber(int seriesNumber)
     {
         for (int i = 0; i < BelongingNumberOfSymmetry.Length; i++)
         {
@@ -12951,7 +12959,7 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
     /// <param name="l">面指数 l</param>
     /// <param name="sym">対称性</param>
     /// <param name="multi">多重度</param>
-    /// <returns>基底のときはtrue</returns>
+    /// <returns>基底のときは true</returns>
     public static bool IsRootIndex((int h, int k, int l) index, Symmetry sym, out int multi)
     {
         var indices = new List<(int H, int K, int L)>();
@@ -13081,7 +13089,7 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
     /// <param name="sym">対称性</param>
     /// <param name="indices">等価な面指数の群</param>
     /// <param name="CalcNotEvenRoot">基底でなくても等価な面指数を計算するときはtrue</param>
-    /// <returns>基底のときはtrue</returns>
+    /// <returns>基底のときは true</returns>
     public static bool IsRootIndex((int h, int k, int l) index, Symmetry sym, ref List<(int H, int K, int L)> indices, bool CalcNotEvenRoot)
     {
         #region
@@ -13165,7 +13173,7 @@ new(-4,+1,(0,1,0),(0,d12,d14)),
     }
 
     /// <summary>
-    /// 対称性symに従って(hkl)と等価な結晶面を生成する
+    /// 対称性 symに従って(hkl)と等価な結晶面を生成する
     /// </summary>
     /// <param name="h"></param>
     /// <param name="k"></param>
