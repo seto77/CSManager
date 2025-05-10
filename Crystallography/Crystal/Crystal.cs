@@ -4,6 +4,7 @@ using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -708,9 +709,9 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
         double CosAlpha = Math.Cos(Alpha), CosBeta = Math.Cos(Beta), CosGamma = Math.Cos(Gamma);
         double a2 = A * A; double b2 = B * B; var c2 = C * C;
 
-        C_Axis = new Vector3D(0, 0, C);
-        B_Axis = new Vector3D(0, B * SinAlpha, B * CosAlpha);
-        A_Axis = new Vector3D(
+        C_Axis = new Vector3DBase(0, 0, C);
+        B_Axis = new Vector3DBase(0, B * SinAlpha, B * CosAlpha);
+        A_Axis = new Vector3DBase(
         A * Math.Sqrt(1 - CosBeta * CosBeta - (CosGamma - CosAlpha * CosBeta) * (CosGamma - CosAlpha * CosBeta) / SinAlpha / SinAlpha),
         A * (CosGamma - CosAlpha * CosBeta) / SinAlpha,
         A * CosBeta);
@@ -719,9 +720,9 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
         MatrixInverse = Matrix3D.Inverse(MatrixReal);
         MatrixInverseTransposed = MatrixInverse.Transpose();
 
-        A_Star = new Vector3D(MatrixInverse.E11, MatrixInverse.E12, MatrixInverse.E13);
-        B_Star = new Vector3D(MatrixInverse.E21, MatrixInverse.E22, MatrixInverse.E23);
-        C_Star = new Vector3D(MatrixInverse.E31, MatrixInverse.E32, MatrixInverse.E33);
+        A_Star = new Vector3DBase(MatrixInverse.E11, MatrixInverse.E12, MatrixInverse.E13);
+        B_Star = new Vector3DBase(MatrixInverse.E21, MatrixInverse.E22, MatrixInverse.E23);
+        C_Star = new Vector3DBase(MatrixInverse.E31, MatrixInverse.E32, MatrixInverse.E33);
 
         sigma11 = b2 * c2 * SinAlpha * SinAlpha;
         sigma22 = c2 * a2 * SinBeta * SinBeta;
@@ -1437,19 +1438,15 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
         //強度の順にソート
         Plane.Sort((p1, p2) => -p1.Intensity.CompareTo(p2.Intensity));
 
-        return Plane.Take(Math.Min(8, Plane.Count)).Select(p => (float)p.d).ToArray();
+        return [.. Plane.Take(Math.Min(8, Plane.Count)).Select(p => (float)p.d)];
     }
     #endregion
 
     #region 原子の追加/削除
 
     //引数の原子を加える
-    public bool AddAtoms(Atoms Atoms)
-    {
-        return AddAtoms(Atoms, true);
-    }
 
-    public bool AddAtoms(Atoms atoms, bool RenewFormulaAndDensity)
+    public bool AddAtoms(Atoms atoms, bool RenewFormulaAndDensity = true)
     {
         if (Atoms.Length > 0)
         {
@@ -1949,8 +1946,20 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
             Alpha_err = InitialAlpha_err;
             Beta_err = InitialBeta_err;
             Gamma_err = InitialGamma_err;
+            SetAxis();
         }
     }
+    #endregion
+
+    #region エクスポート
+
+    public void ExportCIF(string filename)
+    {
+        using var sw = new StreamWriter(filename, false);
+        sw.Write(ConvertCrystalData.ConvertToCIF(this));
+    }
+
+
     #endregion
 
     #region 指定した原子(target)の近辺にある原子を探索し、相対座標、距離、ラベルを返す. (絶対座標でないことに注意)

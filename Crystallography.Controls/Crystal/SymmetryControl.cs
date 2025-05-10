@@ -41,7 +41,7 @@ public partial class SymmetryControl : UserControl
         {
             if (value >= 0 && value <= SymmetryStatic.TotalSpaceGroupNumber)
             {
-                (int CrystalSystem, int PointGroup, int SpaceGroup) = SymmetryStatic.GetSytemAndGroupFromSeriesNumber(value);
+                (int CrystalSystem, int PointGroup, int SpaceGroup) = SymmetryStatic.GetSystemAndGroupFromSeriesNumber(value);
                 SkipEvent = true;
                 SuspendLayout();
 
@@ -150,18 +150,20 @@ public partial class SymmetryControl : UserControl
     {
         comboBoxSearchResult.Items.Clear();
         comboBoxSearchResult.Enabled = false;
+        
+
         char[] c;
         if (textBoxSearch.Text.Length == 0)
             return;
         else
-            c = textBoxSearch.Text.ToCharArray();
+            c = textBoxSearch.Text.replace("sub","_").ToCharArray();//"sub"という文字列は、アンダーバーに変更
         for (int n = 0; n < SymmetryStatic.TotalSpaceGroupNumber; n++)
         {
             var sym = SymmetryStatic.Symmetries[n];
             var startIndex = -1;
             for (int i = 0; i < c.Length; i++)
             {
-                var index = sym.SpaceGroupHMStr.IndexOf(c[i], startIndex + 1);
+                var index = sym.SpaceGroupHMStr.replace("sub", "_").IndexOf(c[i], startIndex + 1);
                 if (index >= 0)
                     startIndex = index;
                 else
@@ -171,7 +173,7 @@ public partial class SymmetryControl : UserControl
                 }
             }
             if (startIndex >= 0)
-                comboBoxSearchResult.Items.Add(sym.SpaceGroupHMStr);
+                comboBoxSearchResult.Items.Add(sym.SpaceGroupNumber + ":" + sym.SpaceGroupHMStr);
         }
         if (comboBoxSearchResult.Items.Count > 0)
             comboBoxSearchResult.Enabled = true;
@@ -181,11 +183,11 @@ public partial class SymmetryControl : UserControl
     {
         var sym = Enumerable.Range(0, SymmetryStatic.TotalSpaceGroupNumber)
             .Select(n => SymmetryStatic.Symmetries[n])
-            .First(sym => sym.SpaceGroupHMStr == comboBoxSearchResult.Text);
+            .First(sym => sym.SpaceGroupHMStr == comboBoxSearchResult.Text.Split(":")[1]);
 
         comboBoxCrystalSystem.Text = sym.CrystalSystemStr;
         comboBoxPointGroup.Text = sym.PointGroupHMStr;
-        comboBoxSpaceGroup.Text = sym.SpaceGroupHMStr;
+        comboBoxSpaceGroup.Text = sym.SpaceGroupNumber + ":" + sym.SpaceGroupHMStr;
     }
 
     #endregion
@@ -403,7 +405,7 @@ public partial class SymmetryControl : UserControl
 
         while (txt.Length > 0)
         {
-            if (txt.StartsWith(" ", StringComparison.Ordinal))
+            if (txt.StartsWith(' '))
                 xPos += 0;
             else if (txt.StartsWith("sub", StringComparison.Ordinal))//subで始まる時は
             {
@@ -412,7 +414,7 @@ public partial class SymmetryControl : UserControl
                 e.Graphics.DrawString(txt[0].ToString(), fontSub, b, xPos, e.Bounds.Y + 3);
                 xPos += e.Graphics.MeasureString(txt[0].ToString(), fontSub).Width - 2;
             }
-            else if (txt.StartsWith("-", StringComparison.Ordinal))//-で始まる時は
+            else if (txt.StartsWith('-'))//-で始まる時は
             {
                 float x = e.Graphics.MeasureString(txt[1].ToString(), fontRegular).Width;
                 e.Graphics.DrawLine(new Pen(b, 1), new PointF(xPos + 2f, e.Bounds.Y + 1), new PointF(x + xPos - 3f, e.Bounds.Y + 1));

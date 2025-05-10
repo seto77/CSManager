@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace Crystallography;
@@ -22,7 +21,7 @@ public class Profile : ICloneable
 
     public float LineWidth = 1f;
 
-    public RectangleD Range => new RectangleD(new PointD(Pt.Min(p => p.X), Pt.Min(p => p.Y)), new PointD(Pt.Max(p => p.X), Pt.Max(p => p.Y)));
+    public RectangleD Range => new(new PointD(Pt.Min(p => p.X), Pt.Min(p => p.Y)), new PointD(Pt.Max(p => p.X), Pt.Max(p => p.Y)));
     public double MaxX => Pt.Max(p => p.X);
     public double MinX => Pt.Min(p => p.X);
     public double MaxY => Pt.Max(p => p.Y);
