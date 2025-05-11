@@ -8,10 +8,11 @@
         static public string VersionAndDate { get => History.Remove(0, 10).Remove(20); }
 
         static public int AMCSD = 21_044;
-        static public int COD = 520_845;
+        static public int COD = 524_295;
 
         static public string History = 
             "History" +
+                "\r\n ver1.901(2025/05/11) Renewed COD database (524,295)." +
                 "\r\n ver1.900(2025/01/16) Reduced memory usage (thx to Nagai-san!). Renewed COD database (520,845)." +
                 "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation." +
                 "\r\n ver1.898(2024/11/13) Updated .Net Desktop Runtime to 9.0. Renewed AMCSD database (contains 21,044) and COD database (519,205)." +
