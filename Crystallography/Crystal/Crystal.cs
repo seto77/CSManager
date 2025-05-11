@@ -1430,13 +1430,13 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
     /// <param name="waveLength">Xê¸ÇÃîgí∑ÇéwíË íPà ÇÕnm </param>
     /// <param name="maxNum"> åvéZÇ∑ÇÈåãèªñ ÇÃêî </param>
     /// <returns></returns>
-    public float[] GetDspacingList(double waveLength, int maxNum = 500, int bestNum = 16)
+    public float[] GetDspacingList(double waveLength, int maxNum = 512, int bestNum = 16)
     {
         double aX = A_Star.X, aY = A_Star.Y, aZ = A_Star.Z, bX = B_Star.X, bY = B_Star.Y, bZ = B_Star.Z, cX = C_Star.X, cY = C_Star.Y, cZ = C_Star.Z;
         var outer = new List<(int H, int K, int L, double gLen)>() { (0, 0, 0, 0) };
         var whole = new HashSet<(int H, int K, int L)>() { (0, 0, 0) }; 
         var min = 0.0;
-        var list = new List<(double D, double intensity)>((int)(maxNum * 1.5));
+        var list = new List<(double D, double intensity)>(maxNum * 2);
 
         var shift = directions.Select(dir => (MatrixInverse * dir).Length).Max();
 
@@ -1459,7 +1459,7 @@ public class Crystal : IEquatable<Crystal>, ICloneable, IComparable<Crystal>
                             {
                                 double sinTheta = waveLength / 2 * gLen, twoTheta = 2 * Math.Asin(sinTheta), cosTwoTheta = 1 - 2 * sinTheta * sinTheta, sinTwoTheta = Math.Sin(twoTheta);
                                 var F2 = GetStructureFactor(WaveSource.Xray, Atoms, (h, k, l), gLen2 / 4.0).MagnitudeSquared();
-                                var intensity = F2 * multi / CellVolumeSquare * (1 + cosTwoTheta * cosTwoTheta) / sinTwoTheta / sinTheta;
+                                var intensity = F2 * multi  * (1 + cosTwoTheta * cosTwoTheta) / sinTwoTheta / sinTheta;  
                                 list.Add((1 / gLen, intensity));
                             }
                     }
