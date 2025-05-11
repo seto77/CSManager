@@ -5,7 +5,7 @@
         static public string Software =
            "CSManager"
            ;
-        static public string VersionAndDate { get => History.Remove(0, 10).Remove(20); }
+        static public string VersionAndDate { get => History[10..][..20]; }
 
         static public int AMCSD = 21_044;
         static public int COD = 524_295;
