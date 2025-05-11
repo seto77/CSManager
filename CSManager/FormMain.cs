@@ -436,7 +436,7 @@ public partial class FormMain : Form
         var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
         //for(int j=0; j<fn.Count; j++)
-        Parallel.For(0, fn.Count,new ParallelOptions { MaxDegreeOfParallelism = 8 }, j =>
+        Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 8 }, j =>
         {
             try
             {
@@ -446,7 +446,7 @@ public partial class FormMain : Form
                     var crystal = crystal2Array[j].ToCrystal();
                     if (crystal != null)
                     {
-                        crystal2Array[j].d = crystal2Array[j].atoms.Count == 0 ? null : crystal.GetDspacingList(0.154, 500);
+                        crystal2Array[j].d = crystal2Array[j].atoms.Count == 0 ? null : crystal.GetDspacingList(0.154, 200);
                         crystal2Array[j].formula = crystal2Array[j].atoms.Count == 0 ? "" : crystal.ChemicalFormulaSum;
                         crystal2Array[j].density = crystal2Array[j].atoms.Count == 0 ? 0 : (float)crystal.Density;
                     }
