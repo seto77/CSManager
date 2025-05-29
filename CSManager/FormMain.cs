@@ -1,17 +1,23 @@
+#region using
 using Crystallography;
+using Crystallography.Controls;
+using CsvHelper;
+using CsvHelper.Configuration.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
-using System.Reflection;
-using System.ComponentModel;
-using Crystallography.Controls;
+using static IronPython.Modules._ast;
+#endregion
 
 namespace CSManager;
 
@@ -20,12 +26,13 @@ public partial class FormMain : Form
     #region フィールド、プロパティ
     public static string UserAppDataPath => new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
 
+    Lock lockObj = new();
     private Stopwatch stopwatch { get; set; } = new Stopwatch();
     bool skipProgressEvent { get; set; } = false;
 
     private Crystallography.Controls.CommonDialog initialDialog;
 
-    readonly IProgress<(long, long, long, string)> ip;//IReport
+    private IProgress<(long, long, long, string)> ip;//IReport
     public static Languages CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name == "en" ? Languages.English : Languages.Japanese;
 
     #endregion
@@ -196,14 +203,14 @@ public partial class FormMain : Form
         try
         {
             skipProgressEvent = true;
-            toolStripProgressBar.Maximum = 1000000;
+            toolStripProgressBar.Maximum = 100000;
             var ratio = (double)current / total;
-            toolStripProgressBar.Value = (int)(ratio * 1000000);
+            toolStripProgressBar.Value = (int)(ratio * 100000);
             var ellapsedSec = elapsedMilliseconds / 1E3;
             var format = $"f{digit}";
 
             if (showPercentage) message += $" Completed: {(ratio * 100).ToString(format)} %.";
-            if (showEllapsedTime) message += $" Elappsed time: {ellapsedSec.ToString(format)} sec.";
+            if (showEllapsedTime) message += $" Elapsed time: {ellapsedSec.ToString(format)} sec.";
             if (showRemainTime) message += $" Remaining time: {(ellapsedSec / current * (total - current)).ToString(format)} sec.";
 
             toolStripStatusLabel.Text = message;
@@ -310,85 +317,88 @@ public partial class FormMain : Form
     /// <param name="e"></param>
     private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
     {
-        var (Valid, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", true);
-        string urlHeader = "https://github.com/seto77/CSManager/raw/master/COD/";
-        if (Valid)
-        {//適切にダウンロードされている場合
-            try//web上に新しいデータがあるかどうかをチェック
-            {
-                if (new WebClient().DownloadData(new Uri(urlHeader + "COD.cdb3")).SequenceEqual(File.ReadAllBytes(UserAppDataPath + "COD.cdb3")))
-                {//ローカルのCODが最新版の場合
-                    crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
-                    return;
-                }
-                else
-                {//更新版が存在する場合
-                    var result = MessageBox.Show("Now, new database is available.\r\n  Download and load the new database: YES\r\n" +
-                        "  Use the current database: No\r\n  Cancel database loading: Cancel", "  New database is available", MessageBoxButtons.YesNoCancel);
+        crystalDatabaseControl.ReadCOD(UserAppDataPath);
 
-                    if (result == DialogResult.No) //Noの場合 (更新せずに現状を読み込む場合)
-                        crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
 
-                    if (result == DialogResult.No || result == DialogResult.Cancel)//NoかCancelの場合
-                        return;
-                }
+        //var (Valid, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", true);
+        //string urlHeader = "https://github.com/seto77/CSManager/raw/master/COD/";
+        //if (Valid)
+        //{//適切にダウンロードされている場合
+        //    try//web上に新しいデータがあるかどうかをチェック
+        //    {
+        //        if (new WebClient().DownloadData(new Uri(urlHeader + "COD.cdb3")).SequenceEqual(File.ReadAllBytes(UserAppDataPath + "COD.cdb3")))
+        //        {//ローカルのCODが最新版の場合
+        //            crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
+        //            return;
+        //        }
+        //        else
+        //        {//更新版が存在する場合
+        //            var result = MessageBox.Show("Now, new database is available.\r\n  Download and load the new database: YES\r\n" +
+        //                "  Use the current database: No\r\n  Cancel database loading: Cancel", "  New database is available", MessageBoxButtons.YesNoCancel);
 
-            }
-            catch //WEBが落ちている場合は、現状のCODを読み込む 
-            {
-                crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
-                return;
-            }
-        }
-        else//CODデータが存在しないか、適切でない場合
-        {
-            if (MessageBox.Show("Local COD database is missing.\r\n  Do you download the new database now ?", "Local COD database is missing.",
-                MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-        }
+        //            if (result == DialogResult.No) //Noの場合 (更新せずに現状を読み込む場合)
+        //                crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
 
-        //ここからCODをダウンロード
-        try
-        {
-            stopwatch.Restart();
-            new WebClient().DownloadFile(new Uri(urlHeader + "COD.cdb3"), UserAppDataPath + "COD.cdb3");
+        //            if (result == DialogResult.No || result == DialogResult.Cancel)//NoかCancelの場合
+        //                return;
+        //        }
 
-            Directory.CreateDirectory(UserAppDataPath + "COD");
+        //    }
+        //    catch //WEBが落ちている場合は、現状のCODを読み込む 
+        //    {
+        //        crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");
+        //        return;
+        //    }
+        //}
+        //else//CODデータが存在しないか、適切でない場合
+        //{
+        //    if (MessageBox.Show("Local COD database is missing.\r\n  Do you download the new database now ?", "Local COD database is missing.",
+        //        MessageBoxButtons.YesNo) == DialogResult.No)
+        //        return;
+        //}
 
-            (_, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
+        ////ここからCODをダウンロード
+        //try
+        //{
+        //    stopwatch.Restart();
+        //    new WebClient().DownloadFile(new Uri(urlHeader + "COD.cdb3"), UserAppDataPath + "COD.cdb3");
 
-            var wc = new MyWebClient[FileNum];
-            var total = FileSizes.Sum();
-            var current = new long[FileNum];
-            var completedCount = 0;
-            long n = 1;
-            for (int i = 0; i < wc.Length; i++)
-            {
-                wc[i] = new MyWebClient();
-                var _i = i;//このインスタンスで作成する必要あり
-                wc[i].DownloadProgressChanged += (s, ev) =>
-                {
-                    current[_i] = ev.BytesReceived;
-                    if (n++ % 100 == 0)
-                        ip.Report((current.Sum(), total, stopwatch.ElapsedMilliseconds,
-                       $"Dowonloading database.  {current.Sum() / 1E6:f0} MB / {total / 1E6:f0} MB.  "));
-                };
-                wc[i].DownloadFileCompleted += (s, ev) =>
-                {
-                    if (!ev.Cancelled)
-                        completedCount++;
-                    if (completedCount == FileNum)
-                        crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");//読み込む
-                };
-            }
+        //    Directory.CreateDirectory(UserAppDataPath + "COD");
 
-            for (int i = 0; i < wc.Length; i++)
-                wc[i].DownloadFileAsync(new Uri($"{urlHeader}COD/COD.{i:000}"), $"{UserAppDataPath}COD\\COD.{i:000}");
-        }
-        catch
-        {
-            MessageBox.Show("Failed to download new COD database. Sorry.", "Error", MessageBoxButtons.OK);
-        }
+        //    (_, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", false);
+
+        //    var wc = new MyWebClient[FileNum];
+        //    var total = FileSizes.Sum();
+        //    var current = new long[FileNum];
+        //    var completedCount = 0;
+        //    long n = 1;
+        //    for (int i = 0; i < wc.Length; i++)
+        //    {
+        //        wc[i] = new MyWebClient();
+        //        var _i = i;//このインスタンスで作成する必要あり
+        //        wc[i].DownloadProgressChanged += (s, ev) =>
+        //        {
+        //            current[_i] = ev.BytesReceived;
+        //            if (n++ % 100 == 0)
+        //                ip.Report((current.Sum(), total, stopwatch.ElapsedMilliseconds,
+        //               $"Dowonloading database.  {current.Sum() / 1E6:f0} MB / {total / 1E6:f0} MB.  "));
+        //        };
+        //        wc[i].DownloadFileCompleted += (s, ev) =>
+        //        {
+        //            if (!ev.Cancelled)
+        //                completedCount++;
+        //            if (completedCount == FileNum)
+        //                crystalDatabaseControl.ReadDatabase(UserAppDataPath + "COD.cdb3");//読み込む
+        //        };
+        //    }
+
+        //    for (int i = 0; i < wc.Length; i++)
+        //        wc[i].DownloadFileAsync(new Uri($"{urlHeader}COD/COD.{i:000}"), $"{UserAppDataPath}COD\\COD.{i:000}");
+        //}
+        //catch
+        //{
+        //    MessageBox.Show("Failed to download new COD database. Sorry.", "Error", MessageBoxButtons.OK);
+        //}
     }
 
     private class MyWebClient : WebClient
@@ -402,11 +412,102 @@ public partial class FormMain : Form
     }
     #endregion
 
+    #region 新しいAMCSDのデータベース (csv形式) の読み込み
+    private void importAMCSDCSVToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        var dlg = new OpenFileDialog { Filter = "AMCSD CSV file | *.csv", };
+        if (dlg.ShowDialog() != DialogResult.OK) return;
+        stopwatch.Restart();
+
+        using var reader = new StreamReader(dlg.FileName);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var records = csv.GetRecords<amcsd>().ToArray();
+
+        c2Array = new Crystal2[records.Length];
+
+        var failedFile = new List<(int Index, string code)>();
+
+        Parallel.For(0, records.Length, i =>//foreach (var record in records)
+        {
+            try
+            {
+                var lines = records[i].AMC_File_Contents.Split(["\r\n", "\n"], StringSplitOptions.None);
+                c2Array[i] = ConvertCrystalData.ConvertFromAmc(lines);
+                if (c2Array[i] != null)
+                {
+                    (c2Array[i].d, c2Array[i].formula, c2Array[i].density) = GetPlanesFormulaDensity(c2Array[i]);
+                    c2Array[i].datatype = (byte)Crystal2.DataType.AMCSD;
+                }
+                else
+                    throw new Exception("Failed to convert AMC data to Crystal2 object.");
+            }
+            catch { lock (lockObj) failedFile.Add((i, records[i].database_code_amcsd)); }
+        });
+
+        //失敗ファイルを書き込む
+        using var writer = new StreamWriter(Path.GetDirectoryName(dlg.FileName) + "\\_failed.txt");
+        failedFile.ForEach(e => writer.WriteLine($"{e.Index}: {e.code}"));
+
+        #region デバッグコード
+        if (AssemblyState.IsDebug)
+            foreach (var i in failedFile.Select(e => e.Index))
+            {
+                try
+                {
+                    var lines = records[i].AMC_File_Contents.Split(["\r\n", "\n"], StringSplitOptions.None);
+                    c2Array[i] = ConvertCrystalData.ConvertFromAmc(lines);
+
+                }
+                catch { }
+            }
+        #endregion
+
+        crystalDatabaseControl.AddCrystals(c2Array);
+        toolStripStatusLabel.Text = $"Completed! {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec elapsed. ({records.Length} total, {100.0 * failedFile.Count / records.Length:f2} % failed)...";
+    }
+    #region AMCSDデータを読み込むためのテンポラリなクラス
+    class amcsd
+    {
+        [Name("database_code_amcsd")] public string database_code_amcsd { get; set; }
+        [Name("Mineral Name")] public string Mineral_Name { get; set; }
+        [Name("Ideal IMA Formula")] public string Ideal_IMA_Formula { get; set; }
+        [Name("AMC File Contents")] public string AMC_File_Contents { get; set; }
+        [Name("Volume")] public string Volume { get; set; }
+        [Name("Pressure")] public string Pressure { get; set; }
+        [Name("Temperature")] public string Temperature { get; set; }
+        [Name("Chemistry")] public string Chemistry { get; set; }
+        [Name("AMC File")] public string AMC_File { get; set; }
+        [Name("CIF File")] public string CIF_File { get; set; }
+        [Name("DIF File")] public string DIF_File { get; set; }
+        [Name("File")] public string File { get; set; }
+        [Name("Reference ID")] public string Reference_ID { get; set; }
+    }
+    #endregion
+    #endregion
+
+    /// <summary>
+    /// Crystal2からdspacing, formula, densityを取得する
+    /// </summary>
+    /// <param name="c2"></param>
+    /// <returns></returns>
+    private static (float[] Dspacings, string Formula, float Density) GetPlanesFormulaDensity(Crystal2 c2)
+    {
+        if (c2.atoms.Count != 0)
+        {
+            var c = c2.ToCrystal();
+            return (c.GetDspacingList(0.154, 200), c.ChemicalFormulaSum, (float)c.Density);
+        }
+        else
+            return (null, "", 0);
+    }
+
     #region ImportAll フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
+
+
     private void importAllCrystalsMenuItem_Click(object sender, EventArgs e) => GetAllImport();
 
     private BackgroundWorker workerAllImport = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
-    private Crystal2[] crystal2Array = [];
+    private Crystal2[] c2Array = [];
     /// <summary>
     /// フォルダ内に存在する全てのCIF,AMCファイルを取得し、データベースに書き込む
     /// </summary>
@@ -425,42 +526,36 @@ public partial class FormMain : Form
                 fn.Add(file.FullName);
 
         fn.Reverse();
-        crystal2Array = new Crystal2[fn.Count];
+        c2Array = new Crystal2[fn.Count];
         stopwatch.Restart();
         workerAllImport.RunWorkerAsync((fn, dlg.SelectedPath));
     }
+
 
     private void WorkerAllImport_DoWork(object sender, DoWorkEventArgs e)
     {
         var failedFile = new List<string>();
         var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
-        //for(int j=0; j<fn.Count; j++)
         Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 8 }, j =>
         {
             try
             {
-                crystal2Array[j] = ConvertCrystalData.ConvertToCrystal2(fn[j]);
-                if (crystal2Array[j] != null)
+                c2Array[j] = ConvertCrystalData.ConvertToCrystal2(fn[j]);
+                if (c2Array[j] != null)
                 {
-                    var crystal = crystal2Array[j].ToCrystal();
-                    if (crystal != null)
-                    {
-                        crystal2Array[j].d = crystal2Array[j].atoms.Count == 0 ? null : crystal.GetDspacingList(0.154, 200);
-                        crystal2Array[j].formula = crystal2Array[j].atoms.Count == 0 ? "" : crystal.ChemicalFormulaSum;
-                        crystal2Array[j].density = crystal2Array[j].atoms.Count == 0 ? 0 : (float)crystal.Density;
-                    }
+                    (c2Array[j].d, c2Array[j].formula, c2Array[j].density) = GetPlanesFormulaDensity(c2Array[j]);
+                    c2Array[j].datatype = (byte)Crystal2.DataType.COD;
                 }
             }
-            catch { crystal2Array[j] = null; }
+            catch { c2Array[j] = null; }
 
-            if (crystal2Array[j] == null)
-                failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
+            if (c2Array[j] == null)
+                lock (lockObj)
+                    failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
 
             if (Interlocked.Increment(ref count) % 200 == 0)
                 workerAllImport.ReportProgress(0, (count, failedFile.Count, fn.Count));
-            //if (count % 20000 == 0)
-            //    GC.Collect();
         }
         );
         workerAllImport.ReportProgress(0, (fn.Count, failedFile.Count, fn.Count));
@@ -483,7 +578,7 @@ public partial class FormMain : Form
 
     private void WorkerAllImport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-        crystalDatabaseControl.AddCrystals(crystal2Array);
+        crystalDatabaseControl.AddCrystals(c2Array);
     }
     #endregion
 
@@ -675,7 +770,7 @@ public partial class FormMain : Form
     #endregion
 
     #region その他ファイルメニュー
-    private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e) 
+    private void RecalculateDensityFormulaAndDvaluesToolStripMenuItem_Click(object sender, EventArgs e)
         => crystalDatabaseControl.RecalculateDensityAndFormula();
     private void closeToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
     private void toolTipToolStripMenuItem_Click(object sender, EventArgs e)
@@ -739,5 +834,8 @@ public partial class FormMain : Form
         // ResumeLayout();
     }
 
-
+    private void testToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        
+    }
 }
