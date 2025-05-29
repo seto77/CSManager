@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -118,287 +118,314 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 33</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="crystalDatabaseControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 16, 9, 16</value>
+  </data>
   <data name="crystalDatabaseControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>984, 359</value>
+    <value>982, 253</value>
   </data>
-  <data name="crystalDatabaseControl.ToolTip" xml:space="preserve">
-    <value />
+  <data name="splitContainer2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
-  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="crystalControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 40</value>
   </data>
   <data name="crystalControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>777, 314</value>
-  </data>
-  <data name="crystalControl.ToolTip" xml:space="preserve">
-    <value />
+    <value>722, 392</value>
   </data>
   <data name="buttonChange.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
   <data name="buttonChange.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 2</value>
+    <value>165, 2</value>
+  </data>
+  <data name="buttonChange.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="buttonChange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 36</value>
   </data>
   <data name="buttonChange.Text" xml:space="preserve">
     <value>↑ 入れ替え ↑</value>
-  </data>
-  <data name="buttonChange.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="buttonAdd.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
   <data name="buttonAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 2</value>
+    <value>4, 2</value>
+  </data>
+  <data name="buttonAdd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="buttonAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 36</value>
   </data>
   <data name="buttonAdd.Text" xml:space="preserve">
     <value>↑ 追加 ↑</value>
   </data>
-  <data name="buttonAdd.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer2.Panel1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="searchCrystalControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
   </data>
   <data name="searchCrystalControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 346</value>
-  </data>
-  <data name="searchCrystalControl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer2.Panel2.ToolTip" xml:space="preserve">
-    <value />
+    <value>238, 432</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>984, 346</value>
-  </data>
-  <data name="splitContainer2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 346</value>
-  </data>
-  <data name="statusStrip.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
+    <value>982, 432</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>359</value>
+  <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
+    <value>739</value>
   </data>
-  <data name="splitContainer1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="splitContainer2.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 432</value>
+  </data>
+  <data name="statusStrip.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 18, 0</value>
+  </data>
+  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>982, 30</value>
+  </data>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>982, 720</value>
+  </data>
+  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>253</value>
+  </data>
+  <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="toolStripProgressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="toolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 24</value>
   </data>
   <data name="menuStrip.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9.75pt</value>
   </data>
+  <data name="menuStrip.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 2, 0, 2</value>
+  </data>
+  <data name="menuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>982, 33</value>
+  </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 24</value>
+    <value>94, 29</value>
   </data>
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="optionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 24</value>
-  </data>
-  <data name="optionToolStripMenuItem.Text" xml:space="preserve">
-    <value>オプション</value>
-  </data>
-  <data name="programUpdatesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="programUpdatesToolStripMenuItem.Text" xml:space="preserve">
-    <value>アップデート</value>
-  </data>
-  <data name="hintToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="hintToolStripMenuItem.Text" xml:space="preserve">
-    <value>ヒント</value>
-  </data>
-  <data name="versionHistoryToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="versionHistoryToolStripMenuItem.Text" xml:space="preserve">
-    <value>バージョン履歴</value>
-  </data>
-  <data name="licenseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="licenseToolStripMenuItem.Text" xml:space="preserve">
-    <value>ライセンス</value>
-  </data>
-  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="toolStripMenuItemGithubPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="toolStripMenuItemGithubPage.Text" xml:space="preserve">
-    <value>Github ページ</value>
-  </data>
-  <data name="repportBugsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="repportBugsToolStripMenuItem.Text" xml:space="preserve">
-    <value>バグ、要望、コメントの送信</value>
-  </data>
-  <data name="helpwebToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="helpwebToolStripMenuItem.Text" xml:space="preserve">
-    <value>マニュアル (PDF)</value>
-  </data>
-  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 24</value>
-  </data>
-  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
-    <value>ヘルプ</value>
-  </data>
-  <data name="languageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 24</value>
-  </data>
-  <data name="menuStrip.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="toolStripMenuItemReadDefault1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="toolStripMenuItemReadDefault1.Text" xml:space="preserve">
     <value>AMCSD データベースを読込 (データ数: ###)</value>
   </data>
   <data name="toolStripMenuItemReadDefault2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="toolStripMenuItemReadDefault2.Text" xml:space="preserve">
     <value>CODデータベースを読込 (データ数: ###)</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>407, 6</value>
+    <value>527, 6</value>
   </data>
   <data name="readDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="readDatabaseToolStripMenuItem.Text" xml:space="preserve">
     <value>データベースを読込</value>
   </data>
   <data name="saveDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="saveDatabaseToolStripMenuItem.Text" xml:space="preserve">
     <value>データベースを保存</value>
   </data>
   <data name="clearDatabaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="clearDatabaseToolStripMenuItem.Text" xml:space="preserve">
     <value>データベースをクリア</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>407, 6</value>
+    <value>527, 6</value>
   </data>
   <data name="toolStripMenuItemImport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="toolStripMenuItemImport.Text" xml:space="preserve">
     <value>インポート (単一ファイル) (CIF, AMC)</value>
   </data>
   <data name="toolStripMenuItemImportPDI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="toolStripMenuItemImportPDI.Text" xml:space="preserve">
     <value>インポート (PDIndexer, ReciProの結晶リスト) (*.xml)</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>407, 6</value>
+    <value>527, 6</value>
   </data>
   <data name="closeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>407, 6</value>
+    <value>527, 6</value>
   </data>
   <data name="debugFunctionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 24</value>
+    <value>530, 30</value>
   </data>
   <data name="compressAndSplitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 24</value>
+    <value>458, 30</value>
   </data>
   <data name="showIndexToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 24</value>
+    <value>458, 30</value>
   </data>
   <data name="checkDuplicatedFileToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 24</value>
+    <value>458, 30</value>
   </data>
   <data name="importAllFileCIFOrAMCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 24</value>
+    <value>458, 30</value>
   </data>
   <data name="recalculateDensityFormulaAndDvaluesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 24</value>
+    <value>458, 30</value>
+  </data>
+  <data name="optionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 29</value>
+  </data>
+  <data name="optionToolStripMenuItem.Text" xml:space="preserve">
+    <value>オプション</value>
   </data>
   <data name="toolTipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 24</value>
+    <value>465, 30</value>
   </data>
   <data name="toolTipToolStripMenuItem.Text" xml:space="preserve">
     <value>ツールチップを表示</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 6</value>
+    <value>462, 6</value>
   </data>
   <data name="readDefaultDatabaseOnNextBootToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 24</value>
+    <value>465, 30</value>
   </data>
   <data name="readDefaultDatabaseOnNextBootToolStripMenuItem.Text" xml:space="preserve">
     <value>起動時にAMCSDデータベースを自動で読み込む</value>
   </data>
   <data name="incrementalSearchToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 24</value>
+    <value>465, 30</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 6</value>
+    <value>462, 6</value>
   </data>
   <data name="increaseFontSizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 24</value>
+    <value>465, 30</value>
   </data>
   <data name="increaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 24</value>
+    <value>282, 30</value>
   </data>
   <data name="decreaseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 24</value>
+    <value>282, 30</value>
+  </data>
+  <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 29</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
+  <data name="programUpdatesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="programUpdatesToolStripMenuItem.Text" xml:space="preserve">
+    <value>アップデート</value>
+  </data>
+  <data name="hintToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="hintToolStripMenuItem.Text" xml:space="preserve">
+    <value>ヒント</value>
+  </data>
+  <data name="versionHistoryToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="versionHistoryToolStripMenuItem.Text" xml:space="preserve">
+    <value>バージョン履歴</value>
+  </data>
+  <data name="licenseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="licenseToolStripMenuItem.Text" xml:space="preserve">
+    <value>ライセンス</value>
+  </data>
+  <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 6</value>
+  </data>
+  <data name="toolStripMenuItemGithubPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="toolStripMenuItemGithubPage.Text" xml:space="preserve">
+    <value>Github ページ</value>
+  </data>
+  <data name="repportBugsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="repportBugsToolStripMenuItem.Text" xml:space="preserve">
+    <value>バグ、要望、コメントの送信</value>
+  </data>
+  <data name="helpwebToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 30</value>
+  </data>
+  <data name="helpwebToolStripMenuItem.Text" xml:space="preserve">
+    <value>マニュアル (PDF)</value>
+  </data>
+  <data name="languageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 29</value>
   </data>
   <data name="englishToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        wwAAAMMBnc7+MwAAAUpJREFUOE9jYAhq+Y8Lg8A1Bk04BgFs6uAYpMCmeiFWSf+OVf+fxlcSZRhYDkxC
-        AboCYgwDOeT7+WtgeQaYIhjQzp8JV0jIMBCAyf39+u0/w00RKzDn/fx1YEkYwGeYf/uq/z/vPUYRBwGG
-        ltWH///79w9DAgSSpmzGMAwEYPxfD59CRSAAHpsgcFvBBazoTddcMB8E0A0Dsxm1wGwYUMmaCvE6lI8T
-        YHMZLgCOAGph6hr2af2e//jwA8cEuGJs8sgYJTshg+vs+v8f2MfhjU0QQMk9IAIkAAN/v/9AUYwrAp5E
-        lYDFHjjEg/lgw8AsKLjGpA1WAMoeIIAt0Ub1rwfTMIAsBzbs358/KILGpXPANuHLTsjgoWsyWJ7hBr8Z
-        mPFx1XawBEwxIcNAGJR7kAE8o8NTMRImZBgMwwDYm9gUgDCxhoFw/tyd/wHjpZDiF9mN8AAAAABJRU5E
-        rkJggg==
+        wgAAAMIBT4kc1wAAAT9JREFUOE9jYAhq+Y8Lg8A1Bk04BgF0NSgYpMCmeiGmRFDLf/+OVf+fxlcSZRhY
+        DkxCAboCYgwDOeT7+WtgeQaYIhjQzp9JtGEgAJP7+/Xbf4abIlZgzvv561AMxWeYf/uq/z/vPUYRB8u1
+        rD78/9+/fxgSIJA0ZTOGYSAA4/96+BRFPQOyk28ruIAVvemaC1eAbhiYzagFlwcBlaypEK+jiGIB6Ibh
+        A+AIoBamrmGf1u/5jw8/cEyAK0aXQ8fwCIBFAgxcZ9f//8A+DmuYIfNRcg8sFcPA3+8/UBRjMwwEnkSV
+        gMUeOMSD+RixeY1JG6wAlD1AAFuijepfj6wFRQ5s2L8/f1AEjUvn4M0B6EHy0DUZLM9wg98MzPi4ajuK
+        YkKGgTAo9yADeEaHp2ISDEN3Jdib6JKkGgbC+XN3/gcA46WQ4mYS36cAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="englishToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 24</value>
+    <value>276, 30</value>
   </data>
   <data name="japaneseToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        wwAAAMMBnc7+MwAAAG5JREFUOE/tjLsNwCAMRFNQMAyDMQMjMDSOIxHJsc9YSOmSJ11zv4Ne5D/bZ32W
-        Eje4IrXAT/WJlANOarUHWgDHVUMkgOOqIRLAcdUQCYDdMexYqvdZfMKJQ2v25FLOs2DhNKCU8OQmPtvg
-        E2dEJ41V0r+pZPOtAAAAAElFTkSuQmCC
+        wgAAAMIBT4kc1wAAAG5JREFUOE/tjMENgDAMA/Poo8N0sM7QETp0g4pUBI5DQfCDk/xx4hN9EcHiCb9M
+        VUNQFTnmBP+KkgtCfsnZCjAEpyVjDMFpyRhDcFoyxhB425od71MrLla4rFOKlfTEiJ8bvmyQ0lQymMtu
+        8BHZAo1V0r8sVkWOAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="japaneseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 24</value>
+    <value>276, 30</value>
   </data>
   <data name="japaneseToolStripMenuItem.Text" xml:space="preserve">
     <value>日本語</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>120, 120</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>982, 753</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 10pt</value>
@@ -477,7 +504,7 @@
         AADAAwAA+A8AAA==
 </value>
   </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
 </root>
