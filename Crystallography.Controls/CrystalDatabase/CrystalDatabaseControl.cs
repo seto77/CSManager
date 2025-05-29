@@ -28,6 +28,13 @@ namespace Crystallography.Controls;
 public partial class CrystalDatabaseControl : UserControl
 {
     #region フィールド、メソッド、イベント
+    public bool AMCSD_Checked {get=> checkBoxAMCSD.Checked; set => checkBoxAMCSD.Checked = value; }
+    public bool COD_Checked {get=>checkBoxCOD.Checked;set => checkBoxCOD.Checked = value; }
+
+    public bool AMCSD_Has_Read { get; set; }=false;
+    public bool COD_Has_Read { get; set; }=false;
+
+    public static string UserAppDataPath => new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
     public void Suspend()
     {
         bindingSource.RaiseListChangedEvents = false;
@@ -41,7 +48,9 @@ public partial class CrystalDatabaseControl : UserControl
         bindingSource.ResetBindings(false);
     }
 
-    public string Filter { get => bindingSource.Filter; set => bindingSource.Filter = value; }
+    public string SearchFilter { get => bindingSource.Filter; set => bindingSource.Filter = value; }
+
+    public string DataTypeFilter;
 
     public float FontSize
     {
@@ -58,6 +67,8 @@ public partial class CrystalDatabaseControl : UserControl
     public readonly DataSet.DataTableCrystalDatabaseDataTable Table;
 
     public event EventHandler CrystalChanged;
+
+    public event EventHandler DataBaseChanged;
 
     public delegate void ProgressChangedEventHandler(object sender, double progress, string message);
     public event ProgressChangedEventHandler ProgressChanged;
@@ -248,7 +259,7 @@ public partial class CrystalDatabaseControl : UserControl
             for (int j = i * division; j < total && j < (i + 1) * division; j++)
             {
                 var c = Crystal2.Deserialize((byte[])((DataRowView)bindingSource[j]).Row[0]);
-                c.datatype = (byte)Crystal2.DataType.COD;
+                //c.datatype = (byte)Crystal2.DataType.COD;
                 crystal2List.Add(c);
             }
             bytes[i] = serialize([.. crystal2List]);
@@ -422,14 +433,12 @@ public partial class CrystalDatabaseControl : UserControl
 
     #region CODデータベースのダウロード、読み込み
 
-
-
     /// <summary>
     /// CODデータベースのダウンロードや読み込み. 
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public void ReadCOD(string UserAppDataPath)
+    public void ReadCOD()
     {
         this.Enabled = false;
         var (Valid, DataNum, FileNum, FileSizes, CheckSums) = CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", true);
@@ -480,7 +489,7 @@ public partial class CrystalDatabaseControl : UserControl
             Thread.Sleep(100);
             Application.DoEvents();
         }
-        this.Enabled = true;
+        //this.Enabled = true;
         ReadDatabase(UserAppDataPath + "COD.cdb3");
     }
 
@@ -676,12 +685,24 @@ public partial class CrystalDatabaseControl : UserControl
 
     private void checkBoxAMCSD_CheckedChanged(object sender, EventArgs e)
     {
+        if(checkBoxAMCSD.Checked && !AMCSD_Has_Read)
+        {
+            ReadDatabase(UserAppDataPath + "AMCSD.cdb3");
+            AMCSD_Has_Read = true;
+        }
 
+        DataBaseChanged?.Invoke(sender, e);
     }
 
     private void checkBoxCOD_CheckedChanged(object sender, EventArgs e)
     {
-
+        if (checkBoxCOD.Checked && !COD_Has_Read)
+        {
+            ReadCOD();
+            COD_Has_Read = true;
+            do { Thread.Sleep(100);Application.DoEvents(); } while (!Enabled);
+        }
+        DataBaseChanged?.Invoke(sender, e);
     }
 }
 

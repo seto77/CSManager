@@ -61,6 +61,7 @@ partial class FormMain
         importAllFileCIFOrAMCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         importAMCSDCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         recalculateDensityFormulaAndDvaluesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         optionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         toolTipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -84,7 +85,6 @@ partial class FormMain
         japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         toolTip = new System.Windows.Forms.ToolTip(components);
         backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-        testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
         splitContainer1.Panel2.SuspendLayout();
@@ -114,10 +114,15 @@ partial class FormMain
         // 
         // crystalDatabaseControl
         // 
+        crystalDatabaseControl.AMCSD_Checked = false;
+        crystalDatabaseControl.AMCSD_Has_Read = false;
         resources.ApplyResources(crystalDatabaseControl, "crystalDatabaseControl");
-        crystalDatabaseControl.Filter = null;
+        crystalDatabaseControl.COD_Checked = false;
+        crystalDatabaseControl.COD_Has_Read = false;
+        crystalDatabaseControl.DatabaseSelection = true;
         crystalDatabaseControl.FontSize = 9.75F;
         crystalDatabaseControl.Name = "crystalDatabaseControl";
+        crystalDatabaseControl.SearchFilter = null;
         crystalDatabaseControl.CrystalChanged += crystalDatabaseControl_CrystalChanged;
         crystalDatabaseControl.ProgressChanged += crystalDatabaseControl_ProgressChanged;
         // 
@@ -185,6 +190,7 @@ partial class FormMain
         // 
         // searchCrystalControl
         // 
+        searchCrystalControl.CrystalDatabaseControl = null;
         resources.ApplyResources(searchCrystalControl, "searchCrystalControl");
         searchCrystalControl.Name = "searchCrystalControl";
         searchCrystalControl.ProgressChanged += SearchCrystalControl_ProgressChanged;
@@ -328,6 +334,12 @@ partial class FormMain
         recalculateDensityFormulaAndDvaluesToolStripMenuItem.Name = "recalculateDensityFormulaAndDvaluesToolStripMenuItem";
         resources.ApplyResources(recalculateDensityFormulaAndDvaluesToolStripMenuItem, "recalculateDensityFormulaAndDvaluesToolStripMenuItem");
         // 
+        // testToolStripMenuItem
+        // 
+        testToolStripMenuItem.Name = "testToolStripMenuItem";
+        resources.ApplyResources(testToolStripMenuItem, "testToolStripMenuItem");
+        testToolStripMenuItem.Click += testToolStripMenuItem_Click;
+        // 
         // optionToolStripMenuItem
         // 
         optionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolTipToolStripMenuItem, toolStripSeparator2, readDefaultDatabaseOnNextBootToolStripMenuItem, incrementalSearchToolStripMenuItem, toolStripSeparator5, increaseFontSizeToolStripMenuItem });
@@ -462,12 +474,6 @@ partial class FormMain
         // toolTip
         // 
         toolTip.IsBalloon = true;
-        // 
-        // testToolStripMenuItem
-        // 
-        testToolStripMenuItem.Name = "testToolStripMenuItem";
-        resources.ApplyResources(testToolStripMenuItem, "testToolStripMenuItem");
-        testToolStripMenuItem.Click += testToolStripMenuItem_Click;
         // 
         // FormMain
         // 

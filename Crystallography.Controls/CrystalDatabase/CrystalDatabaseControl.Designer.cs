@@ -74,17 +74,16 @@
             DownloadCodWorker = new System.ComponentModel.BackgroundWorker();
             checkBoxAMCSD = new System.Windows.Forms.CheckBox();
             checkBoxCOD = new System.Windows.Forms.CheckBox();
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             flowLayoutPanelDatabase = new System.Windows.Forms.FlowLayoutPanel();
             textBox1 = new System.Windows.Forms.TextBox();
-            label1 = new System.Windows.Forms.Label();
+            panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataSet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingNavigator).BeginInit();
             bindingNavigator.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
             flowLayoutPanelDatabase.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // ReadDatabaseWorker
@@ -122,7 +121,7 @@
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             dataGridView.DefaultCellStyle = dataGridViewCellStyle9;
             dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            dataGridView.Location = new System.Drawing.Point(0, 67);
+            dataGridView.Location = new System.Drawing.Point(0, 71);
             dataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             dataGridView.MultiSelect = false;
             dataGridView.Name = "dataGridView";
@@ -139,7 +138,7 @@
             dataGridView.RowHeadersWidth = 44;
             dataGridView.RowTemplate.Height = 21;
             dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.Size = new System.Drawing.Size(913, 529);
+            dataGridView.Size = new System.Drawing.Size(913, 525);
             dataGridView.TabIndex = 76;
             // 
             // nameDataGridViewTextBoxColumn
@@ -310,7 +309,7 @@
             bindingNavigator.Font = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
             bindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { bindingNavigatorMoveFirstItem, bindingNavigatorMovePreviousItem, bindingNavigatorSeparator, bindingNavigatorPositionItem, bindingNavigatorCountItem, bindingNavigatorSeparator1, bindingNavigatorMoveNextItem, bindingNavigatorMoveLastItem, bindingNavigatorSeparator2, toolStripButtonDelete });
             bindingNavigator.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            bindingNavigator.Location = new System.Drawing.Point(0, 43);
+            bindingNavigator.Location = new System.Drawing.Point(0, 47);
             bindingNavigator.MoveFirstItem = bindingNavigatorMoveFirstItem;
             bindingNavigator.MoveLastItem = bindingNavigatorMoveLastItem;
             bindingNavigator.MoveNextItem = bindingNavigatorMoveNextItem;
@@ -410,8 +409,6 @@
             // checkBoxAMCSD
             // 
             checkBoxAMCSD.AutoSize = true;
-            checkBoxAMCSD.Checked = true;
-            checkBoxAMCSD.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBoxAMCSD.Font = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
             checkBoxAMCSD.Location = new System.Drawing.Point(3, 0);
             checkBoxAMCSD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -435,19 +432,6 @@
             checkBoxCOD.UseVisualStyleBackColor = true;
             checkBoxCOD.CheckedChanged += checkBoxCOD_CheckedChanged;
             // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel1.Controls.Add(flowLayoutPanelDatabase);
-            flowLayoutPanel1.Controls.Add(textBox1);
-            flowLayoutPanel1.Controls.Add(label1);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(913, 43);
-            flowLayoutPanel1.TabIndex = 85;
-            // 
             // flowLayoutPanelDatabase
             // 
             flowLayoutPanelDatabase.AutoSize = true;
@@ -458,30 +442,33 @@
             flowLayoutPanelDatabase.Location = new System.Drawing.Point(0, 0);
             flowLayoutPanelDatabase.Margin = new System.Windows.Forms.Padding(0);
             flowLayoutPanelDatabase.Name = "flowLayoutPanelDatabase";
-            flowLayoutPanelDatabase.Size = new System.Drawing.Size(77, 42);
+            flowLayoutPanelDatabase.Size = new System.Drawing.Size(77, 47);
             flowLayoutPanelDatabase.TabIndex = 4;
             flowLayoutPanelDatabase.Visible = false;
             // 
             // textBox1
             // 
             textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            textBox1.Font = new System.Drawing.Font("Segoe UI Symbol", 8F);
             textBox1.Location = new System.Drawing.Point(77, 0);
             textBox1.Margin = new System.Windows.Forms.Padding(0);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new System.Drawing.Size(817, 35);
+            textBox1.Size = new System.Drawing.Size(836, 47);
             textBox1.TabIndex = 2;
             textBox1.Text = resources.GetString("textBox1.Text");
-            textBox1.WordWrap = false;
             // 
-            // label1
+            // panel1
             // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(897, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(0, 17);
-            label1.TabIndex = 1;
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(flowLayoutPanelDatabase);
+            panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(913, 47);
+            panel1.TabIndex = 86;
             // 
             // CrystalDatabaseControl
             // 
@@ -489,7 +476,7 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             Controls.Add(dataGridView);
             Controls.Add(bindingNavigator);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(panel1);
             Font = new System.Drawing.Font("Segoe UI Symbol", 9.75F);
             Name = "CrystalDatabaseControl";
             Size = new System.Drawing.Size(913, 596);
@@ -500,10 +487,10 @@
             ((System.ComponentModel.ISupportInitialize)bindingNavigator).EndInit();
             bindingNavigator.ResumeLayout(false);
             bindingNavigator.PerformLayout();
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
             flowLayoutPanelDatabase.ResumeLayout(false);
             flowLayoutPanelDatabase.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -544,9 +531,8 @@
         public System.ComponentModel.BackgroundWorker DownloadCodWorker;
         private System.Windows.Forms.CheckBox checkBoxCOD;
         private System.Windows.Forms.CheckBox checkBoxAMCSD;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelDatabase;
+        private System.Windows.Forms.Panel panel1;
     }
 }
