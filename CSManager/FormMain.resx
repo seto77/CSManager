@@ -658,7 +658,7 @@
   <data name="englishToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        vgAAAL4BsOPnlwAAAT9JREFUOE9jYAhq+Y8Lg8A1Bk04BgF0NSgYpMCmeiGmRFDLf/+OVf+fxlcSZRhY
+        vQAAAL0BHVrG+gAAAT9JREFUOE9jYAhq+Y8Lg8A1Bk04BgF0NSgYpMCmeiGmRFDLf/+OVf+fxlcSZRhY
         DkxCAboCYgwDOeT7+WtgeQaYIhjQzp9JtGEgAJP7+/Xbf4abIlZgzvv561AMxWeYf/uq/z/vPUYRB8u1
         rD78/9+/fxgSIJA0ZTOGYSAA4/96+BRFPQOyk28ruIAVvemaC1eAbhiYzagFlwcBlaypEK+jiGIB6Ibh
         A+AIoBamrmGf1u/5jw8/cEyAK0aXQ8fwCIBFAgxcZ9f//8A+DmuYIfNRcg8sFcPA3+8/UBRjMwwEnkSV
@@ -675,7 +675,7 @@
   <data name="japaneseToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        vgAAAL4BsOPnlwAAAG5JREFUOE/tjMENgDAMA/Poo8N0sM7QETp0g4pUBI5DQfCDk/xx4hN9EcHiCb9M
+        vQAAAL0BHVrG+gAAAG5JREFUOE/tjMENgDAMA/Poo8N0sM7QETp0g4pUBI5DQfCDk/xx4hN9EcHiCb9M
         VUNQFTnmBP+KkgtCfsnZCjAEpyVjDMFpyRhDcFoyxhB425od71MrLla4rFOKlfTEiJ8bvmyQ0lQymMtu
         8BHZAo1V0r8sVkWOAAAAAElFTkSuQmCC
 </value>
@@ -955,6 +955,12 @@
   <data name="&gt;&gt;recalculateDensityFormulaAndDvaluesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;testToolStripMenuItem.Name" xml:space="preserve">
+    <value>testToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;testToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;optionToolStripMenuItem.Name" xml:space="preserve">
     <value>optionToolStripMenuItem</value>
   </data>
@@ -1092,12 +1098,6 @@
   </data>
   <data name="&gt;&gt;backgroundWorker1.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System.ComponentModel.EventBasedAsync, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="&gt;&gt;testToolStripMenuItem.Name" xml:space="preserve">
-    <value>testToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;testToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FormMain</value>

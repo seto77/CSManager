@@ -85,8 +85,8 @@ public partial class FormMain : Form
 
         //ユーザーパスにxmlファイルをコピー
         var appPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\";
-        if (File.Exists(appPath + "StdDB.cdb3"))
-            File.Copy(appPath + "StdDB.cdb3", UserAppDataPath + "StdDB.cdb3", true);
+        if (File.Exists(appPath + "AMCSD.cdb3"))
+            File.Copy(appPath + "AMCSD.cdb3", UserAppDataPath + "AMCSD.cdb3", true);
 
         //UserAppDataPathに空フォルダがあったら削除
         foreach (var dir in Directory.GetDirectories(UserAppDataPath))
@@ -116,6 +116,7 @@ public partial class FormMain : Form
 
         initialDialog.progressBar.Value = (int)(initialDialog.progressBar.Maximum * 0.7);
 
+        //AMCSDデータベースを読み込む
         if (readDefaultDatabaseOnNextBootToolStripMenuItem.Checked)
             toolStripMenuItemReadDefault1_Click(new object(), new EventArgs());
 
@@ -126,8 +127,8 @@ public partial class FormMain : Form
 
         readRegistry();
 
-        toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString());
-        toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString());
+        toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString("N0"));
+        toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString("N0"));
 
         if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
             File.Delete(UserAppDataPath + "CSManagerSetup.msi");
@@ -302,9 +303,10 @@ public partial class FormMain : Form
     /// <param name="e"></param>
     private void toolStripMenuItemReadDefault1_Click(object sender, EventArgs e)
     {
-        if (File.Exists(UserAppDataPath + "StdDB.cdb3"))
-            //readDatabase(UserAppDataPath + "StdDB.cdb3");
-            crystalDatabaseControl.ReadDatabase(UserAppDataPath + "StdDB.cdb3");
+        crystalDatabaseControl.AMCSD_Checked = true;
+        //if (File.Exists(UserAppDataPath + "AMCSD.cdb3"))
+        //    //readDatabase(UserAppDataPath + "AMCSD.cdb3");
+        //    crystalDatabaseControl.ReadDatabase(UserAppDataPath + "AMCSD.cdb3");
     }
     #endregion
 
@@ -317,7 +319,8 @@ public partial class FormMain : Form
     /// <param name="e"></param>
     private void toolStripMenuItemReadDefault2_Click(object sender, EventArgs e)
     {
-        crystalDatabaseControl.ReadCOD(UserAppDataPath);
+        crystalDatabaseControl.COD_Checked = true;
+        //crystalDatabaseControl.ReadCOD();
 
 
         //var (Valid, DataNum, FileNum, FileSizes, CheckSums) = crystalDatabaseControl.CheckDatabaseFiles(UserAppDataPath + "COD.cdb3", true);

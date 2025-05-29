@@ -8,11 +8,11 @@
         static public string VersionAndDate { get => History[10..][..20]; }
 
         static public int AMCSD = 21_286;
-        static public int COD = 524_295;
+        static public int COD = 524_740;
 
         static public string History = 
             "History" +
-                "\r\n ver1.902(2025/05/28) Renewed AMCSD database (28,286)." +
+                "\r\n ver1.903(2025/05/29) Renewed AMCSD database (28,286) and COD database (524,740)." +
                 "\r\n ver1.901(2025/05/11) Renewed COD database (524,295)." +
                 "\r\n ver1.900(2025/01/16) Reduced memory usage (thx to Nagai-san!). Renewed COD database (520,845)." +
                 "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation." +

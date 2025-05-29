@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2025.5.29.0010</AssemblyVersion>
-    <FileVersion>2025.5.29.0010</FileVersion>
+    <AssemblyVersion>2025.5.29.1035</AssemblyVersion>
+    <FileVersion>2025.5.29.1035</FileVersion>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
@@ -17,7 +17,6 @@
   <ItemGroup>
     <None Remove="doc\CSManager%28en%29.pdf" />
     <None Remove="doc\CSManager%28ja%29.pdf" />
-    <None Remove="StdDb.cdb3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +26,7 @@
     <Content Include="doc\CSManager(ja).pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="StdDb.cdb3">
+    <Content Include="AMCSD.cdb3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
