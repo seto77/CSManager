@@ -8,11 +8,12 @@
         static public string VersionAndDate { get => History[10..][..20]; }
 
         static public int AMCSD = 21_286;
-        static public int COD = 524_740;
+        static public int COD = 529_139;
 
         static public string History = 
             "History" +
-                "\r\n ver1.903(2025/05/29) Renewed AMCSD database (28,286) and COD database (524,740)." +
+                "\r\n ver1.904(2025/11/14) Updated .Net Desktop Runtime to 10.0. Renewed COD database (529,139)." +
+                "\r\n ver1.903(2025/05/29) Renewed AMCSD database (21,286) and COD database (524,740)." +
                 "\r\n ver1.901(2025/05/11) Renewed COD database (524,295)." +
                 "\r\n ver1.900(2025/01/16) Reduced memory usage (thx to Nagai-san!). Renewed COD database (520,845)." +
                 "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation." +
