@@ -1,6 +1,6 @@
 # CSManager
 * *CSManager* is a management software of crystal databaase.
-  * Runs on Windows OS with .Net Desktop Runtime 9.0 (not .Net Runtime 9.0), which can be installed from [here](https://dotnet.microsoft.com/download/dotnet/9.0).
+  * Runs on Windows OS with .Net Desktop Runtime 10 (not .Net Runtime 10), which can be installed from [here](https://dotnet.microsoft.com/download/dotnet/10.0).
   
 ## Install
 * Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerSetup.msi*, and execute it.
@@ -8,7 +8,7 @@
 ## Main features
 * Available database
   * AMCSD (American Mineralogist Crystal Structure Database, http://rruff.geo.arizona.edu/AMS/), which contains ~20,000 crystal structures, is initially bundled.
-  * COD (Crystallography Open Database, http://www.crystallography.net/cod/), which contains ~450,000 structures, is also available by a separate download.
+  * COD (Crystallography Open Database, http://www.crystallography.net/cod/), which contains ~520,000 structures, is also available by a separate download.
   
 * Search engine of crystal structures
   * By material name, including/excluding elements, symmetry, journal information, and so on.

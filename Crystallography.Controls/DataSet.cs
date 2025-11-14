@@ -117,7 +117,7 @@ public partial class DataSet
     partial class DataTableAtomDataTable
     {
         public Atoms Get(int i) => Rows[i][AtomColumn] as Atoms;
-        public Atoms[] GetAll() => Rows.Select(r => (r as DataTableAtomRow)[AtomColumn] as Atoms).ToArray();
+        public Atoms[] GetAll() => [.. Rows.Select(r => (r as DataTableAtomRow)[AtomColumn] as Atoms)];
         public void Replace(Atoms atoms, int i) => ReplaceBase(Rows, createRow(atoms), i);
         public void Add(Atoms atom) => Rows.Add(createRow(atom));
         public new void Clear() => Rows.Clear();
@@ -230,12 +230,6 @@ public partial class DataSet
         /// <returns></returns>
         public Crystal2 Get(object o) => o is DataRowView drv && drv.Row is DataTableCrystalDatabaseRow r ? Crystal2.Deserialize((byte[]) r[Crystal2Column]) : null;
 
-
-        /// <summary>
-        /// 引数はbindingSourceMain.Currentオブジェクト. 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
         public Crystal2 Get(int i) => Crystal2.Deserialize((byte[])Rows[i][0]);
 
         public byte GetDataType(int i) => (byte)(Rows[i][DataTypeColumn]);
@@ -248,7 +242,7 @@ public partial class DataSet
         public void Remove(int i) => Rows.RemoveAt(i);
 
         /// <summary>
-        /// srcCrystalはbindingSourceMain.Currentオブジェクト. 
+        /// srcCrystalは bindingSourceMain.Currentオブジェクト. 
         /// </summary>
         /// <param name="srcCrystal"></param>
         /// <param name="targetCrystal"></param>
@@ -279,13 +273,13 @@ public partial class DataSet
             dr.Formula = c.formula;
             dr.Density = c.density;
             (dr.A, dr.B, dr.C, dr.Alpha, dr.Beta, dr.Gamma) = c.CellOnlyValueFloat;
-            (dr.CrystalSystem, dr.PointGroup,  dr.SpaceGroup) = Coeff[c.sym];
+            (dr.CrystalSystem, dr.PointGroup, dr.SpaceGroup) = Coeff[c.sym];
 
             var auth = c.auth;
-            if (Regex.Matches(auth, ",").Count>1)
+            if (Regex.Matches(auth, ",").Count > 1)
                 auth = auth.Split(",")[0] + ", et al.";
             dr.Authors = auth;
-            
+
             dr.Title = c.sect;
             dr.Journal = c.jour;
             dr.Flag = true;
@@ -293,7 +287,8 @@ public partial class DataSet
             return dr;
         }
 
-        static (string CrystalSystem, string PointGroup, string SpaceGroup) [] Coeff = [.. SymmetryStatic.StrArray.Select(s =>
+        static readonly (string CrystalSystem, string PointGroup, string SpaceGroup) [] Coeff 
+            = [.. SymmetryStatic.StrArray.Select(s =>
         {
             var sg = s[3];
             if (sg.Contains("sub"))
