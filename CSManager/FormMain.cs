@@ -69,7 +69,6 @@ public partial class FormMain : Form
          Version.History);
 
         searchCrystalControl.CrystalDatabaseControl = crystalDatabaseControl;
-        this.AcceptButton = searchCrystalControl.buttonSearch;
 
         workerAllImport.ProgressChanged += WorkerAllImport_ProgressChanged;
         workerAllImport.DoWork += WorkerAllImport_DoWork;
