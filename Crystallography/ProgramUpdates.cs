@@ -51,10 +51,6 @@ public static class ProgramUpdates
         {
             if (File.Exists(path))
             {
-                var ExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                if(Directory.Exists(ExecutingPath))
-                    Directory.Delete(ExecutingPath, true);
-                
                 Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
                 return true;
             }
