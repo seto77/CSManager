@@ -7,11 +7,13 @@
            ;
         static public string VersionAndDate { get => History[10..][..20]; }
 
-        static public int AMCSD = 21_286;
+        static public int AMCSD = 21_478;
         static public int COD = 529_139;
 
         static public string History = 
             "History" +
+                "\r\n ver1.907(2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
+                "\r\n ver1.906(2025/12/05) Renewed AMCSD database (21,477)." +
                 "\r\n ver1.905(2025/11/26) Fixed a minor bug." +
                 "\r\n ver1.904(2025/11/14) Updated .Net Desktop Runtime to 10.0. Renewed COD database (529,139)." +
                 "\r\n ver1.903(2025/05/29) Renewed AMCSD database (21,286) and COD database (524,740)." +
