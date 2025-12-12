@@ -12,7 +12,7 @@
 
         static public string History = 
             "History" +
-                "\r\n ver1.908(2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
+                "\r\n ver1.909(2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
                 "\r\n ver1.906(2025/12/05) Renewed AMCSD database (21,477)." +
                 "\r\n ver1.905(2025/11/26) Fixed a minor bug." +
                 "\r\n ver1.904(2025/11/14) Updated .Net Desktop Runtime to 10.0. Renewed COD database (529,139)." +
