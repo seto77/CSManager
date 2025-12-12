@@ -53,11 +53,8 @@ public static class ProgramUpdates
             {
                 var ExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 if(Directory.Exists(ExecutingPath))
-                {
                     Directory.Delete(ExecutingPath, true);
-                }
-
-                File.Delete(UserAppDataPath + "CSManagerSetup.msi");
+                
                 Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
                 return true;
             }
