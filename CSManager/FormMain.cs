@@ -25,6 +25,8 @@ public partial class FormMain : Form
 {
     #region フィールド、プロパティ
     public static string UserAppDataPath => new DirectoryInfo(Application.UserAppDataPath).Parent.FullName + @"\";
+    public static string ExecutingPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\";
+
 
     Lock lockObj = new();
     private Stopwatch stopwatch { get; set; } = new Stopwatch();
@@ -46,10 +48,7 @@ public partial class FormMain : Form
         try
         {
             var culture = (string)regKey.GetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
-            if (culture.ToLower().StartsWith("ja"))
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja");
-            else
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+            Thread.CurrentThread.CurrentUICulture = culture.ToLower().StartsWith("ja") ? new CultureInfo("ja") : new CultureInfo("en");
         }
         catch { }
 
@@ -539,7 +538,7 @@ public partial class FormMain : Form
         var failedFile = new List<string>();
         var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
-        Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 8 }, j =>
+        Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 1 }, j =>
         {
             try
             {
@@ -547,7 +546,10 @@ public partial class FormMain : Form
                 if (c2Array[j] != null)
                 {
                     (c2Array[j].d, c2Array[j].formula, c2Array[j].density) = GetPlanesFormulaDensity(c2Array[j]);
-                    c2Array[j].datatype = (byte)Crystal2.DataType.COD;
+                    if (fn[j].EndsWith("cif"))
+                        c2Array[j].datatype = (byte)Crystal2.DataType.COD;
+                    else if(fn[j].EndsWith("amc"))
+                        c2Array[j].datatype = (byte)Crystal2.DataType.AMCSD;
                 }
             }
             catch { c2Array[j] = null; }
