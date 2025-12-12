@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Crystallography;
@@ -50,6 +51,13 @@ public static class ProgramUpdates
         {
             if (File.Exists(path))
             {
+                var ExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                if(Directory.Exists(ExecutingPath))
+                {
+                    Directory.Delete(ExecutingPath, true);
+                }
+
+                File.Delete(UserAppDataPath + "CSManagerSetup.msi");
                 Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
                 return true;
             }
