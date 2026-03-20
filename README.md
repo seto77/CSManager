@@ -1,22 +1,92 @@
 # CSManager
-* *CSManager* is a management software of crystal databaase.
-  * Runs on Windows OS with .Net Desktop Runtime 10 (not .Net Runtime 10), which can be installed from [here](https://dotnet.microsoft.com/download/dotnet/10.0).
-  
-## Install
-* Access https://github.com/seto77/CSManager/releases/latest, download *CSManagerSetup.msi*, and execute it.
 
-## Main features
-* Available database
-  * AMCSD (American Mineralogist Crystal Structure Database, http://rruff.geo.arizona.edu/AMS/), which contains ~20,000 crystal structures, is initially bundled.
-  * COD (Crystallography Open Database, http://www.crystallography.net/cod/), which contains ~520,000 structures, is also available by a separate download.
-  
-* Search engine of crystal structures
-  * By material name, including/excluding elements, symmetry, journal information, and so on.
-  
-* Transfer crystal structure
-  * Export CIF of AMC format
-  * Send data to PDIndexer (https://github.com/seto77/PDIndexer) and ReciPro (https://github.com/seto77/ReciPro).
+CSManager is a Windows desktop application for browsing, searching, and maintaining crystal structure databases.
+It is designed for crystallography workflows where you want to work with a large local structure database, inspect individual crystals in detail, import external structure files, and exchange data with related tools.
 
+The application ships with an AMCSD database, can download and load COD on demand, and provides a combined UI for search, table-based browsing, and crystal editing.
+
+## Main Features
+
+- Load the bundled AMCSD database and optionally download/load COD from inside the application.
+- Search crystal structures by name, reference metadata, crystal system, included or excluded elements, lattice parameters, density, and d-spacings.
+- Browse results in a sortable database table with separate AMCSD/COD filters.
+- Inspect and edit the selected crystal, including symmetry, atom information, bonds/polyhedra, references, density, and formula-related data.
+- Import crystal data from `.cif`, `.amc`, PDIndexer `.xml`, and batch-import folders containing CIF/AMC files.
+- Save curated databases as `.cdb3` and open legacy database files such as `.cdb` and `.cdb2`.
+- Export the currently selected crystal as CIF.
+- Send crystal data to related software such as [PDIndexer](https://github.com/seto77/PDIndexer) and [ReciPro](https://github.com/seto77/ReciPro).
+- Switch the UI between English and Japanese, open bundled PDF manuals, and check for application updates.
+
+## Database Coverage
+
+- AMCSD is bundled with the application and can be loaded automatically at startup.
+- COD is available as an optional on-demand download the first time you enable it.
+- In this revision, the source code references `21,478` AMCSD entries and `529,139` COD entries.
+
+## Installation
+
+CSManager targets Windows x64 and requires the .NET Desktop Runtime 10.
+
+1. Open https://github.com/seto77/CSManager/releases/latest
+2. Download `CSManagerSetup.msi`
+3. Install the application
+4. If needed, install the .NET Desktop Runtime 10 from https://dotnet.microsoft.com/download/dotnet/10.0
+
+## Quick Start
+
+1. Launch `CSManager.exe`
+2. Load the default AMCSD database from the File menu, or enable COD if you want the larger public dataset
+3. Use the search panel to narrow the list by composition, reference, symmetry, cell constants, density, or d-spacing
+4. Select a record in the database table to inspect or edit the crystal
+5. Export the selected crystal as CIF or save your curated database as `.cdb3`
+
+## Supported File Types
+
+- Database input: `.cdb`, `.cdb2`, `.cdb3`
+- Crystal input: `.cif`, `.amc`
+- Interop input: PDIndexer crystal data `.xml`
+- Database output: `.cdb3`
+- Crystal output: `.cif`
+
+The repository also contains maintenance utilities for AMCSD CSV import and bulk folder import of CIF/AMC files.
+
+## Repository Layout
+
+- `CSManager/`: main Windows Forms application, startup code, and top-level workflow
+- `Crystallography/`: core crystallography, math, serialization, and update-check logic
+- `Crystallography.Controls/`: reusable UI controls for crystal editing, search, database browsing, periodic table filtering, and related dialogs
+- `CSManagerSetup/`: Visual Studio installer project for `CSManagerSetup.msi`
+- `Screenshots/`: images used in this README
+
+## Build From Source
+
+Requirements:
+
+- Windows
+- .NET 10 SDK
+- x64 build target
+
+Build the solution with:
+
+```powershell
+$env:DOTNET_CLI_HOME=".dotnet"
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE="1"
+$env:DOTNET_CLI_TELEMETRY_OPTOUT="1"
+dotnet build CSManager.sln -c Debug -p:Platform=x64
+```
+
+If you want to build the installer project in `CSManagerSetup/`, you will also need Visual Studio support for `.vdproj` installer projects.
+
+## Documentation
+
+- English manual: `CSManager/doc/CSManager(en).pdf`
+- Japanese manual: `CSManager/doc/CSManager(ja).pdf`
+- Additional crystal-information manual: `Crystallography.Controls/doc/CrystalInformationManual(ja).pdf`
+
+## License
+
+See [LICENSE.md](LICENSE.md).
 
 ## Screenshots
-<img src="Screenshots/Main.png" width="600px"> <img src="Screenshots/PeriodicTable.png" width="600px"> 
+
+<img src="Screenshots/Main.png" width="600px"> <img src="Screenshots/PeriodicTable.png" width="600px">
