@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Crystallography.Controls
 {
-    public partial class CommonDialog : Form
+    public partial class CommonDialog : CaptureFormBase
     {
         #region プロパティ,フィールド
 
@@ -40,7 +40,9 @@ namespace Crystallography.Controls
 
                     labelSoftwareAndVersion.Visible = true;
 
-                    ClientSize = new Size(420, progressBar.Height + flowLayoutPanelSoftwareInformation.Height + panelOK.Height);
+                    //ClientSize = new Size(420, progressBar.Height + flowLayoutPanelSoftwareInformation.Height + panelOK.Height); // 260331Cl 変更: DPIスケーリング対応
+                    var dpiScale1 = DeviceDpi / 96f;
+                    ClientSize = new Size((int)(420 * dpiScale1), progressBar.Height + flowLayoutPanelSoftwareInformation.Height + panelOK.Height);
                 }
                 else
                 {
@@ -69,7 +71,9 @@ namespace Crystallography.Controls
                             setToolTips();
                         }
                     }
-                    Size = new Size(400, 200);
+                    //Size = new Size(400, 200); // 260331Cl 変更: DPIスケーリング対応
+                    var dpiScale2 = DeviceDpi / 96f;
+                    Size = new Size((int)(400 * dpiScale2), (int)(200 * dpiScale2));
                 }
             }
         }
@@ -126,9 +130,7 @@ namespace Crystallography.Controls
 
         private int currentHintIndex = 0;
 
-        /// <summary>
-        /// License
-        /// </summary>
+        /// <summary>License</summary>
         static public string License =
             "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation" +
             " files(the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy," +

@@ -1,14 +1,16 @@
-﻿using IronPython.Runtime.Operations;
+﻿#region using
+using IronPython.Runtime.Operations;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+#endregion
 
 namespace Crystallography.Controls;
 
-public partial class SymmetryControl : UserControl
+public partial class SymmetryControl : CaptureUserControlBase
 {
     #region プロパティ、フィールド、イベントハンドラ
     public new bool DesignMode
@@ -66,9 +68,7 @@ public partial class SymmetryControl : UserControl
         }
     }
 
-    /// <summary>
-    /// 長さの単位の get/set
-    /// </summary>
+    /// <summary>長さの単位の get/set</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public LengthUnitEnum LengthUnit
     {
@@ -80,9 +80,7 @@ public partial class SymmetryControl : UserControl
         }
     }
 
-    /// <summary>
-    /// Cell constants の get/set. 単位はnm, radian.
-    /// </summary>
+    /// <summary>Cell constants の get/set. 単位はnm, radian.</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Browsable(false)]
     public (double A, double B, double C, double Alpha, double Beta, double Gamma) CellConstants
@@ -136,9 +134,7 @@ public partial class SymmetryControl : UserControl
     public double Gamma { get => numericBoxGamma.RadianValue; set => numericBoxGamma.RadianValue = value; }
 
 
-    /// <summary>
-    /// Cell constants error の get/set. 単位はnm, radian.
-    /// </summary>
+    /// <summary>Cell constants error の get/set. 単位はnm, radian.</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Browsable(false)]
     public (double AErr, double BErr, double CErr, double AlphaErr, double BetaErr, double GammaErr) CellConstantsErr
@@ -517,6 +513,7 @@ public partial class SymmetryControl : UserControl
     }
     #endregion
 
+    #region nm/Åの切り替え
     private void radioButtonNanoMeter_CheckedChanged(object sender, EventArgs e)
     {
         var (a, b, c, aErr, bErr, cErr) = (numericBoxA.Value, numericBoxB.Value, numericBoxC.Value, numericBoxAErr.Value, numericBoxBErr.Value, numericBoxCErr.Value);
@@ -543,4 +540,6 @@ public partial class SymmetryControl : UserControl
         }
         SkipEvent = false;
     }
+    #endregion
 }
+

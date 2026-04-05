@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Crystallography.Controls;
 
-public partial class SearchCrystalControl : UserControl
+public partial class SearchCrystalControl : CaptureUserControlBase
 {
     #region フィールド、プロパティ、イベント
 
@@ -354,9 +354,7 @@ public partial class SearchCrystalControl : UserControl
 
     }
 
-    /// <summary>
-    /// テキストボックスで改行文字が押されたときに検索を実行する
-    /// </summary>
+    /// <summary>テキストボックスで改行文字が押されたときに検索を実行する</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void textBoxSearchName_KeyDown(object sender, KeyEventArgs e)
@@ -365,3 +363,4 @@ public partial class SearchCrystalControl : UserControl
             buttonSearch_Click(sender, e);
     }
 }
+

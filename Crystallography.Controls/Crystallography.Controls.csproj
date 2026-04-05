@@ -2,20 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2026.3.22.0545</AssemblyVersion>
-    <FileVersion>2026.3.22.0545</FileVersion>
+    <AssemblyVersion>2026.4.5.0612</AssemblyVersion>
+    <FileVersion>2026.4.5.0612</FileVersion>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <ApplicationUseCompatibleTextRendering>true</ApplicationUseCompatibleTextRendering>
     <ApplicationVisualStyles>true</ApplicationVisualStyles>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <Platforms>x64</Platforms>
+    <!--
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+    -->
+    <!-- (260402Ch) 起動後の実行性能を重視して tiered compilation と dynamic PGO を有効化し、QuickJit 系は既定値へ戻す -->
+    <TieredCompilation>true</TieredCompilation>
+    <TieredPGO>true</TieredPGO>
     <!-- <NoWarn>$(NoWarn);WFO1000</NoWarn> -->
     <!-- 260322Ch: 他プロジェクトと同じく個別プロパティ属性で対応するため、プロジェクト単位の WFO1000 抑止は外す -->
+    <!-- <NoWarn>$(NoWarn);SYSLIB0051</NoWarn> -->
+    <NoWarn>$(NoWarn);SYSLIB0051</NoWarn><!-- (260404Ch) Typed DataSet generated serialization code emits obsolete formatter warnings on net10. -->
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -41,6 +48,7 @@
     <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta2" />
     <PackageReference Include="OpenTK" Version="4.9.4" />
     <PackageReference Include="SimdLinq" Version="1.3.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
     <PackageReference Include="ZLinq" Version="1.5.5" />
   </ItemGroup>
@@ -64,6 +72,5 @@
   <ItemGroup>
     <Using Include="SimdLinq" />
   </ItemGroup>
-  
-  
+
 </Project>

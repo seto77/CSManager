@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace Crystallography.Controls;
 
 [Serializable]
-public partial class ScalablePictureBoxAdvanced : UserControl
+public partial class ScalablePictureBoxAdvanced : CaptureUserControlBase
 {
     [System.ComponentModel.Browsable(false)]
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
@@ -29,9 +29,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
 
     #region プロパティ
 
-    /// <summary>
-    /// VisualStudioデザイナーの編集の時はTrue
-    /// </summary>
+    /// <summary>VisualStudioデザイナーの編集の時はTrue</summary>
     public new bool DesignMode
     {
         get
@@ -49,25 +47,17 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         }
     }
 
-    /// <summary>
-    /// スクロールバーが表示されているかどうか
-    /// </summary>
+    /// <summary>スクロールバーが表示されているかどうか</summary>
     public bool ScrollBarVisible { get => scalablePictureBox.ScrollBarVisible; }
 
-    /// <summary>
-    /// スクロールバーをログスケールで動かすかどうか
-    /// </summary>
+    /// <summary>スクロールバーをログスケールで動かすかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool LogScaleBar { get => trackBarAdvancedMaximum.LogScrollBar; set => trackBarAdvancedMaximum.LogScrollBar = trackBarAdvancedMinimum.LogScrollBar = value; }
 
-    /// <summary>
-    /// 描画しているソース画像の範囲を取得/設定する
-    /// </summary>
+    /// <summary>描画しているソース画像の範囲を取得/設定する</summary>
     public RectangleD DrawingArea { get => scalablePictureBox.DrawingArea; }
 
-    /// <summary>
-    /// マウス位置の情報を表示するかどうか
-    /// </summary>
+    /// <summary>マウス位置の情報を表示するかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool MousePositionLabelVisible
     {
@@ -82,9 +72,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool MagInfoVisible { set => panelMagInfo.Visible = value; get => panelMagInfo.Visible; }
 
-    /// <summary>
-    /// コピーボタンを表示するかどうか
-    /// </summary>
+    /// <summary>コピーボタンを表示するかどうか</summary>
     //public bool CopyButtonVisible
     //{
     //    get => buttonCopyToClipBoard.Visible;
@@ -101,9 +89,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     public bool ShowGradiaent { get=> flowLayoutPanelGradient.Visible; set=> flowLayoutPanelGradient.Visible=value; }
 
     [Category("Gradient")]
-    /// <summary>
-    /// Polarity, Scale, Colorを表示するかどうか
-    /// </summary>
+    /// <summary>Polarity, Scale, Colorを表示するかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool GradiaentVisible { get => flowLayoutPanelGradient.Visible; set => flowLayoutPanelGradient.Visible = value; }
 
@@ -130,44 +116,32 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     public bool FrequencyGraphVisible { set => graphControl.Visible = value; get => graphControl.Visible; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// ImageFilterを有効にするかどうか
-    /// </summary>
+    /// <summary>ImageFilterを有効にするかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool ImageFilterVisible { set => flowLayoutPanelImageFilter.Visible = value; get => flowLayoutPanelImageFilter.Visible; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// GaussianFilterを有効にするかどうか
-    /// </summary>
+    /// <summary>GaussianFilterを有効にするかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool ImageFilter_GaussianBlur { set => checkBoxGaussianBlur.Checked = value; get => checkBoxGaussianBlur.Checked; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// GaussianFilterを有効にするかどうか
-    /// </summary>
+    /// <summary>GaussianFilterを有効にするかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool ImageFilter_GaussianBlurVisible { set => checkBoxGaussianBlur.Visible = value; get => checkBoxGaussianBlur.Visible; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// GaussianFilterの
-    /// </summary>
+    /// <summary>GaussianFilterの</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public double ImageFilter_GaussianBlurRadius { set => numericBoxGaussianFWHM.Value = value; get => numericBoxGaussianFWHM.Value; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// Dust＆Scratchesを有効にするかどうか
-    /// </summary>
+    /// <summary>Dust＆Scratchesを有効にするかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool ImageFilter_DustAndScratches { set => checkBoxDustScratches.Checked = value; get => checkBoxDustScratches.Checked; }
 
     [Category("Image Filter")]
-    /// <summary>
-    /// Dust＆Scratchesを有効にするかどうか
-    /// </summary>
+    /// <summary>Dust＆Scratchesを有効にするかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool ImageFilter_DustAndScratchesVisible { set => checkBoxDustScratches.Visible = value; get => checkBoxDustScratches.Visible; }
 
@@ -182,7 +156,11 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool VisibleGradient { set => flowLayoutPanelGradient.Visible = value; get => flowLayoutPanelGradient.Visible; }
 
-    [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
+    //[System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)] // 260329Cl 変更: Visible→Hidden+ReadOnly (Designer.csへのシリアライズを抑止。resources.ApplyResources()で設定したSizeを上書きしてしまうため)
+    [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+    [System.ComponentModel.Browsable(true)]
+    [System.ComponentModel.ReadOnly(true)]
+    [System.ComponentModel.Description("現在の画像表示領域サイズ (読み取り専用)。サイズ変更はコントロールのSizeプロパティで行ってください。")]
     public Size PictureSize
     {
         set
@@ -211,15 +189,11 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         get { return scalablePictureBox.ZoomAndCenter; }
     }
 
-    /// <summary>
-    /// ZoomやCenter位置を固定するかどうか
-    /// </summary>
+    /// <summary>ZoomやCenter位置を固定するかどうか</summary>
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
     public bool FixZoomAndCenter { get => scalablePictureBox.FixZoomAndCenter; set => scalablePictureBox.FixZoomAndCenter = value; }
 
-    /// <summary>
-    /// 新しい画像を設定したとき、現在の強度レンジをその画像のデータ範囲へクランプするかどうか
-    /// </summary>
+    /// <summary>新しい画像を設定したとき、現在の強度レンジをその画像のデータ範囲へクランプするかどうか</summary>
     /// <remarks>
     /// true のときは、新しい画像の実データ範囲 <c>[dataMin, dataMax]</c> に合わせて
     /// <c>LowerIntensity</c> / <c>UpperIntensity</c> を調整する。 false のときは、
@@ -442,9 +416,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         if (PseudoBitmap.MinValue != lower)
             PseudoBitmap.MinValue = lower;
     }
-    /// <summary>
-    /// 画像更新時に使う intensity 関連 4 値を決める。
-    /// </summary>
+    /// <summary>画像更新時に使う intensity 関連 4 値を決める。</summary>
     /// <remarks>
     /// 返り値の <c>Lower</c> / <c>Upper</c> は実際に表示へ使うレンジ、
     /// <c>Minimum</c> / <c>Maximum</c> は trackbar が取り得る許容範囲。
@@ -506,9 +478,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
 
     #region イベント
 
-    /// <summary>
-    /// マウスイベント用のデリゲート
-    /// </summary>
+    /// <summary>マウスイベント用のデリゲート</summary>
     /// <param name="sender">sender</param>
     /// <param name="e">e</param>
     /// <param name="pt">ソース画像座標</param>
@@ -523,9 +493,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
 
     public event MouseEvent MouseWheel2;
 
-    /// <summary>
-    /// マウスが押されたとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue
-    /// </summary>
+    /// <summary>マウスが押されたとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="pt"></param>
@@ -535,9 +503,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         return InvokeMouseEventHandler(MouseDown2, sender, e, pt); // (260322Ch) event 中継の null 判定を helper 化する
     }
 
-    /// <summary>
-    /// マウスが上がったとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue
-    /// </summary>
+    /// <summary>マウスが上がったとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="pt"></param>
@@ -547,9 +513,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         return InvokeMouseEventHandler(MouseUp2, sender, e, pt); // (260322Ch) event 中継の null 判定を helper 化する
     }
 
-    /// <summary>
-    /// マウスホイールが回ったとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue
-    /// </summary>
+    /// <summary>マウスホイールが回ったとき。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="pt"></param>
@@ -559,9 +523,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         return InvokeMouseEventHandler(MouseWheel2, sender, e, pt); // (260322Ch) event 中継の null 判定を helper 化する
     }
 
-    /// <summary>
-    /// マウスが動いた時に画面上部にマウス位置、強度を示す。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue
-    /// </summary>
+    /// <summary>マウスが動いた時に画面上部にマウス位置、強度を示す。コントロール本体でのその後のイベントをキャンセルする場合、返り値はtrue</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="pt"></param>
@@ -573,9 +535,7 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         return InvokeMouseEventHandler(MouseMove2, sender, e, pt); // (260322Ch) event 中継の null 判定を helper 化する
     }
 
-    /// <summary>
-    /// 輝度が変更された時のイベントハンドラー
-    /// </summary>
+    /// <summary>輝度が変更された時のイベントハンドラー</summary>
     public event EventHandler BrightnessAndColorChanged;
 
     public delegate void DrawingAreaChangedEvent(object sender, double zoom, PointD center);
@@ -587,14 +547,10 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         DrawingAreaChanged?.Invoke(sender, zoom, center);
     }
 
-    /// <summary>
-    /// ステータスラベルやプログレスバーが変更されたとき（現在はフィルター処理のために使用）
-    /// </summary>
+    /// <summary>ステータスラベルやプログレスバーが変更されたとき（現在はフィルター処理のために使用）</summary>
     public event EventHandler StatusChanged;
 
-    /// <summary>
-    /// Filter(Gaussian BlurやDust & Scrach)が変更されたとき
-    /// </summary>
+    /// <summary>Filter(Gaussian BlurやDust & Scrach)が変更されたとき</summary>
     public event EventHandler FilterChanged;
 
 
@@ -794,44 +750,32 @@ public partial class ScalablePictureBoxAdvanced : UserControl
     }
 
     #region 座標変換関連 scalablePictureBoxで定義されているものを呼び出すだけ
-    /// <summary>
-    /// クライアントのPointをソースのPointに変換
-    /// </summary>
+    /// <summary>クライアントのPointをソースのPointに変換</summary>
     /// <param name="clientPt"></param>
     /// <returns></returns>
     public PointD ConvertToSrcPt(Point clientPt) => scalablePictureBox.ConvertToSrcPt(clientPt);
 
-    /// <summary>
-    /// クライアントのPointDをソースのPointDに変換
-    /// </summary>
+    /// <summary>クライアントのPointDをソースのPointDに変換</summary>
     /// <param name="clientPt"></param>
     /// <returns></returns>
     public PointD ConvertToSrcPt(PointD clientPt) => scalablePictureBox.ConvertToSrcPt(clientPt);
 
-    /// <summary>
-    /// クライアントのRectangleをSrcのRectangleに変換
-    /// </summary>
+    /// <summary>クライアントのRectangleをSrcのRectangleに変換</summary>
     /// <param name="clientRect"></param>
     /// <returns></returns>
     public RectangleD ConvertToSrcRect(Rectangle clientRect) => scalablePictureBox.ConvertToSrcRect(clientRect);
 
-    /// <summary>
-    /// クライアントのRectangleDをSrcのRectangleDに変換
-    /// </summary>
+    /// <summary>クライアントのRectangleDをSrcのRectangleDに変換</summary>
     /// <param name="clientRect"></param>
     /// <returns></returns>
     public RectangleD ConvertToSrcRect(RectangleD clientRect) => scalablePictureBox.ConvertToSrcRect(clientRect);
 
-    /// <summary>
-    /// ソースのPointDをクライアントのPointDに変換
-    /// </summary>
+    /// <summary>ソースのPointDをクライアントのPointDに変換</summary>
     /// <param name="srcPt"></param>
     /// <returns></returns>
     public PointD ConvertToClientPt(PointD srcPt) => scalablePictureBox.ConvertToClientPt(srcPt);
 
-    /// <summary>
-    /// ソースのRectangleDをクライアントのRectangleDに変換
-    /// </summary>
+    /// <summary>ソースのRectangleDをクライアントのRectangleDに変換</summary>
     /// <param name="srcRect"></param>
     /// <returns></returns>
     public RectangleD ConvertToClientRect(RectangleD srcRect) => scalablePictureBox.ConvertToClientRect(srcRect);
@@ -868,3 +812,4 @@ public partial class ScalablePictureBoxAdvanced : UserControl
         UpdateResolutionLabel(); // (260322Ch) 倍率ボタン後の表示更新を helper へ寄せる
     }
 }
+

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Crystallography.Controls
 {
-    public partial class TrackBarAdvanced : UserControl
+    public partial class TrackBarAdvanced : CaptureUserControlBase
     {
         public TrackBarAdvanced()
         {
@@ -42,9 +42,7 @@ namespace Crystallography.Controls
 
         private bool logScrollBar = false;
 
-        /// <summary>
-        /// スクロールバーがログスケールで動くかどうか
-        /// </summary>
+        /// <summary>スクロールバーがログスケールで動くかどうか</summary>
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public bool LogScrollBar
         {

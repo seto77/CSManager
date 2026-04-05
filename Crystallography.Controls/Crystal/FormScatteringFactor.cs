@@ -7,14 +7,12 @@ using System.Windows.Forms;
 
 namespace Crystallography.Controls;
 
-public partial class FormScatteringFactor : Form
+public partial class FormScatteringFactor : CaptureFormBase
 {
     public Crystal Crystal { get => CrystalControl.Crystal; }
     public CrystalControl CrystalControl;
     
-    /// <summary>
-    /// 長さの単位の get/set
-    /// </summary>
+    /// <summary>長さの単位の get/set</summary>
     // (260322Ch) WFO1000: Microsoft ??????????????????? ???????????
     [System.ComponentModel.Browsable(false)]
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
@@ -197,9 +195,7 @@ public partial class FormScatteringFactor : Form
         //dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
     }
 
-    /// <summary>
-    /// テストコード
-    /// </summary>
+    /// <summary>テストコード</summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void numericBoxH_min_ValueChanged(object sender, EventArgs e)
