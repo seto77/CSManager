@@ -63,7 +63,7 @@ public partial class FormMain : Form
          Version.CopyRight,
          Version.Condition,
          Version.Exemption,
-         Version.Adress,
+         Version.Address, //260407Cl Adress -> Address
          Version.Acknowledge,
          Version.History);
 
