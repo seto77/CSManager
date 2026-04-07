@@ -57,7 +57,7 @@
                 "\r\n ver1.833(2019/02/20) Changed .Net framework version to 4.7.2." +
                 "\r\n ver1.832(2018/12/20) Fixed minor bugs." +
                 "\r\n ver1.831(2018/12/18) Fixed minor bugs." +
-                "\r\n ver1.83 (2018/11/20) Renewed AMCSD database (contains 20,574 crystals) and COD database (396,244). Modified some incosistensies." +
+                "\r\n ver1.83 (2018/11/20) Renewed AMCSD database (contains 20,574 crystals) and COD database (396,244). Modified some inconsistencies." +
                 "\r\n ver1.82 (2018/02/20) Renewed AMCSD database (contains 20,537 crystals) and COD database (386,893)." +
                 "\r\n ver1.811(2018/02/19) Minor bug fix." +
                 "\r\n ver1.81 (2016/09/18) Renewed AMCSD database (contains 20,468 crystals) and COD database (361,953)." +
@@ -66,7 +66,7 @@
                 "\r\n ver1.781(2015/07/13) Fixed a bug on loading database." +
                 "\r\n ver1.78 (2015/07/13) Added a font size option." +
                 "\r\n ver1.77 (2015/07/06) Fixed a bug on Loading COD database." +
-                "\r\n ver1.76 (2015/03/19) Renewed AMCSD database (contains 20,143 crystals) and COD database (306,566). Fixed a bug on Debye-Waller factor calulations (thx Dr. Koga)." +
+                "\r\n ver1.76 (2015/03/19) Renewed AMCSD database (contains 20,143 crystals) and COD database (306,566). Fixed a bug on Debye-Waller factor calculations (thx Dr. Koga)." +
                 "\r\n ver1.752(2015/01/15) Fixed a minor bug on loading a COD file." +
                 "\r\n ver1.751(2014/11/06) Fixed a minor bug on UI in Japanese." +
                 "\r\n ver1.75 (2014/10/30) Renewed AMCSD database (contains 20,121 crystals) and COD database (296,540), and improved UI." +
@@ -76,7 +76,7 @@
                 "\r\n ver1.732(2013/10/27) Fixed small bugs on appearance" +
                 "\r\n ver1.731(2013/08/17) Renewed AMCSD database(contains 38,581 crystals)." +
                 "\r\n ver1.73 (2013/08/15) Renewed COD database(contains 234,989 crystals)." +
-                "\r\n ver1.721(2013/02/26) Changed adress of help page." +
+                "\r\n ver1.721(2013/02/26) Changed address of help page." +
                 "\r\n ver1.72 (2013/02/25) Added: Update check function." +
                 "\r\n ver1.71 (2013/02/20) Added: CIF file export function." +
                 "\r\n ver1.702(2012/12/19) Fixed a small bug." +
@@ -199,7 +199,7 @@
         /// <summary>
         /// 連絡先
         /// </summary>
-        static public string Adress =
+        static public string Address = //260407Cl Adress → Address
             "連絡先:\r\n"
             + "　プログラムの不具合、改善要望などがありましたらメールにてご連絡ください。"
             + "また詳しい使い方についてはホームページでも解説しています。"
