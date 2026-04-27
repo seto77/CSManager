@@ -118,160 +118,173 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="trackBarAdvancedMinimum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 22</value>
-  </data>
-  <data name="trackBarAdvancedMaximum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 22</value>
-  </data>
-  <data name="panelTrackBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 352</value>
-  </data>
-  <data name="panelTrackBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 54</value>
-  </data>
-  <data name="comboBoxScale2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 0</value>
-  </data>
-  <data name="comboBoxScale1.Items" xml:space="preserve">
-    <value>Log</value>
-  </data>
-  <data name="comboBoxScale1.Items1" xml:space="preserve">
-    <value>Liner</value>
-  </data>
-  <data name="comboBoxScale1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 0</value>
-  </data>
-  <data name="comboBoxGradient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>63, 0</value>
-  </data>
-  <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="listBoxMacro.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 18</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>スケール</value>
-  </data>
-  <data name="label9.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 18</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>色</value>
-  </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 18</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>ネガ/ポジ</value>
-  </data>
-  <data name="flowLayoutPanelGradient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 476</value>
-  </data>
-  <data name="flowLayoutPanelGradient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 29</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 23</value>
-  </data>
-  <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 2</value>
-  </data>
-  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 23</value>
-  </data>
-  <data name="flowLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 2</value>
-  </data>
-  <data name="flowLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 23</value>
-  </data>
-  <data name="flowLayoutPanelImageFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 505</value>
-  </data>
-  <data name="flowLayoutPanelImageFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 56</value>
-  </data>
-  <data name="flowLayoutPanelDustScratches.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 26</value>
-  </data>
-  <data name="checkBoxDustScratches.Font" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="checkBoxDustScratches.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 22</value>
-  </data>
-  <data name="checkBoxDustScratches.Text" xml:space="preserve">
-    <value>ダスト＆スクラッチ</value>
-  </data>
-  <data name="numericBoxDustScratchesRadius.HeaderFont" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericBoxDustScratchesRadius.HeaderText" xml:space="preserve">
-    <value>半径</value>
-  </data>
-  <data name="numericBoxDustScratchesRadius.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 0</value>
-  </data>
-  <data name="numericBoxDustScratchesRadius.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 25</value>
-  </data>
-  <data name="numericBoxDustScratchesThreshold.HeaderFont" type="System.Drawing.Font, System.Drawing">
-    <value>メイリオ, 9pt</value>
-  </data>
-  <data name="numericBoxDustScratchesThreshold.HeaderText" xml:space="preserve">
-    <value>閾値</value>
-  </data>
-  <data name="numericBoxDustScratchesThreshold.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 0</value>
-  </data>
-  <data name="numericBoxDustScratchesThreshold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 25</value>
-  </data>
-  <data name="flowLayoutPanelGaussianBlur2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="listBoxMacro.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 28</value>
   </data>
-  <data name="flowLayoutPanelGaussianBlur2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 26</value>
+  <data name="listBoxMacro.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 231</value>
   </data>
-  <data name="checkBoxGaussianBlur.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="flowLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 259</value>
+  </data>
+  <data name="flowLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 28</value>
+  </data>
+  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 28</value>
+  </data>
+  <data name="pyRichTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>メイリオ, 9pt</value>
   </data>
-  <data name="checkBoxGaussianBlur.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+  <data name="pyRichTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 28</value>
   </data>
-  <data name="checkBoxGaussianBlur.Text" xml:space="preserve">
-    <value>ガウシアンぼかし</value>
+  <data name="pyRichTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>346, 243</value>
   </data>
-  <data name="numericBoxGaussianFWHM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 0</value>
+  <data name="panelGutter.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
   </data>
-  <data name="panelUpper.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 30</value>
+  <data name="panelGutter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 28</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 22</value>
+  <data name="panelGutter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>30, 243</value>
   </data>
-  <data name="scalablePictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 293</value>
+  <data name="flowLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>376, 28</value>
   </data>
-  <data name="graphControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 406</value>
+  <data name="flowLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 271</value>
   </data>
-  <data name="graphControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 70</value>
+  <data name="splitContainer3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>563, 287</value>
   </data>
-  <data name="panelMagInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 29</value>
+  <data name="buttonDeleteProfile.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 583</value>
+  <data name="buttonDeleteProfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 28</value>
+  </data>
+  <data name="buttonAdd.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonAdd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 0</value>
+  </data>
+  <data name="buttonAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 28</value>
+  </data>
+  <data name="buttonChange.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonChange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>116, 0</value>
+  </data>
+  <data name="buttonChange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 28</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="checkBoxSamples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxSamples.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="checkBoxSamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 22</value>
+  </data>
+  <data name="checkBoxSamples.Text" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 18</value>
+  </data>
+  <data name="textBoxMacroName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 0</value>
+  </data>
+  <data name="textBoxMacroName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>286, 25</value>
+  </data>
+  <data name="dataGridViewDebug.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 287</value>
+  </data>
+  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>778, 287</value>
+  </data>
+  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>784, 321</value>
+  </data>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>784, 513</value>
+  </data>
+  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>321</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>424, 293</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 28</value>
+  </data>
+  <data name="buttonCancelStep.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonCancelStep.Location" type="System.Drawing.Point, System.Drawing">
+    <value>304, 0</value>
+  </data>
+  <data name="buttonCancelStep.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 28</value>
+  </data>
+  <data name="buttonRunMacro.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonRunMacro.Location" type="System.Drawing.Point, System.Drawing">
+    <value>217, 0</value>
+  </data>
+  <data name="buttonRunMacro.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 28</value>
+  </data>
+  <data name="buttonNextStep.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonNextStep.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 0</value>
+  </data>
+  <data name="buttonNextStep.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 28</value>
+  </data>
+  <data name="buttonStepByStep.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="buttonStepByStep.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 28</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>784, 26</value>
+  </data>
+  <data name="fileToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 22</value>
+  </data>
+  <data name="readToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>メイリオ, 9pt</value>
   </data>
 </root>

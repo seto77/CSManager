@@ -8,8 +8,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
+// using System.Linq.Dynamic.Core;       // 260427Cl DynamicExpresso へ置換
+// using System.Linq.Expressions;         // 260427Cl Expression.Parameter 不要になったため削除
+using DynamicExpresso;
 using System.Text;
 using System.Threading;
 using ZLinq;
@@ -1213,17 +1214,25 @@ public class ConvertCrystalData
         if (operations.Count != 0 && operations.Count == tempAtom.Length)
         {
             var th = 0.0000001;
-            var prms = new[] { "x", "y", "z" }.Select(s => Expression.Parameter(typeof(double), s)).ToArray();
+            // 260427Cl DynamicExpresso へ置換。"x, y+1/2, z" のような対称操作 3 成分文字列を、カンマで分割して各成分を個別に Func<double,double,double,double> へコンパイルする。
+            // var prms = new[] { "x", "y", "z" }.Select(s => Expression.Parameter(typeof(double), s)).ToArray();
+            var interpreter = new Interpreter();
             //文字列からラムダ式を返すローカル関数
             Func<double, double, double, V3> func(string sExpr)
             {
                 try
                 {
                     sExpr = sExpr.Replace(" ", "").Replace(",+", ",").TrimStart(['+']);
-                    sExpr = "new [] {" + sExpr.Replace("/", ".0/").Replace(".0.0", ".0") + "}";//分子に小数点を加える
-
-                    var f = DynamicExpressionParser.ParseLambda(prms, typeof(double[]), sExpr).Compile() as Func<double, double, double, double[]>;
-                    return (x, y, z) => { var d = f(x, y, z); return new V3(d[0], d[1], d[2]); };
+                    sExpr = sExpr.Replace("/", ".0/").Replace(".0.0", ".0");//分子に小数点を加える
+                    // sExpr = "new [] {" + sExpr.Replace("/", ".0/").Replace(".0.0", ".0") + "}"; // 260427Cl 旧: System.Linq.Dynamic.Core 用の配列リテラル形式
+                    // var f = DynamicExpressionParser.ParseLambda(prms, typeof(double[]), sExpr).Compile() as Func<double, double, double, double[]>;
+                    // return (x, y, z) => { var d = f(x, y, z); return new V3(d[0], d[1], d[2]); };
+                    var parts = sExpr.Split(',');
+                    if (parts.Length != 3) return null;
+                    var fx = interpreter.ParseAsDelegate<Func<double, double, double, double>>(parts[0], "x", "y", "z");
+                    var fy = interpreter.ParseAsDelegate<Func<double, double, double, double>>(parts[1], "x", "y", "z");
+                    var fz = interpreter.ParseAsDelegate<Func<double, double, double, double>>(parts[2], "x", "y", "z");
+                    return (x, y, z) => new V3(fx(x, y, z), fy(x, y, z), fz(x, y, z));
                 }
                 catch (Exception e)
                 {
