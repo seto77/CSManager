@@ -25,7 +25,7 @@ Last updated: 2026-04-27
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
 | 2026-W17 | 24 | 17 |
-| 2026-W16 | 43 | 17 |
+| 2026-W16 | 49 | 19 |
 | 2026-W15 | 19 | 16 |
 | 2026-W14 | 9 | 7 |
 | 2026-W13 | 2 | 2 |
@@ -33,13 +33,13 @@ Last updated: 2026-04-27
 ### Monthly (最大12か月保持)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026-04 | 94 | 56 |
+| 2026-04 | 100 | 58 |
 | 2026-03 | 3 | 3 |
 
 ### Yearly (無制限)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026 | 97 | 59 |
+| 2026 | 103 | 61 |
 
 ## Clones
 
@@ -64,7 +64,7 @@ Last updated: 2026-04-27
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
 | 2026-W17 | 105 | 42 |
-| 2026-W16 | 81 | 47 |
+| 2026-W16 | 82 | 48 |
 | 2026-W15 | 15 | 8 |
 | 2026-W14 | 26 | 17 |
 | 2026-W13 | 2 | 2 |
@@ -72,13 +72,13 @@ Last updated: 2026-04-27
 ### Monthly (最大12か月保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026-04 | 226 | 113 |
+| 2026-04 | 227 | 114 |
 | 2026-03 | 3 | 3 |
 
 ### Yearly (無制限)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026 | 229 | 116 |
+| 2026 | 230 | 117 |
 
 ## Referrers
 
