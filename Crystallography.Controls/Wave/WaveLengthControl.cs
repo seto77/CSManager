@@ -34,6 +34,8 @@ public partial class WaveLengthControl : UserControlBase
     /// <summary>コントロールの配置をLeftToRightか、TopDownにするか</summary>
     // 260426Cl 修正: 文字化けしていたコメント (旧: WFO1000 関連の壊れたコメント) を整理
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Appearance")]
+    [Description("コントロール内要素の配置方向 (LeftToRight: 横並び / TopDown: 縦並び)。")]                                                              // 260522Cl 追加
     public FlowDirection Direction
     {
         set
@@ -70,6 +72,8 @@ public partial class WaveLengthControl : UserControlBase
     private bool monochrome = true;
     /// <summary>単色モードかどうか falseの場合は白色モード</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Appearance")]
+    [Description("単色モードかどうか。false の場合は白色光 (連続スペクトル) モード。")]                                                                // 260522Cl 追加
     public bool Monochrome
     {
         set
@@ -82,19 +86,34 @@ public partial class WaveLengthControl : UserControlBase
         get => monochrome;
     }
 
+    // 260521Cl: 数値入力部以外 (見出し/フッタ/コンボ/ラジオ/ラベル) のフォント。数値部のフォントは ValueFontSize で調整する。
+    [Category("Appearance"), Localizable(true)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Localizable(true)]
-    public Font TextFont
+    [Description("数値部以外 (見出し・フッタ・コンボ・ラジオボタン・ラベル) のフォント。数値入力部のフォントサイズは ValueFontSize で調整する。")]
+    public Font LabelFont
     {
         set
         {
-            numericBoxEnergy.HeaderFont = numericBoxEnergy.FooterFont = numericBoxEnergy.TextFont = value;
-            numericBoxWaveLength.HeaderFont = numericBoxWaveLength.FooterFont = numericBoxWaveLength.TextFont = value;
+            numericBoxEnergy.HeaderFont = numericBoxEnergy.FooterFont = value;
+            numericBoxWaveLength.HeaderFont = numericBoxWaveLength.FooterFont = value;
             comboBoxXRayElement.Font = comboBoxXrayLine.Font = value;
             radioButtonElectron.Font = radioButtonNeutron.Font = radioButtonXray.Font = value;
             label1.Font = value;
         }
-        get => numericBoxWaveLength.TextFont;
+        // 260521Cl 修正: setter は ValueFont を触らなくなった (数値部は ValueFontSize で別管理) ため、
+        // getter が numericBoxWaveLength.ValueFont を返すと set/get が一致せずデザイナが誤ったフォントを serialize する。
+        // setter が実際に設定する label1.Font を返すよう修正。
+        get => label1.Font;
+    }
+
+    // 260521Cl: 数値入力部 (Energy / WaveLength) のフォントサイズ。NumericBox.ValueFontSize へ委譲する。
+    [Category("Appearance"), Localizable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Description("数値入力部 (Energy / WaveLength) のフォントサイズ (pt)。")]
+    public float ValueFontSize
+    {
+        set => numericBoxEnergy.ValueFontSize = numericBoxWaveLength.ValueFontSize = value;
+        get => numericBoxWaveLength.ValueFontSize;
     }
 
     // 260426Cl 修正: public フィールドを private に変更 (外部参照なしを確認済み)
@@ -102,6 +121,8 @@ public partial class WaveLengthControl : UserControlBase
     private bool showWaveSource = true;
     /// <summary>WaveSourceを表示するかどうか</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Appearance")]
+    [Description("線源選択 (X-ray / Electron / Neutron) のラジオボタンを表示するかどうか。")]                                                          // 260522Cl 追加
     public bool ShowWaveSource
     {
         set => showWaveSource = flowLayoutPanelWaveSource.Visible = value;
@@ -133,6 +154,8 @@ public partial class WaveLengthControl : UserControlBase
 
     /// <summary>波長をnm単位のdoubleで取得/設定</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Behavior")]
+    [Description("波長 (nm 単位)。")]                                                                                                                  // 260522Cl 追加
     public double WaveLength
     {
         set
@@ -153,6 +176,8 @@ public partial class WaveLengthControl : UserControlBase
     WaveSource waveSource = WaveSource.Xray;
     /// <summary>線源を取得/設定</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Behavior")]                                                                                                                            // 260522Cl 追加: カテゴリ欠落を補完
+    [Description("線源の種類 (X-ray / Electron / Neutron)。")]                                                                                         // 260522Cl 追加
     public WaveSource WaveSource
     {
         set
@@ -181,6 +206,8 @@ public partial class WaveLengthControl : UserControlBase
 
     /// <summary>X線の線源の元素を取得/設定</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Behavior")]
+    [Description("X線線源の元素 (元素コンボボックスのインデックス。0 は Custom = 任意波長)。")]                                                        // 260522Cl 追加
     public int XrayWaveSourceElementNumber
     {
         set
@@ -203,6 +230,8 @@ public partial class WaveLengthControl : UserControlBase
 
     /// <summary>X線の線源のLineを取得/設定</summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Behavior")]                                                                                                                            // 260522Cl 追加: カテゴリ欠落を補完
+    [Description("X線線源の特性X線ライン (Kα1 など)。")]                                                                                              // 260522Cl 追加
     public XrayLine XrayWaveSourceLine
     {
         set => comboBoxXrayLine.SelectedItem = value;
@@ -220,6 +249,8 @@ public partial class WaveLengthControl : UserControlBase
     /// X線と電子は単位はkev,中性子はmev
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Category("Behavior")]
+    [Description("線源のエネルギー (X線・電子線は keV/kV、中性子は meV)。")]                                                                           // 260522Cl 追加
     public double Energy
     {
         set
@@ -370,7 +401,7 @@ public partial class WaveLengthControl : UserControlBase
             numericBoxWaveLength.Enabled = true;
 
             if (radioButtonElectron.Checked)
-                numericBoxEnergy.FooterText = "kV";
+                numericBoxEnergy.FooterText = "keV";
             else if (radioButtonNeutron.Checked)
                 numericBoxEnergy.FooterText = "meV";
         }

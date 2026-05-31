@@ -178,6 +178,7 @@ partial class FormMain
         buttonChange.Name = "buttonChange";
         buttonChange.UseVisualStyleBackColor = false;
         buttonChange.Click += buttonChangeCrystal_Click;
+        toolTip.SetToolTip(buttonChange, resources.GetString("buttonChange.ToolTip"));//260531Cl 追加
         // 
         // buttonAdd
         // 
@@ -187,6 +188,7 @@ partial class FormMain
         buttonAdd.Name = "buttonAdd";
         buttonAdd.UseVisualStyleBackColor = false;
         buttonAdd.Click += buttonAddCrystal_Click;
+        toolTip.SetToolTip(buttonAdd, resources.GetString("buttonAdd.ToolTip"));//260531Cl 追加
         // 
         // searchCrystalControl
         // 
@@ -218,6 +220,7 @@ partial class FormMain
         menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
         menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, optionToolStripMenuItem, helpToolStripMenuItem, languageToolStripMenuItem });
         menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+        menuStrip.ShowItemToolTips = true;//260531Cl 追加 メニュー項目の.ToolTipTextを表示する(既定falseだと出ない)
         menuStrip.Name = "menuStrip";
         // 
         // fileToolStripMenuItem
@@ -371,6 +374,7 @@ partial class FormMain
         // incrementalSearchToolStripMenuItem
         // 
         incrementalSearchToolStripMenuItem.CheckOnClick = true;
+        incrementalSearchToolStripMenuItem.Enabled = false;//260531Cl 追加 未実装(Checkedがどこからも参照されない)のため無効化
         incrementalSearchToolStripMenuItem.Name = "incrementalSearchToolStripMenuItem";
         resources.ApplyResources(incrementalSearchToolStripMenuItem, "incrementalSearchToolStripMenuItem");
         // 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -37,7 +37,14 @@ public partial class LatticePlaneControl : UserControlBase
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool MillerBravaisIndexActive { set => iDataGridViewTextBoxColumn.Visible = value; }
+    public bool MillerBravaisIndex
+    {
+        set
+        {
+            iDataGridViewTextBoxColumn.Visible = value;
+            indexControl.MillerBravais = value;
+        }
+    }
 
     #endregion
 
@@ -49,15 +56,15 @@ public partial class LatticePlaneControl : UserControlBase
 
     #region LatticePlane クラスを画面下部から生成 / にセット
 
-    public LatticePlane GetFromInterface() =>
-        new(true, Crystal, numericBoxH.ValueInteger, numericBoxK.ValueInteger, numericBoxL.ValueInteger,
-            numericBoxDistance.Value, colorControl.Argb);
+    public LatticePlane GetFromInterface() // 260518Cl Values getter の 3 連呼びを 1 回の分解に整理
+    {
+        var (h, k, l) = indexControl.Values;
+        return new LatticePlane(true, Crystal, h, k, l, numericBoxDistance.Value, colorControl.Argb);
+    }
 
     public void SetToInterface(LatticePlane plane)
     {
-        numericBoxH.Value = plane.Index.H;
-        numericBoxK.Value = plane.Index.K;
-        numericBoxL.Value = plane.Index.L;
+        indexControl.Values = plane.Index;
         numericBoxDistance.Value = plane.Translation;
         colorControl.Color = Color.FromArgb(plane.ColorArgb);
     }
@@ -166,9 +173,6 @@ public partial class LatticePlaneControl : UserControlBase
         ItemsChanged?.Invoke(this, EventArgs.Empty);
     }
     #endregion
-
-    private void numericBoxH_ValueChanged(object sender, EventArgs e) =>
-        numericBoxI.Value = -numericBoxH.Value - numericBoxK.Value;
 
     private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {

@@ -117,4 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="comboBox.ToolTip" xml:space="preserve">
+    <value>基準となるターゲット原子を選択します。この原子周り
+の近接原子と原子間距離が一覧・プロットされます。</value>
+  </data>
+  <data name="dataGridView.ToolTip" xml:space="preserve">
+    <value>ターゲット原子からの近接原子と原子間距離
+(オングストローム, Å)を、距離の小さい順に表示します。</value>
+  </data>
+  <data name="numericUpDownMaxLength.ToolTip" xml:space="preserve">
+    <value>探索する最大原子間距離(オングストローム, Å)。
+ターゲット原子からこの半径内の原子だけを列挙します。</value>
+  </data>
+  <data name="numericUpDownWidth.ToolTip" xml:space="preserve">
+    <value>距離ヒストグラムの棒(バー)の半幅
+(オングストローム, Å)。大きくすると棒が太く
+なり、近い距離のピークが重なって見えます。</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>基準となるターゲット原子を選択します。この原子周り
+の近接原子と原子間距離が一覧・プロットされます。</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value>距離ヒストグラムの棒(バー)の半幅
+(オングストローム, Å)。大きくすると棒が太く
+なり、近い距離のピークが重なって見えます。</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value>探索する最大原子間距離(オングストローム, Å)。
+ターゲット原子からこの半径内の原子だけを列挙します。</value>
+  </data>
 </root>

@@ -21,10 +21,10 @@ ProjectAssetsFile=<PATH>obj/project.assets.json
 RootNamespace=Crystallography.Controls
 RunAnalyzers=
 RunAnalyzersDuringLiveAnalysis=
-SolutionPath=<PATH>../CSManager.sln
+SolutionPath=<PATH>../ReciPro.sln
 TargetFrameworkIdentifier=.NETCoreApp
-TargetPath=<PATH>bin/x64/Debug/net10.0-windows/Crystallography.Controls.dll
-TargetRefPath=<PATH>obj/x64/Debug/net10.0-windows/ref/Crystallography.Controls.dll
+TargetPath=<PATH>bin/x64/Release/net10.0-windows/Crystallography.Controls.dll
+TargetRefPath=<PATH>obj/x64/Release/net10.0-windows/ref/Crystallography.Controls.dll
 TemporaryDependencyNodeTargetIdentifier=net10.0-windows
 
 [commandLineArguments]
@@ -37,15 +37,15 @@ TemporaryDependencyNodeTargetIdentifier=net10.0-windows
 /platform:x64
 /errorreport:prompt
 /warn:10
-/define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+/define:TRACE;RELEASE;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 /highentropyva+
 /features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated"
-/debug+
+/debug-
 /debug:portable
 /filealign:512
-/optimize-
-/out:obj\x64\Debug\net10.0-windows\Crystallography.Controls.dll
-/refout:obj\x64\Debug\net10.0-windows\refint\Crystallography.Controls.dll
+/optimize+
+/out:obj\x64\Release\net10.0-windows\Crystallography.Controls.dll
+/refout:obj\x64\Release\net10.0-windows\refint\Crystallography.Controls.dll
 /target:library
 /warnaserror-
 /utf8output
@@ -102,6 +102,9 @@ Crystal/
  StereonetDrawing.cs
  SymmetryControl.cs
  SymmetryControl.Designer.cs
+ SymmetryDiagramCommon.cs
+ SymmetryDiagramElements.cs
+ SymmetryDiagramPositions.cs
 CrystalDatabase/
  CrystalDatabaseControl.cs
  CrystalDatabaseControl.Designer.cs
@@ -113,6 +116,7 @@ DataSet.cs
 DataSet.Designer.cs
 DistributionGraphControl.cs
 DistributionGraphControl.Designer.cs
+FontHelper.cs
 FormBase.cs
 FormBase.Designer.cs
 FormCaptureGUI.cs
@@ -150,7 +154,7 @@ Numeric/
  NumericBoxWithMenu.cs
  NumericBoxWithMenu.Designer.cs
  SpinButton.cs
-obj/x64/Debug/net10.0-windows/
+obj/x64/Release/net10.0-windows/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  Crystallography.Controls.AssemblyInfo.cs
  Crystallography.Controls.GlobalUsings.g.cs
@@ -167,8 +171,8 @@ Wave/
  WaveLengthControl.Designer.cs
 
 [metadataReferences]
-../Crystallography/obj/x64/Debug/net10.0-windows/ref/Crystallography.dll
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.5/ref/net10.0/
+../Crystallography/obj/x64/Release/net10.0-windows/ref/Crystallography.dll
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/ref/net10.0/
  Microsoft.CSharp.dll
  Microsoft.VisualBasic.Core.dll
  Microsoft.Win32.Primitives.dll
@@ -333,7 +337,7 @@ Wave/
  System.Xml.XmlSerializer.dll
  System.Xml.XPath.dll
  System.Xml.XPath.XDocument.dll
-<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/ref/net10.0/
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/ref/net10.0/
  Accessibility.dll
  Microsoft.VisualBasic.dll
  Microsoft.VisualBasic.Forms.dll
@@ -409,30 +413,30 @@ Wave/
  opentk.windowing.graphicslibraryframework/4.9.4/lib/netcoreapp3.1/OpenTK.Windowing.GraphicsLibraryFramework.dll
  purehdf/2.1.2/lib/net8.0/PureHDF.dll
  simdlinq/1.3.2/lib/net7.0/SimdLinq.dll
- sixlabors.imagesharp/3.1.12/lib/net6.0/SixLabors.ImageSharp.dll
  wpfmath/2.1.0/lib/net6.0-windows7.0/WpfMath.dll
  xamlmath.shared/2.1.0/lib/net6.0/XamlMath.Shared.dll
  zlinq/1.5.6/lib/net10.0/ZLinq.dll
 
 [analyzerReferences]
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.5/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/analyzers/dotnet/cs/
  Microsoft.Interop.ComInterfaceGenerator.dll
  Microsoft.Interop.JavaScript.JSImportGenerator.dll
  Microsoft.Interop.LibraryImportGenerator.dll
  Microsoft.Interop.SourceGeneration.dll
  System.Text.Json.SourceGeneration.dll
  System.Text.RegularExpressions.Generator.dll
-<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/cs/
  System.Windows.Forms.Analyzers.CodeFixes.CSharp.dll
  System.Windows.Forms.Analyzers.CSharp.dll
 <DOTNET>/
- packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/analyzers/dotnet/System.Windows.Forms.Analyzers.dll
- sdk/10.0.300-preview.0.26177.108/Sdks/Microsoft.NET.Sdk/analyzers/
+ packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/System.Windows.Forms.Analyzers.dll
+ sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/
   Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
   Microsoft.CodeAnalysis.NetAnalyzers.dll
 <NUGET>/memorypack.generator/1.21.4/analyzers/dotnet/cs/MemoryPack.Generator.dll
 
 [analyzerConfigFiles]
+../.editorconfig
 .editorconfig
-<DOTNET>/sdk/10.0.300-preview.0.26177.108/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
-obj/x64/Debug/net10.0-windows/Crystallography.Controls.GeneratedMSBuildEditorConfig.editorconfig
+<DOTNET>/sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
+obj/x64/Release/net10.0-windows/Crystallography.Controls.GeneratedMSBuildEditorConfig.editorconfig
