@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -524,7 +524,7 @@
     <value>362, 24</value>
   </data>
   <data name="recalculateDensityFormulaAndDvaluesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Re-calculate density, formula, and d-values</value>
+    <value>Re-calculate density and formula</value>
   </data>
   <data name="testToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>362, 24</value>
@@ -549,6 +549,12 @@
   </data>
   <data name="toolTipToolStripMenuItem.Text" xml:space="preserve">
     <value>Tool Tip</value>
+  </data>
+  <data name="buttonAdd.ToolTip" xml:space="preserve">
+    <value>Add the crystal currently shown in the editor as a new entry in the database. It is built from the editor fields and does not overwrite the selected row (use Replace for that).</value>
+  </data>
+  <data name="buttonChange.ToolTip" xml:space="preserve">
+    <value>Replace the currently selected database row with the crystal shown in the editor. If no row is selected, it is added as a new entry instead. Use Add to always create a new entry.</value>
   </data>
   <data name="toolTipToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>ツールチップを表示します</value>

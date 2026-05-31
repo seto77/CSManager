@@ -21,10 +21,10 @@ ProjectAssetsFile=<PATH>obj/project.assets.json
 RootNamespace=Crystallography
 RunAnalyzers=
 RunAnalyzersDuringLiveAnalysis=
-SolutionPath=<PATH>../CSManager.sln
+SolutionPath=<PATH>../ReciPro.sln
 TargetFrameworkIdentifier=.NETCoreApp
-TargetPath=<PATH>bin/x64/Debug/net10.0-windows/Crystallography.dll
-TargetRefPath=<PATH>obj/x64/Debug/net10.0-windows/ref/Crystallography.dll
+TargetPath=<PATH>bin/x64/Release/net10.0-windows/Crystallography.dll
+TargetRefPath=<PATH>obj/x64/Release/net10.0-windows/ref/Crystallography.dll
 TemporaryDependencyNodeTargetIdentifier=net10.0-windows
 
 [commandLineArguments]
@@ -37,15 +37,15 @@ TemporaryDependencyNodeTargetIdentifier=net10.0-windows
 /platform:x64
 /errorreport:prompt
 /warn:10
-/define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+/define:TRACE;RELEASE;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 /highentropyva+
 /features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated"
-/debug+
+/debug-
 /debug:portable
 /filealign:512
-/optimize-
-/out:obj\x64\Debug\net10.0-windows\Crystallography.dll
-/refout:obj\x64\Debug\net10.0-windows\refint\Crystallography.dll
+/optimize+
+/out:obj\x64\Release\net10.0-windows\Crystallography.dll
+/refout:obj\x64\Release\net10.0-windows\refint\Crystallography.dll
 /target:library
 /warnaserror-
 /utf8output
@@ -216,7 +216,7 @@ MRC.cs
 NativeWrapper.cs
 NthItemUtils.cs
 NumericalFormula.cs
-obj/x64/Debug/net10.0-windows/
+obj/x64/Release/net10.0-windows/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  Crystallography.AssemblyInfo.cs
  Crystallography.GlobalUsings.g.cs
@@ -236,6 +236,7 @@ Stereonet.cs
 Stl.cs
 Symmetry/
  Symmetry.cs
+ SymmetryElementsTable.cs
  SymmetryOperation.cs
  SymmetryStatic.cs
  WyckoffPosition.cs
@@ -245,7 +246,7 @@ WaveProperty.cs
 YusaGonio.cs
 
 [metadataReferences]
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.5/ref/net10.0/
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/ref/net10.0/
  Microsoft.CSharp.dll
  Microsoft.VisualBasic.Core.dll
  Microsoft.Win32.Primitives.dll
@@ -411,7 +412,7 @@ YusaGonio.cs
  System.Xml.XPath.dll
  System.Xml.XPath.XDocument.dll
  WindowsBase.dll
-<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/ref/net10.0/
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/ref/net10.0/
  Accessibility.dll
  Microsoft.VisualBasic.dll
  Microsoft.VisualBasic.Forms.dll
@@ -458,23 +459,24 @@ YusaGonio.cs
  zlinq/1.5.6/lib/net10.0/ZLinq.dll
 
 [analyzerReferences]
-<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.5/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/analyzers/dotnet/cs/
  Microsoft.Interop.ComInterfaceGenerator.dll
  Microsoft.Interop.JavaScript.JSImportGenerator.dll
  Microsoft.Interop.LibraryImportGenerator.dll
  Microsoft.Interop.SourceGeneration.dll
  System.Text.Json.SourceGeneration.dll
  System.Text.RegularExpressions.Generator.dll
-<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/cs/
  System.Windows.Forms.Analyzers.CodeFixes.CSharp.dll
  System.Windows.Forms.Analyzers.CSharp.dll
 <DOTNET>/
- packs/Microsoft.WindowsDesktop.App.Ref/10.0.5/analyzers/dotnet/System.Windows.Forms.Analyzers.dll
- sdk/10.0.300-preview.0.26177.108/Sdks/Microsoft.NET.Sdk/analyzers/
+ packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/System.Windows.Forms.Analyzers.dll
+ sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/
   Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
   Microsoft.CodeAnalysis.NetAnalyzers.dll
 <NUGET>/memorypack.generator/1.21.4/analyzers/dotnet/cs/MemoryPack.Generator.dll
 
 [analyzerConfigFiles]
-<DOTNET>/sdk/10.0.300-preview.0.26177.108/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
-obj/x64/Debug/net10.0-windows/Crystallography.GeneratedMSBuildEditorConfig.editorconfig
+../.editorconfig
+<DOTNET>/sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
+obj/x64/Release/net10.0-windows/Crystallography.GeneratedMSBuildEditorConfig.editorconfig

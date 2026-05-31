@@ -1,0 +1,124 @@
+# 260531Ch: MkDocs Material configuration for the CSManager GitHub Pages manual.
+site_name: CSManager Manual
+site_description: CSManager user manual
+site_url: https://seto77.github.io/CSManager/
+repo_url: https://github.com/seto77/CSManager
+repo_name: seto77/CSManager
+edit_uri: edit/master/docs/src/
+
+docs_dir: src
+site_dir: site
+use_directory_urls: true
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.footer
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search:
+      lang:
+        - en
+        - ja
+  - glightbox
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - abbr
+  - pymdownx.snippets:
+      base_path:
+        - docs
+        - .
+      auto_append:
+        - includes/abbreviations.md
+  - pymdownx.keys
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.mark
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - assets/javascripts/language_switch.js
+
+extra:
+  alternate:
+    - name: English
+      link: /CSManager/
+      lang: en
+    - name: 日本語
+      link: /CSManager/ja/
+      lang: ja
+
+nav:
+  - English:
+      - Home: index.md
+      - 0. Main window: en/0-main-window.md
+      - 1. Database loading: en/1-database-loading.md
+      - 2. Database table: en/2-database-table.md
+      - 3. Search: en/3-search.md
+      - 4. Crystal information:
+          - en/4-crystal-information/index.md
+          - 4.1. Basic information: en/4-crystal-information/1-basic-information.md
+          - 4.2. Atoms: en/4-crystal-information/2-atoms.md
+          - 4.3. Bonds and polyhedra: en/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. References: en/4-crystal-information/4-references.md
+      - 5. Import and export: en/5-import-export.md
+      - 6. Interoperation: en/6-interoperation.md
+      - 7. Options and language: en/7-options-language.md
+      - Troubleshooting: en/troubleshooting.md
+  - 日本語:
+      - ホーム: ja/index.md
+      - 0. メインウィンドウ: ja/0-main-window.md
+      - 1. データベース読込: ja/1-database-loading.md
+      - 2. 結晶リスト: ja/2-database-table.md
+      - 3. 検索: ja/3-search.md
+      - 4. 結晶情報:
+          - ja/4-crystal-information/index.md
+          - 4.1. 基本情報: ja/4-crystal-information/1-basic-information.md
+          - 4.2. 原子: ja/4-crystal-information/2-atoms.md
+          - 4.3. 結合と配位多面体: ja/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. 文献: ja/4-crystal-information/4-references.md
+      - 5. インポートとエクスポート: ja/5-import-export.md
+      - 6. 他ソフトとの連携: ja/6-interoperation.md
+      - 7. オプションと言語: ja/7-options-language.md
+      - トラブルシューティング: ja/troubleshooting.md

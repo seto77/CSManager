@@ -170,6 +170,12 @@
   <data name="buttonAdd.Text" xml:space="preserve">
     <value>↑ 追加 ↑</value>
   </data>
+  <data name="buttonAdd.ToolTip" xml:space="preserve">
+    <value>エディタに表示中の結晶を、新規エントリとしてデータベースに追加します。編集中の各欄から生成し、選択中の行は上書きしません(上書きは「入れ替え」を使用)。</value>
+  </data>
+  <data name="buttonChange.ToolTip" xml:space="preserve">
+    <value>現在選択中のデータベース行を、エディタに表示中の結晶で上書き更新します。行が未選択の場合は新規追加になります(常に新規作成するには「追加」を使用)。</value>
+  </data>
   <data name="searchCrystalControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
@@ -302,6 +308,9 @@
   </data>
   <data name="recalculateDensityFormulaAndDvaluesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>458, 30</value>
+  </data>
+  <data name="recalculateDensityFormulaAndDvaluesToolStripMenuItem.Text" xml:space="preserve">
+    <value>密度と化学式を再計算</value>
   </data>
   <data name="optionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 29</value>
