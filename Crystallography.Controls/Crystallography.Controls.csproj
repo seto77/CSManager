@@ -5,8 +5,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF><!-- (260427Ch) LabelLaTeX で WpfMath の WPF 描画を使うため有効化 -->
-    <AssemblyVersion>2026.5.27.2326</AssemblyVersion>
-    <FileVersion>2026.5.27.2326</FileVersion>
+    <AssemblyVersion>2026.6.6.1003</AssemblyVersion>
+    <FileVersion>2026.6.6.1003</FileVersion>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <ApplicationUseCompatibleTextRendering>true</ApplicationUseCompatibleTextRendering>
     <ApplicationVisualStyles>true</ApplicationVisualStyles>
@@ -38,11 +38,15 @@
     <None Remove="doc\CrystalInformationManual(ja).pdf" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="doc\CrystalInformationManual%28ja%29.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+  <!-- 260604Cl: CrystalInformationManual(ja).pdf の出力同梱を廃止 (全ホスト: ReciPro/PDIndexer/CSManager)。
+       ReciPro 側の Crystal Information の説明は GitHub Pages (0-main-window.md) へ移行済み。EOS/弾性定数など
+       ReciPro で非表示のタブの説明は本 PDF に残るが、当面はオンライン化せず PDF を doc\ に据え置く (配布のみ停止)。
+       旧:
+       <ItemGroup>
+         <Content Include="doc\CrystalInformationManual%28ja%29.pdf">
+           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+         </Content>
+       </ItemGroup> -->
 
   <ItemGroup>
     <PackageReference Include="IronPython" Version="3.4.2" />
