@@ -4,8 +4,8 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyVersion>2026.5.29.0812</AssemblyVersion>
-    <FileVersion>2026.5.29.0812</FileVersion>
+    <AssemblyVersion>2026.6.6.1003</AssemblyVersion>
+    <FileVersion>2026.6.6.1003</FileVersion>
     <!-- <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion> --><!-- 260405Cl .NET 10はWindows7非対応のため削除 -->
     <Platforms>x64</Platforms>
     <PublishReadyToRun>true</PublishReadyToRun>
@@ -31,6 +31,41 @@
 
   <ItemGroup>
     <None Remove="OpenTK.dll.config" />
+  </ItemGroup>
+
+  <!-- 260604Cl: NIST elastic PCHIP データ。旧 96 個の生成 .cs (ushort[][]/float[][] コレクション式) を
+       Brotli 圧縮バイナリリソースへ集約。実行時は NistElasticPchipResource が元素単位で展開 (ビット完全等価)。 -->
+  <ItemGroup>
+    <EmbeddedResource Include="Atom\NistElastic\NistElasticPchip.bin">
+      <LogicalName>Crystallography.NistElasticPchip.bin</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- 260604Cl: SymmetryStatic の大きなテーブル(整数ジャグ配列 + StrArray 文字列表)を可読 .csv へ移し EmbeddedResource 化
+       (旧: C# コレクション式リテラル)。ソースは人間可読・Excel で開ける・編集可・git diff 容易。
+       実行時は SymmetryStatic の Load*Jagged2/3 が同一の公開型へ構築 (RFC4180 CSV パーサ)。 -->
+  <ItemGroup>
+    <EmbeddedResource Include="Symmetry\PositionsDictionary.csv">
+      <LogicalName>Crystallography.PositionsDictionary.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\OperationDictionary.csv">
+      <LogicalName>Crystallography.OperationDictionary.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\SiteSymmetryDictionary.csv">
+      <LogicalName>Crystallography.SiteSymmetryDictionary.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\BelongingNumberOfSymmetry.csv">
+      <LogicalName>Crystallography.BelongingNumberOfSymmetry.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\NumArray.csv">
+      <LogicalName>Crystallography.NumArray.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\StrArray.csv">
+      <LogicalName>Crystallography.StrArray.csv</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Symmetry\PositionStringList.csv">
+      <LogicalName>Crystallography.PositionStringList.csv</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
