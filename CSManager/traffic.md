@@ -1,12 +1,13 @@
 # Traffic Data: CSManager
 
-Last updated: 2026-06-22
+Last updated: 2026-06-23
 
 ## Views
 
 ### Daily (最大14日保持)
 | Date | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
+| 2026-06-22 | 2 | 1 |
 | 2026-06-21 | 0 | 0 |
 | 2026-06-20 | 0 | 0 |
 | 2026-06-19 | 0 | 0 |
@@ -19,11 +20,11 @@ Last updated: 2026-06-22
 | 2026-06-12 | 2 | 2 |
 | 2026-06-11 | 3 | 1 |
 | 2026-06-10 | 0 | 0 |
-| 2026-06-09 | 1 | 1 |
 
 ### Weekly (最大14週保持)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
+| 2026-W26 | 2 | 1 |
 | 2026-W25 | 9 | 4 |
 | 2026-W24 | 7 | 5 |
 | 2026-W23 | 19 | 10 |
@@ -41,7 +42,7 @@ Last updated: 2026-06-22
 ### Monthly (最大12か月保持)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026-06 | 35 | 19 |
+| 2026-06 | 37 | 20 |
 | 2026-05 | 130 | 46 |
 | 2026-04 | 109 | 64 |
 | 2026-03 | 3 | 3 |
@@ -49,13 +50,14 @@ Last updated: 2026-06-22
 ### Yearly (無制限)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026 | 277 | 132 |
+| 2026 | 279 | 133 |
 
 ## Clones
 
 ### Daily (最大14日保持)
 | Date | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
+| 2026-06-22 | 115 | 10 |
 | 2026-06-21 | 25 | 9 |
 | 2026-06-20 | 12 | 3 |
 | 2026-06-19 | 19 | 6 |
@@ -68,11 +70,11 @@ Last updated: 2026-06-22
 | 2026-06-12 | 12 | 7 |
 | 2026-06-11 | 12 | 7 |
 | 2026-06-10 | 4 | 1 |
-| 2026-06-09 | 10 | 5 |
 
 ### Weekly (最大14週保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
+| 2026-W26 | 115 | 10 |
 | 2026-W25 | 105 | 40 |
 | 2026-W24 | 77 | 35 |
 | 2026-W23 | 58 | 29 |
@@ -90,7 +92,7 @@ Last updated: 2026-06-22
 ### Monthly (最大12か月保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026-06 | 240 | 104 |
+| 2026-06 | 355 | 114 |
 | 2026-05 | 351 | 176 |
 | 2026-04 | 407 | 187 |
 | 2026-03 | 3 | 3 |
@@ -98,16 +100,16 @@ Last updated: 2026-06-22
 ### Yearly (無制限)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026 | 1001 | 470 |
+| 2026 | 1116 | 480 |
 
 ## Referrers
 
 ### Weekly (最大2週保持)
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
-| 2026-W26 | yseto.net | 9 | 5 |
-| 2026-W26 | seto77.github.io | 3 | 1 |
-| 2026-W26 | github.com | 2 | 2 |
+| 2026-W26 | yseto.net | 18 | 10 |
+| 2026-W26 | seto77.github.io | 6 | 2 |
+| 2026-W26 | github.com | 5 | 5 |
 | 2026-W25 | yseto.net | 66 | 39 |
 | 2026-W25 | Bing | 18 | 6 |
 | 2026-W25 | seto77.github.io | 15 | 5 |
@@ -118,10 +120,10 @@ Last updated: 2026-06-22
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
 | 2026-06 | Google | 318 | 54 |
-| 2026-06 | yseto.net | 169 | 103 |
-| 2026-06 | github.com | 103 | 62 |
+| 2026-06 | yseto.net | 178 | 108 |
+| 2026-06 | github.com | 106 | 65 |
 | 2026-06 | Bing | 55 | 27 |
-| 2026-06 | seto77.github.io | 18 | 6 |
+| 2026-06 | seto77.github.io | 21 | 7 |
 | 2026-05 | yseto.net | 496 | 302 |
 | 2026-05 | github.com | 216 | 141 |
 | 2026-05 | Google | 81 | 23 |
@@ -134,22 +136,22 @@ Last updated: 2026-06-22
 ### Yearly (無制限)
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
-| 2026 | yseto.net | 919 | 563 |
+| 2026 | yseto.net | 928 | 568 |
 | 2026 | Google | 428 | 98 |
-| 2026 | github.com | 417 | 248 |
+| 2026 | github.com | 420 | 251 |
 | 2026 | Bing | 104 | 66 |
-| 2026 | seto77.github.io | 18 | 6 |
+| 2026 | seto77.github.io | 21 | 7 |
 
 ## Popular Paths
 
 ### Weekly (最大2週保持)
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
-| 2026-W26 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 10 | 6 |
-| 2026-W26 | /seto77/CSManager | Overview | 3 | 3 |
-| 2026-W26 | /seto77/CSManager/issues | /issues | 1 | 1 |
-| 2026-W26 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 1 | 1 |
-| 2026-W26 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 1 | 1 |
+| 2026-W26 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 21 | 13 |
+| 2026-W26 | /seto77/CSManager | Overview | 7 | 7 |
+| 2026-W26 | /seto77/CSManager/issues | /issues | 2 | 2 |
+| 2026-W26 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 2 | 2 |
+| 2026-W26 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 2 | 2 |
 | 2026-W25 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 82 | 51 |
 | 2026-W25 | /seto77/CSManager | Overview | 35 | 35 |
 | 2026-W25 | /seto77/CSManager/issues | /issues | 11 | 10 |
@@ -162,20 +164,20 @@ Last updated: 2026-06-22
 ### Monthly (最大3か月保持)
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
-| 2026-06 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 280 | 173 |
-| 2026-06 | /seto77/CSManager | Overview | 193 | 137 |
+| 2026-06 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 291 | 180 |
+| 2026-06 | /seto77/CSManager | Overview | 197 | 141 |
 | 2026-06 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 96 | 12 |
 | 2026-06 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 48 | 12 |
 | 2026-06 | /seto77/CSManager/releases | /releases | 41 | 41 |
-| 2026-06 | /seto77/CSManager/issues | /issues | 37 | 25 |
+| 2026-06 | /seto77/CSManager/issues | /issues | 38 | 26 |
 | 2026-06 | /seto77/CSManager/blob/master/COD/COD.cdb3 | /blob/master/COD/COD.cdb3 | 36 | 12 |
 | 2026-06 | /seto77/CSManager/tree/master | /tree/master | 24 | 12 |
 | 2026-06 | /seto77/CSManager/actions | /actions | 14 | 14 |
 | 2026-06 | /seto77/CSManager/blob/master/COD/COD/COD.000 | /blob/master/COD/COD/COD.000 | 12 | 12 |
 | 2026-06 | /seto77/CSManager/projects | /projects | 8 | 8 |
+| 2026-06 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 7 | 7 |
+| 2026-06 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 7 | 7 |
 | 2026-06 | /seto77/CSManager/blob/master/README.md | /blob/master/README.md | 6 | 6 |
-| 2026-06 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 6 | 6 |
-| 2026-06 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 6 | 6 |
 | 2026-05 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 546 | 379 |
 | 2026-05 | /seto77/CSManager | Overview | 196 | 159 |
 | 2026-05 | /seto77/CSManager/releases | /releases | 70 | 70 |
@@ -215,11 +217,11 @@ Last updated: 2026-06-22
 ### Yearly (無制限)
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
-| 2026 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 1170 | 794 |
-| 2026 | /seto77/CSManager | Overview | 526 | 378 |
+| 2026 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 1181 | 801 |
+| 2026 | /seto77/CSManager | Overview | 530 | 382 |
 | 2026 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 170 | 36 |
 | 2026 | /seto77/CSManager/releases | /releases | 153 | 153 |
-| 2026 | /seto77/CSManager/issues | /issues | 69 | 57 |
+| 2026 | /seto77/CSManager/issues | /issues | 70 | 58 |
 | 2026 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 66 | 24 |
 | 2026 | /seto77/CSManager/releases/tag/v.1.909 | /releases/tag/v.1.909 | 58 | 36 |
 | 2026 | /seto77/CSManager/blob/master/COD/COD.cdb3 | /blob/master/COD/COD.cdb3 | 42 | 14 |
@@ -233,12 +235,12 @@ Last updated: 2026-06-22
 | 2026 | /seto77/CSManager/commit/0a5ce38f82b6397ca3d8d1e87f3a3d8f6c1e99f2 | /commit/0a5ce38f82b6397ca3d8d1e87f3a3d8f6c1e99f2 | 14 | 14 |
 | 2026 | /seto77/CSManager/blob/master/COD/COD/COD.000 | /blob/master/COD/COD/COD.000 | 14 | 14 |
 | 2026 | /seto77/CSManager/actions | /actions | 14 | 14 |
-| 2026 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 11 | 11 |
+| 2026 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 12 | 12 |
 | 2026 | /seto77/CSManager/pulse | /pulse | 9 | 9 |
 | 2026 | /seto77/CSManager/pulls | /pulls | 8 | 8 |
 | 2026 | /seto77/CSManager/security | /security | 8 | 8 |
+| 2026 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 7 | 7 |
 | 2026 | /seto77/CSManager/tree/master/.github | /tree/master/.github | 6 | 6 |
-| 2026 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 6 | 6 |
 | 2026 | /seto77/CSManager/releases/tag/v.1.896 | /releases/tag/v.1.896 | 5 | 5 |
 | 2026 | /seto77/CSManager/tree/master/CSManager/Properties | /tree/master/CSManager/Properties | 3 | 3 |
 
@@ -284,6 +286,7 @@ Last updated: 2026-06-22
 ### Daily (最大14日保持)
 | Date | Stars | Forks | Open Issues | Watchers |
 | ---- | ---- | ---- | ---- | ---- |
+| 2026-06-23 | 9 | 2 | 0 | 2 |
 | 2026-06-22 | 9 | 2 | 0 | 2 |
 | 2026-06-21 | 9 | 2 | 0 | 2 |
 | 2026-06-20 | 9 | 2 | 0 | 2 |
@@ -297,7 +300,6 @@ Last updated: 2026-06-22
 | 2026-06-12 | 9 | 2 | 0 | 2 |
 | 2026-06-11 | 9 | 2 | 0 | 2 |
 | 2026-06-10 | 9 | 2 | 0 | 2 |
-| 2026-06-09 | 9 | 2 | 0 | 2 |
 
 ### Weekly (最大14週保持)
 | Period | Stars | Forks | Open Issues | Watchers |
@@ -327,4 +329,4 @@ Last updated: 2026-06-22
 | ---- | ---- | ---- | ---- | ---- |
 | 2026 | 9 | 2 | 0 | 2 |
 
-<!-- meta: last_collected_paths=2026-06-22 last_collected_referrers=2026-06-22 -->
+<!-- meta: last_collected_paths=2026-06-23 last_collected_referrers=2026-06-23 -->
