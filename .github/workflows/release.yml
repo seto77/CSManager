@@ -15,12 +15,17 @@ on:
     branches: [master]
     paths:
       - "CSManager/Version.cs"
+  # 260625Cl force input を廃止 (コード署名準備 / v* tag 保護 ruleset との整合、ReciPro 方針2)。既存 release は常に skip。
+  #   手動再実行は引数なし workflow_dispatch で可能 (tag/release は全 job 成功後の最終ステップでのみ原子的に作成されるため、
+  #   ビルド失敗時は同一バージョンで再実行できる)。公開済みを作り直す場合は Version.cs を進めて新 tag で出す。
+  #   旧:
+  #     inputs:
+  #       force:
+  #         description: "既存リリースを削除してリビルドする"
+  #         type: boolean
+  #         default: false
   workflow_dispatch:
     inputs:
-      force:
-        description: "既存リリースを削除してリビルドする"
-        type: boolean
-        default: false
       dry_run:
         description: "x64+arm64 をビルド・smoke するが release は作らない (資産は artifact のみ)"
         type: boolean
@@ -63,17 +68,14 @@ jobs:
           gh release view $tag 2>&1 | Out-Null
           $releaseExists = ($LASTEXITCODE -eq 0)
           $global:LASTEXITCODE = 0
+          # 260625Cl force モード廃止 (v* tag 保護 ruleset と非整合: 既存 tag を削除して同一 tag を再利用すると署名/provenance を壊す)。
+          #   既存 release があれば常に skip。作り直しは Version.cs を進めて新 tag で。
+          #   旧 force 処理:
+          #     if (inputs.force == true) { gh release delete $tag --yes; git push origin :refs/tags/$tag; ... } else { skip }
           if ($releaseExists -and -not $dryRun) {
-            if ("${{ inputs.force }}" -eq "true") {
-              Write-Host "Force mode: deleting existing release $tag..."
-              gh release delete $tag --yes
-              git push origin :refs/tags/$tag 2>&1 | Out-Null
-              $global:LASTEXITCODE = 0
-            } else {
-              Write-Host "Release $tag already exists. Skipping."
-              "needed=false" >> $env:GITHUB_OUTPUT
-              return
-            }
+            Write-Host "Release $tag already exists. Skipping (force mode removed; bump Version.cs to re-release)."
+            "needed=false" >> $env:GITHUB_OUTPUT
+            return
           }
 
           $historyLine = ([regex]::Match($content, 'ver[^\r\n"]+').Value).Trim()
