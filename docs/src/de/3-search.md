@@ -1,6 +1,6 @@
 # Suche
 
-Im Suchfeld lässt sich die geladene Kristalldatenbank nach Name, Zusammensetzung, Symmetrie, Gitterkonstanten, d-Wert, Dichte und Literaturangaben eingrenzen.
+Im Suchbereich lässt sich die geladene Kristalldatenbank nach Name, Zusammensetzung, Symmetrie, Gitterkonstanten, d-Wert, Dichte und Literaturangaben eingrenzen.
 
 ## Geplante Inhalte
 
