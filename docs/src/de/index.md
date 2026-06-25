@@ -1,6 +1,6 @@
 # CSManager-Handbuch
 
-CSManager ist eine Windows-Desktop-Anwendung zum Durchsuchen, Suchen und Pflegen von Kristallstrukturdatenbanken. Sie kann die mitgelieferte AMCSD-Datenbank laden, COD bei Bedarf herunterladen und laden, gängige Kristallformate importieren, Kristallinformationen bearbeiten und ausgewählte Kristalldaten mit verwandten Werkzeugen austauschen.
+CSManager ist eine Windows-Desktop-Anwendung zum Anzeigen, Durchsuchen und Pflegen von Kristallstrukturdatenbanken. Sie kann die mitgelieferte AMCSD-Datenbank laden, COD bei Bedarf herunterladen und laden, gängige Kristallformate importieren, Kristallinformationen bearbeiten und ausgewählte Kristalldaten mit verwandten Werkzeugen austauschen.
 
 Dieses GitHub-Pages-Handbuch wird künftig als maßgebliche Dokumentationsquelle geführt. Die ersten Seiten sind als Gerüst aus der bestehenden PDF-/Handbuchstruktur und der aktuellen Anwendungsoberfläche aufgebaut; ausführliche Inhalte werden direkt im Markdown ergänzt.
 

@@ -8,5 +8,5 @@ Questa pagina tratta le opzioni dell'applicazione, le impostazioni di visualizza
 - Caricamento automatico del database AMCSD all'avvio.
 - Ricerca incrementale.
 - Dimensione del carattere nell'elenco dei cristalli.
-- Cambio di lingua tra inglese e giapponese e riavvio.
+- Cambio di lingua e riavvio.
 - Voci del menu Guida.

@@ -8,5 +8,5 @@ Esta página trata das opções do aplicativo, das configurações de exibição
 - Carregamento automático do banco de dados AMCSD na inicialização.
 - Pesquisa incremental.
 - Tamanho da fonte na lista de cristais.
-- Troca de idioma entre inglês/japonês e reinicialização.
+- Troca de idioma e reinicialização.
 - Itens do menu de ajuda.

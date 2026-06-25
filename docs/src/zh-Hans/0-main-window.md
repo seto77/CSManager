@@ -13,4 +13,4 @@
 ## 编辑备注
 
 - UI 标签以 `CSManager/FormMain.zh-Hans.resx` 为准进行确认。
-- 截图迁移至 `docs/src/assets/cap-zh-Hans-auto/` 或 `docs/src/assets/cap-zh-Hans-manual/`。
+- 将截图迁移至 `docs/src/assets/cap-zh-Hans-auto/` 或 `docs/src/assets/cap-zh-Hans-manual/`。

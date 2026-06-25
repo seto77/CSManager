@@ -1,6 +1,6 @@
 # 与其他软件的协同
 
-CSManager 可以与 PDIndexer、ReciPro 等相关工具之间交换晶体数据。
+CSManager 可以与 PDIndexer、ReciPro 等相关工具交换晶体数据。
 
 ## 拟补充内容
 

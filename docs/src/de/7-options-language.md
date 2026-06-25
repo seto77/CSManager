@@ -4,9 +4,9 @@ Diese Seite behandelt die Anwendungsoptionen, Anzeigeeinstellungen und das Umsch
 
 ## Geplante Inhalte
 
-- Tooltip.
+- Tooltips.
 - Automatisches Laden der AMCSD-Datenbank beim Start.
 - Inkrementelle Suche.
 - Schriftgröße der Kristallliste.
-- Umschalten zwischen Englisch und Japanisch sowie Neustart.
+- Umschalten der Sprache sowie Neustart.
 - Einträge im Hilfemenü.
