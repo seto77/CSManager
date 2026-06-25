@@ -34,6 +34,8 @@ CSManager runs on Windows x64 and Windows on Arm (arm64), and requires the .NET 
 3. Install or extract the application
 4. If needed, install the .NET Desktop Runtime 10 from https://dotnet.microsoft.com/download/dotnet/10.0 (not required for the portable ZIP, which bundles the runtime)
 
+For code-signing status and installer verification, see [Code signing policy](CODE_SIGNING.md). For bundled or referenced third-party components and data, see [Third-party notices](THIRD-PARTY-NOTICES.md).
+
 ## Quick Start
 
 1. Launch `CSManager.exe`
