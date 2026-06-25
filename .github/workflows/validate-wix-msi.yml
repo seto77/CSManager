@@ -133,17 +133,18 @@ jobs:
           Test-Msi "CSManagerSetup.Wix\bin\Release\CSManager-setup.msi" 'x64' '${{ steps.version.outputs.test_product_version }}'
           Test-Msi "CSManagerSetup.Wix\bin\Release\CSManager-setup_arm64.msi" 'Arm64' '${{ steps.version.outputs.product_version }}'
 
-      - name: Download latest released vdproj MSI
+      - name: Download the last vdproj-built MSI (v.1.910, fixed tag)
         id: oldmsi
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\old-msi" | Out-Null
-          # 旧名 *Setup.msi (CSManagerSetup.msi)。新主名称 CSManager-setup.msi (小文字 setup) はこの pattern に一致しない。
-          gh release download --pattern "*Setup.msi" -D "$env:RUNNER_TEMP\old-msi"
+          # 260625Cl tag を v.1.910 に固定: v.1.912 以降の CSManagerSetup.msi は WiX 版の旧名コピーなので、
+          #   真の vdproj→WiX Major Upgrade 検証には最後の vdproj ビルド release (v.1.910) を明示指定する必要がある。
+          gh release download v.1.910 --pattern "CSManagerSetup.msi" -D "$env:RUNNER_TEMP\old-msi"
           $old = Get-ChildItem "$env:RUNNER_TEMP\old-msi" -Filter *.msi | Select-Object -First 1
-          if (-not $old) { throw "Failed to download a released *Setup.msi." }
+          if (-not $old) { throw "Failed to download the vdproj CSManagerSetup.msi from v.1.910." }
           Write-Host "old MSI: $($old.Name)"
           "path=$($old.FullName)" >> $env:GITHUB_OUTPUT
 

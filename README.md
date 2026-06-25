@@ -15,7 +15,7 @@ The application ships with an AMCSD database, can download and load COD on deman
 - Save curated databases as `.cdb3` and open legacy database files such as `.cdb` and `.cdb2`.
 - Export the currently selected crystal as CIF.
 - Send crystal data to related software such as [PDIndexer](https://github.com/seto77/PDIndexer) and [ReciPro](https://github.com/seto77/ReciPro).
-- Switch the UI between English and Japanese, open bundled PDF manuals, and check for application updates.
+- Switch the UI among multiple languages, open the online manual, and check for application updates.
 
 ## Database Coverage
 
@@ -25,12 +25,14 @@ The application ships with an AMCSD database, can download and load COD on deman
 
 ## Installation
 
-CSManager targets Windows x64 and requires the .NET Desktop Runtime 10.
+CSManager runs on Windows x64 and Windows on Arm (arm64), and requires the .NET Desktop Runtime 10.
 
 1. Open https://github.com/seto77/CSManager/releases/latest
-2. Download `CSManagerSetup.msi`
-3. Install the application
-4. If needed, install the .NET Desktop Runtime 10 from https://dotnet.microsoft.com/download/dotnet/10.0
+2. Download the package for your CPU:
+   - `CSManager-setup.msi` (x64 installer, recommended) or `CSManager-setup_arm64.msi` (Windows on Arm)
+   - or a portable ZIP (`CSManager-v.<ver>.zip` / `CSManager-v.<ver>_arm64.zip`): no installation, self-contained, usable without administrator rights
+3. Install or extract the application
+4. If needed, install the .NET Desktop Runtime 10 from https://dotnet.microsoft.com/download/dotnet/10.0 (not required for the portable ZIP, which bundles the runtime)
 
 ## Quick Start
 
@@ -55,7 +57,7 @@ The repository also contains maintenance utilities for AMCSD CSV import and bulk
 - `CSManager/`: main Windows Forms application, startup code, and top-level workflow
 - `Crystallography/`: core crystallography, math, serialization, and update-check logic
 - `Crystallography.Controls/`: reusable UI controls for crystal editing, search, database browsing, periodic table filtering, and related dialogs
-- `CSManagerSetup/`: Visual Studio installer project for `CSManagerSetup.msi`
+- `CSManagerSetup.Wix/`: WiX v7 installer project that builds the MSI packages (x64 and arm64)
 - `Screenshots/`: images used in this README
 
 ## Build From Source
@@ -64,7 +66,7 @@ Requirements:
 
 - Windows
 - .NET 10 SDK
-- x64 build target
+- x64 (and optionally arm64) build target
 
 Build the solution with:
 
@@ -75,13 +77,16 @@ $env:DOTNET_CLI_TELEMETRY_OPTOUT="1"
 dotnet build CSManager.sln -c Debug -p:Platform=x64
 ```
 
-If you want to build the installer project in `CSManagerSetup/`, you will also need Visual Studio support for `.vdproj` installer projects.
+The MSI installers are built with WiX v7 (`CSManagerSetup.Wix/`, an SDK-style project). The release workflow publishes the app to a staging folder and runs `dotnet build CSManagerSetup.Wix\CSManagerSetup.wixproj`; no extra Visual Studio extensions are required.
 
 ## Documentation
 
-- English manual: `CSManager/doc/CSManager(en).pdf`
-- Japanese manual: `CSManager/doc/CSManager(ja).pdf`
-- Additional crystal-information manual: `Crystallography.Controls/doc/CrystalInformationManual(ja).pdf`
+The user manual is published online with MkDocs:
+
+- English: https://seto77.github.io/CSManager/
+- Japanese: https://seto77.github.io/CSManager/ja/
+
+The in-app Help menu opens these pages. The MkDocs sources live in `docs/`.
 
 ## License
 
