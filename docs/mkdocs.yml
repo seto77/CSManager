@@ -1,4 +1,11 @@
 # 260531Ch: MkDocs Material configuration for the CSManager GitHub Pages manual.
+# 260626Cl: Extended from en/ja to 11 languages (added de/fr/es/pt/it/ru/zh-Hans/zh-Hant/ko)
+#   to match the application UI (Crystallography/Localization/SupportedCultures.cs). Per-language
+#   folders under src/<code>/ with nav duplicated per language (kept explicit so `mkdocs build
+#   --strict` catches any missing/extra page). search.lang lists stemmers bundled by
+#   mkdocs-material (one `zh` serves zh-Hans and zh-Hant; `ko` for Korean); extra.alternate
+#   carries every language for the header selector and is retargeted to the matching slug by
+#   language_switch.js.
 site_name: CSManager Manual
 site_description: CSManager user manual
 site_url: https://seto77.github.io/CSManager/
@@ -45,6 +52,14 @@ plugins:
       lang:
         - en
         - ja
+        - de
+        - fr
+        - es
+        - pt
+        - it
+        - ru
+        - zh
+        - ko
   - glightbox
 
 markdown_extensions:
@@ -88,6 +103,33 @@ extra:
     - name: 日本語
       link: /CSManager/ja/
       lang: ja
+    - name: Deutsch
+      link: /CSManager/de/
+      lang: de
+    - name: Français
+      link: /CSManager/fr/
+      lang: fr
+    - name: Español
+      link: /CSManager/es/
+      lang: es
+    - name: Português
+      link: /CSManager/pt/
+      lang: pt
+    - name: Italiano
+      link: /CSManager/it/
+      lang: it
+    - name: Русский
+      link: /CSManager/ru/
+      lang: ru
+    - name: 简体中文
+      link: /CSManager/zh-Hans/
+      lang: zh-Hans
+    - name: 繁體中文
+      link: /CSManager/zh-Hant/
+      lang: zh-Hant
+    - name: 한국어
+      link: /CSManager/ko/
+      lang: ko
 
 nav:
   - English:
@@ -122,3 +164,147 @@ nav:
       - 6. 他ソフトとの連携: ja/6-interoperation.md
       - 7. オプションと言語: ja/7-options-language.md
       - トラブルシューティング: ja/troubleshooting.md
+  - Deutsch:
+      - Startseite: de/index.md
+      - 0. Hauptfenster: de/0-main-window.md
+      - 1. Datenbank laden: de/1-database-loading.md
+      - 2. Kristallliste: de/2-database-table.md
+      - 3. Suche: de/3-search.md
+      - 4. Kristallinformationen:
+          - de/4-crystal-information/index.md
+          - 4.1. Grundinformationen: de/4-crystal-information/1-basic-information.md
+          - 4.2. Atome: de/4-crystal-information/2-atoms.md
+          - 4.3. Bindungen und Koordinationspolyeder: de/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Literatur: de/4-crystal-information/4-references.md
+      - 5. Import und Export: de/5-import-export.md
+      - 6. Zusammenarbeit mit anderer Software: de/6-interoperation.md
+      - 7. Optionen und Sprache: de/7-options-language.md
+      - Fehlerbehebung: de/troubleshooting.md
+  - Français:
+      - Accueil: fr/index.md
+      - 0. Fenêtre principale: fr/0-main-window.md
+      - 1. Chargement de la base de données: fr/1-database-loading.md
+      - 2. Liste des cristaux: fr/2-database-table.md
+      - 3. Recherche: fr/3-search.md
+      - 4. Informations cristallines:
+          - fr/4-crystal-information/index.md
+          - 4.1. Informations de base: fr/4-crystal-information/1-basic-information.md
+          - 4.2. Atomes: fr/4-crystal-information/2-atoms.md
+          - 4.3. Liaisons et polyèdres: fr/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Références: fr/4-crystal-information/4-references.md
+      - 5. Importation et exportation: fr/5-import-export.md
+      - 6. Interopérabilité: fr/6-interoperation.md
+      - 7. Options et langue: fr/7-options-language.md
+      - Dépannage: fr/troubleshooting.md
+  - Español:
+      - Inicio: es/index.md
+      - 0. Ventana principal: es/0-main-window.md
+      - 1. Carga de bases de datos: es/1-database-loading.md
+      - 2. Tabla de la base de datos: es/2-database-table.md
+      - 3. Búsqueda: es/3-search.md
+      - 4. Información de cristales:
+          - es/4-crystal-information/index.md
+          - 4.1. Información básica: es/4-crystal-information/1-basic-information.md
+          - 4.2. Átomos: es/4-crystal-information/2-atoms.md
+          - 4.3. Enlaces y poliedros de coordinación: es/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Referencias: es/4-crystal-information/4-references.md
+      - 5. Importación y exportación: es/5-import-export.md
+      - 6. Interoperación: es/6-interoperation.md
+      - 7. Opciones e idioma: es/7-options-language.md
+      - Solución de problemas: es/troubleshooting.md
+  - Português:
+      - Início: pt/index.md
+      - 0. Janela principal: pt/0-main-window.md
+      - 1. Carregamento do banco de dados: pt/1-database-loading.md
+      - 2. Lista de cristais: pt/2-database-table.md
+      - 3. Pesquisa: pt/3-search.md
+      - 4. Informações do cristal:
+          - pt/4-crystal-information/index.md
+          - 4.1. Informações básicas: pt/4-crystal-information/1-basic-information.md
+          - 4.2. Átomos: pt/4-crystal-information/2-atoms.md
+          - 4.3. Ligações e poliedros de coordenação: pt/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Referências: pt/4-crystal-information/4-references.md
+      - 5. Importação e exportação: pt/5-import-export.md
+      - 6. Interação com outros softwares: pt/6-interoperation.md
+      - 7. Opções e idioma: pt/7-options-language.md
+      - Solução de problemas: pt/troubleshooting.md
+  - Italiano:
+      - Home: it/index.md
+      - 0. Finestra principale: it/0-main-window.md
+      - 1. Caricamento del database: it/1-database-loading.md
+      - 2. Elenco dei cristalli: it/2-database-table.md
+      - 3. Ricerca: it/3-search.md
+      - 4. Informazioni sul cristallo:
+          - it/4-crystal-information/index.md
+          - 4.1. Informazioni di base: it/4-crystal-information/1-basic-information.md
+          - 4.2. Atomi: it/4-crystal-information/2-atoms.md
+          - 4.3. Legami e poliedri di coordinazione: it/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Riferimenti bibliografici: it/4-crystal-information/4-references.md
+      - 5. Importazione ed esportazione: it/5-import-export.md
+      - 6. Interoperabilità con altri software: it/6-interoperation.md
+      - 7. Opzioni e lingua: it/7-options-language.md
+      - Risoluzione dei problemi: it/troubleshooting.md
+  - Русский:
+      - Главная: ru/index.md
+      - 0. Главное окно: ru/0-main-window.md
+      - 1. Загрузка базы данных: ru/1-database-loading.md
+      - 2. Список кристаллов: ru/2-database-table.md
+      - 3. Поиск: ru/3-search.md
+      - 4. Сведения о кристалле:
+          - ru/4-crystal-information/index.md
+          - 4.1. Основные сведения: ru/4-crystal-information/1-basic-information.md
+          - 4.2. Атомы: ru/4-crystal-information/2-atoms.md
+          - 4.3. Связи и координационные многогранники: ru/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. Литература: ru/4-crystal-information/4-references.md
+      - 5. Импорт и экспорт: ru/5-import-export.md
+      - 6. Взаимодействие с другими программами: ru/6-interoperation.md
+      - 7. Параметры и язык: ru/7-options-language.md
+      - Устранение неполадок: ru/troubleshooting.md
+  - 简体中文:
+      - 首页: zh-Hans/index.md
+      - 0. 主窗口: zh-Hans/0-main-window.md
+      - 1. 数据库读取: zh-Hans/1-database-loading.md
+      - 2. 晶体列表: zh-Hans/2-database-table.md
+      - 3. 检索: zh-Hans/3-search.md
+      - 4. 晶体信息:
+          - zh-Hans/4-crystal-information/index.md
+          - 4.1. 基本信息: zh-Hans/4-crystal-information/1-basic-information.md
+          - 4.2. 原子: zh-Hans/4-crystal-information/2-atoms.md
+          - 4.3. 键与配位多面体: zh-Hans/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. 文献: zh-Hans/4-crystal-information/4-references.md
+      - 5. 导入与导出: zh-Hans/5-import-export.md
+      - 6. 与其他软件的协同: zh-Hans/6-interoperation.md
+      - 7. 选项与语言: zh-Hans/7-options-language.md
+      - 故障排查: zh-Hans/troubleshooting.md
+  - 繁體中文:
+      - 首頁: zh-Hant/index.md
+      - 0. 主視窗: zh-Hant/0-main-window.md
+      - 1. 資料庫讀取: zh-Hant/1-database-loading.md
+      - 2. 晶體清單: zh-Hant/2-database-table.md
+      - 3. 搜尋: zh-Hant/3-search.md
+      - 4. 晶體資訊:
+          - zh-Hant/4-crystal-information/index.md
+          - 4.1. 基本資訊: zh-Hant/4-crystal-information/1-basic-information.md
+          - 4.2. 原子: zh-Hant/4-crystal-information/2-atoms.md
+          - 4.3. 鍵結與配位多面體: zh-Hant/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. 文獻: zh-Hant/4-crystal-information/4-references.md
+      - 5. 匯入與匯出: zh-Hant/5-import-export.md
+      - 6. 與其他軟體的連動: zh-Hant/6-interoperation.md
+      - 7. 選項與語言: zh-Hant/7-options-language.md
+      - 疑難排解: zh-Hant/troubleshooting.md
+  - 한국어:
+      - 홈: ko/index.md
+      - 0. 메인 윈도우: ko/0-main-window.md
+      - 1. 데이터베이스 읽기: ko/1-database-loading.md
+      - 2. 결정 리스트: ko/2-database-table.md
+      - 3. 검색: ko/3-search.md
+      - 4. 결정 정보:
+          - ko/4-crystal-information/index.md
+          - 4.1. 기본 정보: ko/4-crystal-information/1-basic-information.md
+          - 4.2. 원자: ko/4-crystal-information/2-atoms.md
+          - 4.3. 결합과 배위 다면체: ko/4-crystal-information/3-bonds-polyhedra.md
+          - 4.4. 문헌: ko/4-crystal-information/4-references.md
+      - 5. 가져오기와 내보내기: ko/5-import-export.md
+      - 6. 다른 소프트웨어와의 연동: ko/6-interoperation.md
+      - 7. 옵션과 언어: ko/7-options-language.md
+      - 문제 해결: ko/troubleshooting.md

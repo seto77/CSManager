@@ -1,57 +1,80 @@
 // 260531Ch: Retarget the header language selector to the matching page slug.
+// 260625Cl: Generalized from the en/ja-only special case to all languages defined in
+//   mkdocs.yml `extra.alternate`. Driven entirely by the `hreflang`/`href` of the rendered
+//   language links, so adding a language needs no change here. English is special: its root
+//   `/CSManager/` is the home, but its content pages live under `/CSManager/en/`. Every other
+//   language L is symmetric: home and content both live under its root `/CSManager/L/`.
+//   Language codes may contain '-' (e.g. zh-Hans); they are never split.
 (function () {
   "use strict";
 
-  var EN_TO_JA_OVERRIDE = {};
-  var enRoot = "";
-  var jaRoot = "";
-  var rootsReady = false;
+  // Map of hreflang -> root href (the language link's href from extra.alternate).
+  var roots = null;
 
   function ensureRoots() {
-    if (rootsReady) return true;
+    if (roots) return true;
+    var map = {};
     document.querySelectorAll("a.md-select__link[hreflang]").forEach(function (a) {
       var lang = a.getAttribute("hreflang");
-      if (lang === "en" && !enRoot) enRoot = a.getAttribute("href");
-      else if (lang === "ja" && !jaRoot) jaRoot = a.getAttribute("href");
+      var href = a.getAttribute("href");
+      if (lang && href && map[lang] == null) map[lang] = href;
     });
-    rootsReady = !!(enRoot && jaRoot);
-    return rootsReady;
+    if (Object.keys(map).length === 0) return false;
+    roots = map;
+    return true;
   }
 
-  function targetFor(lang) {
-    if (!ensureRoots()) return null;
+  // The base path under which a language's content pages (non-home) live.
+  // English content sits in an `en/` subfolder of its root; all others use their root directly.
+  function contentBase(lang) {
+    return lang === "en" ? roots[lang] + "en/" : roots[lang];
+  }
 
-    var enPrefix = enRoot + "en/";
+  // Identify the current page's language and slug (path after the content base; "" for a home page).
+  function detectCurrent() {
     var path = window.location.pathname;
-    var slug;
+    // Home pages (exact root match) first — needed for English whose home `/CSManager/`
+    // is not its content base `/CSManager/en/`.
+    for (var lang in roots) {
+      if (roots.hasOwnProperty(lang) && path === roots[lang]) return { lang: lang, slug: "" };
+    }
+    // Content pages: longest content base wins so `/CSManager/ja/` beats `/CSManager/`.
+    var langs = Object.keys(roots).sort(function (a, b) {
+      return contentBase(b).length - contentBase(a).length;
+    });
+    for (var i = 0; i < langs.length; i++) {
+      var base = contentBase(langs[i]);
+      if (path.indexOf(base) === 0) return { lang: langs[i], slug: path.slice(base.length) };
+    }
+    return null;
+  }
 
-    if (path === enRoot || path === jaRoot) slug = "";
-    else if (path.indexOf(jaRoot) === 0) slug = path.slice(jaRoot.length);
-    else if (path.indexOf(enPrefix) === 0) slug = path.slice(enPrefix.length);
-    else return null;
-
-    if (lang === "en") return slug === "" ? enRoot : enPrefix + slug;
-
-    var jaSlug = (EN_TO_JA_OVERRIDE[slug] != null) ? EN_TO_JA_OVERRIDE[slug] : slug;
-    return jaSlug === "" ? jaRoot : jaRoot + jaSlug;
+  function targetFor(lang, cur) {
+    if (roots[lang] == null) return null;
+    if (cur.slug === "") return roots[lang]; // home of the target language
+    return contentBase(lang) + cur.slug;     // same slug under the target language
   }
 
   function retarget() {
-    var en = targetFor("en");
-    var ja = targetFor("ja");
+    if (!ensureRoots()) return;
+    var cur = detectCurrent();
+    if (!cur) return;
     document.querySelectorAll("a.md-select__link[hreflang]").forEach(function (a) {
       var lang = a.getAttribute("hreflang");
-      if (lang === "en" && en) a.setAttribute("href", en);
-      else if (lang === "ja" && ja) a.setAttribute("href", ja);
+      var target = targetFor(lang, cur);
+      if (target) a.setAttribute("href", target);
     });
   }
 
   document.addEventListener("click", function (ev) {
     var link = ev.target && ev.target.closest && ev.target.closest("a.md-select__link[hreflang]");
     if (!link) return;
+    if (!ensureRoots()) return;
     var lang = link.getAttribute("hreflang");
-    if (lang !== "en" && lang !== "ja") return;
-    var target = targetFor(lang);
+    if (roots[lang] == null) return;
+    var cur = detectCurrent();
+    if (!cur) return;
+    var target = targetFor(lang, cur);
     if (!target) return;
     ev.preventDefault();
     window.location.href = target;
