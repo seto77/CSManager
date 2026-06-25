@@ -33,7 +33,7 @@ jobs:
   # ---- 1. prepare: 版数解析・リリース要否判定・FileVersion 算出 ----
   prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     outputs:
       needed: ${{ steps.version.outputs.needed }}
       version: ${{ steps.version.outputs.version }}
@@ -45,7 +45,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # assembly_version 用に GITHUB_SHA の commit 時刻を git log で引くため
+          fetch-depth: 2 # 260625Cl GITHUB_SHA(=HEAD) の commit 時刻取得には浅い clone で足りる。旧 fetch-depth:0 は CSManager の重い履歴 (COD cdb3 多版/旧PDF/旧MSI) で 5min timeout した
 
       - name: Parse version and check if release needed
         id: version
