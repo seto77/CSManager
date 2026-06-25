@@ -788,12 +788,21 @@ public partial class FormMain : Form
             => toolTip.Active = crystalControl.toolTip.Active = searchCrystalControl.toolTip.Active = crystalDatabaseControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
     private void helpwebToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // 260625Cl 変更: マニュアル PDF は en/ja の2種のみ。HelpCulture 駆動にし、未整備言語 (de 等) は英語 PDF へフォールバック。
-        //var fn = "\\doc\\CSManager(" + (CurrentLanguage == Languages.English ? "en" : "ja") + ").pdf";
-        var fn = "\\doc\\CSManager(" + (Crystallography.SupportedCultures.Current.HelpCulture == "ja" ? "ja" : "en") + ").pdf";
-        var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        var f = new FormPDF(appPath + fn) { Text = "CSManager manual" };
-        f.Show();
+        // 260625Cl 変更: 同梱 PDF を FormPDF で開く方式を廃止し、オンラインマニュアル (GitHub Pages) を既定ブラウザで開く (PDIndexer 同方式)。
+        //   旧 doc\CSManager(*).pdf は docs\ (MkDocs) のオンラインマニュアルへ移行済みのため。
+        //   旧:
+        //     var fn = "\\doc\\CSManager(" + (Crystallography.SupportedCultures.Current.HelpCulture == "ja" ? "ja" : "en") + ").pdf";
+        //     var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //     var f = new FormPDF(appPath + fn) { Text = "CSManager manual" };
+        //     f.Show();
+        try
+        {
+            var url = Crystallography.SupportedCultures.Current.HelpCulture == "ja"
+                ? "https://seto77.github.io/CSManager/ja/"
+                : "https://seto77.github.io/CSManager/";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+        catch { }
     }
 
     private void toolStripMenuItemGithubPage_Click(object sender, EventArgs e)
