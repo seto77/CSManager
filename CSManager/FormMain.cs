@@ -82,6 +82,11 @@ public partial class FormMain : Form
 
     private void FormMain_Load(object sender, EventArgs e)
     {
+        // 260625Cl 追加: Portable-Zip版は実行フォルダに README-PORTABLE.txt を同梱する (MSI版には無い)。
+        //   この場合インストーラ(MSI)による更新が成立しないため、Update メニューを非表示にする (PDIndexer 同方式)。
+        if (File.Exists(Path.Combine(AppContext.BaseDirectory, "README-PORTABLE.txt")))
+            programUpdatesToolStripMenuItem.Visible = false;
+
         //#if !DEBUG
         //           Ngen.Compile(new string[] { "Crystallography.dll", "Crystallography.Control.dll", "CSManager.exe" });
         //#endif
@@ -755,7 +760,12 @@ public partial class FormMain : Form
     private async void programUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
     {
         var sw = new Stopwatch();
-        (var Title, var Message, var NeedUpdate, var URL, var Path) = ProgramUpdates.Check(Version.Software, Version.VersionAndDate);
+        // 260625Cl 変更: arm64 ビルドは arm64 用インストーラ名を更新チェックに渡す (WiX移行 D-CS-4)。x64(エミュ実行含む)は CSManager-setup.msi。
+        //   旧名 CSManagerSetup.msi は旧クライアント (既定 {software}Setup.msi) の自動更新互換のため release に同一バイトコピーを併置する。
+        //旧: (var Title, var Message, var NeedUpdate, var URL, var Path) = ProgramUpdates.Check(Version.Software, Version.VersionAndDate);
+        var installerAsset = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64
+            ? "CSManager-setup_arm64.msi" : "CSManager-setup.msi";
+        (var Title, var Message, var NeedUpdate, var URL, var Path) = ProgramUpdates.Check(Version.Software, Version.VersionAndDate, installerAsset);
 
         if (!NeedUpdate)
             MessageBox.Show(Message, Title, MessageBoxButtons.OK);
