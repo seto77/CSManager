@@ -8,7 +8,8 @@
     <FileVersion>2026.4.27.1218</FileVersion>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;ARM64</Platforms><!-- 260625Cl 変更: arm64 MSI/portable 用に ARM64 構成を追加 (旧: x64)。WiX移行計画 D-CS-4 -->
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers><!-- 260625Cl 追加: arm64 publish の restore グラフ用 (build 出力には無影響) -->
     <!-- 260625Cl: design-time ビルド (WinForms デザイナーが参照を集める background build) では RID を外す。
          RID を無条件で持つと out-of-process デザイナー (DesignToolsServer) が別プロジェクトの基底クラス
          Crystallography.Controls.FormBase をロードできず「基本クラス … を読み込めませんでした」になる (4 アプリ共通)。
@@ -17,7 +18,9 @@
     <RuntimeIdentifier Condition="'$(DesignTimeBuild)' != 'true'">win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <!-- 260625Cl 変更: AllowUnsafeBlocks を構成非依存化 (arm64 で Release|x64 条件が効かず CS0227 になるのを防ぐ。PDIndexer 実績)。
+       旧: <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"> -->
+  <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -34,18 +37,24 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="doc\CSManager%28en%29.pdf" />
-    <None Remove="doc\CSManager%28ja%29.pdf" />
-  </ItemGroup>
+  <!-- 260625Cl 追加: arm64 は bin\Release を x64 と共有しない (x64 MSI への arm64 混入防止)。既存 Release 条件より後に置いて上書き。 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+  </PropertyGroup>
 
+  <!-- 260625Cl 削除: doc\CSManager(en/ja).pdf の同梱を廃止。マニュアルは GitHub Pages (https://seto77.github.io/CSManager/) へ移行済み。
+       旧:
+       <ItemGroup>
+         <None Remove="doc\CSManager%28en%29.pdf" />
+         <None Remove="doc\CSManager%28ja%29.pdf" />
+       </ItemGroup>
+       <ItemGroup>
+         <Content Include="doc\CSManager(en).pdf"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+         <Content Include="doc\CSManager(ja).pdf"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+         ...(AMCSD.cdb3 は下記で維持)
+       </ItemGroup>
+  -->
   <ItemGroup>
-    <Content Include="doc\CSManager(en).pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="doc\CSManager(ja).pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="AMCSD.cdb3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
