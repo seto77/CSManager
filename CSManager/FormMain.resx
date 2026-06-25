@@ -557,7 +557,7 @@
     <value>Replace the currently selected database row with the crystal shown in the editor. If no row is selected, it is added as a new entry instead. Use Add to always create a new entry.</value>
   </data>
   <data name="toolTipToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>ツールチップを表示します</value>
+    <value>Show tooltips</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 6</value>
