@@ -12,6 +12,7 @@
 
         static public string History = 
             "History" +
+                "\r\n ver1.912(2026/06/25) 配布ファイルにarm64やportable-zip形式を追加。多言語対応." +
                 "\r\n ver1.911(2026/04/27) Renewed COD database (533,220)." +
                 "\r\n ver1.910(2026/04/06) Reduced the size of the installer package." +
                 "\r\n ver1.909(2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
