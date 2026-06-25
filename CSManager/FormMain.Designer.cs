@@ -81,8 +81,9 @@ partial class FormMain
         repportBugsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         helpwebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        // 260625Cl 撤去: 言語メニューの English/Japanese 固定項目は SupportedCultures 駆動の動的生成 (PopulateLanguageMenu) へ移行。
+        //englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        //japaneseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         toolTip = new System.Windows.Forms.ToolTip(components);
         backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -155,7 +156,7 @@ partial class FormMain
         crystalControl.DefaultTabNumber = 0;
         crystalControl.Gamma = 0D;
         crystalControl.Name = "crystalControl";
-        crystalControl.ScatteringFactorVisible = false;
+        crystalControl.BeamInteractionVisible = false;// 260625Cl 変更: 共有lib側でプロパティ改名 ScatteringFactorVisible→BeamInteractionVisible
         crystalControl.SkipEvent = false;
         crystalControl.SymmetryInformationVisible = false;
         crystalControl.SymmetrySeriesNumber = 0;
@@ -457,24 +458,22 @@ partial class FormMain
         // languageToolStripMenuItem
         // 
         languageToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-        languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { englishToolStripMenuItem, japaneseToolStripMenuItem });
+        // 260625Cl 撤去: DropDownItems は実行時に PopulateLanguageMenu が SupportedCultures から動的生成する。
+        //languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { englishToolStripMenuItem, japaneseToolStripMenuItem });
         languageToolStripMenuItem.Name = "languageToolStripMenuItem";
         resources.ApplyResources(languageToolStripMenuItem, "languageToolStripMenuItem");
-        // 
-        // englishToolStripMenuItem
-        // 
-        englishToolStripMenuItem.Checked = true;
-        englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-        resources.ApplyResources(englishToolStripMenuItem, "englishToolStripMenuItem");
-        englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-        englishToolStripMenuItem.Click += languageToolStripMenuItem_Click;
-        // 
-        // japaneseToolStripMenuItem
-        // 
-        resources.ApplyResources(japaneseToolStripMenuItem, "japaneseToolStripMenuItem");
-        japaneseToolStripMenuItem.Name = "japaneseToolStripMenuItem";
-        japaneseToolStripMenuItem.Click += languageToolStripMenuItem_Click;
-        // 
+        //
+        // 260625Cl 撤去: englishToolStripMenuItem / japaneseToolStripMenuItem (動的生成へ移行)
+        //
+        //englishToolStripMenuItem.Checked = true;
+        //englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+        //resources.ApplyResources(englishToolStripMenuItem, "englishToolStripMenuItem");
+        //englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+        //englishToolStripMenuItem.Click += languageToolStripMenuItem_Click;
+        //resources.ApplyResources(japaneseToolStripMenuItem, "japaneseToolStripMenuItem");
+        //japaneseToolStripMenuItem.Name = "japaneseToolStripMenuItem";
+        //japaneseToolStripMenuItem.Click += languageToolStripMenuItem_Click;
+        //
         // toolTip
         // 
         toolTip.IsBalloon = true;
@@ -547,8 +546,9 @@ partial class FormMain
     private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
     private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem japaneseToolStripMenuItem;
+    // 260625Cl 撤去: 言語項目は動的生成 (PopulateLanguageMenu) のためフィールド不要。
+    //private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+    //private System.Windows.Forms.ToolStripMenuItem japaneseToolStripMenuItem;
     private System.Windows.Forms.SplitContainer splitContainer2;
     private System.Windows.Forms.ToolStripMenuItem incrementalSearchToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
