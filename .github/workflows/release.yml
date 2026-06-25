@@ -461,7 +461,10 @@ jobs:
           }
 
           # 原子的: tag 未存在時に --target のコミットへ tag を作成し release と一括で作る (orphan tag を防ぐ)
+          # 260625Cl -R 必須: release job は checkout しない (artifact DL のみ) ため、-R が無いと gh が
+          #   リポジトリを特定できず "fatal: not a git repository" で失敗する。
           gh release create $tag $assets `
+            -R $env:GITHUB_REPOSITORY `
             --target $env:GITHUB_SHA `
             --title "CSManager $tag" `
             --notes-file $notesPath
