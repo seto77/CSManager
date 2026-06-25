@@ -35,7 +35,9 @@ public partial class FormMain : Form
     private Crystallography.Controls.CommonDialog initialDialog;
 
     private IProgress<(long, long, long, string)> ip;//IReport
-    public static Languages CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name == "en" ? Languages.English : Languages.Japanese;
+    // 260625Cl 変更: 非en→Japanese だと de/fr 等の新言語が日本語側へ落ちるため、ja のみ Japanese・他は英語フォールバックへ。
+    //public static Languages CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name == "en" ? Languages.English : Languages.Japanese;
+    public static Languages CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name == "ja" ? Languages.Japanese : Languages.English;
 
     #endregion
 
@@ -44,13 +46,16 @@ public partial class FormMain : Form
     public FormMain()
     {
         ip = new Progress<(long, long, long, string)>(o => reportProgress(o));//IReport
-        var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
-        try
-        {
-            var culture = (string)regKey.GetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
-            Thread.CurrentThread.CurrentUICulture = culture.ToLower().StartsWith("ja") ? new CultureInfo("ja") : new CultureInfo("en");
-        }
-        catch { }
+        // 260625Cl 変更: カルチャ復元は Program.Main へ前出しした (SetDefaultFont(GetUIFont()) が言語別フォントを
+        //   正しく選ぶため、フォーム生成前に CurrentUICulture を確定させる必要がある)。Resolve で N 言語対応。
+        // 旧: ここで en/ja 二値に丸めていた。
+        //var regKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Crystallography\\CSManager");
+        //try
+        //{
+        //    var culture = (string)regKey.GetValue("Culture", Thread.CurrentThread.CurrentUICulture.Name);
+        //    Thread.CurrentThread.CurrentUICulture = culture.ToLower().StartsWith("ja") ? new CultureInfo("ja") : new CultureInfo("en");
+        //}
+        //catch { }
 
         InitializeComponent();
 
@@ -101,8 +106,12 @@ public partial class FormMain : Form
             Hint = Version.Hint,
         };
 
-        englishToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name != "ja";
-        japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
+        // 260625Cl 変更: English/Japanese 固定2項目のチェック設定から、SupportedCultures 駆動の動的メニュー生成へ。
+        //   言語を増やすときは SupportedCultures.cs で Released=true にするだけ (Designer 編集不要)。
+        //englishToolStripMenuItem.Checked = Thread.CurrentThread.CurrentUICulture.Name != "ja";
+        //japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
+        PopulateLanguageMenu();
+        UpdateLanguageMenuChecks(Crystallography.SupportedCultures.Current.Name);
 
         initialDialog.Show();
         Application.DoEvents();
@@ -779,7 +788,9 @@ public partial class FormMain : Form
             => toolTip.Active = crystalControl.toolTip.Active = searchCrystalControl.toolTip.Active = crystalDatabaseControl.toolTip.Active = toolTipToolStripMenuItem.Checked;
     private void helpwebToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        var fn = "\\doc\\CSManager(" + (CurrentLanguage == Languages.English ? "en" : "ja") + ").pdf";
+        // 260625Cl 変更: マニュアル PDF は en/ja の2種のみ。HelpCulture 駆動にし、未整備言語 (de 等) は英語 PDF へフォールバック。
+        //var fn = "\\doc\\CSManager(" + (CurrentLanguage == Languages.English ? "en" : "ja") + ").pdf";
+        var fn = "\\doc\\CSManager(" + (Crystallography.SupportedCultures.Current.HelpCulture == "ja" ? "ja" : "en") + ").pdf";
         var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var f = new FormPDF(appPath + fn) { Text = "CSManager manual" };
         f.Show();
@@ -796,13 +807,101 @@ public partial class FormMain : Form
         initialDialog.DialogMode = Crystallography.Controls.CommonDialog.DialogModeEnum.Hint;
         initialDialog.Visible = true;
     }
+    // 260625Cl 変更: english/japanese 二択固定・ライブ再適用 (Language.Change) から、SupportedCultures 駆動
+    //   (項目 Tag = CultureInfo 名) + 自動再起動方式へ。ReciPro 準拠。ライブ再適用は Application.SetDefaultFont で
+    //   設定した言語別フォントを再適用できず CJK 等で不整合になるため採らない。
+    // 旧:
+    //   englishToolStripMenuItem.Checked = ((ToolStripMenuItem)sender).Name.Contains("english");
+    //   japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
+    //   Thread.CurrentThread.CurrentUICulture = englishToolStripMenuItem.Checked ? new System.Globalization.CultureInfo("en") : new System.Globalization.CultureInfo("ja");
+    //   Language.Change(this);
     private void languageToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        englishToolStripMenuItem.Checked = ((ToolStripMenuItem)sender).Name.Contains("english");
-        japaneseToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
-        Thread.CurrentThread.CurrentUICulture = englishToolStripMenuItem.Checked ? new System.Globalization.CultureInfo("en") : new System.Globalization.CultureInfo("ja");
-        Language.Change(this);
+        var culture = Crystallography.SupportedCultures.Resolve(LanguageMenuItemCulture((ToolStripMenuItem)sender));
+
+        // 既に現在の言語を選んだだけなら何もしない (再クリックでの無用な再起動を防ぐ)。
+        if (culture.Name == Crystallography.SupportedCultures.Current.Name)
+        {
+            UpdateLanguageMenuChecks(culture.Name);
+            return;
+        }
+
+        // 切替には再起動が要る (作業中の状態は失われる) ことを、まだ切り替わっていない現在の言語で確認する。
+        var msg = Crystallography.Localization.Loc(
+            en: $"Switching the display language to \"{culture.NativeName}\" requires restarting CSManager.\nUnsaved work will be lost. Restart now?",
+            ja: $"表示言語を「{culture.NativeName}」に切り替えるには CSManager の再起動が必要です。\n保存していない作業は失われます。今すぐ再起動しますか？");
+        if (MessageBox.Show(this, msg, Crystallography.Localization.Loc(en: "Change language", ja: "言語の変更"),
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+        {
+            // キャンセル: メニューのチェックを現在の言語へ戻す (新言語に先走ってチェックされたままにしない)。
+            UpdateLanguageMenuChecks(Crystallography.SupportedCultures.Current.Name);
+            return;
+        }
+
+        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(culture.Name);
+        UpdateLanguageMenuChecks(culture.Name);
+        RestartApplicationForLanguageChange();
     }
+
+    // 260625Cl 追加: 言語切替の自動再起動。FormClosing を待たず先に言語値を保存し、新インスタンスを起動してから自身を閉じる。
+    private void RestartApplicationForLanguageChange()
+    {
+        saveRegistry();// ここで CurrentUICulture は新言語へ切替済み → 新プロセスが起動直後に新言語を読める
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = !string.IsNullOrEmpty(Application.ExecutablePath) ? Application.ExecutablePath : Environment.ProcessPath,
+            WorkingDirectory = Environment.CurrentDirectory,
+            UseShellExecute = true,
+        };
+
+        try
+        {
+            if (Process.Start(startInfo) == null)
+                throw new InvalidOperationException("Process.Start returned null.");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(this,
+                Crystallography.Localization.Loc(
+                    en: $"Failed to restart CSManager.\n{ex.Message}",
+                    ja: $"CSManager の再起動に失敗しました。\n{ex.Message}"),
+                Crystallography.Localization.Loc(en: "Change language", ja: "言語の変更"),
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        Close();
+    }
+
+    // 260625Cl 追加: 言語メニュー各項目のチェックを現在カルチャに合わせて更新する (Load 時と切替時で共用)。
+    private void UpdateLanguageMenuChecks(string currentName)
+    {
+        foreach (ToolStripItem it in languageToolStripMenuItem.DropDownItems)
+            if (it is ToolStripMenuItem mi)
+                mi.Checked = LanguageMenuItemCulture(mi) == currentName;
+    }
+
+    // 260625Cl 追加: 言語メニュー項目を中央 allow-list (SupportedCultures) から動的生成する。
+    //   Released=true の言語だけを各々の自言語表記 (NativeName) で並べ、Tag に CultureInfo 名を入れて
+    //   Tag 駆動の切替 (languageToolStripMenuItem_Click) / チェック更新 (UpdateLanguageMenuChecks) に乗せる。
+    //   → 言語を増やすときは SupportedCultures.cs で Released=true にするだけでメニューに出る (Designer 編集不要)。
+    private void PopulateLanguageMenu()
+    {
+        languageToolStripMenuItem.DropDownItems.Clear();
+        foreach (var c in Crystallography.SupportedCultures.All)
+        {
+            if (!c.Released)
+                continue;
+            var item = new ToolStripMenuItem(c.NativeName) { Tag = c.Name, Name = c.Name + "ToolStripMenuItem" };
+            item.Click += languageToolStripMenuItem_Click;
+            languageToolStripMenuItem.DropDownItems.Add(item);
+        }
+    }
+
+    // 260625Cl 追加: 言語メニュー項目が表すカルチャ名。PopulateLanguageMenu が生成する項目は Tag (CultureInfo 名) を必ず持つ。
+    private static string LanguageMenuItemCulture(ToolStripMenuItem item)
+        => (item.Tag as string) ?? (item.Name.Contains("english") ? "en" : item.Name.Contains("japanese") ? "ja" : null);
 
     private void versionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
     {
