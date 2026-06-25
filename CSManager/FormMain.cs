@@ -807,9 +807,18 @@ public partial class FormMain : Form
         //     f.Show();
         try
         {
-            var url = Crystallography.SupportedCultures.Current.HelpCulture == "ja"
-                ? "https://seto77.github.io/CSManager/ja/"
-                : "https://seto77.github.io/CSManager/";
+            // 260625Cl 変更: ja/en 二分岐から SupportedCultures.HelpCulture 駆動の各言語ルーティングへ拡張。
+            //   GitHub Pages マニュアルを全 11 言語 (en/ja/de/fr/es/pt/it/ru/zh-Hans/zh-Hant/ko) 化したため、
+            //   各言語ユーザーを自言語ディレクトリ (例 /CSManager/de/) へ誘導する。en は site ルート。
+            //   HelpCulture はマニュアル未整備言語では "en" を返す設計なので、未整備時は自動で英語ルートへフォールバックする。
+            //   旧:
+            //     var url = Crystallography.SupportedCultures.Current.HelpCulture == "ja"
+            //         ? "https://seto77.github.io/CSManager/ja/"
+            //         : "https://seto77.github.io/CSManager/";
+            var hc = Crystallography.SupportedCultures.Current.HelpCulture;
+            var url = hc == "en"
+                ? "https://seto77.github.io/CSManager/"
+                : $"https://seto77.github.io/CSManager/{hc}/";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
         catch { }
