@@ -1,0 +1,237 @@
+# 260625Cl WiX 移行 Phase A 検証ワークフロー (計画書 .project-guidance/CSManager_WiX移行計画.md §6 Phase A / §7)
+#   - WiX v7 で x64/arm64 両 MSI をビルドし、旧 vdproj MSI (最新 release) と内容 diff (情報レポート)
+#   - クリーンランナー上で「vdproj 旧版 install → WiX 新版で Major Upgrade → uninstall」の連鎖テスト
+#   - release には一切触れない (artifact のみ・contents: read)。Phase B で release.yml に置換するまでの並行検証用
+#   PDIndexer\.github\workflows\validate-wix-msi.yml を CSManager 用に移植。CSManager は native (Crystallography.Native /
+#   xraylib) を UI から使わないため devenv/native ビルド・libxrl 検査が無い。glfw3.dll は死荷物のため staging から除外する。
+name: Validate WiX MSI (Phase A)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive # shared libs are git submodules
+
+      - name: Parse version
+        id: version
+        shell: pwsh
+        run: |
+          $content = Get-Content "CSManager\Version.cs" -Raw
+          if ($content -notmatch 'ver(\d+\.\d+)\(') { throw "Could not parse version from Version.cs History." }
+          $ver = $Matches[1]
+          # アップグレード連鎖テスト用に build 番号を +1 した版数 (旧 release MSI より必ず新しくする)
+          $parts = $ver.Split('.')
+          $bumped = "$($parts[0]).$([int]$parts[1] + 1)"
+          $now = [System.DateTime]::UtcNow
+          $assemblyVer = "$($now.Year).$($now.Month).$($now.Day).$($now.ToString('HHmm'))"
+          Write-Host "version=$ver bumped=$bumped assembly=$assemblyVer"
+          "version=$ver"                   >> $env:GITHUB_OUTPUT
+          "product_version=0.$ver"         >> $env:GITHUB_OUTPUT
+          "test_product_version=0.$bumped" >> $env:GITHUB_OUTPUT
+          "assembly_version=$assemblyVer"  >> $env:GITHUB_OUTPUT
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore managed dependencies
+        shell: pwsh
+        run: dotnet restore CSManager\CSManager.csproj
+
+      - name: Stage x64 MSI payload (framework-dependent publish)
+        shell: pwsh
+        run: |
+          $s = "artifacts\staging-msi-x64"
+          dotnet publish CSManager\CSManager.csproj -c Release -p:Platform=x64 --self-contained false -o $s --no-restore `
+            -p:AssemblyVersion=${{ steps.version.outputs.assembly_version }} -p:FileVersion=${{ steps.version.outputs.assembly_version }}
+          if ($LASTEXITCODE -ne 0) { throw "x64 publish failed." }
+          Get-ChildItem $s -Filter "glfw3*.dll" -ErrorAction SilentlyContinue | Remove-Item -Force
+          Copy-Item CSManagerSetup.Wix\LICENSE.rtf, CSManagerSetup.Wix\REQUIREMENT.rtf $s
+          Get-ChildItem $s -Filter *.pdb | Remove-Item
+          if (Test-Path "$s\README-PORTABLE.txt") { throw "README-PORTABLE.txt leaked (portable marker must not be in MSI)" }
+          if (Test-Path "$s\coreclr.dll") { throw "self-contained runtime leaked into framework-dependent staging" }
+          if (Test-Path "$s\glfw3.dll") { throw "glfw3.dll leaked (must be excluded per D-CS-2)" }
+          if (-not (Test-Path "$s\CSManager.exe")) { throw "CSManager.exe missing from staging" }
+          if (-not (Test-Path "$s\AMCSD.cdb3")) { throw "AMCSD.cdb3 missing from staging" }
+          Write-Host "x64 staging OK: $((Get-ChildItem $s -Recurse -File).Count) files"
+
+      - name: Stage arm64 MSI payload (framework-dependent publish)
+        shell: pwsh
+        run: |
+          $s = "artifacts\staging-msi-arm64"
+          dotnet publish CSManager\CSManager.csproj -c Release -r win-arm64 -p:Platform=ARM64 --self-contained false -o $s `
+            -p:AssemblyVersion=${{ steps.version.outputs.assembly_version }} -p:FileVersion=${{ steps.version.outputs.assembly_version }}
+          if ($LASTEXITCODE -ne 0) { throw "arm64 publish failed." }
+          Get-ChildItem $s -Filter "glfw3*.dll" -ErrorAction SilentlyContinue | Remove-Item -Force
+          Copy-Item CSManagerSetup.Wix\LICENSE.rtf, CSManagerSetup.Wix\REQUIREMENT.rtf $s
+          Get-ChildItem $s -Filter *.pdb | Remove-Item
+          if (Test-Path "$s\coreclr.dll") { throw "self-contained runtime leaked" }
+          if (Test-Path "$s\glfw3.dll") { throw "glfw3.dll leaked (must be excluded per D-CS-2)" }
+          if (-not (Test-Path "$s\CSManager.exe")) { throw "CSManager.exe missing from arm64 staging" }
+          function Get-PEMachine($path) {
+            $fs = [System.IO.File]::OpenRead($path); $br = New-Object System.IO.BinaryReader($fs)
+            $fs.Seek(0x3C,0) | Out-Null; $peOff = $br.ReadInt32(); $fs.Seek($peOff+4,0) | Out-Null
+            $m = $br.ReadUInt16(); $fs.Close(); $m
+          }
+          $m = Get-PEMachine (Join-Path $PWD "$s\CSManager.exe")
+          if ($m -ne 0xAA64) { throw ("CSManager.exe: PE machine 0x{0:X4} != 0xAA64" -f $m) }
+          Write-Host "arm64 staging OK: $((Get-ChildItem $s -Recurse -File).Count) files"
+
+      - name: Build WiX x64 MSI (bumped version for upgrade test)
+        shell: pwsh
+        run: |
+          dotnet build CSManagerSetup.Wix\CSManagerSetup.wixproj -c Release -p:InstallerPlatform=x64 `
+            -p:ProductVersion=${{ steps.version.outputs.test_product_version }} `
+            -p:StagingDir="$PWD\artifacts\staging-msi-x64"
+          if ($LASTEXITCODE -ne 0) { throw "WiX x64 build failed." }
+          if (-not (Test-Path "CSManagerSetup.Wix\bin\Release\CSManager-setup.msi")) { throw "CSManager-setup.msi not produced." }
+
+      - name: Build WiX arm64 MSI (cross-build)
+        shell: pwsh
+        run: |
+          dotnet build CSManagerSetup.Wix\CSManagerSetup.wixproj -c Release -p:InstallerPlatform=arm64 `
+            -p:ProductVersion=${{ steps.version.outputs.product_version }} `
+            -p:StagingDir="$PWD\artifacts\staging-msi-arm64"
+          if ($LASTEXITCODE -ne 0) { throw "WiX arm64 build failed." }
+          if (-not (Test-Path "CSManagerSetup.Wix\bin\Release\CSManager-setup_arm64.msi")) { throw "CSManager-setup_arm64.msi not produced." }
+
+      - name: Verify MSI properties (Template / UpgradeCode / version / per-user)
+        shell: pwsh
+        run: |
+          $wi = New-Object -ComObject WindowsInstaller.Installer
+          function Get-MsiProp($db, $name) {
+            $view = $db.GetType().InvokeMember('OpenView','InvokeMethod',$null,$db,@("SELECT Value FROM Property WHERE Property='$name'"))
+            $view.GetType().InvokeMember('Execute','InvokeMethod',$null,$view,$null) | Out-Null
+            $rec = $view.GetType().InvokeMember('Fetch','InvokeMethod',$null,$view,$null)
+            if ($rec) { $rec.GetType().InvokeMember('StringData','GetProperty',$null,$rec,@(1)) } else { $null }
+          }
+          function Test-Msi($path, $expectTemplate, $expectVersion) {
+            $db = $wi.GetType().InvokeMember('OpenDatabase','InvokeMethod',$null,$wi,@($path,0))
+            $si = $db.GetType().InvokeMember('SummaryInformation','GetProperty',$null,$db,@(0))
+            $template = $si.GetType().InvokeMember('Property','GetProperty',$null,$si,@(7))
+            $schema = $si.GetType().InvokeMember('Property','GetProperty',$null,$si,@(14))
+            $uc = Get-MsiProp $db 'UpgradeCode'; $pv = Get-MsiProp $db 'ProductVersion'; $au = Get-MsiProp $db 'ALLUSERS'
+            Write-Host "$path : Template=$template Schema=$schema UpgradeCode=$uc Version=$pv ALLUSERS=$au"
+            if ($template -notlike "$expectTemplate*") { throw "Template mismatch: $template (expected $expectTemplate)" }
+            if ($uc -ne '{BA5A3E17-E62F-42D6-910E-244DF9E279DC}') { throw "UpgradeCode mismatch: $uc" }
+            if ($pv -ne $expectVersion) { throw "ProductVersion mismatch: $pv (expected $expectVersion)" }
+            if ($au) { throw "ALLUSERS must be unset for per-user package (got $au)" }
+            if ([int]$schema -lt 500) { throw "Schema $schema < 500" }
+          }
+          Test-Msi "CSManagerSetup.Wix\bin\Release\CSManager-setup.msi" 'x64' '${{ steps.version.outputs.test_product_version }}'
+          Test-Msi "CSManagerSetup.Wix\bin\Release\CSManager-setup_arm64.msi" 'Arm64' '${{ steps.version.outputs.product_version }}'
+
+      - name: Download latest released vdproj MSI
+        id: oldmsi
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\old-msi" | Out-Null
+          # 旧名 *Setup.msi (CSManagerSetup.msi)。新主名称 CSManager-setup.msi (小文字 setup) はこの pattern に一致しない。
+          gh release download --pattern "*Setup.msi" -D "$env:RUNNER_TEMP\old-msi"
+          $old = Get-ChildItem "$env:RUNNER_TEMP\old-msi" -Filter *.msi | Select-Object -First 1
+          if (-not $old) { throw "Failed to download a released *Setup.msi." }
+          Write-Host "old MSI: $($old.Name)"
+          "path=$($old.FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Diff file lists (old vdproj MSI vs WiX staging) — informational report
+        shell: pwsh
+        run: |
+          # 旧 MSI を管理展開 (msiexec /a) してファイル一覧を取り、staging と比較する (計画書 §7-12)。
+          # ★情報レポート扱いで差分があっても fail しない。最新 release は古いコードからビルドされており版数ドリフトで
+          #   無害な差分 (doc PDF 廃止・glfw 除外・依存ライブラリ更新) が必ず出るため。機能ゲートは hard assert と連鎖テストが担う。
+          $extract = "$env:RUNNER_TEMP\old-extract"
+          $p = Start-Process msiexec -ArgumentList '/a', "${{ steps.oldmsi.outputs.path }}", '/qn', "TARGETDIR=$extract" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Admin extract failed: $($p.ExitCode)" }
+          $old = Get-ChildItem $extract -Recurse -File | Where-Object { $_.Extension -ne '.msi' } |
+            ForEach-Object { $_.FullName.Substring((Resolve-Path $extract).Path.Length + 1) } |
+            ForEach-Object { $_ -replace '^.*?\\Crystallography Software\\CSManager\\', '' } | Sort-Object
+          $new = Get-ChildItem artifacts\staging-msi-x64 -Recurse -File |
+            ForEach-Object { $_.FullName.Substring((Resolve-Path artifacts\staging-msi-x64).Path.Length + 1) } | Sort-Object
+          $diff = Compare-Object $old $new
+          $report = Join-Path $env:RUNNER_TEMP "msi-content-diff.txt"
+          @("old(vdproj release) count: $($old.Count) / new(WiX staging) count: $($new.Count)",
+            "(<= only in old release / => only in new WiX. version drift makes some diffs expected — review, do not auto-fail.)", "") +
+            ($diff | ForEach-Object { "{0} {1}" -f $_.SideIndicator, $_.InputObject }) | Set-Content $report
+          Get-Content $report
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          Copy-Item $report artifacts\
+
+      - name: Upgrade chain test (vdproj old -> WiX new -> uninstall)
+        shell: pwsh
+        run: |
+          $wi = New-Object -ComObject WindowsInstaller.Installer
+          function Get-CSManagerProducts {
+            $found = @()
+            foreach ($pc in $wi.GetType().InvokeMember('Products','GetProperty',$null,$wi,$null)) {
+              try { $name = $wi.GetType().InvokeMember('ProductInfo','GetProperty',$null,$wi,@($pc,'ProductName')) } catch { continue }
+              if ($name -eq 'CSManager') { $found += [pscustomobject]@{ Code=$pc; Version=$wi.GetType().InvokeMember('ProductInfo','GetProperty',$null,$wi,@($pc,'VersionString')) } }
+            }
+            $found
+          }
+          $appDir = "$env:LOCALAPPDATA\Crystallography Software\CSManager"
+          $desktopLnk = Join-Path ([Environment]::GetFolderPath('DesktopDirectory')) 'CSManager.lnk'
+          $startLnk = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Crystallography Software\CSManager.lnk"
+
+          # 1) 旧 vdproj MSI を per-user silent install
+          $p = Start-Process msiexec -ArgumentList '/i', "${{ steps.oldmsi.outputs.path }}", '/qn', '/l*v', "$env:RUNNER_TEMP\install-old.log" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "old MSI install failed: $($p.ExitCode)" }
+          $prods = Get-CSManagerProducts
+          if ($prods.Count -ne 1) { throw "expected 1 product after old install, got $($prods.Count)" }
+          Write-Host "old installed: v$($prods[0].Version) $($prods[0].Code)"
+          if (-not (Test-Path "$appDir\CSManager.exe")) { throw "old install: exe missing" }
+
+          # 2) WiX 新版 (bumped version) で Major Upgrade
+          $p = Start-Process msiexec -ArgumentList '/i', "$PWD\CSManagerSetup.Wix\bin\Release\CSManager-setup.msi", '/qn', '/l*v', "$env:RUNNER_TEMP\install-new.log" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "WiX MSI upgrade install failed: $($p.ExitCode)" }
+          $prods = Get-CSManagerProducts
+          if ($prods.Count -ne 1) { throw "expected exactly 1 product after upgrade (ARP must be replaced), got $($prods.Count): $($prods | ConvertTo-Json -Compress)" }
+          if ($prods[0].Version -ne '${{ steps.version.outputs.test_product_version }}') { throw "upgraded version mismatch: $($prods[0].Version)" }
+          Write-Host "upgraded: v$($prods[0].Version) $($prods[0].Code)"
+          foreach ($f in 'CSManager.exe','AMCSD.cdb3','LICENSE.rtf','REQUIREMENT.rtf') {
+            if (-not (Test-Path "$appDir\$f")) { throw "upgrade: $f missing in install dir" }
+          }
+          # Major Upgrade で旧版の glfw3.dll が除去されていること (WiX 新版は同梱しない)
+          if (Test-Path "$appDir\glfw3.dll") { throw "upgrade: glfw3.dll should have been removed by Major Upgrade" }
+          if (-not (Test-Path $desktopLnk)) { throw "upgrade: desktop shortcut missing" }
+          if (-not (Test-Path $startLnk)) { throw "upgrade: start menu shortcut missing" }
+
+          # 3) アンインストールで残骸ゼロ
+          $code = $prods[0].Code
+          $p = Start-Process msiexec -ArgumentList '/x', $code, '/qn', '/l*v', "$env:RUNNER_TEMP\uninstall.log" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "uninstall failed: $($p.ExitCode)" }
+          if ((Get-CSManagerProducts).Count -ne 0) { throw "product still registered after uninstall" }
+          if (Test-Path "$appDir\CSManager.exe") { throw "uninstall: exe remains" }
+          if (Test-Path $desktopLnk) { throw "uninstall: desktop shortcut remains" }
+          if (Test-Path $startLnk) { throw "uninstall: start menu shortcut remains" }
+          Write-Host "Upgrade chain test PASSED."
+
+      - name: Upload MSI logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: wix-validate-logs
+          path: ${{ runner.temp }}/*.log
+          if-no-files-found: ignore
+
+      - name: Upload artifacts (MSIs + diff report)
+        uses: actions/upload-artifact@v6
+        with:
+          name: wix-msi-phase-a
+          path: |
+            CSManagerSetup.Wix/bin/Release/CSManager-setup.msi
+            CSManagerSetup.Wix/bin/Release/CSManager-setup_arm64.msi
+            artifacts/msi-content-diff.txt
