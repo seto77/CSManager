@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonAdd.Text" xml:space="preserve">
+    <value>↑ Añadir ↑</value>
+  </data>
+  <data name="buttonChange.Text" xml:space="preserve">
+    <value>↑ Reemplazar ↑</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="closeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="readDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Leer base de datos</value>
+  </data>
+  <data name="saveDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Guardar base de datos</value>
+  </data>
+  <data name="clearDatabaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Borrar base de datos</value>
+  </data>
+  <data name="toolStripMenuItemReadDefault1.Text" xml:space="preserve">
+    <value>Leer base de datos AMCSD (### cristales)</value>
+  </data>
+  <data name="toolStripMenuItemReadDefault2.Text" xml:space="preserve">
+    <value>Leer base de datos COD (### cristales)</value>
+  </data>
+  <data name="readDefaultDatabaseOnNextBootToolStripMenuItem.Text" xml:space="preserve">
+    <value>Leer base de datos AMCSD en el próximo inicio</value>
+  </data>
+  <data name="toolStripMenuItemImport.Text" xml:space="preserve">
+    <value>Importar CIF, AMC …</value>
+  </data>
+  <data name="toolStripMenuItemImportPDI.Text" xml:space="preserve">
+    <value>Importar datos de cristales PDI (*.xml)</value>
+  </data>
+  <data name="importAllFileCIFOrAMCToolStripMenuItem.Text" xml:space="preserve">
+    <value>Importar todos los archivos (CIF o AMC)</value>
+  </data>
+  <data name="importAMCSDCSVToolStripMenuItem.Text" xml:space="preserve">
+    <value>Importar AMCSD_CSV</value>
+  </data>
+  <data name="optionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="incrementalSearchToolStripMenuItem.Text" xml:space="preserve">
+    <value>Búsqueda incremental</value>
+  </data>
+  <data name="showIndexToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mostrar el nombre de archivo del cristal seleccionado</value>
+  </data>
+  <data name="recalculateDensityFormulaAndDvaluesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Recalcular densidad y fórmula</value>
+  </data>
+  <data name="increaseFontSizeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tamaño de fuente en la tabla de datos</value>
+  </data>
+  <data name="increaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Aumentar (Ctrl+Shift+.)</value>
+  </data>
+  <data name="decreaseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Disminuir (Ctrl+Shift+,)</value>
+  </data>
+  <data name="toolTipToolStripMenuItem.Text" xml:space="preserve">
+    <value>Información sobre herramientas</value>
+  </data>
+  <data name="toolTipToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Mostrar información sobre herramientas</value>
+  </data>
+  <data name="helpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
+  <data name="helpwebToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ayuda (PDF)</value>
+  </data>
+  <data name="hintToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sugerencia</value>
+  </data>
+  <data name="licenseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="versionHistoryToolStripMenuItem.Text" xml:space="preserve">
+    <value>Historial de versiones</value>
+  </data>
+  <data name="programUpdatesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Actualizaciones del programa</value>
+  </data>
+  <data name="repportBugsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Informar errores, solicitudes o comentarios</value>
+  </data>
+  <data name="languageToolStripMenuItem.Text" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="debugFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funciones de depuración</value>
+  </data>
+  <data name="compressAndSplitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Comprimir y dividir</value>
+  </data>
+  <data name="checkDuplicatedFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Comprobar archivos duplicados</value>
+  </data>
+</root>
