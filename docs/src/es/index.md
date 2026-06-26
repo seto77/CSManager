@@ -1,8 +1,14 @@
 # Manual de CSManager
 
-CSManager es una aplicación de escritorio para Windows que permite explorar, buscar y editar bases de datos de estructuras cristalinas. Admite la carga de la base de datos AMCSD incluida, la obtención bajo demanda de COD, la importación de archivos de cristales, la edición de la información de cristales y el intercambio de datos con programas relacionados.
+CSManager es una aplicación de escritorio para Windows que permite buscar, consultar, editar y exportar las estructuras cristalinas proporcionadas por la American Mineralogist Crystal Structure Database (AMCSD) y la Crystallography Open Database (COD). Incluye integrada la base de datos AMCSD, con unos 20 000 registros, y también permite obtener bajo demanda la base de datos COD, con más de 500 000 registros. Los cristales cargados se pueden importar y exportar en formato CIF / AMC, y los cristales seleccionados se pueden transferir a programas relacionados como PDIndexer o ReciPro para trabajar de forma conjunta.
 
-Esta versión del manual en GitHub Pages se gestionará a partir de ahora como la fuente canónica. Las páginas iniciales ofrecen un esquema basado en la estructura del PDF/manual existente y en la interfaz actual; el contenido detallado se irá añadiendo directamente en el Markdown.
+## Licencia y requisitos del sistema
+
+Este programa es gratuito y se distribuye bajo la [licencia MIT](https://github.com/seto77/CSManager/blob/master/LICENSE.md). Se permite copiarlo, distribuirlo, modificarlo y usarlo con fines comerciales libremente, pero al redistribuirlo debe incluir el aviso de copyright y el texto completo de la licencia. El programa se ofrece sin ninguna garantía, y el autor no se hace responsable de ningún problema derivado de su uso.
+
+Para funcionar requiere un sistema operativo Windows en el que se ejecute **.NET Desktop Runtime 8** o superior.
+
+Envíe sus opiniones y sugerencias por correo electrónico (seto.y@omu.ac.jp) o a través de los [Issues](https://github.com/seto77/CSManager/issues) de GitHub.
 
 ## Páginas principales
 
@@ -12,5 +18,6 @@ Esta versión del manual en GitHub Pages se gestionará a partir de ahora como l
 - [Búsqueda](3-search.md)
 - [Información de cristales](4-crystal-information/index.md)
 - [Importación y exportación](5-import-export.md)
-- [Interoperación](6-interoperation.md)
+- [Interoperación con otros programas](6-interoperation.md)
 - [Opciones e idioma](7-options-language.md)
+- [Solución de problemas](troubleshooting.md)

@@ -1,9 +1,8 @@
 # Referencias
 
-Esta página trata la información bibliográfica que se guarda con las entradas de cristales.
+En la pestaña `Ref.` se muestra y configura la información bibliográfica que constituye la fuente de los datos de la estructura cristalina.
 
-## Contenido previsto
-
-- Metadatos como autores, título, revista y año.
-- Comportamiento de la búsqueda bibliográfica.
-- Notas sobre la citación de las fuentes de datos AMCSD y COD.
+- `Note` — Escriba notas o apuntes.
+- `Authors` — El nombre de los autores del artículo citado.
+- `Journal` — El nombre de la revista del artículo citado.
+- `Title` — El título del artículo citado.

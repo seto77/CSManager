@@ -1,9 +1,8 @@
 # References
 
-This page will cover bibliographic information stored with crystal entries.
+The `Ref.` tab displays and sets the reference information that is the source of the crystal structure data.
 
-## Planned Content
-
-- Authors, title, journal, year, and related metadata.
-- Reference search behavior.
-- Data-source citation notes for AMCSD and COD.
+- `Note` — enter notes or memos.
+- `Authors` — the author names of the cited paper.
+- `Journal` — the journal name of the cited paper.
+- `Title` — the title of the cited paper.

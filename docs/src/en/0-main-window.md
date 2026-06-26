@@ -1,16 +1,16 @@
-# Main Window
+# Main window
 
-The main window is organized around the database table, the selected crystal information, and the search panel.
+When you start CSManager, the main window appears. The window is broadly made up of the following areas.
 
-## Areas
+- **Menu (top)** — the `File`, `Option`, `Help`, and `Language` menus. These are used to read and write databases and to configure the application.
+- **Database table (center)** — a list of the loaded crystals. Selecting a row updates the crystal information shown below.
+- **Crystal information (bottom)** — displays and edits the cell constants, symmetry, atomic positions, and other details of the selected crystal.
+- **Search panel (bottom right)** — narrows down the loaded database using various conditions.
+- **Status area (very bottom)** — shows loading progress and messages about processing results.
 
-- File and application menus at the top.
-- Crystal database table in the main area.
-- Crystal information editor for the selected entry.
-- Search panel for filtering the loaded database.
-- Status area for progress and messages.
+The detailed use of each area is explained on the following pages.
 
-## Source Notes
-
-- Current UI labels should be checked against `CSManager/FormMain.resx`.
-- Existing screenshots can be migrated to `docs/src/assets/cap-en-auto/` or `docs/src/assets/cap-en-manual/`.
+- Menu: [Database loading](1-database-loading.md) / [Import and export](5-import-export.md) / [Options and language](7-options-language.md)
+- [Database table](2-database-table.md)
+- [Crystal information](4-crystal-information/index.md)
+- [Search](3-search.md)
