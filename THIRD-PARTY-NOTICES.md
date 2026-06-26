@@ -10,7 +10,7 @@ CSManager itself is distributed under the MIT License. See `LICENSE.md`.
 
 ## Status of this document
 
-Last reviewed: 2026-06-25 (initial version for the WiX / arm64 / portable-ZIP release line, v.1.912). The inventory below is derived from the actual framework-dependent publish output of `CSManager.csproj` (the managed assemblies shipped in the MSI). Items still requiring exact license-text or citation confirmation are marked **`TODO: confirm`**.
+Last reviewed: 2026-06-26 (WiX / arm64 / portable-ZIP release line, v.1.912). The inventory below is derived from the actual framework-dependent publish output of `CSManager.csproj` (the managed assemblies shipped in the MSI). **AMCSD bulk redistribution is permitted (permission obtained from one of the AMCSD maintainers); COD is public-domain.** The data-attribution and citation details are aligned with the sibling project ReciPro (same core library and same author-hosted COD mirror). Items still requiring external verification are marked **`TODO: confirm`**.
 
 CSManager does **not** bundle any native libraries. Unlike its sibling ReciPro, CSManager has no OpenGL 3D views and does not call the in-house SIMD native library or xraylib, so `Crystallography.Native.dll`, `libxrl-11.dll`, and `glfw3.dll` are **not** shipped (`glfw3.dll`, pulled in transitively by OpenTK, is removed from the MSI and portable packages during the build).
 
@@ -20,7 +20,7 @@ These ship as managed assemblies inside the MSI (through the CSManager publish o
 
 | Name | Version | Purpose | Bundled or downloaded | Upstream URL | License | Signed by CSManager? | Notes |
 |------|---------|---------|-----------------------|--------------|---------|----------------------|-------|
-| CsvHelper | 33.1.0 | CSV read/write (AMCSD CSV import / maintenance utilities) | Bundled (DLL) | https://github.com/JoshClose/CsvHelper | MS-PL OR Apache-2.0 (dual) — `TODO: confirm` exact text | No (third-party) | CSManager-specific dependency (declared in `CSManager.csproj`). |
+| CsvHelper | 33.1.0 | CSV read/write (AMCSD CSV import / maintenance utilities) | Bundled (DLL) | https://github.com/JoshClose/CsvHelper | Dual: MS-PL OR Apache-2.0 (the consumer may choose either) | No (third-party) | CSManager-specific dependency (declared in `CSManager.csproj`). |
 | MathNet.Numerics | 6.0.0-beta2 | Numerical / scientific computing | Bundled (DLL) | https://numerics.mathdotnet.com/ | MIT | No (third-party) | Pre-release (beta) version. From the shared Crystallography libraries. |
 | MemoryPack(.Core) | 1.21.4 | Zero-encoding binary serializer (Cysharp) | Bundled (DLL) | https://github.com/Cysharp/MemoryPack | MIT | No (third-party) | Used by Crystallography (`.cdb3` crystal-database serialization). |
 | PureHDF | 2.1.2 | Pure C# HDF5 reader/writer | Bundled (DLL) | https://github.com/Apollo3zehn/PureHDF | MIT | No (third-party) | From the shared Crystallography library. |
@@ -46,7 +46,7 @@ Target framework: `net10.0-windows`. The .NET runtime itself is framework-depend
 | Upstream URL | http://rruff.geo.arizona.edu/AMS/amcsd.php |
 | Required citation | Downs, R. T. & Hall-Wallace, M. (2003). The American Mineralogist Crystal Structure Database. *American Mineralogist*, **88**, 247-250. |
 | Signed by CSManager? | N/A (data file, not code) — ships inside the signed installer. |
-| Redistribution status | The underlying crystal-structure data are scientific facts published in peer-reviewed journals and openly distributed by AMCSD/RRUFF. Attribution via the Downs & Hall-Wallace (2003) citation. `TODO: confirm` the redistribution note for the repackaged `.cdb3`. |
+| Redistribution status | **Permitted.** Redistribution permission was obtained from one of the AMCSD maintainers. The underlying crystal-structure data are scientific facts published in peer-reviewed journals and are openly distributed by AMCSD/RRUFF (e.g. https://www.rruff.net/). Attribution is provided via the Downs & Hall-Wallace (2003) citation. The `.cdb3` carries no embedded attribution; attribution is satisfied via this file (an in-app citation on the database window would further strengthen it). |
 
 ### COD (downloaded on first use)
 
@@ -56,14 +56,23 @@ Target framework: `net10.0-windows`. The .NET runtime itself is framework-depend
 | Bundled or downloaded | **Downloaded on first use**, NOT bundled (~533,220 structures). Same `.cdb3` format as AMCSD, re-packaged by the author. |
 | Download source | **This repository's own mirror**: `https://github.com/seto77/CSManager/raw/master/COD/` (CSManager is the COD mirror that its sibling apps also use). |
 | Upstream URL | https://www.crystallography.net/cod/ |
-| License | COD data are released to the **public domain** / open terms; redistribution (including this mirror) is permitted. |
-| Required citation | Gražulis et al. (2009) *J. Appl. Cryst.* **42**, 726-729 (https://doi.org/10.1107/S0021889809016690); Gražulis et al. (2012) *Nucleic Acids Research* **40**, D420-D427 (https://doi.org/10.1093/nar/gkr900). `TODO: confirm` the full recommended citation set. |
+| License | COD data are released to the **public domain** / open terms; redistribution is **permitted**. This repository (`seto77/CSManager`) hosts the COD mirror that CSManager and its sibling apps (ReciPro, PDIndexer) download from. |
+| Required citation | Gražulis et al. (2009) *J. Appl. Cryst.* **42**, 726-729 (https://doi.org/10.1107/S0021889809016690); Gražulis et al. (2012) *Nucleic Acids Research* **40**, D420-D427 (https://doi.org/10.1093/nar/gkr900). COD lists further papers (e.g. Vaitkus et al. 2021) on its citation page. |
 | Signed by CSManager? | N/A (downloaded data, not part of the signed installer). |
-| Redistribution status | Permitted (public domain). `TODO: confirm` that the repackaged mirror preserves COD's public-domain status and carries no non-redistributable per-entry licenses. |
+| Redistribution status | **Permitted (public domain).** The mirror is a re-packaged snapshot of public-domain COD data and preserves that status. |
 
 ### Hardcoded scientific data (compiled into the shared Crystallography core)
 
-Factual/public-domain reference data (X-ray/electron scattering factors, neutron scattering lengths, absorption coefficients, space-group/symmetry tables) are compiled into the shared `Crystallography` library source and attributed by citation. See the shared library and ReciPro's `THIRD-PARTY-NOTICES.md` for the detailed source/citation list (same core library). `TODO: confirm` final citation set for the CSManager distribution.
+Factual/public-domain reference data are compiled into the shared `Crystallography` library source (the same core library used by ReciPro) and attributed by citation:
+
+- X-ray atomic scattering factors — Waasmaier & Kirfel (1995) *Acta Cryst.* **A51**, 416-431 (plus analytic RHF/HF forms).
+- Electron scattering factors — Peng et al. (1996, 1998).
+- Neutron coherent scattering lengths — `periodictable` neutron table, reproduced from Rauch, H. & Waschkowski, W. (2003), "Neutron Scattering Lengths" in *ILL Neutron Data Booklet* (2nd ed.).
+- X-ray mass / linear absorption coefficients — NIST FFAST (Chantler), public-domain US-government data.
+- Elastic electron-scattering sampler — NIST Electron Elastic-Scattering Cross-Section Database (SRD 64). `TODO: confirm` exact SRD citation.
+- Space-group / symmetry tables — derived from International Tables for Crystallography (ITA); factual data, attribution to ITA recommended. `TODO: confirm`.
+
+These are scientific facts; no runtime dependency on the source packages is shipped. See ReciPro's `THIRD-PARTY-NOTICES.md` for the same list with additional detail.
 
 ## Code-signing note
 
