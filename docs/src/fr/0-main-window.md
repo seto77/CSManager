@@ -1,16 +1,16 @@
 # Fenêtre principale
 
-La fenêtre principale s'organise autour de la liste des cristaux, des informations sur le cristal sélectionné et du panneau de recherche.
+Au lancement de CSManager, la fenêtre principale s'affiche. Elle se compose globalement des zones suivantes.
 
-## Zones
+- **Menu (tout en haut)** — les menus `Fichier`, `Options`, `Aide` et `Langue`. Ils servent à lire et écrire les bases de données ainsi qu'à configurer l'application.
+- **Liste des cristaux (partie centrale)** — la liste des cristaux chargés. La sélection d'une ligne se répercute sur les informations cristallines affichées en bas.
+- **Informations cristallines (partie inférieure)** — affichent et permettent de modifier les paramètres de maille, la symétrie, les positions atomiques, etc. du cristal sélectionné.
+- **Panneau de recherche (en bas à droite)** — filtre la base de données chargée selon divers critères.
+- **Zone d'état (tout en bas)** — affiche la progression du chargement et les messages relatifs aux résultats des traitements.
 
-- Les menus Fichier et application en haut.
-- La liste des cristaux dans la zone centrale.
-- L'éditeur d'informations cristallines pour l'entrée sélectionnée.
-- Le panneau de recherche pour filtrer la base de données chargée.
-- La zone d'état affichant la progression et les messages.
+L'utilisation détaillée de chaque zone est décrite dans les pages suivantes.
 
-## Notes de rédaction
-
-- Les libellés de l'interface doivent être vérifiés par rapport à `CSManager/FormMain.fr.resx`.
-- Les captures d'écran existantes peuvent être déplacées vers `docs/src/assets/cap-fr-auto/` ou `docs/src/assets/cap-fr-manual/`.
+- Menu : [Chargement de la base de données](1-database-loading.md) / [Importation et exportation](5-import-export.md) / [Options et langue](7-options-language.md)
+- [Liste des cristaux](2-database-table.md)
+- [Informations cristallines](4-crystal-information/index.md)
+- [Recherche](3-search.md)

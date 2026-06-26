@@ -1,9 +1,8 @@
 # Literatur
 
-Diese Seite behandelt die Literaturangaben, die zu den Kristalleinträgen gespeichert werden.
+Auf der Registerkarte `Lit.` werden die Literaturangaben zur Herkunft der Kristallstrukturdaten angezeigt und eingestellt.
 
-## Geplante Inhalte
-
-- Metadaten wie Autoren, Titel, Zeitschrift und Jahr.
-- Verhalten der Literatursuche.
-- Hinweise zur Quellenangabe der Datenquellen AMCSD und COD.
+- `Note` — für Notizen und Anmerkungen.
+- `Authors` — die Autoren des zitierten Artikels.
+- `Journal` — der Name der Zeitschrift des zitierten Artikels.
+- `Title` — der Titel des zitierten Artikels.

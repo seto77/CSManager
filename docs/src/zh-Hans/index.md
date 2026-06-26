@@ -1,8 +1,14 @@
 # CSManager 手册
 
-CSManager 是一款用于浏览、检索和编辑晶体结构数据库的 Windows 桌面应用程序。它支持读取捆绑的 AMCSD 数据库、按需获取 COD、导入晶体文件、编辑晶体信息，以及与相关软件之间的数据互通。
+CSManager 是一款用于检索、浏览、编辑和导出晶体结构的 Windows 桌面应用程序，所用数据来自 American Mineralogist Crystal Structure Database (AMCSD) 与 Crystallography Open Database (COD)。程序内置了收录约 2 万个晶体结构的 AMCSD 数据库，同时还可按需在线获取收录超过 50 万个结构的 COD 数据库。读入的晶体可以 CIF / AMC 格式导入和导出，并可将选中的晶体转送至 PDIndexer、ReciPro 等相关软件实现协同。
 
-本 GitHub Pages 版手册将作为今后的正式文档来源进行维护。初始页面依据现有 PDF/手册的结构和当前 UI 搭建框架，详细正文将直接在 Markdown 中补充。
+## 许可证与运行环境
+
+本软件是依据 [MIT 许可证](https://github.com/seto77/CSManager/blob/master/LICENSE.md) 发布的免费软件。您可以自由复制、分发、修改以及用于商业用途，但在再分发时请同时附上版权声明和许可证全文。本软件不提供任何担保，作者对因使用本软件而产生的任何问题概不负责。
+
+运行需要可运行 **.NET Desktop Runtime 8** 或更高版本的 Windows 操作系统。
+
+意见与需求请通过邮件 (seto.y@omu.ac.jp) 或 GitHub 的 [Issue](https://github.com/seto77/CSManager/issues) 反馈。
 
 ## 主要页面
 
@@ -14,3 +20,4 @@ CSManager 是一款用于浏览、检索和编辑晶体结构数据库的 Window
 - [导入与导出](5-import-export.md)
 - [与其他软件的协同](6-interoperation.md)
 - [选项与语言](7-options-language.md)
+- [故障排查](troubleshooting.md)

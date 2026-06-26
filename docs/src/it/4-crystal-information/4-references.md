@@ -1,9 +1,8 @@
 # Riferimenti bibliografici
 
-Questa pagina tratta le informazioni bibliografiche salvate insieme alle voci cristalline.
+Nella scheda `Rif.` si visualizzano e si impostano le informazioni bibliografiche relative alla fonte dei dati della struttura cristallina.
 
-## Contenuti previsti
-
-- Metadati come autori, titolo dell'articolo, nome della rivista e anno.
-- Comportamento della ricerca bibliografica.
-- Note sulla citazione delle fonti dati per AMCSD e COD.
+- `Note` — annotazioni o promemoria.
+- `Authors` — i nomi degli autori dell'articolo citato.
+- `Journal` — il nome della rivista dell'articolo citato.
+- `Title` — il titolo dell'articolo citato.
