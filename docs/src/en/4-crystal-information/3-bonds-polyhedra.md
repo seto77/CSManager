@@ -13,6 +13,6 @@ The `Bonds & Polyhedra` tab configures the drawing of bonds and coordination pol
 - `Show Polyhedron` — shows the coordination polyhedra.
 - `Show Edges` — shows the edges of the polyhedra.
 - `Show Vertex Atoms` / `Show Center Atom` — shows the vertex atoms and the center atom of the polyhedra.
-- `Show Inner Bonds` (inner bonds) — shows the bonds inside the polyhedra.
+- `Show Inner Bonds` — shows the bonds inside the polyhedra.
 
 Finer drawing settings such as polyhedron transparency can also be adjusted on this tab.

@@ -13,6 +13,6 @@ L'onglet `Liaisons & polyèdres` permet de configurer l'affichage des liaisons e
 - `Afficher le polyèdre` — affiche le polyèdre de coordination.
 - `Afficher les arêtes` — affiche les arêtes (côtés) du polyèdre.
 - `Afficher les atomes des sommets` / `Afficher l'atome central` — affiche les atomes des sommets et l'atome central du polyèdre.
-- `Afficher les liaisons internes` (liaisons internes) — affiche les liaisons internes au polyèdre.
+- `Afficher les liaisons internes` — affiche les liaisons internes au polyèdre.
 
 Des réglages d'affichage plus fins, tels que la transparence du polyèdre, peuvent également être ajustés dans cet onglet.

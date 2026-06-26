@@ -13,6 +13,6 @@ Nella scheda `Legami & Poliedri` si configura la rappresentazione dei legami e d
 - `Mostra poliedro` — visualizza il poliedro di coordinazione.
 - `Mostra spigoli` — visualizza gli spigoli (lati) del poliedro.
 - `Mostra atomi al vertice` / `Mostra atomo centrale` — visualizza gli atomi al vertice e l'atomo centrale del poliedro.
-- `Mostra legami interni` (legami interni) — visualizza i legami all'interno del poliedro.
+- `Mostra legami interni` — visualizza i legami all'interno del poliedro.
 
 In questa scheda è possibile regolare anche impostazioni di rappresentazione più dettagliate, come la trasparenza del poliedro.
