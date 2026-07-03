@@ -27,6 +27,13 @@ namespace CSManager
                 Environment.Exit(0);
             }
 
+            // 260704Cl 追加: マニュアル用スクリーンショットの非対話生成 (--capture <出力先> <カルチャ>)。GuiCapture.cs 参照。
+            if (args.Length >= 1 && args[0] == "--capture")
+            {
+                Environment.Exit(GuiCapture.Run(args));
+                return;
+            }
+
             // 260625Cl 追加: 多言語化。言語別 UI フォント (FontHelper.GetUIFont) と各フォームの resx ローカライズが
             //   CurrentUICulture を参照するため、フォーム生成 (SetDefaultFont/Application.Run) より前に、
             //   レジストリ保存値からカルチャを確定させる。未知カルチャは SupportedCultures.Resolve が既定 (英語) へ解決。

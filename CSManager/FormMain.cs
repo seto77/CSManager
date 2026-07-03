@@ -149,9 +149,20 @@ public partial class FormMain : Form
         crystalControl.atomControl.AppearanceTabVisible = true;
     }
 
+    // 260704Cl 追加: GuiCapture (--capture) 実行時は設定を保存しない (キャプチャ用のカルチャ・ウィンドウ状態でユーザー設定を汚染しないため)
+    internal bool SuppressRegistrySave = false;
+
+    // 260704Cl 追加: GuiCapture 用ヘルパー (crystalDatabaseControl は private のため internal で公開)
+    internal void LoadDefaultDatabaseForCapture() => crystalDatabaseControl.AMCSD_Checked = true;
+    // AMCSD 読み込みは非同期に進むため、行数だけでは早撮りになる。GuiCapture 側で
+    // 「Enabled かつ 行数 > 0 かつ 行数が増えなくなった」ことを確認して撮影する。
+    internal bool DatabaseEnabledForCapture => crystalDatabaseControl.Enabled;
+    internal int DatabaseRowCountForCapture => crystalDatabaseControl.Table.Rows.Count;
+
     private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
     {
-        saveRegistry();
+        if (!SuppressRegistrySave)// 260704Cl 追加
+            saveRegistry();
         e.Cancel = false;
     }
     private void readRegistry()
