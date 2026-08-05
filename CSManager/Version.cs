@@ -5,84 +5,86 @@
         static public string Software =
            "CSManager"
            ;
-        static public string VersionAndDate { get => History[10..][..20]; }
+        //static public string VersionAndDate { get => History[10..][..20]; } //260805Cl 変更前: 括弧前スペース無し前提の20文字固定長
+        static public string VersionAndDate { get => History[10..(History.IndexOf(')') + 1)]; } //260805Cl 版番と日付括弧の間のスペース挿入に伴い ')' までを取り出す (長さ非依存)
 
         static public int AMCSD = 21_478;
         static public int COD = 533_220;
 
+        //260805Cl 表記統一: 版番と日付括弧の間にスペースを1つ入れる。⚠この行より上の行(このコメント含む)に半角スペース直後の『ver』を書かない (CI と旧版の更新チェックが History 先頭行より先に拾う)
         static public string History = 
             "History" +
-                "\r\n ver1.912(2026/06/25) 配布ファイルにarm64やportable-zip形式を追加。多言語対応." +
-                "\r\n ver1.911(2026/04/27) Renewed COD database (533,220)." +
-                "\r\n ver1.910(2026/04/06) Reduced the size of the installer package." +
-                "\r\n ver1.909(2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
-                "\r\n ver1.906(2025/12/05) Renewed AMCSD database (21,477)." +
-                "\r\n ver1.905(2025/11/26) Fixed a minor bug." +
-                "\r\n ver1.904(2025/11/14) Updated .Net Desktop Runtime to 10.0. Renewed COD database (529,139)." +
-                "\r\n ver1.903(2025/05/29) Renewed AMCSD database (21,286) and COD database (524,740)." +
-                "\r\n ver1.901(2025/05/11) Renewed COD database (524,295)." +
-                "\r\n ver1.900(2025/01/16) Reduced memory usage (thx to Nagai-san!). Renewed COD database (520,845)." +
-                "\r\n ver1.899(2024/12/07) Fixed a bug on the clipboard operation." +
-                "\r\n ver1.898(2024/11/13) Updated .Net Desktop Runtime to 9.0. Renewed AMCSD database (contains 21,044) and COD database (519,205)." +
-                "\r\n ver1.897(2024/06/30) Renewed AMCSD database (contains 21,026) and COD database (514,854)." +
-                "\r\n ver1.896(2024/01/04) Updated .Net Desktop Runtime to 8.0. Fixed a broken link to manual pages." +
-                "\r\n ver1.895(2023/09/29) Renewed AMCSD database (contains 21,004) and COD database (506,047)." +
-                "\r\n ver1.894(2022/11/16) Updated .Net Desktop Runtime to 7.0. Renewed COD database (494,508). Changed algorithm when saving and loading." +
-                "\r\n ver1.893(2022/10/27) Improved search function." +
-                "\r\n ver1.892(2022/10/26) Fixed minor bugs." +
-                "\r\n ver1.891(2022/09/09) Renewed AMCSD database (contains 20,997) and COD database (490,180)." +
-                "\r\n ver1.890(2021/11/12) Target framework is changed to .Net Desktop Runtime 6.0." +
-                "\r\n ver1.888(2021/07/16) Renewed AMCSD database (contains 20,819)" +
-                "\r\n ver1.887(2021/07/12) Changed the target framework to .Net 5.0. Improved loading speed of database. Renewed COD database (463,756)" +
-                "\r\n ver1.886(2021/03/23) Renewed AMCSD database (contains 20,797). Fixed minor bugs." +
-                "\r\n ver1.885(2020/12/10) Fixed an initializing bug." +
-                "\r\n ver1.885(2020/12/10) Fixed an initializing bug." +
-                "\r\n ver1.884(2020/11/18) Renewed COD database (463,756)." +
-                "\r\n ver1.883(2020/07/28) Fixed minor GUI bugs." +
-                "\r\n ver1.882(2020/07/14) Renewed AMCSD database (20,718)." +
-                "\r\n ver1.881(2020/07/10) Renewed COD database (458,512)." +
-                "\r\n ver1.880(2020/06/06) Renewed COD database (457,000)." +
-                "\r\n ver1.879(2020/05/15) Minor bugs fixed." +
-                "\r\n ver1.878(2020/05/14) Renewed AMCSD database (contains 20,698) and COD database (456,027)." +
-                "\r\n ver1.877(2020/04/02) Fixed a minor bug." +
-                "\r\n ver1.876(2020/03/22) Fixed a minor bug." +
-                "\r\n ver1.875(2020/03/19) Fixed a minor bug." +
-                "\r\n ver1.874(2020/03/18) Fixed a minor bug." +
-                "\r\n ver1.873(2020/03/17) Changed: File format of database is changed (cdb2 => cdb3)." +
-                "\r\n ver1.871(2020/03/14) Improved: Loading speed of database becomes faster." +
+                "\r\n ver1.912 (2026/06/25) 配布ファイルにarm64やportable-zip形式を追加。多言語対応." +
+                "\r\n ver1.911 (2026/04/27) Renewed COD database (533,220)." +
+                "\r\n ver1.910 (2026/04/06) Reduced the size of the installer package." +
+                "\r\n ver1.909 (2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
+                "\r\n ver1.906 (2025/12/05) Renewed AMCSD database (21,477)." +
+                "\r\n ver1.905 (2025/11/26) Fixed a minor bug." +
+                "\r\n ver1.904 (2025/11/14) Updated .Net Desktop Runtime to 10.0. Renewed COD database (529,139)." +
+                "\r\n ver1.903 (2025/05/29) Renewed AMCSD database (21,286) and COD database (524,740)." +
+                "\r\n ver1.901 (2025/05/11) Renewed COD database (524,295)." +
+                "\r\n ver1.900 (2025/01/16) Reduced memory usage (thx to Nagai-san!). Renewed COD database (520,845)." +
+                "\r\n ver1.899 (2024/12/07) Fixed a bug on the clipboard operation." +
+                "\r\n ver1.898 (2024/11/13) Updated .Net Desktop Runtime to 9.0. Renewed AMCSD database (contains 21,044) and COD database (519,205)." +
+                "\r\n ver1.897 (2024/06/30) Renewed AMCSD database (contains 21,026) and COD database (514,854)." +
+                "\r\n ver1.896 (2024/01/04) Updated .Net Desktop Runtime to 8.0. Fixed a broken link to manual pages." +
+                "\r\n ver1.895 (2023/09/29) Renewed AMCSD database (contains 21,004) and COD database (506,047)." +
+                "\r\n ver1.894 (2022/11/16) Updated .Net Desktop Runtime to 7.0. Renewed COD database (494,508). Changed algorithm when saving and loading." +
+                "\r\n ver1.893 (2022/10/27) Improved search function." +
+                "\r\n ver1.892 (2022/10/26) Fixed minor bugs." +
+                "\r\n ver1.891 (2022/09/09) Renewed AMCSD database (contains 20,997) and COD database (490,180)." +
+                "\r\n ver1.890 (2021/11/12) Target framework is changed to .Net Desktop Runtime 6.0." +
+                "\r\n ver1.888 (2021/07/16) Renewed AMCSD database (contains 20,819)" +
+                "\r\n ver1.887 (2021/07/12) Changed the target framework to .Net 5.0. Improved loading speed of database. Renewed COD database (463,756)" +
+                "\r\n ver1.886 (2021/03/23) Renewed AMCSD database (contains 20,797). Fixed minor bugs." +
+                "\r\n ver1.885 (2020/12/10) Fixed an initializing bug." +
+                "\r\n ver1.885 (2020/12/10) Fixed an initializing bug." +
+                "\r\n ver1.884 (2020/11/18) Renewed COD database (463,756)." +
+                "\r\n ver1.883 (2020/07/28) Fixed minor GUI bugs." +
+                "\r\n ver1.882 (2020/07/14) Renewed AMCSD database (20,718)." +
+                "\r\n ver1.881 (2020/07/10) Renewed COD database (458,512)." +
+                "\r\n ver1.880 (2020/06/06) Renewed COD database (457,000)." +
+                "\r\n ver1.879 (2020/05/15) Minor bugs fixed." +
+                "\r\n ver1.878 (2020/05/14) Renewed AMCSD database (contains 20,698) and COD database (456,027)." +
+                "\r\n ver1.877 (2020/04/02) Fixed a minor bug." +
+                "\r\n ver1.876 (2020/03/22) Fixed a minor bug." +
+                "\r\n ver1.875 (2020/03/19) Fixed a minor bug." +
+                "\r\n ver1.874 (2020/03/18) Fixed a minor bug." +
+                "\r\n ver1.873 (2020/03/17) Changed: File format of database is changed (cdb2 => cdb3)." +
+                "\r\n ver1.871 (2020/03/14) Improved: Loading speed of database becomes faster." +
                 "\r\n ver1.87 (2020/03/14) Renewed COD database (452,532)." +
-                "\r\n ver1.861(2020/03/03) Fixed a minor bug on distribution problem." +
+                "\r\n ver1.861 (2020/03/03) Fixed a minor bug on distribution problem." +
                 "\r\n ver1.86 (2020/03/01) Changed: Download site is changed to GitHub." +
                 "\r\n ver1.85 (2019/09/10) Renewed COD database (406,999). Changed .Net framework version to 4.8." +
-                "\r\n ver1.841(2019/06/26) Renewed AMCSD database (contains 20,698 crystals) and COD database (404,015)." +
+                "\r\n ver1.841 (2019/06/26) Renewed AMCSD database (contains 20,698 crystals) and COD database (404,015)." +
                 "\r\n ver1.84 (2019/04/10) Changed the installer. ClickOnce version will be not maintained in the future." +
-                "\r\n ver1.833(2019/02/20) Changed .Net framework version to 4.7.2." +
-                "\r\n ver1.832(2018/12/20) Fixed minor bugs." +
-                "\r\n ver1.831(2018/12/18) Fixed minor bugs." +
+                "\r\n ver1.833 (2019/02/20) Changed .Net framework version to 4.7.2." +
+                "\r\n ver1.832 (2018/12/20) Fixed minor bugs." +
+                "\r\n ver1.831 (2018/12/18) Fixed minor bugs." +
                 "\r\n ver1.83 (2018/11/20) Renewed AMCSD database (contains 20,574 crystals) and COD database (396,244). Modified some inconsistencies." +
                 "\r\n ver1.82 (2018/02/20) Renewed AMCSD database (contains 20,537 crystals) and COD database (386,893)." +
-                "\r\n ver1.811(2018/02/19) Minor bug fix." +
+                "\r\n ver1.811 (2018/02/19) Minor bug fix." +
                 "\r\n ver1.81 (2016/09/18) Renewed AMCSD database (contains 20,468 crystals) and COD database (361,953)." +
                 "\r\n ver1.80 (2016/03/03) Renewed AMCSD database (contains 20,372 crystals) and COD database (353,229)." +
                 "\r\n ver1.79 (2015/10/11) Renewed AMCSD database (contains 20,151 crystals) and COD database (334,870)." +
-                "\r\n ver1.781(2015/07/13) Fixed a bug on loading database." +
+                "\r\n ver1.781 (2015/07/13) Fixed a bug on loading database." +
                 "\r\n ver1.78 (2015/07/13) Added a font size option." +
                 "\r\n ver1.77 (2015/07/06) Fixed a bug on Loading COD database." +
                 "\r\n ver1.76 (2015/03/19) Renewed AMCSD database (contains 20,143 crystals) and COD database (306,566). Fixed a bug on Debye-Waller factor calculations (thx Dr. Koga)." +
-                "\r\n ver1.752(2015/01/15) Fixed a minor bug on loading a COD file." +
-                "\r\n ver1.751(2014/11/06) Fixed a minor bug on UI in Japanese." +
+                "\r\n ver1.752 (2015/01/15) Fixed a minor bug on loading a COD file." +
+                "\r\n ver1.751 (2014/11/06) Fixed a minor bug on UI in Japanese." +
                 "\r\n ver1.75 (2014/10/30) Renewed AMCSD database (contains 20,121 crystals) and COD database (296,540), and improved UI." +
-                "\r\n ver1.742(2014/10/27) Fixed a bug on scattering factor information." +
-                "\r\n ver1.741(2014/05/16) Fixed: a bug on transport crystal data through clipboard." +
+                "\r\n ver1.742 (2014/10/27) Fixed a bug on scattering factor information." +
+                "\r\n ver1.741 (2014/05/16) Fixed: a bug on transport crystal data through clipboard." +
                 "\r\n ver1.74 (2014/02/11) Renewed AMCSD database (contains 19,924 crystals) and COD database (250,274)." +
-                "\r\n ver1.732(2013/10/27) Fixed small bugs on appearance" +
-                "\r\n ver1.731(2013/08/17) Renewed AMCSD database(contains 38,581 crystals)." +
+                "\r\n ver1.732 (2013/10/27) Fixed small bugs on appearance" +
+                "\r\n ver1.731 (2013/08/17) Renewed AMCSD database(contains 38,581 crystals)." +
                 "\r\n ver1.73 (2013/08/15) Renewed COD database(contains 234,989 crystals)." +
-                "\r\n ver1.721(2013/02/26) Changed address of help page." +
+                "\r\n ver1.721 (2013/02/26) Changed address of help page." +
                 "\r\n ver1.72 (2013/02/25) Added: Update check function." +
                 "\r\n ver1.71 (2013/02/20) Added: CIF file export function." +
-                "\r\n ver1.702(2012/12/19) Fixed a small bug." +
-                "\r\n ver1.701(2012/12/05) Fixed a small bug." +
+                "\r\n ver1.702 (2012/12/19) Fixed a small bug." +
+                "\r\n ver1.701 (2012/12/05) Fixed a small bug." +
                 "\r\n ver1.70 (2012/08/21) Renewed AMCSD database (contains 37,961 crystals) and COD database (204,657). Fixed a small bug." +
                 "\r\n ver1.60 (2011/12/28) Database format was modified and got slim size. Renewed AMCSD database (contains 37,898 crystals) and COD database(150,294)." +
                 "\r\n ver1.54 (2011/10/21) Added language option (en/ja). " +
