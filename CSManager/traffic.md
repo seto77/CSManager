@@ -1,12 +1,13 @@
 # Traffic Data: CSManager
 
-Last updated: 2026-08-13
+Last updated: 2026-08-14
 
 ## Views
 
 ### Daily (最大14日保持)
 | Date | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
+| 2026-08-13 | 0 | 0 |
 | 2026-08-12 | 0 | 0 |
 | 2026-08-11 | 1 | 1 |
 | 2026-08-10 | 8 | 3 |
@@ -19,7 +20,6 @@ Last updated: 2026-08-13
 | 2026-08-03 | 2 | 2 |
 | 2026-08-02 | 0 | 0 |
 | 2026-08-01 | 1 | 1 |
-| 2026-07-31 | 0 | 0 |
 
 ### Weekly (最大14週保持)
 | Period | Total Views | Unique Visitors |
@@ -59,6 +59,7 @@ Last updated: 2026-08-13
 ### Daily (最大14日保持)
 | Date | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
+| 2026-08-13 | 3 | 3 |
 | 2026-08-12 | 1 | 1 |
 | 2026-08-11 | 4 | 3 |
 | 2026-08-10 | 3 | 3 |
@@ -71,12 +72,11 @@ Last updated: 2026-08-13
 | 2026-08-03 | 4 | 4 |
 | 2026-08-02 | 1 | 1 |
 | 2026-08-01 | 11 | 7 |
-| 2026-07-31 | 1 | 1 |
 
 ### Weekly (最大14週保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026-W33 | 8 | 7 |
+| 2026-W33 | 11 | 10 |
 | 2026-W32 | 30 | 21 |
 | 2026-W31 | 37 | 24 |
 | 2026-W30 | 19 | 16 |
@@ -94,7 +94,7 @@ Last updated: 2026-08-13
 ### Monthly (最大12か月保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026-08 | 50 | 36 |
+| 2026-08 | 53 | 39 |
 | 2026-07 | 114 | 71 |
 | 2026-06 | 355 | 114 |
 | 2026-05 | 351 | 176 |
@@ -104,17 +104,17 @@ Last updated: 2026-08-13
 ### Yearly (無制限)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026 | 1280 | 587 |
+| 2026 | 1283 | 590 |
 
 ## Referrers
 
 ### Weekly (最大2週保持)
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
-| 2026-W33 | yseto.net | 12 | 12 |
-| 2026-W33 | Google | 12 | 8 |
-| 2026-W33 | Bing | 4 | 4 |
-| 2026-W33 | search.brave.com | 4 | 4 |
+| 2026-W33 | yseto.net | 15 | 15 |
+| 2026-W33 | Google | 15 | 10 |
+| 2026-W33 | Bing | 5 | 5 |
+| 2026-W33 | search.brave.com | 5 | 5 |
 | 2026-W32 | yseto.net | 20 | 18 |
 | 2026-W32 | Google | 9 | 6 |
 | 2026-W32 | github.com | 7 | 6 |
@@ -123,11 +123,11 @@ Last updated: 2026-08-13
 ### Monthly (最大3か月保持)
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
-| 2026-08 | yseto.net | 38 | 34 |
-| 2026-08 | Google | 21 | 14 |
+| 2026-08 | yseto.net | 41 | 37 |
+| 2026-08 | Google | 24 | 16 |
 | 2026-08 | github.com | 13 | 10 |
-| 2026-08 | Bing | 5 | 5 |
-| 2026-08 | search.brave.com | 4 | 4 |
+| 2026-08 | Bing | 6 | 6 |
+| 2026-08 | search.brave.com | 5 | 5 |
 | 2026-07 | yseto.net | 108 | 80 |
 | 2026-07 | github.com | 70 | 45 |
 | 2026-07 | Bing | 26 | 26 |
@@ -143,27 +143,27 @@ Last updated: 2026-08-13
 ### Yearly (無制限)
 | Period | Referrer | Total Count | Unique |
 | ---- | ---- | ---- | ---- |
-| 2026 | yseto.net | 1074 | 682 |
+| 2026 | yseto.net | 1077 | 685 |
 | 2026 | github.com | 503 | 306 |
-| 2026 | Google | 475 | 137 |
-| 2026 | Bing | 135 | 97 |
+| 2026 | Google | 478 | 139 |
+| 2026 | Bing | 136 | 98 |
 | 2026 | seto77.github.io | 45 | 19 |
 | 2026 | runtime-app.powerplatform.com | 13 | 13 |
-| 2026 | search.brave.com | 4 | 4 |
+| 2026 | search.brave.com | 5 | 5 |
 
 ## Popular Paths
 
 ### Weekly (最大2週保持)
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
-| 2026-W33 | /seto77/CSManager | Overview | 22 | 22 |
-| 2026-W33 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 16 | 16 |
-| 2026-W33 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 9 | 3 |
-| 2026-W33 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 6 | 3 |
-| 2026-W33 | /seto77/CSManager/forks | /forks | 5 | 5 |
-| 2026-W33 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 4 | 4 |
-| 2026-W33 | /seto77/CSManager/compare | /compare | 4 | 4 |
-| 2026-W33 | /seto77/CSManager/releases | /releases | 4 | 4 |
+| 2026-W33 | /seto77/CSManager | Overview | 28 | 28 |
+| 2026-W33 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 20 | 20 |
+| 2026-W33 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 12 | 4 |
+| 2026-W33 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 8 | 4 |
+| 2026-W33 | /seto77/CSManager/forks | /forks | 7 | 7 |
+| 2026-W33 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 5 | 5 |
+| 2026-W33 | /seto77/CSManager/compare | /compare | 5 | 5 |
+| 2026-W33 | /seto77/CSManager/releases | /releases | 5 | 5 |
 | 2026-W32 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 25 | 23 |
 | 2026-W32 | /seto77/CSManager | Overview | 23 | 23 |
 | 2026-W32 | /seto77/CSManager/releases/tag/v.1.897 | /releases/tag/v.1.897 | 7 | 7 |
@@ -174,15 +174,15 @@ Last updated: 2026-08-13
 ### Monthly (最大3か月保持)
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
-| 2026-08 | /seto77/CSManager | Overview | 53 | 53 |
-| 2026-08 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 51 | 47 |
+| 2026-08 | /seto77/CSManager | Overview | 59 | 59 |
+| 2026-08 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 55 | 51 |
+| 2026-08 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 12 | 4 |
 | 2026-08 | /seto77/CSManager/releases/tag/v.1.897 | /releases/tag/v.1.897 | 11 | 11 |
-| 2026-08 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 9 | 9 |
-| 2026-08 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 9 | 3 |
-| 2026-08 | /seto77/CSManager/compare | /compare | 8 | 8 |
-| 2026-08 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 6 | 3 |
-| 2026-08 | /seto77/CSManager/releases | /releases | 5 | 5 |
-| 2026-08 | /seto77/CSManager/forks | /forks | 5 | 5 |
+| 2026-08 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 10 | 10 |
+| 2026-08 | /seto77/CSManager/compare | /compare | 9 | 9 |
+| 2026-08 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 8 | 4 |
+| 2026-08 | /seto77/CSManager/forks | /forks | 7 | 7 |
+| 2026-08 | /seto77/CSManager/releases | /releases | 6 | 6 |
 | 2026-07 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 148 | 119 |
 | 2026-07 | /seto77/CSManager | Overview | 114 | 96 |
 | 2026-07 | /seto77/CSManager/releases | /releases | 26 | 26 |
@@ -208,11 +208,11 @@ Last updated: 2026-08-13
 | Period | Path | Title | Total Count | Unique |
 | ---- | ---- | ---- | ---- | ---- |
 | 2026 | /seto77/CSManager/releases/tag/v.1.910 | /releases/tag/v.1.910 | 1181 | 801 |
-| 2026 | /seto77/CSManager | Overview | 697 | 531 |
-| 2026 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 199 | 166 |
-| 2026 | /seto77/CSManager/releases | /releases | 184 | 184 |
-| 2026 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 179 | 39 |
-| 2026 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 72 | 27 |
+| 2026 | /seto77/CSManager | Overview | 703 | 537 |
+| 2026 | /seto77/CSManager/releases/tag/v.1.912 | /releases/tag/v.1.912 | 203 | 170 |
+| 2026 | /seto77/CSManager/releases | /releases | 185 | 185 |
+| 2026 | /seto77/CSManager/tree/master/COD | /tree/master/COD | 182 | 40 |
+| 2026 | /seto77/CSManager/tree/master/COD/COD | /tree/master/COD/COD | 74 | 28 |
 | 2026 | /seto77/CSManager/releases/tag/v.1.909 | /releases/tag/v.1.909 | 71 | 49 |
 | 2026 | /seto77/CSManager/issues | /issues | 70 | 58 |
 | 2026 | /seto77/CSManager/blob/master/COD/COD.cdb3 | /blob/master/COD/COD.cdb3 | 42 | 14 |
@@ -223,16 +223,16 @@ Last updated: 2026-08-13
 | 2026 | /seto77/CSManager/stargazers | /stargazers | 24 | 24 |
 | 2026 | /seto77/CSManager/projects | /projects | 22 | 22 |
 | 2026 | /seto77/CSManager/tree/master/CSManager | /tree/master/CSManager | 21 | 21 |
-| 2026 | /seto77/CSManager/forks | /forks | 19 | 19 |
+| 2026 | /seto77/CSManager/forks | /forks | 21 | 21 |
 | 2026 | /seto77/CSManager/commit/0a5ce38f82b6397ca3d8d1e87f3a3d8f6c1e99f2 | /commit/0a5ce38f82b6397ca3d8d1e87f3a3d8f6c1e99f2 | 14 | 14 |
 | 2026 | /seto77/CSManager/blob/master/COD/COD/COD.000 | /blob/master/COD/COD/COD.000 | 14 | 14 |
 | 2026 | /seto77/CSManager/actions | /actions | 14 | 14 |
 | 2026 | /seto77/CSManager/tree/master/Crystallography | /tree/master/Crystallography | 12 | 12 |
+| 2026 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 10 | 10 |
 | 2026 | /seto77/CSManager/pulse | /pulse | 9 | 9 |
-| 2026 | /seto77/CSManager/blob/master/THIRD-PARTY-NOTICES.md | /blob/master/THIRD-PARTY-NOTICES.md | 9 | 9 |
+| 2026 | /seto77/CSManager/compare | /compare | 9 | 9 |
 | 2026 | /seto77/CSManager/pulls | /pulls | 8 | 8 |
 | 2026 | /seto77/CSManager/security | /security | 8 | 8 |
-| 2026 | /seto77/CSManager/compare | /compare | 8 | 8 |
 | 2026 | /seto77/CSManager/tree/master/Crystallography/Crystal | /tree/master/Crystallography/Crystal | 7 | 7 |
 | 2026 | /seto77/CSManager/tree/master/.github | /tree/master/.github | 6 | 6 |
 | 2026 | /seto77/CSManager/releases/tag/v.1.896 | /releases/tag/v.1.896 | 5 | 5 |
@@ -285,6 +285,7 @@ Last updated: 2026-08-13
 ### Daily (最大14日保持)
 | Date | Stars | Forks | Open Issues | Watchers |
 | ---- | ---- | ---- | ---- | ---- |
+| 2026-08-14 | 9 | 2 | 0 | 2 |
 | 2026-08-13 | 9 | 2 | 0 | 2 |
 | 2026-08-12 | 9 | 2 | 0 | 2 |
 | 2026-08-11 | 9 | 2 | 0 | 2 |
@@ -297,7 +298,6 @@ Last updated: 2026-08-13
 | 2026-08-03 | 9 | 2 | 0 | 2 |
 | 2026-08-02 | 9 | 2 | 0 | 2 |
 | 2026-08-01 | 9 | 2 | 0 | 2 |
-| 2026-07-31 | 9 | 2 | 0 | 2 |
 
 ### Weekly (最大14週保持)
 | Period | Stars | Forks | Open Issues | Watchers |
@@ -329,4 +329,4 @@ Last updated: 2026-08-13
 | ---- | ---- | ---- | ---- | ---- |
 | 2026 | 9 | 2 | 0 | 2 |
 
-<!-- meta: last_collected_paths=2026-08-13 last_collected_referrers=2026-08-13 -->
+<!-- meta: last_collected_paths=2026-08-14 last_collected_referrers=2026-08-14 -->
