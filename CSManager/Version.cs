@@ -8,8 +8,10 @@
         //static public string VersionAndDate { get => History[10..][..20]; } //260805Cl 変更前: 括弧前スペース無し前提の20文字固定長
         static public string VersionAndDate { get => History[10..(History.IndexOf(')') + 1)]; } //260805Cl 版番と日付括弧の間のスペース挿入に伴い ')' までを取り出す (長さ非依存)
 
-        static public int AMCSD = 21_478;
-        static public int COD = 533_220;
+        //static public int AMCSD = 21_478; // 261105Cl 変更前
+        static public int AMCSD = 21_588; // 261105Cl 変更: 2026-11-05 に原本から作り直した AMCSD.cdb3 の件数
+        //static public int COD = 533_220; // 261105Cl 変更前
+        static public int COD = 534_898; // 261105Cl 変更: 2026-11-05 に作り直した COD.cdb3 の件数
 
         //260805Cl 表記統一: 版番と日付括弧の間にスペースを1つ入れる。⚠この行より上の行(このコメント含む)に半角スペース直後の『ver』を書かない (CI と旧版の更新チェックが History 先頭行より先に拾う)
         static public string History = 
