@@ -30,6 +30,10 @@ on:
 permissions:
   contents: read
 
+# 261105Cl 追加: pages.yml / traffic-collector.yml と揃え、JavaScript アクションを Node 24 で実行する
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     outputs:
