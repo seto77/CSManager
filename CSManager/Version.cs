@@ -14,7 +14,8 @@
         //260805Cl 表記統一: 版番と日付括弧の間にスペースを1つ入れる。⚠この行より上の行(このコメント含む)に半角スペース直後の『ver』を書かない (CI と旧版の更新チェックが History 先頭行より先に拾う)
         static public string History = 
             "History" +
-                "\r\n ver1.912 (2026/06/25) 配布ファイルにarm64やportable-zip形式を追加。多言語対応." +
+                "\r\n ver1.912 (2026/06/25) Added arm64 and portable ZIP packages to the distribution. Multilingual user interface." + // 261105Cl 英訳 (以前は日本語で、GitHub の Release の本文にもそのまま載っていた)
+                // 261105Cl 変更前 (日本語。History の先頭行より前に版番の文字列を置かないよう、版番と日付は省いた): 配布ファイルにarm64やportable-zip形式を追加。多言語対応.
                 "\r\n ver1.911 (2026/04/27) Renewed COD database (533,220)." +
                 "\r\n ver1.910 (2026/04/06) Reduced the size of the installer package." +
                 "\r\n ver1.909 (2025/12/11) Fixed minor bugs. Renewed AMCSD database (21,478)." +
