@@ -247,6 +247,8 @@ public partial class FormMain : Form
         {
 #if DEBUG
             MessageBox.Show(e.ToString());
+#else
+            _ = e; // 261105Cl 追加: Release で e 未使用 (CS0168) になるのを抑制。挙動は不変
 #endif
         }
         finally { skipProgressEvent = false; }
@@ -427,15 +429,17 @@ public partial class FormMain : Form
         //}
     }
 
-    private class MyWebClient : WebClient
-    {
-        protected override WebRequest GetWebRequest(Uri uri)
-        {
-            WebRequest w = base.GetWebRequest(uri);
-            w.Timeout = 600 * 1000;
-            return w;
-        }
-    }
+    // 261105Cl 削除: 呼び出し側 (COD ダウンロード処理) はコメントアウト済みで未使用。WebClient は SYSLIB0014 (obsolete) のためクラスごとコメントアウト。
+    //   復活させる場合は HttpClient (Timeout = 600 秒) で書き直すこと。
+    //private class MyWebClient : WebClient
+    //{
+    //    protected override WebRequest GetWebRequest(Uri uri)
+    //    {
+    //        WebRequest w = base.GetWebRequest(uri);
+    //        w.Timeout = 600 * 1000;
+    //        return w;
+    //    }
+    //}
     #endregion
 
     #region 新しいAMCSDのデータベース (csv形式) の読み込み
@@ -447,7 +451,7 @@ public partial class FormMain : Form
 
         using var reader = new StreamReader(dlg.FileName);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        var records = csv.GetRecords<amcsd>().ToArray();
+        var records = csv.GetRecords<Amcsd>().ToArray();
 
         c2Array = new Crystal2[records.Length];
 
@@ -492,7 +496,7 @@ public partial class FormMain : Form
         toolStripStatusLabel.Text = $"Completed! {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec elapsed. ({records.Length} total, {100.0 * failedFile.Count / records.Length:f2} % failed)...";
     }
     #region AMCSDデータを読み込むためのテンポラリなクラス
-    class amcsd
+    class Amcsd // 261105Cl 変更: CS8981 (小文字のみの型名) 回避のため amcsd → Amcsd。CsvHelper の列対応は [Name] 属性なので影響なし
     {
         [Name("database_code_amcsd")] public string database_code_amcsd { get; set; }
         [Name("Mineral Name")] public string Mineral_Name { get; set; }
