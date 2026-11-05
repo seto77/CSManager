@@ -13,7 +13,7 @@ Draft written by Claude from the source code (2026-11-05). Not yet reviewed by t
 `docs/src/` の外に置いたのは、マージしても MkDocs（`docs_dir: src`）で公開されないようにするため。査読後に `docs/src/{ja,en}/` の各ページへ統合し、ほかの 9 言語へ展開する想定。
 They are kept outside `docs/src/` so that merging does not publish them (`docs_dir: src`). After review they are meant to be merged into the `docs/src/{ja,en}/` pages and then propagated to the other nine languages.
 
-対象 / Target: CSManager master `e081e9d`, submodules Crystallography `6eeb86a` / Crystallography.Controls `6582a2f` (pinned). `[main]` notes describe the libraries' origin/main (Crystallography `9ffcf47`, Controls `aadeb74`).
+対象 / Target: CSManager master `e081e9d`, submodules Crystallography `6eeb86a` / Crystallography.Controls `6582a2f` (pinned). Rebased onto master `3d1cd39` (PR #3: warning fixes and removal of an unused class only, no behavioural change). `[main]` notes describe the libraries' origin/main (Crystallography `9ffcf47`, Controls `aadeb74`).
 
 | # | 日本語 | English | 内容 / Content |
 |---|---|---|---|
