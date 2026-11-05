@@ -1,2 +1,7 @@
-# 261105Cl 追加: LibreOffice のロックファイル (traffic.xlsx 編集時に生成され誤コミットされていた)
+# 261105Cl 追加: リポジトリ直下に .gitignore が無く、ビルド生成物が混入しうるため最小限を追加
+# ビルド生成物
+bin/
+obj/
+.vs/
+# LibreOffice のロックファイル (traffic.xlsx 編集時に生成され誤コミットされていた)
 .~lock.*#
