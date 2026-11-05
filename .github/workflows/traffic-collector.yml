@@ -25,5 +25,23 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "${GITHUB_REPOSITORY#*/}/traffic.md"
-          git diff --cached --quiet || git commit -m "chore: update traffic stats"
-          git push
+          # 261105Cl 変更: オーナーの push と時刻が重なると non-fast-forward で失敗するため、rebase + リトライ (最大4回, 2/4/8/16秒) を追加。
+          #   旧: git diff --cached --quiet || git commit -m "chore: update traffic stats"
+          #       git push
+          if git diff --cached --quiet; then
+            echo "traffic.md unchanged. Nothing to push."
+            exit 0
+          fi
+          git commit -m "chore: update traffic stats"
+          branch="${GITHUB_REF_NAME}"
+          for delay in 2 4 8 16 0; do
+            if git pull --rebase origin "$branch" && git push origin "HEAD:$branch"; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$delay" -eq 0 ]; then break; fi
+            echo "Push failed. Retrying in ${delay}s..."
+            sleep "$delay"
+          done
+          echo "::error::Failed to push traffic stats after retries."
+          exit 1
