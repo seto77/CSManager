@@ -21,7 +21,7 @@ The application ships with an AMCSD database, can download and load COD on deman
 
 - AMCSD is bundled with the application and can be loaded automatically at startup.
 - COD is available as an optional on-demand download the first time you enable it.
-- In this revision, the source code references `21,478` AMCSD entries and `529,139` COD entries.
+- The databases updated on 2026-11-05 contain `21,588` AMCSD entries and `534,898` COD entries.
 
 ## Installation
 
