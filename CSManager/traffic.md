@@ -7,6 +7,7 @@ Last updated: 2026-11-10
 ### Daily (最大14日保持)
 | Date | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
+| 2026-11-09 | 1 | 1 |
 | 2026-11-08 | 1 | 1 |
 | 2026-11-07 | 0 | 0 |
 | 2026-11-06 | 1 | 1 |
@@ -23,6 +24,7 @@ Last updated: 2026-11-10
 ### Weekly (最大14週保持)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
+| 2026-W46 | 1 | 1 |
 | 2026-W45 | 36 | 28 |
 | 2026-W44 | 17 | 13 |
 | 2026-W43 | 14 | 11 |
@@ -40,7 +42,7 @@ Last updated: 2026-11-10
 ### Monthly (最大12か月保持)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026-11 | 41 | 30 |
+| 2026-11 | 42 | 31 |
 | 2026-10 | 73 | 53 |
 | 2026-09 | 88 | 44 |
 | 2026-08 | 52 | 38 |
@@ -53,13 +55,14 @@ Last updated: 2026-11-10
 ### Yearly (無制限)
 | Period | Total Views | Unique Visitors |
 | ---- | ---- | ---- |
-| 2026 | 567 | 324 |
+| 2026 | 568 | 325 |
 
 ## Clones
 
 ### Daily (最大14日保持)
 | Date | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
+| 2026-11-09 | 4005 | 9 |
 | 2026-11-08 | 6291 | 58 |
 | 2026-11-07 | 332 | 22 |
 | 2026-11-06 | 2748 | 214 |
@@ -76,6 +79,7 @@ Last updated: 2026-11-10
 ### Weekly (最大14週保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
+| 2026-W46 | 4005 | 9 |
 | 2026-W45 | 11429 | 470 |
 | 2026-W44 | 489 | 241 |
 | 2026-W43 | 298 | 41 |
@@ -93,7 +97,7 @@ Last updated: 2026-11-10
 ### Monthly (最大12か月保持)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026-11 | 11444 | 479 |
+| 2026-11 | 15449 | 488 |
 | 2026-10 | 1339 | 502 |
 | 2026-09 | 975 | 149 |
 | 2026-08 | 127 | 93 |
@@ -106,7 +110,7 @@ Last updated: 2026-11-10
 ### Yearly (無制限)
 | Period | Total Clones | Unique Cloners |
 | ---- | ---- | ---- |
-| 2026 | 15115 | 1774 |
+| 2026 | 19120 | 1783 |
 
 ## Referrers
 
@@ -311,7 +315,7 @@ Last updated: 2026-11-10
 
 | Release Tag | Release Date | Asset Name | Download Count |
 | ---- | ---- | ---- | ---- |
-| v.1.913 | 2026-11-06 | CSManager-setup.msi | 3 |
+| v.1.913 | 2026-11-06 | CSManager-setup.msi | 4 |
 | v.1.913 | 2026-11-06 | CSManager-setup_arm64.msi | 2 |
 | v.1.913 | 2026-11-06 | CSManager-v.1.913.zip | 22 |
 | v.1.913 | 2026-11-06 | CSManager-v.1.913_arm64.zip | 2 |
@@ -332,7 +336,7 @@ Last updated: 2026-11-10
 | v.1.898 | 2024-11-13 | CSManagerSetup.msi | 56 |
 | v.1.897 | 2024-07-04 | CSManagerSetup.msi | 178 |
 | v.1.896 | 2024-01-13 | CSManagerSetup.msi | 212 |
-| v.1.895 | 2023-09-29 | CSManagerSetup.msi | 46 |
+| v.1.895 | 2023-09-29 | CSManagerSetup.msi | 47 |
 | v.1.894 | 2022-11-15 | CSManagerSetup.msi | 634 |
 | v.1.893 | 2022-10-27 | CSManagerSetup.msi | 44 |
 | v.1.892 | 2022-10-26 | CSManagerSetup.msi | 17 |
@@ -350,7 +354,7 @@ Last updated: 2026-11-10
 | v.1.878 | 2020-05-14 | CSManagerSetup.msi | 10 |
 | v.1.877 | 2020-04-02 | CSManagerSetup.msi | 99 |
 
-**TOTAL: 4256**
+**TOTAL: 4258**
 
 ## Stats
 
