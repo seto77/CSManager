@@ -2,7 +2,9 @@
 
 Voici un récapitulatif des problèmes courants et de leurs solutions.
 
-- **Impossible de lancer / le runtime .NET est introuvable** — le fonctionnement de CSManager nécessite **.NET Desktop Runtime 8** ou une version ultérieure. S'il n'est pas installé, procurez-le-vous depuis la page de distribution de Microsoft.
+Le prérequis ci-dessous concerne les compilations issues de cet arbre source (.NET 11). Pour une version publiée, suivez le prérequis indiqué pour cette version. Les archives ZIP portables incluent le runtime.
+
+- **Impossible de lancer / le runtime .NET est introuvable** — le fonctionnement de CSManager nécessite **.NET Desktop Runtime 11**. S'il n'est pas installé, procurez-le-vous depuis la page de distribution de Microsoft.
 - **Échec du chargement de COD** — `Lire la base COD (### cristaux)` télécharge lors du premier usage un fichier volumineux (plus de 800 Mo) depuis Internet. Vérifiez la connexion réseau et l'espace disque disponible, puis réessayez ultérieurement.
 - **Impossible d'ouvrir le fichier de base de données** — vérifiez que le fichier `*.cdb3` n'est pas endommagé, déplacé ou enregistré avec une autre version. Si vous utilisez AMCSD / COD telles quelles, vous pouvez les recharger depuis `Lire la base AMCSD (### cristaux)` / `Lire la base COD (### cristaux)`.
 - **Lenteur avec une grande base de données** — avec des bases de données volumineuses comme COD, la recherche et le chargement peuvent prendre du temps. Filtrez selon les critères nécessaires avant d'effectuer vos opérations.

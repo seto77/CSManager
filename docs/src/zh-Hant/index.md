@@ -6,7 +6,9 @@ CSManager 是一款 Windows 桌面應用程式，可用於搜尋、瀏覽、編�
 
 本軟體為依據 [MIT 授權](https://github.com/seto77/CSManager/blob/master/LICENSE.md) 散布的免費軟體。您可以自由複製、散布、修改及商業使用，但再散布時請一併附上著作權聲明與授權全文。本軟體不提供任何擔保，對於因使用而衍生的任何問題，作者概不負責。
 
-執行時需要可執行 **.NET Desktop Runtime 8** 以上版本的 Windows OS。
+以下執行階段需求適用於從此原始碼樹建置的 .NET 11 版本。對於已發布版本，請遵循該版本註明的需求。可攜式 ZIP 套件包含執行階段。
+
+執行時需要可執行 **.NET Desktop Runtime 11**的 Windows OS。
 
 意見與需求請透過電子郵件 (seto.y@omu.ac.jp) 或 GitHub 的 [Issue](https://github.com/seto77/CSManager/issues) 提出。
 

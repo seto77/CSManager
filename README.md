@@ -25,14 +25,14 @@ The application ships with an AMCSD database, can download and load COD on deman
 
 ## Installation
 
-CSManager runs on Windows x64 and Windows on Arm (arm64), and requires the .NET Desktop Runtime 10.
+CSManager runs on Windows x64 and Windows on Arm (arm64). MSI builds from this source tree require .NET Desktop Runtime 11. For published releases, follow the runtime requirement stated for that release.
 
 1. Open https://github.com/seto77/CSManager/releases/latest
 2. Download the package for your CPU:
    - `CSManager-setup.msi` (x64 installer, recommended) or `CSManager-setup_arm64.msi` (Windows on Arm)
    - or a portable ZIP (`CSManager-v.<ver>.zip` / `CSManager-v.<ver>_arm64.zip`): no installation, self-contained, usable without administrator rights
 3. Install or extract the application
-4. If needed, install the .NET Desktop Runtime 10 from https://dotnet.microsoft.com/download/dotnet/10.0 (not required for the portable ZIP, which bundles the runtime)
+4. For MSI builds from this source tree, install the .NET Desktop Runtime 11 from https://dotnet.microsoft.com/download/dotnet/11.0 (not required for the portable ZIP, which bundles the runtime)
 
 For code-signing status and installer verification, see [Code signing policy](CODE_SIGNING.md). For bundled or referenced third-party components and data, see [Third-party notices](THIRD-PARTY-NOTICES.md).
 
@@ -67,7 +67,8 @@ The repository also contains maintenance utilities for AMCSD CSV import and bulk
 Requirements:
 
 - Windows
-- .NET 10 SDK
+- .NET 11 SDK `11.0.100` or a later 11.0 SDK (selected by `global.json`)
+- Visual Studio 2026 Insiders for IDE / WinForms designer support; C# 15 is selected explicitly
 - x64 (and optionally arm64) build target
 
 Build the solution with:

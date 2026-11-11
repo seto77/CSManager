@@ -6,7 +6,9 @@ CSManager 是一款用于检索、浏览、编辑和导出晶体结构的 Window
 
 本软件是依据 [MIT 许可证](https://github.com/seto77/CSManager/blob/master/LICENSE.md) 发布的免费软件。您可以自由复制、分发、修改以及用于商业用途，但在再分发时请同时附上版权声明和许可证全文。本软件不提供任何担保，作者对因使用本软件而产生的任何问题概不负责。
 
-运行需要可运行 **.NET Desktop Runtime 8** 或更高版本的 Windows 操作系统。
+以下运行时要求适用于从此源代码树构建的 .NET 11 版本。对于已发布版本，请遵循该版本注明的要求。便携式 ZIP 包包含运行时。
+
+运行需要可运行 **.NET Desktop Runtime 11**的 Windows 操作系统。
 
 意见与需求请通过邮件 (seto.y@omu.ac.jp) 或 GitHub 的 [Issue](https://github.com/seto77/CSManager/issues) 反馈。
 

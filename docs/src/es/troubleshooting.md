@@ -2,7 +2,9 @@
 
 A continuación se resumen los problemas más frecuentes y cómo resolverlos.
 
-- **No se puede iniciar / no se encuentra el entorno de ejecución de .NET** — Para que CSManager funcione se necesita **.NET Desktop Runtime 8** o superior. Si no está instalado, obténgalo en la página de descargas de Microsoft.
+El requisito de entorno de ejecución indicado a continuación se aplica a las compilaciones de este árbol de código fuente (.NET 11). Para las versiones publicadas, siga el requisito de esa versión. Los ZIP portables incluyen el entorno de ejecución.
+
+- **No se puede iniciar / no se encuentra el entorno de ejecución de .NET** — Para que CSManager funcione se necesita **.NET Desktop Runtime 11**. Si no está instalado, obténgalo en la página de descargas de Microsoft.
 - **Falla la lectura de COD** — `Leer base de datos COD (### cristales)` descarga la primera vez un archivo de gran tamaño (más de 800 MB) de Internet. Compruebe la conexión de red y el espacio libre en disco, y vuelva a intentarlo más tarde.
 - **No se puede abrir el archivo de la base de datos** — Compruebe que el archivo `*.cdb3` no esté dañado, movido o guardado con otra versión. Si utiliza AMCSD / COD tal cual, puede volver a cargarlos desde `Leer base de datos AMCSD (### cristales)` / `Leer base de datos COD (### cristales)`.
 - **El funcionamiento es lento con bases de datos grandes** — Con bases de datos muy grandes como COD, la búsqueda y la carga pueden tardar. Filtre por los criterios necesarios antes de operar.

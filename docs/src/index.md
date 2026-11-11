@@ -6,7 +6,9 @@ CSManager is a Windows desktop application for searching, browsing, editing, and
 
 This software is free and distributed under the [MIT License](https://github.com/seto77/CSManager/blob/master/LICENSE.md). You are free to copy, distribute, modify, and use it commercially, but when redistributing it you must include the copyright notice and the full text of the license. This software comes with no warranty, and the author assumes no responsibility for any problems arising from its use.
 
-It requires a Windows OS that can run **.NET Desktop Runtime 8** or later.
+The runtime requirement below applies to builds from this source tree (.NET 11). For published releases, follow the runtime requirement stated for that release. Portable ZIP builds include their runtime.
+
+It requires a Windows OS that can run **.NET Desktop Runtime 11**.
 
 Please send your comments and requests by email (seto.y@omu.ac.jp) or to the GitHub [Issue](https://github.com/seto77/CSManager/issues) page.
 

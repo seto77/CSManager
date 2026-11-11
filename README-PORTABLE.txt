@@ -24,7 +24,7 @@ Runtime
 -------
 
 This portable package is self-contained for Windows x64 (and a separate
-arm64 package for Windows on Arm). A separate .NET Desktop Runtime 10
+arm64 package for Windows on Arm). A separate .NET Desktop Runtime 11
 installation is not required; the required .NET runtime files are bundled in
 this folder. When Microsoft releases .NET runtime security updates, this
 package should be rebuilt and redistributed so that the bundled runtime is

@@ -6,7 +6,9 @@ CSManager es una aplicación de escritorio para Windows que permite buscar, cons
 
 Este programa es gratuito y se distribuye bajo la [licencia MIT](https://github.com/seto77/CSManager/blob/master/LICENSE.md). Se permite copiarlo, distribuirlo, modificarlo y usarlo con fines comerciales libremente, pero al redistribuirlo debe incluir el aviso de copyright y el texto completo de la licencia. El programa se ofrece sin ninguna garantía, y el autor no se hace responsable de ningún problema derivado de su uso.
 
-Para funcionar requiere un sistema operativo Windows en el que se ejecute **.NET Desktop Runtime 8** o superior.
+El requisito de entorno de ejecución indicado a continuación se aplica a las compilaciones de este árbol de código fuente (.NET 11). Para las versiones publicadas, siga el requisito de esa versión. Los ZIP portables incluyen el entorno de ejecución.
+
+Para funcionar requiere un sistema operativo Windows en el que se ejecute **.NET Desktop Runtime 11**.
 
 Envíe sus opiniones y sugerencias por correo electrónico (seto.y@omu.ac.jp) o a través de los [Issues](https://github.com/seto77/CSManager/issues) de GitHub.
 

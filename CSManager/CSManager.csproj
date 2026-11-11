@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <!-- (261106Ch) .NET 11 / C# 15 migration. Previous: <TargetFramework>net10.0-windows</TargetFramework> -->
+    <TargetFramework>net11.0-windows</TargetFramework>
+    <LangVersion>15.0</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyVersion>2026.4.27.1218</AssemblyVersion>
     <FileVersion>2026.4.27.1218</FileVersion>
     <ApplicationIcon>App.ico</ApplicationIcon>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <!-- (261106Ch) Removed obsolete Windows 7 declaration: <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion> -->
     <Platforms>x64;ARM64</Platforms><!-- 260625Cl 変更: arm64 MSI/portable 用に ARM64 構成を追加 (旧: x64)。WiX移行計画 D-CS-4 -->
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers><!-- 260625Cl 追加: arm64 publish の restore グラフ用 (build 出力には無影響) -->
     <!-- 260625Cl: design-time ビルド (WinForms デザイナーが参照を集める background build) では RID を外す。
@@ -66,7 +68,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="33.1.0" />
+    <!-- (261106Ch) UTF-8/SIMD reader and generated record mapping. Previous: <PackageReference Include="CsvHelper" Version="33.1.0" /> -->
+    <PackageReference Include="CsvHelper" Version="34.0.0" />
   </ItemGroup>
 
   <ItemGroup>

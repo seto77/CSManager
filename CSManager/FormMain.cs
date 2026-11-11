@@ -2,7 +2,7 @@
 using Crystallography;
 using Crystallography.Controls;
 using CsvHelper;
-using CsvHelper.Configuration.Attributes;
+// using CsvHelper.Configuration.Attributes; // (261106Ch) CsvHelper 34 attributes are in CsvHelper.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,12 +11,12 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
+//using System.Net; // 261111Cl コメントアウト: 未使用
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static IronPython.Modules._ast;
+//using static IronPython.Modules._ast; // 261111Cl コメントアウト: 未使用 (IDE の自動補完の残骸)
 #endregion
 
 namespace CSManager;
@@ -142,8 +142,12 @@ public partial class FormMain : Form
         toolStripMenuItemReadDefault1.Text = toolStripMenuItemReadDefault1.Text.Replace("###", Version.AMCSD.ToString("N0"));
         toolStripMenuItemReadDefault2.Text = toolStripMenuItemReadDefault2.Text.Replace("###", Version.COD.ToString("N0"));
 
-        if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
-            File.Delete(UserAppDataPath + "CSManagerSetup.msi");
+        //if (!File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
+        //    File.Delete(UserAppDataPath + "CSManagerSetup.msi");
+        // 261111Cl バグ修正: 条件が反転していた (存在しないときだけ削除 = 何もしない。残ったインストーラが消えなかった)。PDIndexer の 260712Cl と同じ修正
+        if (File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
+            try { File.Delete(UserAppDataPath + "CSManagerSetup.msi"); }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { } // 261111Cl 使用中などで消せなければ次回の起動に任せる (起動を止めない)
         Directory.Delete(Application.UserAppDataPath, true);
 
         crystalControl.atomControl.AppearanceTabVisible = true;
@@ -239,7 +243,7 @@ public partial class FormMain : Form
 
             toolStripStatusLabel.Text = message;
 
-            Application.DoEvents();
+            //Application.DoEvents(); // 261111Cl コメントアウト: reportProgress は ip (コンストラクタで生成した Progress<T>) 経由でしか呼ばれず、UI スレッドへ非同期に Post 済み
 
             if (sleep != 0) Thread.Sleep(sleep);
         }
@@ -268,7 +272,7 @@ public partial class FormMain : Form
             skipProgressEvent = true;
             toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
             toolStripStatusLabel.Text = message;
-            Application.DoEvents();
+            //Application.DoEvents(); // 261111Cl コメントアウト: 発生元は BackgroundWorker の ProgressChanged / RunWorkerCompleted (UI スレッド) と、自分で DoEvents する同期ループ (RecalculateDensityAndFormula・検索) だけ
         }
         catch { }
         finally { skipProgressEvent = false; }
@@ -282,7 +286,7 @@ public partial class FormMain : Form
             skipProgressEvent = true;
             toolStripProgressBar.Value = (int)(progress * toolStripProgressBar.Maximum);
             toolStripStatusLabel.Text = message;
-            Application.DoEvents();
+            //Application.DoEvents(); // 261111Cl コメントアウト: 発生元は BackgroundWorker の ProgressChanged / RunWorkerCompleted (UI スレッド) と、自分で DoEvents する同期ループ (RecalculateDensityAndFormula・検索) だけ
         }
         catch { }
         finally { skipProgressEvent = false; }
@@ -301,7 +305,8 @@ public partial class FormMain : Form
     {
         var dialog = new OpenFileDialog
         {
-            Filter = "Database File[*.cdb;*.cdb2;*.cdb2]|*.cdb;*.cdb2;*.cdb3",
+            //Filter = "Database File[*.cdb;*.cdb2;*.cdb2]|*.cdb;*.cdb2;*.cdb3",
+            Filter = "Database File[*.cdb3]|*.cdb3", // 261111Cl 変更: ReadDatabase が読めるのは .cdb3 だけ (.cdb / .cdb2 は選べても読み込まれなかった)
             Multiselect = true
         };
         if (dialog.ShowDialog() == DialogResult.OK)
@@ -449,9 +454,32 @@ public partial class FormMain : Form
         if (dlg.ShowDialog() != DialogResult.OK) return;
         stopwatch.Restart();
 
-        using var reader = new StreamReader(dlg.FileName);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        var records = csv.GetRecords<Amcsd>().ToArray();
+        // using var reader = new StreamReader(dlg.FileName);
+        // using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        // (261106Ch) Parse UTF-8 directly with SIMD; CsvHelper retains UTF-16/UTF-32 BOM detection.
+        // Preserve the comma delimiter and errors for missing fields / malformed quotes from CsvHelper 33.
+        using var csv = CsvReader.FromFile(dlg.FileName, new CsvReaderOptions
+        {
+            Separator = ',',
+            MissingField = CsvMissingFieldHandling.Throw,
+            MalformedData = CsvMalformedDataHandling.Throw
+        });
+        // (261106Ch) CsvHelper 34 also accepts case-insensitive / trimmed header aliases; keep 33's exact names.
+        var headers = csv.Headers;
+        if (headers.Count != 0)
+        {
+            ReadOnlySpan<string> requiredColumns =
+            [
+                "database_code_amcsd", "Mineral Name", "Ideal IMA Formula", "AMC File Contents", "Volume",
+                "Pressure", "Temperature", "Chemistry", "AMC File", "CIF File", "DIF File", "File", "Reference ID"
+            ];
+            foreach (var column in requiredColumns)
+                if (!headers.Contains(column, StringComparer.Ordinal))
+                    throw new InvalidDataException($"Required AMCSD CSV column '{column}' is missing.");
+        }
+        // var records = csv.GetRecords<Amcsd>().ToArray();
+        // (261106Ch) CsvHelper 33 returned no records for an empty file; 34's mapper otherwise rejects its absent header.
+        Amcsd[] records = headers.Count == 0 ? [] : csv.GetRecords<Amcsd>().ToArray();
 
         c2Array = new Crystal2[records.Length];
 
@@ -496,6 +524,7 @@ public partial class FormMain : Form
         toolStripStatusLabel.Text = $"Completed! {stopwatch.ElapsedMilliseconds / 1000.0:f1} sec elapsed. ({records.Length} total, {100.0 * failedFile.Count / records.Length:f2} % failed)...";
     }
     #region AMCSDデータを読み込むためのテンポラリなクラス
+    /* (261106Ch) Previous reflection-based CsvHelper 33 mapping:
     class Amcsd // 261105Cl 変更: CS8981 (小文字のみの型名) 回避のため amcsd → Amcsd。CsvHelper の列対応は [Name] 属性なので影響なし
     {
         [Name("database_code_amcsd")] public string database_code_amcsd { get; set; }
@@ -511,6 +540,24 @@ public partial class FormMain : Form
         [Name("DIF File")] public string DIF_File { get; set; }
         [Name("File")] public string File { get; set; }
         [Name("Reference ID")] public string Reference_ID { get; set; }
+    }
+    */
+    [CsvRecord]
+    internal partial class Amcsd // (261106Ch) CsvHelper 34 requires assembly visibility for its generated mapper.
+    {
+        [CsvColumn("database_code_amcsd")] public string database_code_amcsd { get; set; }
+        [CsvColumn("Mineral Name")] public string Mineral_Name { get; set; }
+        [CsvColumn("Ideal IMA Formula")] public string Ideal_IMA_Formula { get; set; }
+        [CsvColumn("AMC File Contents")] public string AMC_File_Contents { get; set; }
+        [CsvColumn("Volume")] public string Volume { get; set; }
+        [CsvColumn("Pressure")] public string Pressure { get; set; }
+        [CsvColumn("Temperature")] public string Temperature { get; set; }
+        [CsvColumn("Chemistry")] public string Chemistry { get; set; }
+        [CsvColumn("AMC File")] public string AMC_File { get; set; }
+        [CsvColumn("CIF File")] public string CIF_File { get; set; }
+        [CsvColumn("DIF File")] public string DIF_File { get; set; }
+        [CsvColumn("File")] public string File { get; set; }
+        [CsvColumn("Reference ID")] public string Reference_ID { get; set; }
     }
     #endregion
     #endregion
@@ -567,7 +614,32 @@ public partial class FormMain : Form
         var failedFile = new List<string>();
         var (fn, selectedPath) = ((List<string>, string))e.Argument;
         int count = 0;
-        Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 1 }, j =>
+        //Parallel.For(0, fn.Count, new ParallelOptions { MaxDegreeOfParallelism = 1 }, j =>
+        //{
+        //    try
+        //    {
+        //        c2Array[j] = ConvertCrystalData.ConvertToCrystal2(fn[j]);
+        //        if (c2Array[j] != null)
+        //        {
+        //            (c2Array[j].d, c2Array[j].formula, c2Array[j].density) = GetPlanesFormulaDensity(c2Array[j]);
+        //            if (fn[j].EndsWith("cif"))
+        //                c2Array[j].datatype = (byte)Crystal2.DataType.COD;
+        //            else if(fn[j].EndsWith("amc"))
+        //                c2Array[j].datatype = (byte)Crystal2.DataType.AMCSD;
+        //        }
+        //    }
+        //    catch { c2Array[j] = null; }
+        //
+        //    if (c2Array[j] == null)
+        //        lock (lockObj)
+        //            failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
+        //
+        //    if (Interlocked.Increment(ref count) % 200 == 0)
+        //        workerAllImport.ReportProgress(0, (count, failedFile.Count, fn.Count));
+        //}
+        //);
+        // 261111Cl 変更: MaxDegreeOfParallelism = 1 の Parallel.For は実質逐次なので、素の for にする (並列化はしない。順序も同じ昇順)
+        for (int j = 0; j < fn.Count; j++)
         {
             try
             {
@@ -584,13 +656,11 @@ public partial class FormMain : Form
             catch { c2Array[j] = null; }
 
             if (c2Array[j] == null)
-                lock (lockObj)
-                    failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
+                failedFile.Add(Path.GetFileNameWithoutExtension(fn[j]));
 
-            if (Interlocked.Increment(ref count) % 200 == 0)
+            if (++count % 200 == 0)
                 workerAllImport.ReportProgress(0, (count, failedFile.Count, fn.Count));
         }
-        );
         workerAllImport.ReportProgress(0, (fn.Count, failedFile.Count, fn.Count));
 
         //失敗ファイルを書き込む
@@ -606,7 +676,7 @@ public partial class FormMain : Form
             ip.Report((i, total, stopwatch.ElapsedMilliseconds, $"Converting ({i}/{total}, {100.0 * fails / i:f2} % failed)..."));
         else
             ip.Report((i, total, stopwatch.ElapsedMilliseconds, $"Completed!  ({total} total, {100.0 * fails / i:f2} % failed)..."));
-        Application.DoEvents();
+        //Application.DoEvents(); // 261111Cl コメントアウト: BackgroundWorker の ProgressChanged は UI スレッドで動き、ip.Report も UI スレッドへ Post するだけ
     }
 
     private void WorkerAllImport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -641,9 +711,12 @@ public partial class FormMain : Form
     private void readXml(string filename)
     {
         var serializer = new System.Xml.Serialization.XmlSerializer(typeof(Crystal[]));
-        var fs = new System.IO.FileStream(filename, System.IO.FileMode.Open);
-        var cry = (Crystal[])serializer.Deserialize(fs);
-        fs.Close();
+        //var fs = new System.IO.FileStream(filename, System.IO.FileMode.Open);
+        //var cry = (Crystal[])serializer.Deserialize(fs);
+        //fs.Close();
+        Crystal[] cry;
+        using (var fs = new System.IO.FileStream(filename, System.IO.FileMode.Open)) // 261111Cl 変更: 読み込み失敗の例外でもファイルを閉じる (閉じる時機は従来どおり読み込み直後)
+            cry = (Crystal[])serializer.Deserialize(fs);
         for (int i = 0; i < cry.Length; i++)
         {
             cry[i].SetAxis();
@@ -724,7 +797,8 @@ public partial class FormMain : Form
         {
             if (fileName.Length == 1)
             {
-                if (fileName[0].EndsWith("cdb"))
+                //if (fileName[0].EndsWith("cdb"))
+                if (fileName[0].EndsWith(".cdb3", StringComparison.OrdinalIgnoreCase)) // 261111Cl バグ修正: "cdb" で終わるかだけを見ていたので .cdb3 を落としても何も起きなかった (ReadDatabase が読めるのは .cdb3 だけ)
                     crystalDatabaseControl.ReadDatabase(fileName[0]);
                 if (fileName[0].EndsWith("xml"))
                     readXml(fileName[0]);

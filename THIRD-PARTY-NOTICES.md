@@ -20,7 +20,7 @@ These ship as managed assemblies inside the MSI (through the CSManager publish o
 
 | Name | Version | Purpose | Bundled or downloaded | Upstream URL | License | Signed by CSManager? | Notes |
 |------|---------|---------|-----------------------|--------------|---------|----------------------|-------|
-| CsvHelper | 33.1.0 | CSV read/write (AMCSD CSV import / maintenance utilities) | Bundled (DLL) | https://github.com/JoshClose/CsvHelper | Dual: MS-PL OR Apache-2.0 (the consumer may choose either) | No (third-party) | CSManager-specific dependency (declared in `CSManager.csproj`). |
+| CsvHelper | 34.0.0 | CSV read/write (AMCSD CSV import / maintenance utilities) | Bundled (DLL) | https://github.com/JoshClose/CsvHelper | Dual: MS-PL OR Apache-2.0 (the consumer may choose either) | No (third-party) | CSManager-specific dependency (declared in `CSManager.csproj`). |
 | MathNet.Numerics | 6.0.0-beta2 | Numerical / scientific computing | Bundled (DLL) | https://numerics.mathdotnet.com/ | MIT | No (third-party) | Pre-release (beta) version. From the shared Crystallography libraries. |
 | MemoryPack(.Core) | 1.21.4 | Zero-encoding binary serializer (Cysharp) | Bundled (DLL) | https://github.com/Cysharp/MemoryPack | MIT | No (third-party) | Used by Crystallography (`.cdb3` crystal-database serialization). |
 | PureHDF | 2.2.0 | Pure C# HDF5 reader/writer | Bundled (DLL) | https://github.com/Apollo3zehn/PureHDF | MIT | No (third-party) | From the shared Crystallography library. |

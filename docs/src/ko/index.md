@@ -6,7 +6,9 @@ CSManager는 American Mineralogist Crystal Structure Database (AMCSD)나 Crystal
 
 본 소프트웨어는 [MIT 라이선스](https://github.com/seto77/CSManager/blob/master/LICENSE.md) 하에 배포되는 무료 소프트웨어입니다. 복사, 배포, 수정, 상업적 이용 등을 자유롭게 할 수 있지만, 재배포 시에는 저작권 표시와 라이선스 전문을 동봉해 주십시오. 본 소프트웨어는 무보증이며, 이용으로 인해 발생한 어떠한 문제에 대해서도 제작자는 책임을 지지 않습니다.
 
-동작에는 **.NET Desktop Runtime 8** 이상이 동작하는 Windows OS가 필요합니다.
+아래 런타임 요구 사항은 이 소스 트리에서 만든 .NET 11 빌드에 적용됩니다. 공개된 릴리스는 해당 릴리스에 명시된 요구 사항을 따르십시오. 포터블 ZIP에는 런타임이 포함됩니다.
+
+동작에는 **.NET Desktop Runtime 11**이 동작하는 Windows OS가 필요합니다.
 
 의견과 요청은 이메일 (seto.y@omu.ac.jp) 또는 GitHub의 [Issue](https://github.com/seto77/CSManager/issues)로 보내 주십시오.
 
