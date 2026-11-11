@@ -24,13 +24,11 @@ These ship as managed assemblies inside the MSI (through the CSManager publish o
 | MathNet.Numerics | 6.0.0-beta2 | Numerical / scientific computing | Bundled (DLL) | https://numerics.mathdotnet.com/ | MIT | No (third-party) | Pre-release (beta) version. From the shared Crystallography libraries. |
 | MemoryPack(.Core) | 1.21.4 | Zero-encoding binary serializer (Cysharp) | Bundled (DLL) | https://github.com/Cysharp/MemoryPack | MIT | No (third-party) | Used by Crystallography (`.cdb3` crystal-database serialization). |
 | PureHDF | 2.2.0 | Pure C# HDF5 reader/writer | Bundled (DLL) | https://github.com/Apollo3zehn/PureHDF | MIT | No (third-party) | From the shared Crystallography library. |
-| DynamicExpresso.Core | 2.19.6 | Runtime C#-like expression interpreter (symmetry-operation parsing) | Bundled (DLL) | https://github.com/dynamicexpresso/DynamicExpresso | MIT | No (third-party) | From Crystallography. Replaced `System.Linq.Dynamic.Core`. |
 | IronPython (+ .Modules / .SQLite / .Wpf) | 3.4.2 | Python implementation for .NET (macro engine) | Bundled (DLLs) | https://github.com/IronLanguages/ironpython3 | Apache-2.0 | No (third-party) | 3.x is Apache-2.0; include the `NOTICE` + Apache-2.0 text. Pulls in `Mono.Unix.dll` (MIT, from the Mono project). |
 | Mono.Unix | 7.1.0-final.1.21458.1 | POSIX interop (transitive via IronPython) | Bundled (DLL) | https://github.com/mono/mono | MIT | No (third-party) | Version from the resolved NuGet dependency graph. |
 | OpenTK | 4.9.4 | OpenGL/OpenAL/OpenCL bindings (managed only) | Bundled (managed DLLs only) | https://github.com/opentk/opentk | MIT | No (third-party) | From the shared libraries. **CSManager ships the managed OpenTK assemblies only; the native `glfw3.dll` is excluded** because CSManager has no 3D views (structure rendering moved to ReciPro). |
-| SimdLinq | 1.3.2 | SIMD-accelerated LINQ (Cysharp) | Bundled (DLL) | https://github.com/Cysharp/SimdLinq | MIT | No (third-party) | From the shared libraries. |
-| ZLinq | 1.6.1 | Zero-allocation LINQ (Cysharp) | Bundled (DLL) | https://github.com/Cysharp/ZLinq | MIT | No (third-party) | From the shared libraries. |
 | WpfMath | 2.1.0 | WPF LaTeX math rendering | Bundled (DLL) | https://github.com/ForNeVeR/wpf-math | MIT | No (third-party) | From Crystallography.Controls. Ships `XamlMath.Shared.dll` (its support library, MIT). |
+| System.Numerics.Tensors | 11.0.0 | SIMD-accelerated span math (`TensorPrimitives`) | Bundled (DLL) | https://github.com/dotnet/runtime | MIT | No (third-party) | Microsoft official package. From the shared Crystallography library (replaced SimdLinq / ZLinq, 261111Cl). |
 
 Target framework: `net10.0-windows`. The .NET runtime itself is framework-dependent in the MSI (requires the .NET Desktop Runtime 10) and self-contained in the portable ZIP packages (the runtime files are bundled, under the .NET Library license / MIT, and are not re-signed by CSManager).
 

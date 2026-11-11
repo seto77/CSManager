@@ -148,7 +148,11 @@ public partial class FormMain : Form
         if (File.Exists(UserAppDataPath + "CSManagerSetup.msi"))
             try { File.Delete(UserAppDataPath + "CSManagerSetup.msi"); }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { } // 261111Cl 使用中などで消せなければ次回の起動に任せる (起動を止めない)
-        Directory.Delete(Application.UserAppDataPath, true);
+        //Directory.Delete(Application.UserAppDataPath, true); // 261111Cl 削除 (作者の判断): 起動のたびに消すのをやめる。
+        //  Application.UserAppDataPath (…\<会社名>\CSManager\<版>\) は、参照しただけで WinForms が作る空のフォルダ。CSManager のデータはその親 (UserAppDataPath) に置く。
+        //  この空の版フォルダを残さないための行と思われるが (2019 年の最初のコミットからあり、意図の記録は無い)、
+        //  (1) 上の「UserAppDataPath に空フォルダがあったら削除」で既に消えている (2) この後 UserAppDataPath を参照するたびに作り直される (データベースの読み込み・更新の確認など)
+        //  (3) 中身ごと消す (recursive) うえ、エクスプローラーで開いているなどで消せないと、FormMain_Load の例外になって起動が止まる。
 
         crystalControl.atomControl.AppearanceTabVisible = true;
     }
@@ -301,7 +305,8 @@ public partial class FormMain : Form
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void readDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+    //private void readDatabaseToolStripMenuItem_Click(object sender, EventArgs e) // 261111Cl 変更前
+    private async void readDatabaseToolStripMenuItem_Click(object sender, EventArgs e) // 261111Cl 変更: async void (複数のファイルを順に読む)
     {
         var dialog = new OpenFileDialog
         {
@@ -310,8 +315,14 @@ public partial class FormMain : Form
             Multiselect = true
         };
         if (dialog.ShowDialog() == DialogResult.OK)
-            for (int i = 0; i < dialog.FileNames.Length; i++)
-                crystalDatabaseControl.ReadDatabase(dialog.FileNames[i]);
+            //for (int i = 0; i < dialog.FileNames.Length; i++) // 261111Cl 変更前: ReadDatabase は読み込みを始めてすぐ戻り、読み込み中の呼び出しは黙って捨てるので、2 件目以降が読まれていなかった
+            //    crystalDatabaseControl.ReadDatabase(dialog.FileNames[i]);
+            try
+            {
+                foreach (var fileName in dialog.FileNames) // 261111Cl: 1 件ずつ、読み込みの完了を待ってから次を読む (失敗したファイルはダイアログで知らせて次へ進む)
+                    await crystalDatabaseControl.ReadDatabaseAsync(fileName);
+            }
+            catch (Exception ex) { MessageBox.Show($"{ex}\r\nFailed to load database. Sorry."); } // 261111Cl 追加: 進捗の表示などで起きた例外 (読み込みの失敗は ReadDatabaseAsync が知らせる)
     }
 
     /// <summary>
